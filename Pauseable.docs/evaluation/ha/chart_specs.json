@@ -1,0 +1,349 @@
+[
+  {
+    "slide": 1,
+    "type": "bar",
+    "position": {
+      "left": 800,
+      "top": 545,
+      "width": 560,
+      "height": 201
+    },
+    "title": "54개 입력 변수의 구성",
+    "titleTextStyle": {
+      "fontSize": 22,
+      "bold": true,
+      "fill": "#141719"
+    },
+    "categories": [
+      "가전 사용 특징",
+      "시각·요일 특징"
+    ],
+    "series": [
+      {
+        "name": "변수 수",
+        "values": [
+          48,
+          6
+        ],
+        "fill": "#00877E",
+        "points": [
+          {
+            "idx": 1,
+            "fill": "#D26132"
+          }
+        ]
+      }
+    ],
+    "barOptions": {
+      "direction": "bar",
+      "grouping": "clustered",
+      "gapWidth": 90
+    },
+    "hasLegend": false,
+    "xAxis": {
+      "textStyle": {
+        "fontSize": 18,
+        "fill": "#586368"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      }
+    },
+    "yAxis": {
+      "textStyle": {
+        "fontSize": 15,
+        "fill": "#586368",
+        "typeface": "Noto Sans KR"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      },
+      "min": 0,
+      "max": 55,
+      "majorUnit": 10,
+      "majorGridlines": null
+    },
+    "dataLabels": {
+      "showValue": true,
+      "position": "outEnd",
+      "textStyle": {
+        "fontSize": 22,
+        "bold": true,
+        "fill": "#141719"
+      }
+    }
+  },
+  {
+    "slide": 3,
+    "type": "bar",
+    "position": {
+      "left": 75,
+      "top": 238,
+      "width": 615,
+      "height": 194
+    },
+    "title": "냉장고 최근 1시간 열림 횟수 분포",
+    "titleTextStyle": {
+      "fontSize": 20,
+      "bold": true,
+      "fill": "#141719"
+    },
+    "categories": [
+      "0회",
+      "1회"
+    ],
+    "series": [
+      {
+        "name": "정상 표본 수",
+        "values": [
+          294,
+          42
+        ],
+        "fill": "#00877E"
+      }
+    ],
+    "barOptions": {
+      "direction": "column",
+      "grouping": "clustered",
+      "gapWidth": 140
+    },
+    "hasLegend": false,
+    "xAxis": {
+      "textStyle": {
+        "fontSize": 18,
+        "fill": "#586368"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      }
+    },
+    "yAxis": {
+      "textStyle": {
+        "fontSize": 15,
+        "fill": "#586368",
+        "typeface": "Noto Sans KR"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      },
+      "min": 0,
+      "max": 350,
+      "majorUnit": 100,
+      "numberFormatCode": "0",
+      "majorGridlines": {
+        "fill": "#D6DEE0",
+        "width": 0.6
+      }
+    },
+    "dataLabels": {
+      "showValue": true,
+      "position": "outEnd",
+      "textStyle": {
+        "fontSize": 21,
+        "bold": true,
+        "fill": "#141719"
+      }
+    }
+  },
+  {
+    "slide": 4,
+    "type": "bar",
+    "position": {
+      "left": 75,
+      "top": 512,
+      "width": 790,
+      "height": 220
+    },
+    "title": "경보가 발생한 시나리오 수",
+    "titleTextStyle": {
+      "fontSize": 21,
+      "bold": true,
+      "fill": "#141719"
+    },
+    "categories": [
+      "반복 가설 (24개)",
+      "정상 맥락 (48개)"
+    ],
+    "series": [
+      {
+        "name": "Baseline",
+        "values": [
+          16,
+          22
+        ],
+        "fill": "#AAB8BD"
+      },
+      {
+        "name": "+ IF",
+        "values": [
+          18,
+          28
+        ],
+        "fill": "#2B76B7"
+      },
+      {
+        "name": "+ AE",
+        "values": [
+          24,
+          30
+        ],
+        "fill": "#D26132"
+      },
+      {
+        "name": "+ IF·AE",
+        "values": [
+          24,
+          30
+        ],
+        "fill": "#00877E"
+      }
+    ],
+    "barOptions": {
+      "direction": "column",
+      "grouping": "clustered",
+      "gapWidth": 100
+    },
+    "hasLegend": true,
+    "legend": {
+      "position": "bottom",
+      "overlay": false,
+      "textStyle": {
+        "fontSize": 15,
+        "fill": "#586368"
+      }
+    },
+    "xAxis": {
+      "textStyle": {
+        "fontSize": 17,
+        "fill": "#141719"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      }
+    },
+    "yAxis": {
+      "textStyle": {
+        "fontSize": 15,
+        "fill": "#586368",
+        "typeface": "Noto Sans KR"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      },
+      "min": 0,
+      "max": 50,
+      "majorUnit": 10,
+      "numberFormatCode": "0",
+      "majorGridlines": {
+        "fill": "#D6DEE0",
+        "width": 0.6
+      }
+    },
+    "dataLabels": {
+      "showValue": true,
+      "position": "outEnd",
+      "textStyle": {
+        "fontSize": 16.5,
+        "bold": true,
+        "fill": "#141719"
+      }
+    }
+  },
+  {
+    "slide": 5,
+    "type": "bar",
+    "position": {
+      "left": 75,
+      "top": 184,
+      "width": 595,
+      "height": 260
+    },
+    "title": "주의·위험 판정 변화",
+    "titleTextStyle": {
+      "fontSize": 22,
+      "bold": true,
+      "fill": "#141719"
+    },
+    "categories": [
+      "주의",
+      "위험"
+    ],
+    "series": [
+      {
+        "name": "보정 전",
+        "values": [
+          6,
+          6
+        ],
+        "fill": "#AAB8BD"
+      },
+      {
+        "name": "보정 후",
+        "values": [
+          0,
+          6
+        ],
+        "fill": "#00877E"
+      }
+    ],
+    "barOptions": {
+      "direction": "column",
+      "grouping": "clustered",
+      "gapWidth": 95
+    },
+    "hasLegend": true,
+    "legend": {
+      "position": "bottom",
+      "overlay": false,
+      "textStyle": {
+        "fontSize": 17,
+        "fill": "#586368",
+        "typeface": "Noto Sans KR"
+      }
+    },
+    "xAxis": {
+      "textStyle": {
+        "fontSize": 20,
+        "fill": "#141719"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      }
+    },
+    "yAxis": {
+      "textStyle": {
+        "fontSize": 15,
+        "fill": "#586368",
+        "typeface": "Noto Sans KR"
+      },
+      "line": {
+        "fill": "#D6DEE0",
+        "width": 1
+      },
+      "min": 0,
+      "max": 8,
+      "majorUnit": 2,
+      "numberFormatCode": "0",
+      "majorGridlines": {
+        "fill": "#D6DEE0",
+        "width": 0.6
+      }
+    },
+    "dataLabels": {
+      "showValue": true,
+      "position": "outEnd",
+      "textStyle": {
+        "fontSize": 23,
+        "bold": true,
+        "fill": "#141719"
+      }
+    }
+  }
+]

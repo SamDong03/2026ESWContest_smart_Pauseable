@@ -1,0 +1,10 @@
+[Unit]
+Description=Ensure the Pauseable Central Atlas app is running
+Wants=app-manager.service ha-ai-full.service
+After=app-manager.service ha-ai-full.service
+
+[Service]
+Type=oneshot
+ExecStart=/data/pauseable/bin/pauseable-central-ensure.sh
+User=root
+Group=root

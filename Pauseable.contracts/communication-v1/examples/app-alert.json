@@ -1,0 +1,20 @@
+{
+  "type": "app_alert",
+  "data": {
+    "contract_version": "1.0",
+    "alert_id": "alert-550e8400-e29b-41d4-a716-446655440000",
+    "event_id": "evt-550e8400-e29b-41d4-a716-446655440000",
+    "related_event_id": "evt-550e8400-e29b-41d4-a716-446655440000",
+    "occurred_at": "2026-09-16T07:30:00Z",
+    "patient_id": "byunwoojin",
+    "device_id": "pi5-home-01",
+    "risk_level": "caution",
+    "risk_score": 58,
+    "alert_type": "repetitive_behavior",
+    "pattern_code": "fridge_repeated_check",
+    "title": "반복 행동 감지",
+    "message": "냉장고 문을 반복해서 확인하는 행동이 감지되었습니다.",
+    "requires_guardian_response": true
+  }
+}
+

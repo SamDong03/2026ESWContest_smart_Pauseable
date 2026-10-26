@@ -1,0 +1,772 @@
+{
+  "purpose": "Improved geometric repetition research model",
+  "data_origin": "simulated_only",
+  "personal_baseline_trained": false,
+  "real_ld6004_validated": false,
+  "clinical_wandering_validated": false,
+  "automatic_alerts_enabled": false,
+  "source": {
+    "repository": "https://github.com/Unilasalle-SmartCare/smartcare-machinelearning",
+    "commit": "1d479627158cfb46bef837afedc0f63b6c8bbbe0",
+    "files": {
+      "dataset.json": {
+        "sha256": "25845a0d66022285e4b631d3101e574f60aa5996275c65222b759bfaf3473b71",
+        "bytes": 241280
+      },
+      "dataset-validacao.json": {
+        "sha256": "afac7512dfd3903bb87ec006da20937591b699a5eecee7377b7825ae1360bc75",
+        "bytes": 21146
+      }
+    }
+  },
+  "splits": {
+    "public_train": {
+      "paths": 144,
+      "classes": {
+        "0": 69,
+        "1": 75
+      },
+      "families": {
+        "smartcare_drawn": 144
+      },
+      "unique_groups": 144
+    },
+    "public_selection": {
+      "paths": 48,
+      "classes": {
+        "1": 25,
+        "0": 23
+      },
+      "families": {
+        "smartcare_drawn": 48
+      },
+      "unique_groups": 48
+    },
+    "legacy_audit": {
+      "paths": 20,
+      "classes": {
+        "0": 10,
+        "1": 10
+      },
+      "families": {
+        "smartcare_drawn": 20
+      },
+      "unique_groups": 20
+    },
+    "generated_train": {
+      "paths": 1800,
+      "classes": {
+        "0": 900,
+        "1": 900
+      },
+      "families": {
+        "bent_transit": 180,
+        "corridor_detour": 180,
+        "meandering_transit": 180,
+        "single_return": 180,
+        "open_arc": 180,
+        "repeated_shuttle": 180,
+        "repeat_irregular_loop": 180,
+        "repeat_figure8": 180,
+        "transit_then_repetition": 180,
+        "repetition_then_transit": 180
+      },
+      "unique_groups": 1800
+    },
+    "generated_selection": {
+      "paths": 600,
+      "classes": {
+        "0": 300,
+        "1": 300
+      },
+      "families": {
+        "bent_transit": 60,
+        "corridor_detour": 60,
+        "meandering_transit": 60,
+        "single_return": 60,
+        "open_arc": 60,
+        "repeated_shuttle": 60,
+        "repeat_irregular_loop": 60,
+        "repeat_figure8": 60,
+        "transit_then_repetition": 60,
+        "repetition_then_transit": 60
+      },
+      "unique_groups": 600
+    },
+    "generated_test": {
+      "paths": 1000,
+      "classes": {
+        "0": 500,
+        "1": 500
+      },
+      "families": {
+        "bent_transit": 100,
+        "corridor_detour": 100,
+        "meandering_transit": 100,
+        "single_return": 100,
+        "open_arc": 100,
+        "repeated_shuttle": 100,
+        "repeat_irregular_loop": 100,
+        "repeat_figure8": 100,
+        "transit_then_repetition": 100,
+        "repetition_then_transit": 100
+      },
+      "unique_groups": 1000
+    },
+    "generated_challenge": {
+      "paths": 500,
+      "classes": {
+        "0": 250,
+        "1": 250
+      },
+      "families": {
+        "bent_transit": 50,
+        "corridor_detour": 50,
+        "meandering_transit": 50,
+        "single_return": 50,
+        "open_arc": 50,
+        "repeated_shuttle": 50,
+        "repeat_irregular_loop": 50,
+        "repeat_figure8": 50,
+        "transit_then_repetition": 50,
+        "repetition_then_transit": 50
+      },
+      "unique_groups": 500
+    }
+  },
+  "selection": {
+    "candidate": {
+      "name": "multiscale_augmented",
+      "variant": "multiscale",
+      "augmented": true,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    "threshold": 0.66,
+    "train_paths": 1944,
+    "train_by_source": {
+      "smartcare": 144,
+      "independently_drawn_synthetic_geometry": 1800
+    },
+    "selection_objective": 1.0,
+    "candidate_index": 3,
+    "frozen_before_final_evaluation": true,
+    "refit": false
+  },
+  "evaluations": {
+    "generated_test": {
+      "historical_baseline": {
+        "paths": 1000,
+        "threshold": 0.5,
+        "accuracy": 0.942,
+        "balanced_accuracy": 0.942,
+        "precision": 1.0,
+        "recall": 0.884,
+        "f1": 0.9384288747346072,
+        "roc_auc": 0.99988,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            500,
+            0
+          ],
+          [
+            58,
+            442
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.9257500917212245,
+          0.9548669299284063
+        ],
+        "by_family": {
+          "bent_transit": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "corridor_detour": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "meandering_transit": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "open_arc": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeat_figure8": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeat_irregular_loop": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeated_shuttle": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repetition_then_transit": {
+            "paths": 100,
+            "correct": 64,
+            "accuracy": 0.64
+          },
+          "single_return": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "transit_then_repetition": {
+            "paths": 100,
+            "correct": 78,
+            "accuracy": 0.78
+          }
+        }
+      },
+      "selected_model": {
+        "paths": 1000,
+        "threshold": 0.66,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            500,
+            0
+          ],
+          [
+            0,
+            500
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.9961731014136095,
+          1.0
+        ],
+        "by_family": {
+          "bent_transit": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "corridor_detour": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "meandering_transit": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "open_arc": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeat_figure8": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeat_irregular_loop": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeated_shuttle": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repetition_then_transit": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "single_return": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "transit_then_repetition": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "matched_baseline": {
+        "paths": 1000,
+        "threshold": 0.32,
+        "accuracy": 0.977,
+        "balanced_accuracy": 0.977,
+        "precision": 0.9979123173277662,
+        "recall": 0.956,
+        "f1": 0.9765066394279878,
+        "roc_auc": 0.9997159999999999,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            499,
+            1
+          ],
+          [
+            22,
+            478
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.9657233030515149,
+          0.9846258356970685
+        ],
+        "by_family": {
+          "bent_transit": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "corridor_detour": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "meandering_transit": {
+            "paths": 100,
+            "correct": 99,
+            "accuracy": 0.99
+          },
+          "open_arc": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeat_figure8": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeat_irregular_loop": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repeated_shuttle": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "repetition_then_transit": {
+            "paths": 100,
+            "correct": 87,
+            "accuracy": 0.87
+          },
+          "single_return": {
+            "paths": 100,
+            "correct": 100,
+            "accuracy": 1.0
+          },
+          "transit_then_repetition": {
+            "paths": 100,
+            "correct": 91,
+            "accuracy": 0.91
+          }
+        }
+      }
+    },
+    "generated_challenge": {
+      "historical_baseline": {
+        "paths": 500,
+        "threshold": 0.5,
+        "accuracy": 0.954,
+        "balanced_accuracy": 0.954,
+        "precision": 1.0,
+        "recall": 0.908,
+        "f1": 0.9517819706498952,
+        "roc_auc": 0.997136,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            250,
+            0
+          ],
+          [
+            23,
+            227
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.9319217297737272,
+          0.9691551166002124
+        ],
+        "by_family": {
+          "bent_transit": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "corridor_detour": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "meandering_transit": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "open_arc": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeat_figure8": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeat_irregular_loop": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeated_shuttle": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repetition_then_transit": {
+            "paths": 50,
+            "correct": 35,
+            "accuracy": 0.7
+          },
+          "single_return": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "transit_then_repetition": {
+            "paths": 50,
+            "correct": 42,
+            "accuracy": 0.84
+          }
+        }
+      },
+      "selected_model": {
+        "paths": 500,
+        "threshold": 0.66,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            250,
+            0
+          ],
+          [
+            0,
+            250
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.9923753814690964,
+          0.9999999999999999
+        ],
+        "by_family": {
+          "bent_transit": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "corridor_detour": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "meandering_transit": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "open_arc": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeat_figure8": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeat_irregular_loop": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeated_shuttle": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repetition_then_transit": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "single_return": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "transit_then_repetition": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "matched_baseline": {
+        "paths": 500,
+        "threshold": 0.32,
+        "accuracy": 0.958,
+        "balanced_accuracy": 0.958,
+        "precision": 0.9561752988047809,
+        "recall": 0.96,
+        "f1": 0.9580838323353293,
+        "roc_auc": 0.995984,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            239,
+            11
+          ],
+          [
+            10,
+            240
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.9366479487604386,
+          0.9723679006652538
+        ],
+        "by_family": {
+          "bent_transit": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "corridor_detour": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "meandering_transit": {
+            "paths": 50,
+            "correct": 46,
+            "accuracy": 0.92
+          },
+          "open_arc": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeat_figure8": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeat_irregular_loop": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repeated_shuttle": {
+            "paths": 50,
+            "correct": 50,
+            "accuracy": 1.0
+          },
+          "repetition_then_transit": {
+            "paths": 50,
+            "correct": 43,
+            "accuracy": 0.86
+          },
+          "single_return": {
+            "paths": 50,
+            "correct": 43,
+            "accuracy": 0.86
+          },
+          "transit_then_repetition": {
+            "paths": 50,
+            "correct": 47,
+            "accuracy": 0.94
+          }
+        }
+      }
+    },
+    "legacy_audit": {
+      "historical_baseline": {
+        "paths": 20,
+        "threshold": 0.5,
+        "accuracy": 0.95,
+        "balanced_accuracy": 0.95,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9473684210526315,
+        "roc_auc": 1.0,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            10,
+            0
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.7638641064874331,
+          0.9911187805671268
+        ],
+        "by_family": {
+          "smartcare_drawn": {
+            "paths": 20,
+            "correct": 19,
+            "accuracy": 0.95
+          }
+        }
+      },
+      "selected_model": {
+        "paths": 20,
+        "threshold": 0.66,
+        "accuracy": 0.95,
+        "balanced_accuracy": 0.95,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9473684210526315,
+        "roc_auc": 1.0,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            10,
+            0
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.7638641064874331,
+          0.9911187805671268
+        ],
+        "by_family": {
+          "smartcare_drawn": {
+            "paths": 20,
+            "correct": 19,
+            "accuracy": 0.95
+          }
+        }
+      },
+      "matched_baseline": {
+        "paths": 20,
+        "threshold": 0.32,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "confusion_matrix_rows_actual_columns_predicted": [
+          [
+            10,
+            0
+          ],
+          [
+            0,
+            10
+          ]
+        ],
+        "accuracy_wilson95_synthetic_only": [
+          0.8388698745050667,
+          1.0
+        ],
+        "by_family": {
+          "smartcare_drawn": {
+            "paths": 20,
+            "correct": 20,
+            "accuracy": 1.0
+          }
+        }
+      }
+    }
+  },
+  "historical_baseline_train_paths": 192,
+  "portable_export_check": {
+    "paths": 1520,
+    "max_absolute_error": 1.1102230246251565e-16
+  },
+  "feature_contract": {
+    "variant": "multiscale",
+    "names": [
+      "path_length_over_diameter",
+      "net_displacement_over_length",
+      "endpoint_distance_over_diameter",
+      "mean_absolute_turn_radians",
+      "turn_over_90deg_fraction",
+      "total_absolute_turn_over_pi",
+      "pca_minor_over_major_variance",
+      "convex_hull_area_over_diameter_squared",
+      "nonlocal_revisit_fraction",
+      "global_revisit_radius_025_fraction",
+      "global_revisit_radius_100_fraction",
+      "global_opposite_nearby_fraction",
+      "local_quarter_length_over_diameter_mean",
+      "local_quarter_length_over_diameter_max",
+      "local_quarter_return_over_length_mean",
+      "local_quarter_return_over_length_max",
+      "local_quarter_revisit_fraction_mean",
+      "local_quarter_revisit_fraction_max",
+      "local_quarter_opposite_nearby_fraction_mean",
+      "local_quarter_opposite_nearby_fraction_max",
+      "local_quarter_absolute_turn_over_pi_mean",
+      "local_quarter_absolute_turn_over_pi_max",
+      "local_quarter_turn_direction_consistency_mean",
+      "local_quarter_turn_direction_consistency_max",
+      "local_half_length_over_diameter_mean",
+      "local_half_length_over_diameter_max",
+      "local_half_return_over_length_mean",
+      "local_half_return_over_length_max",
+      "local_half_revisit_fraction_mean",
+      "local_half_revisit_fraction_max",
+      "local_half_opposite_nearby_fraction_mean",
+      "local_half_opposite_nearby_fraction_max",
+      "local_half_absolute_turn_over_pi_mean",
+      "local_half_absolute_turn_over_pi_max",
+      "local_half_turn_direction_consistency_mean",
+      "local_half_turn_direction_consistency_max"
+    ],
+    "source_sha256": {
+      "legacy/features.py": "73036fdf7e024b7b7eb19c994de3f9a0cd48aa40860465805b13a7f5dceb1175",
+      "shape_features.py": "786ef94312b897339faebd07b070114c155dd46e9d47a68314ce4366bc1bdbc6"
+    }
+  },
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "scikit_learn": "1.7.2",
+    "scipy": "1.16.2",
+    "joblib": "1.5.2"
+  },
+  "duration_seconds": 61.25
+}

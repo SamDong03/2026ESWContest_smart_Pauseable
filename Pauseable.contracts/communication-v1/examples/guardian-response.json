@@ -1,0 +1,12 @@
+{
+  "contract_version": "1.0",
+  "response_id": "resp-550e8400-e29b-41d4-a716-446655440002",
+  "alert_id": "alert-550e8400-e29b-41d4-a716-446655440000",
+  "event_id": "evt-550e8400-e29b-41d4-a716-446655440000",
+  "patient_id": "byunwoojin",
+  "action": "confirmed_safe",
+  "reason": "가족이 함께 있어 정상 상황으로 확인했습니다.",
+  "responded_at": "2026-09-16T07:31:00Z",
+  "responder_id": "guardian-primary"
+}
+

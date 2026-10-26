@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "pipeline_version": "guardian-tts-v1",
+  "docker_image": "piper-guardian-train:1.5.0",
+
+  "piper": {
+    "tag": "v1.5.0",
+    "commit": "e2a4b1fa1c502bbb97e729a5b34a6af565007843",
+    "local_patch_sha256": "dd3478b69ce5bcd048a1f9f0a0dfdffc55df5028c6ca242c2cf65174bf5233c8"
+  },
+
+  "dataset": {
+    "expected_utterances": 160,
+    "filename_prefix": "S",
+    "filename_digits": 3,
+    "first_number": 1,
+    "last_number": 160,
+    "metadata_filename": "recording_script.csv",
+    "metadata_separator": "|",
+    "target_sample_rate": 22050,
+    "target_channels": 1,
+    "target_subtype": "PCM_16"
+  },
+
+  "model": {
+    "voice_name": "ko_KR-guardian-medium",
+    "espeak_voice": "ko",
+    "sample_rate": 22050,
+    "num_speakers": 1,
+    "use_mrd": false,
+    "mos_metric": "none"
+  },
+
+  "training": {
+    "accelerator": "gpu",
+    "devices": 1,
+    "precision": "bf16-mixed",
+    "max_steps": 20000,
+    "batch_size": 8,
+    "num_workers": 2,
+    "validation_split": 0.1,
+    "num_test_examples": 2,
+    "check_val_every_n_epoch": 25,
+    "log_every_n_steps": 10,
+    "num_sanity_val_steps": 0,
+    "trim_silence": false,
+    "seed": 0
+  },
+
+  "checkpoint": {
+    "base_path": "/workspace/checkpoints/base/ko_KR-kss-medium-last.ckpt",
+    "base_sha256": "4af59b56e7bbecacf63d3bd371e1b3bc2cf6615d24d531dbee56aeb056c710c9",
+    "resume_policy": "latest_last_checkpoint",
+    "export_policy": "latest_last_checkpoint"
+  },
+
+  "validation": {
+    "test_text": "할머니, 밥 먹어요.",
+    "require_nonempty_onnx": true,
+    "require_valid_json": true,
+    "require_nonempty_test_wav": true
+  },
+
+  "states": [
+    "VALIDATING",
+    "PREPROCESSING",
+    "TRAINING",
+    "EXPORTING",
+    "VALIDATING_MODEL",
+    "COMPLETED",
+    "FAILED"
+  ]
+}

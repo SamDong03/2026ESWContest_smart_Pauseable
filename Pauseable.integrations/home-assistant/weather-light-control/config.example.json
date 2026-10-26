@@ -1,0 +1,8 @@
+{
+    "kma_service_key": "여기에_공공데이터포털_기상청_일반_인증키",
+    "ha_url": "http://localhost:8123",
+    "ha_token": "여기에_HomeAssistant_장기_액세스_토큰",
+    "ha_light_entity_id": "light.tapo_l530",
+    "publish_helper_states": false,
+    "location_source": "legacy"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/app-alert.schema.json",
+  "title": "Guardian App Alert",
+  "description": "Flutter 보호자 앱에 위험 상황을 알릴 때 사용하는 메시지입니다.",
+  "type": "object",
+  "required": ["patient_id", "alert_id", "occurred_at", "risk_level", "title", "message"],
+  "properties": {
+    "patient_id": { "type": "string", "minLength": 1 },
+    "alert_id": { "type": "string" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "risk_level": { "enum": ["normal", "caution", "danger"] },
+    "title": { "type": "string" },
+    "message": { "type": "string" },
+    "alert_type": { "type": "string" },
+    "device_id": { "type": "string" },
+    "related_event_id": { "type": "string" },
+    "media_url": { "type": "string", "format": "uri" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,23 @@
+services:
+  broker:
+    image: eclipse-mosquitto:2@sha256:38c0da4f2ef84284d47b3b3eeea1cb3bdeabe81ee10caf0cd5c5ff61ee3ea408
+    volumes:
+      - ./deploy/research/mosquitto-test.conf:/mosquitto/config/mosquitto.conf:ro
+    networks: [acceptance]
+    healthcheck:
+      test: [CMD, mosquitto_pub, -h, 127.0.0.1, -t, acceptance/health, -m, ready, -q, "1"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+  feedback-check:
+    image: pauseable-ha-personalization:20261022
+    depends_on:
+      broker:
+        condition: service_healthy
+    networks: [acceptance]
+    volumes:
+      - ./outputs/submission_20261022:/results
+    command: [python, src/verify_ha_feedback_mqtt.py, --host, broker, --output-dir, /results/mqtt_feedback_1]
+networks:
+  acceptance:
+    internal: true

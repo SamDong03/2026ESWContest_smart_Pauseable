@@ -1,0 +1,12 @@
+[Unit]
+Description=Periodically verify the Pauseable Central Atlas app
+
+[Timer]
+OnBootSec=20s
+OnUnitActiveSec=30s
+AccuracySec=5s
+Persistent=true
+Unit=pauseable-central-ensure.service
+
+[Install]
+WantedBy=timers.target

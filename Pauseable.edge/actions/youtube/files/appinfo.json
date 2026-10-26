@@ -1,0 +1,8 @@
+{
+  "id": "com.atlas.app.pauseableyoutubebridge",
+  "type": "native",
+  "name": "pauseableyoutubebridge",
+  "description": "Pauseable YouTube display registration test",
+  "entry": "com.atlas.app.pauseableyoutubebridge",
+  "version": "0.0.1"
+}

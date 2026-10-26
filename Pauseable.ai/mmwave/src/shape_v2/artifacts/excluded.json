@@ -1,0 +1,34 @@
+[
+  {
+    "path_id": "dataset.json:022",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:036",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:045",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:048",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:049",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:053",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:054",
+    "reason": "At least three finite coordinate pairs are required"
+  },
+  {
+    "path_id": "dataset.json:056",
+    "reason": "At least three finite coordinate pairs are required"
+  }
+]

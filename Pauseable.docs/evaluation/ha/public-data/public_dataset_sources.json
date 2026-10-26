@@ -1,0 +1,50 @@
+{
+  "tihm": {
+    "requested_url": "https://zenodo.org/api/records/7622128/files/TIHM_Dataset.zip/content",
+    "resolved_url": "https://zenodo.org/api/records/7622128/files/TIHM_Dataset.zip/content",
+    "downloaded_at_utc": "2026-09-13T06:45:50.946772+00:00",
+    "server_content_length": "6978042",
+    "etag": null,
+    "last_modified": null,
+    "selection": "complete_file",
+    "partial": false,
+    "byte_limit": 100000000,
+    "bytes": 6978042,
+    "sha256": "368d642b4cdc680d0706abfd3c8b2e5387824d9737ad33f50531bafa6a4bf5a1",
+    "citation": "10.5281/zenodo.7622128",
+    "license": "Research only; metadata CC-BY-4.0 conflicts with noncommercial note",
+    "source_type": "public"
+  },
+  "casas": {
+    "requested_url": "https://zenodo.org/api/records/15713579/files/cognitive_assessment.zip/content",
+    "resolved_url": "https://zenodo.org/api/records/15713579/files/cognitive_assessment.zip/content",
+    "downloaded_at_utc": "2026-09-13T06:46:39.363895+00:00",
+    "server_content_length": "12635022",
+    "etag": null,
+    "last_modified": null,
+    "selection": "complete_file",
+    "partial": false,
+    "byte_limit": 100000000,
+    "bytes": 12635022,
+    "sha256": "f377562f3c6a59791ba4207a86bab986ad075d73c3cd1bacf26953eb88eba71e",
+    "citation": "10.5281/zenodo.15713579",
+    "license": "cc-by-4.0",
+    "source_type": "public"
+  },
+  "miratar": {
+    "requested_url": "https://zenodo.org/api/records/15553764/files/Database%20of%20sensors%20in%20smart%20homes.zip/content",
+    "resolved_url": "https://zenodo.org/api/records/15553764/files/Database%20of%20sensors%20in%20smart%20homes.zip/content",
+    "downloaded_at_utc": "2026-09-13T06:47:52.390757+00:00",
+    "server_content_length": "82592157",
+    "etag": null,
+    "last_modified": null,
+    "selection": "complete_file",
+    "partial": false,
+    "byte_limit": 100000000,
+    "bytes": 82592157,
+    "sha256": "300245dd11e9938a8063698ac61c4b13f5d95860a39ad3ed794dbf4ff33c40e7",
+    "citation": "10.5281/zenodo.15553764",
+    "license": "cc-by-4.0",
+    "source_type": "public"
+  }
+}

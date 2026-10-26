@@ -1,0 +1,13 @@
+{
+  "websocket_url": "ws://homeassistant.local:8123/api/websocket",
+  "entities": [
+    "sensor.geonjogi_remaining_time",
+    "event.geonjogi_error",
+    "switch.geonjogi_power",
+    "binary_sensor.naengjanggo_door",
+    "sensor.setaggi_remaining_time",
+    "sensor.setaggi_cycles",
+    "event.setaggi_error",
+    "switch.setaggi_power"
+  ]
+}

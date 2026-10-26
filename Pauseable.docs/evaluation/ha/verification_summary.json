@@ -1,0 +1,196 @@
+{
+  "date": "2026-10-23",
+  "architecture": "x86_64",
+  "python": "3.12.15",
+  "local_checks_passed": true,
+  "source_type": "synthetic",
+  "clinical_validation": false,
+  "production_eligible": false,
+  "pi_accessed": false,
+  "full_verification": [
+    {
+      "name": "unit_tests",
+      "exit_code": 0,
+      "seconds": 66.716
+    },
+    {
+      "name": "month_train",
+      "exit_code": 0,
+      "seconds": 77.342
+    },
+    {
+      "name": "month_verify",
+      "exit_code": 0,
+      "seconds": 8.105
+    },
+    {
+      "name": "month_refresh",
+      "exit_code": 0,
+      "seconds": 140.617
+    },
+    {
+      "name": "fridge_five_minute",
+      "exit_code": 0,
+      "seconds": 22.739
+    },
+    {
+      "name": "personalization",
+      "exit_code": 0,
+      "seconds": 166.727
+    },
+    {
+      "name": "evidence",
+      "exit_code": 0,
+      "seconds": 429.739
+    }
+  ],
+  "unit_test_count": 184,
+  "unit_test_skipped_with_canonical_contract": 0,
+  "report_regression_test_count": 16,
+  "baseline_component_comparison": {
+    "source_type": "synthetic",
+    "same_repetition_gate": true,
+    "baseline_reference_days": 14,
+    "baseline_reference_samples": 336,
+    "normal_control_complete_samples": 718,
+    "first_alert_minutes": [
+      26,
+      26,
+      5,
+      5
+    ],
+    "repetition_alert_cases_of_24": [
+      16,
+      18,
+      24,
+      24
+    ],
+    "benign_alert_cases_of_48": [
+      22,
+      28,
+      30,
+      30
+    ],
+    "methods": [
+      "baseline",
+      "baseline_if",
+      "baseline_ae",
+      "hybrid"
+    ],
+    "models_retrained_for_comparison": false,
+    "all_frozen_hybrid_decisions_reproduced": true,
+    "clinical_validation": false
+  },
+  "central_host_tests": [
+    "behavior_inference_test",
+    "action_router_test",
+    "decision_outbox_test"
+  ],
+  "central_warnings": [
+    "Existing DecisionEngine aggregate initializers omit patternCode. Default CMake policy does not treat warnings as errors."
+  ],
+  "mqtt": {
+    "passed": true,
+    "real_local_broker": true,
+    "source_type": "synthetic",
+    "explicit_review_round_trip": true,
+    "safety_ack_not_used_as_normal_label": true,
+    "duplicate_review_idempotent": true,
+    "correction_excludes_training_window": true,
+    "queued_is_not_applied": true,
+    "pi_connected": false,
+    "flutter_connected": false,
+    "old_pending_event_not_replayed_after_review": true,
+    "fresh_decision_broker_acknowledged": true,
+    "clinical_validation": false,
+    "first_drain": {
+      "applied": 1,
+      "duplicate": 1,
+      "rejected": 0
+    },
+    "correction_drain": {
+      "applied": 1,
+      "duplicate": 0,
+      "rejected": 0
+    }
+  },
+  "reported_distributions_reproduced": true,
+  "scenario_summary": {
+    "total": 96,
+    "levels": {
+      "normal": 36,
+      "attention": 16,
+      "risk": 38,
+      "unavailable": 6
+    },
+    "families": {
+      "benign_context": {
+        "normal": 18,
+        "attention": 8,
+        "risk": 22,
+        "unavailable": 0
+      },
+      "out_of_scope": {
+        "normal": 12,
+        "attention": 0,
+        "risk": 0,
+        "unavailable": 0
+      },
+      "repetition_hypothesis": {
+        "normal": 0,
+        "attention": 8,
+        "risk": 16,
+        "unavailable": 0
+      },
+      "sensor_fault": {
+        "normal": 6,
+        "attention": 0,
+        "risk": 0,
+        "unavailable": 6
+      }
+    }
+  },
+  "fridge_single": {
+    "normal": 61
+  },
+  "fridge_repeat": {
+    "normal": 5,
+    "attention": 25,
+    "risk": 31
+  },
+  "personalization_before": {
+    "normal": 564,
+    "risk": 6,
+    "attention": 6
+  },
+  "personalization_after": {
+    "normal": 570,
+    "risk": 6
+  },
+  "external_checks": {
+    "pi_arm64": "not_run",
+    "physical_appliance_events": "not_run",
+    "mqtt_central_tts_appliances": "not_run",
+    "deployed_backend_flutter": "not_run"
+  },
+  "native_powerpoint_rendered": true,
+  "pdf_pages_visually_reviewed": 5,
+  "compose_config_files_validated": 3,
+  "report_files": {
+    "HA_Final_Report.pptx": {
+      "bytes": 91708,
+      "sha256": "b43164426cd1213bfc11f248faaff268e3282c708b2e09a8f46aa79be953bb15"
+    },
+    "HA_Final_Report.pdf": {
+      "bytes": 1143782,
+      "sha256": "fd25e42b95931459003aac227a7fd57c15d238a430d832aedef49fe1ea3762d9"
+    }
+  },
+  "limitations": [
+    "Normal-context scenarios raised alerts in 30/48 cases; this remains unresolved.",
+    "Paired/seed variants and overlapping minute windows are not independent patients or incidents.",
+    "576-sample routine test is separate from the 96-case cohort; it does not resolve every benign alert.",
+    "Broker PUBACK is not a Central, TTS, app or appliance completion acknowledgement.",
+    "No latest Pi deployment or physical appliance end-to-end test was performed."
+  ]
+}

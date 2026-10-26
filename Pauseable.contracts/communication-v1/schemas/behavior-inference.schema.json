@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/v1/behavior-inference.schema.json",
+  "title": "Pauseable Behavior Inference v1",
+  "description": "행동판단 AI가 Central Atlas App으로 보내는 MQTT 메시지",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "event_id",
+    "occurred_at",
+    "patient_id",
+    "device_id",
+    "source",
+    "behavior",
+    "risk_level",
+    "risk_score",
+    "inference_status"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0" },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "patient_id": { "const": "byunwoojin" },
+    "device_id": { "const": "pi5-home-01" },
+    "source": { "enum": ["repetitive-ai", "wandering-ai"] },
+    "behavior": { "enum": ["normal", "repetitive", "wandering", "unknown"] },
+    "risk_level": { "enum": ["normal", "caution", "danger", "unknown"] },
+    "risk_score": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "현재 HA AI의 위험 점수이며 확률이나 정확도가 아님"
+    },
+    "model_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "inference_status": {
+      "enum": ["ok", "insufficient_data", "sensor_error", "model_error"]
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "window_seconds": { "type": "integer", "minimum": 1 },
+        "observation_count": { "type": "integer", "minimum": 0 },
+        "pattern_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "reason_text": { "type": "string", "maxLength": 500 },
+        "decision_policy": { "type": "string", "maxLength": 64 },
+        "model_status": { "type": "string", "maxLength": 64 },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "uniqueItems": true,
+          "maxItems": 20
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "source": { "const": "repetitive-ai" } } },
+      "then": { "properties": { "behavior": { "enum": ["normal", "repetitive", "unknown"] } } }
+    },
+    {
+      "if": { "properties": { "source": { "const": "wandering-ai" } } },
+      "then": { "properties": { "behavior": { "enum": ["normal", "wandering", "unknown"] } } }
+    },
+    {
+      "if": { "properties": { "inference_status": { "const": "ok" } } },
+      "then": {
+        "properties": {
+          "behavior": { "enum": ["normal", "repetitive", "wandering"] },
+          "risk_level": { "enum": ["normal", "caution", "danger"] },
+          "risk_score": { "type": "integer", "minimum": 0, "maximum": 100 }
+        }
+      },
+      "else": {
+        "properties": {
+          "behavior": { "const": "unknown" },
+          "risk_level": { "const": "unknown" },
+          "risk_score": { "const": null }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

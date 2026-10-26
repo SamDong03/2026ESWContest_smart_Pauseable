@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pauseable explicit repetitive behavior review v1",
+  "type": "object",
+  "required": ["contract_version", "feedback_id", "source_type", "household_id", "patient_id", "device_id", "review_kind", "label", "reviewer_id", "reviewed_at"],
+  "properties": {
+    "contract_version": {"const": "1.0"},
+    "feedback_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "event_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "period": {
+      "type": "object", "required": ["start", "end"], "additionalProperties": false,
+      "properties": {
+        "start": {"type": "string", "format": "date-time", "pattern": "(Z|\\+00:00)$"},
+        "end": {"type": "string", "format": "date-time", "pattern": "(Z|\\+00:00)$"}
+      }
+    },
+    "source_type": {"enum": ["local", "synthetic"]},
+    "household_id": {"type": "string", "minLength": 1, "maxLength": 64},
+    "patient_id": {"const": "byunwoojin"},
+    "device_id": {"const": "pi5-home-01"},
+    "review_kind": {"const": "behavior_label"},
+    "label": {"enum": ["normal", "repetitive", "uncertain"]},
+    "reviewer_id": {"type": "string", "minLength": 1, "maxLength": 64},
+    "reviewed_at": {"type": "string", "format": "date-time", "pattern": "(Z|\\+00:00)$"},
+    "reason": {"type": "string", "maxLength": 500}
+  },
+  "oneOf": [
+    {"required": ["event_id"], "not": {"required": ["period"]}},
+    {"required": ["period"], "not": {"required": ["event_id"]}}
+  ],
+  "additionalProperties": false
+}

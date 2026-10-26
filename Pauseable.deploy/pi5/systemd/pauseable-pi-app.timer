@@ -1,0 +1,12 @@
+[Unit]
+Description=Check and start Pauseable Central Atlas App on Pi5
+
+[Timer]
+OnBootSec=20
+OnUnitActiveSec=30
+AccuracySec=5
+Persistent=true
+Unit=pauseable-pi-app.service
+
+[Install]
+WantedBy=timers.target

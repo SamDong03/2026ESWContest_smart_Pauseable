@@ -1,0 +1,19 @@
+{
+  "reviewed_on": "2026-10-23",
+  "scope": "Report rationale only. No patient rows, model weights or clinical frequency cutoffs imported.",
+  "sources": [
+    {
+      "title": "NIST/SEMATECH e-Handbook: Box Plot",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm",
+      "supports": "Quartiles and the interquartile range summarize variation; 1.5-IQR and 3-IQR fences are described for outlier exploration.",
+      "does_not_support": "The project's appliance-specific count floors, score weights, 1.0/2.0-IQR settings or clinical diagnostic validity."
+    },
+    {
+      "title": "Alzheimer's Society: Repetitive behaviour and dementia",
+      "url": "https://www.alzheimers.org.uk/about-dementia/stages-and-symptoms/dementia-symptoms/repetitive-behaviour",
+      "supports": "Repeated fridge checking is an example; memory, reassurance, triggers and personal context can matter.",
+      "does_not_support": "A numeric fridge-opening frequency, five-minute interval or appliance-only diagnostic rule."
+    }
+  ],
+  "inference_boundary": "These sources support the statistical approach and observation hypothesis, not validation of this system's clinical thresholds."
+}

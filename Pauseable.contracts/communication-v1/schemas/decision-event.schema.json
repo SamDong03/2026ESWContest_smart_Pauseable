@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/v1/decision-event.schema.json",
+  "title": "Pauseable Central Decision Event v1",
+  "description": "Central Atlas App이 Render API로 보내는 최종 판단",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "event_id",
+    "occurred_at",
+    "patient_id",
+    "device_id",
+    "source",
+    "decision",
+    "risk_level",
+    "risk_score",
+    "actions"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0" },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "patient_id": { "const": "byunwoojin" },
+    "device_id": { "const": "pi5-home-01" },
+    "source": { "const": "central-atlas-app" },
+    "decision": {
+      "enum": ["normal", "repetitive_behavior", "wandering_suspected", "unknown"]
+    },
+    "risk_level": { "enum": ["normal", "caution", "danger", "unknown"] },
+    "risk_score": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+    "pattern_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "message": { "type": "string", "maxLength": 500 },
+    "actions": {
+      "type": "array",
+      "items": { "enum": ["notify_guardian", "control_appliance"] },
+      "uniqueItems": true,
+      "maxItems": 2
+    }
+  },
+  "additionalProperties": false
+}

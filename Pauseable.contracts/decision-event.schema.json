@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/decision-event.schema.json",
+  "title": "Central Decision Event",
+  "description": "Central Atlas App이 입력을 판단한 뒤 만드는 위험도와 실행 행동 목록입니다.",
+  "type": "object",
+  "required": ["event_id", "occurred_at", "source", "decision", "risk_level", "actions"],
+  "properties": {
+    "event_id": { "type": "string" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "source": { "const": "central-atlas-app" },
+    "decision": { "type": "string" },
+    "risk_level": { "enum": ["normal", "caution", "danger"] },
+    "message": { "type": "string" },
+    "actions": {
+      "type": "array",
+      "items": { "enum": ["generate_voice", "notify_guardian", "control_appliance"] },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,9 @@
+fastapi==0.129.2
+httpx==0.28.1
+uvicorn[standard]==0.41.0
+websockets==16.0
+python-multipart==0.0.32
+boto3==1.43.86
+python-dotenv==1.2.3
+pywebpush==2.5.0
+firebase-admin==7.3.0

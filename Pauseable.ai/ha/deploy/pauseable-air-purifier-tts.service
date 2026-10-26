@@ -1,0 +1,12 @@
+[Unit]
+Description=Play Pauseable air purifier guidance
+
+[Service]
+Type=oneshot
+User=u0_a5017
+Group=g0_a5017
+Environment=XDG_RUNTIME_DIR=/run/xdg
+Environment=HOME=/data/profiles/0/appdata/com.atlas.app.pauseableatlas/home
+ExecStartPre=+/bin/sh /data/ha_ai_fullcycle_20260911/scripts/generate-air-purifier-tts.sh
+ExecStart=/var/lib/pauseable/piper-guardian/bin/paplay /data/profiles/0/appdata/com.atlas.app.pauseableatlas/home/pauseable-air-purifier-tts.wav
+ExecStartPost=+/usr/bin/docker exec ha-ai-full python /app/src/turn_on_air_purifier.py

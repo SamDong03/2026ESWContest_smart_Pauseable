@@ -1,0 +1,4 @@
+services:
+  trainer:
+    volumes:
+      - ./pipeline:/workspace/pipeline:ro

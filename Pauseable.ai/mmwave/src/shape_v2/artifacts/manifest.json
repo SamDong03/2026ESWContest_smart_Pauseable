@@ -1,0 +1,27 @@
+{
+  "code": {
+    "portable_forest.py": "9036758e16339e7542987392276399e01151cb78fc2b0ac38cd49000de0b5d9c",
+    "predict.py": "934df745497a17d10161f9a89327f7c44a57a7e31f40a8bd19a6f725c8f7f289",
+    "scenarios.py": "d838df26aa4c356990701fde68f8d8c6708a82cdf21c74f74bb1cb6f33dcdb4e",
+    "shape_features.py": "786ef94312b897339faebd07b070114c155dd46e9d47a68314ce4366bc1bdbc6",
+    "test_scenarios.py": "96c1d7cc90140e086da0651e9a7437dd3979ad3474c4078ca338edf11d1aa75b",
+    "test_shape_features.py": "479499c80fbc4e8bc1661b22b469eaebec92410dee50ab186e71cc478de9d500",
+    "test_training.py": "7fb271380fe5bf0f28ab274c57cd6956277a5c896dea546b895fe5fe8509d945",
+    "train.py": "86467e1eac7baa3a51b6f5e34ef558187659202d123fd886bbdc2d681fd41830",
+    "legacy\\dataset.py": "6b9830c15dd032b731512969e0eb28cd0b63c424fb7c91c0fa786e7e87cbe2d8",
+    "legacy\\features.py": "73036fdf7e024b7b7eb19c994de3f9a0cd48aa40860465805b13a7f5dceb1175",
+    "PROTOCOL.md": "14d71bf1fb66e7ca7cfba2942bb022dd62e48e62c56a9e16c91a9b366c64b5ca"
+  },
+  "model_sha256": "6ca10ffd2afe56020ecd0fac69b0dcc938b725f1fc6f762c63232ad90e91e9f2",
+  "joblib_sha256": "6b34d3bd0f7696e73d6e026dc1db7e5a08417d3f355ca94f8265147bb03dd8ee",
+  "datasets": {
+    "ambiguous_unlabelled.jsonl": "833dfcd7dc516e0ef9c0d250caae5e90cdec7d349bf8f502b9d6626554e7d36d",
+    "generated_challenge.jsonl": "860abfc7c9f43c9e06d115c3141de6f4b97e1b9ae1791640a4e89d264e269e70",
+    "generated_selection.jsonl": "bf3e65529ea1cc6756fddc360a6ec715580ead1c7b702458f2a0d48a718c3334",
+    "generated_test.jsonl": "8f7828b5c03276c0456d235cbcf09a9ec21429dd8802fcdae531cfbf3c5807e2",
+    "generated_train.jsonl": "4b9894d098bc30fa090478c3190fad20c819f854d1246fd95603153f613dc448",
+    "legacy_audit.jsonl": "397d69a8a740ea3a967ea7603708726c09ee2cce80d9defc7ae7b720a84be5e3",
+    "public_selection.jsonl": "6b0799854da4cd0e3a4b576561ec58278486084c36e4641fefd537d60c4ec4aa",
+    "public_train.jsonl": "91ab8b55ca9f3b74c696b301295c644f59538f5b58bdbd7911ce7128712da1c6"
+  }
+}

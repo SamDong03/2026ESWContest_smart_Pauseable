@@ -1,0 +1,40 @@
+services:
+  trainer:
+    build:
+      context: ../..
+      dockerfile: Pauseable.ai/voice/docker/Dockerfile.train
+      args:
+        LOCAL_UID: "${LOCAL_UID:-1000}"
+        LOCAL_GID: "${LOCAL_GID:-1000}"
+
+    image: piper-guardian-train:1.5.0
+
+    working_dir: /workspace
+
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+
+    environment:
+      HOME: /home/piper
+      USER: piper
+      LOGNAME: piper
+      XDG_CACHE_HOME: /workspace/cache/xdg
+      TORCHINDUCTOR_CACHE_DIR: /workspace/cache/torchinductor
+      PYTHONPATH: /opt/piper/src
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+
+    gpus: all
+
+    shm_size: "2gb"
+    init: true
+
+    volumes:
+      - ./dataset:/workspace/dataset
+      - ./checkpoints:/workspace/checkpoints
+      - ./cache:/workspace/cache
+      - ./configs:/workspace/configs
+      - ./logs:/workspace/logs
+      - ./output:/workspace/output
+      - ./scripts:/workspace/scripts
+
+    command: ["sleep", "infinity"]

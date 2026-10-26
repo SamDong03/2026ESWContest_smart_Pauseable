@@ -1,0 +1,8 @@
+.env
+worker.env
+.worker/
+cache/
+checkpoints/
+dataset/
+logs/
+output/

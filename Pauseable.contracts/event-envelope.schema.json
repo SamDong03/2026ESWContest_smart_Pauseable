@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/event-envelope.schema.json",
+  "title": "Pauseable Event Envelope",
+  "description": "모든 Pauseable 이벤트가 공유하는 식별자, 발생 시간, 출처 필드입니다.",
+  "type": "object",
+  "required": ["event_id", "occurred_at", "source"],
+  "properties": {
+    "event_id": { "type": "string", "description": "중복 처리를 막기 위한 이벤트 고유 ID" },
+    "occurred_at": { "type": "string", "format": "date-time", "description": "UTC ISO 8601 발생 시각" },
+    "source": { "type": "string", "description": "이벤트를 만든 장비 또는 서비스 이름" }
+  }
+}

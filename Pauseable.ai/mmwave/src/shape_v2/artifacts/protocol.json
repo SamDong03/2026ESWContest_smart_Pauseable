@@ -1,0 +1,101 @@
+{
+  "seed": 20260911,
+  "per_family": {
+    "train": 180,
+    "selection": 60,
+    "test": 100,
+    "challenge": 50
+  },
+  "candidates": [
+    {
+      "name": "matched_legacy9_public",
+      "variant": "legacy9",
+      "augmented": false,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    {
+      "name": "legacy9_augmented",
+      "variant": "legacy9",
+      "augmented": true,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    {
+      "name": "multiscale_public",
+      "variant": "multiscale",
+      "augmented": false,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    {
+      "name": "multiscale_augmented",
+      "variant": "multiscale",
+      "augmented": true,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    {
+      "name": "multiscale_augmented_depth10",
+      "variant": "multiscale",
+      "augmented": true,
+      "n_estimators": 300,
+      "max_depth": 10,
+      "min_samples_leaf": 3
+    }
+  ],
+  "thresholds": [
+    0.2,
+    0.22,
+    0.24,
+    0.26,
+    0.28,
+    0.3,
+    0.32,
+    0.34,
+    0.36,
+    0.38,
+    0.4,
+    0.42,
+    0.44,
+    0.46,
+    0.48,
+    0.5,
+    0.52,
+    0.54,
+    0.56,
+    0.58,
+    0.6,
+    0.62,
+    0.64,
+    0.66,
+    0.68,
+    0.7,
+    0.72,
+    0.74,
+    0.76,
+    0.78,
+    0.8
+  ],
+  "selection_objective": "mean source-specific balanced accuracy",
+  "refit_after_selection": false,
+  "protocol_sha256": "14d71bf1fb66e7ca7cfba2942bb022dd62e48e62c56a9e16c91a9b366c64b5ca",
+  "source": {
+    "repository": "https://github.com/Unilasalle-SmartCare/smartcare-machinelearning",
+    "commit": "1d479627158cfb46bef837afedc0f63b6c8bbbe0",
+    "files": {
+      "dataset.json": {
+        "sha256": "25845a0d66022285e4b631d3101e574f60aa5996275c65222b759bfaf3473b71",
+        "bytes": 241280
+      },
+      "dataset-validacao.json": {
+        "sha256": "afac7512dfd3903bb87ec006da20937591b699a5eecee7377b7825ae1360bc75",
+        "bytes": 21146
+      }
+    }
+  }
+}

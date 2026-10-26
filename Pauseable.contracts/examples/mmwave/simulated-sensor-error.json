@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "event_id": "test-radar:unsynced-session:0",
+  "source": "pauseable-simulator",
+  "data_origin": "simulated",
+  "sensor_id": "test-radar",
+  "session_id": "unsynced-session",
+  "seq": 0,
+  "occurred_at": null,
+  "time_status": "unsynced",
+  "uptime_ms": 3000,
+  "measurement_profile": "ld6004-target-raw-v1",
+  "sensor_status": "error",
+  "frame_age_ms": null,
+  "target_count": 0,
+  "targets_truncated": false,
+  "targets": [],
+  "replay": null
+}

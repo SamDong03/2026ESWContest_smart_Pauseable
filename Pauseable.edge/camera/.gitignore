@@ -1,0 +1,6 @@
+camera.env
+secrets.yaml
+*.pem
+output/
+__pycache__/
+*.pyc

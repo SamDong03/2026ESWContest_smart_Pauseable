@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "reviewed_on": "2026-10-17",
+  "purpose": "Literature-informed engineering scenarios, not patient data or a diagnostic simulator",
+  "production_eligible": false,
+  "sources": [
+    {"id": "alz_repetition", "type": "clinical_guidance", "url": "https://www.alzheimers.org.uk/about-dementia/stages-and-symptoms/dementia-symptoms/repetitive-behaviour", "finding": "Repeated fridge checking is explicitly described; memory, reassurance and context matter.", "limit": "No appliance-specific frequency, interval or diagnostic cutoff is supplied."},
+    {"id": "kitchen_2010", "type": "observational_study", "url": "https://www.sciencedirect.com/science/article/pii/S0953543810000275", "finding": "Six people with dementia, 22 kitchen-task recordings: sequencing including repetition and omission, finding objects, appliance operation and incoherence.", "limit": "Mapping these task errors to microwave restarts is an engineering hypothesis, not a measured restart distribution."},
+    {"id": "tea_2002", "type": "longitudinal_study_abstract", "url": "https://pubmed.ncbi.nlm.nih.gov/11997490/", "finding": "Longitudinal home tea-making observations found individual differences and omissions as the most common error class.", "limit": "Omission is not repetition; retained routines must not automatically be labelled abnormal."},
+    {"id": "lifelog_2023", "type": "single_patient_study", "url": "https://www.mdpi.com/2078-2489/14/8/433", "finding": "Caregiver-labelled normal, repetitive and sleep-disturbance sensor records from one dementia patient.", "limit": "No raw data imported. Single environment, motion sensors, not universal HA state thresholds; printed collection dates are inconsistent."},
+    {"id": "aal_2020", "type": "single_case_study", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7695528/", "finding": "Longitudinal monitoring reports cooking decline, a stove left on and a reported microwave setting error.", "limit": "Safety and omission observations do not establish repetition thresholds; the microwave explanation is participant reported."},
+    {"id": "actr_2022", "type": "conceptual_simulation", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8747630/", "finding": "Models task execution with memory and sequencing/completion errors.", "limit": "Conceptual model, real-user validation still required. This project does not implement ACT-R or infer dementia severity."},
+    {"id": "cnn_synthetic", "type": "synthetic_anomaly_method", "url": "https://www.sciencedirect.com/science/article/pii/S0933365718300617", "finding": "Introduces synthetic abnormal activities into smart-home datasets and evaluates anomaly detection.", "limit": "Synthetic labels do not constitute clinically observed dementia episodes. We reuse the evaluation idea, not its CNN."},
+    {"id": "duration_2022", "type": "simulation_validation_study", "url": "https://pubmed.ncbi.nlm.nih.gov/35891090/", "finding": "Synthetic and real activity durations differ for several tasks, motivating calibration.", "limit": "Reported regression performance is not evidence of Pauseable clinical accuracy; no regression coefficients copied."},
+    {"id": "minder_markov", "type": "observational_cohort", "url": "https://arxiv.org/html/2307.11126v1", "data_url": "https://github.com/NVFL/Markov-Chain-Model", "finding": "Kitchen activity and transition patterns across 73 dementia/MCI households, with a 21-household pandemic subset.", "limit": "Mixed occupancy and no repetitive-event labels. Released fridge events are not open/close pairs; oven-use is not a guaranteed microwave; timezone unspecified."},
+    {"id": "radar_ad_2024", "type": "preclinical_pilot", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11007144/", "doi": "10.3389/fnagi.2024.1375131", "finding": "36 participants (12 HC, 13 SCD, 11 MCI) used kettle, toaster and hot plate tasks. Features included counts, duration and inaction; sensor/power outages caused missing tasks.", "limit": "No diagnosed dementia cohort, no washer data, no clinical repetition cutoff. Raw data require author request. Only design rationale is used; no patient rows or fitted coefficients imported."},
+    {"id": "omission_stages", "type": "naturalistic_task_study", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6224312/", "finding": "130 participants, including 13 with dementia, completed eight tasks. Preparatory, action and concluding omissions were separately coded; microwave water heating was an action step.", "limit": "Observed omissions are distinct from repetition and cannot be recovered from appliance counts alone. No raw participant data imported."},
+    {"id": "kta_actors", "type": "acted_dataset", "url": "https://datascience.uni-greifswald.de/forschung/research-artefacts/kitchen-task-assessment-dataset/", "finding": "Kitchen task dataset contains scripted normal and erroneous behavior performed by actors.", "limit": "Actors are not a dementia patient cohort. Used to justify explicit simulated provenance, not to train a clinical model or claim patient accuracy."}
+  ],
+  "parameters": {
+    "count_by_intensity": {"low": 3, "medium": 6, "high": 10},
+    "fridge_gap_seconds": [45, 120],
+    "fridge_open_seconds": [2, 20],
+    "microwave_run_seconds": [60, 120],
+    "microwave_idle_gap_seconds": [30, 120],
+    "assessment_minutes": 45,
+    "distributed_fridge_gap_minutes": 12,
+    "distributed_assessment_minutes": 135,
+    "washer_setup_gap_seconds": [40, 90],
+    "washer_power_on_seconds": [5, 15],
+    "washer_cycle_minutes": 70,
+    "basis": "Engineering sensitivity grid only. Intensity describes injected event density, NOT dementia severity. No numeric values estimated from a clinical paper."
+  },
+  "scenarios": [
+    {"id": "fridge_recheck", "family": "repetition_hypothesis", "sources": ["alz_repetition"], "interpretation": "Possible checking loop; intent unobservable in door events."},
+    {"id": "normal_meal_prep", "family": "benign_context", "sources": ["kitchen_2010"], "interpretation": "Cold meal preparation; deliberately identical to fridge_recheck sensor events."},
+    {"id": "microwave_restart", "family": "repetition_hypothesis", "sources": ["kitchen_2010", "actr_2022"], "interpretation": "Hypothetical task restart mapped to microwave operation; not a measured clinical distribution."},
+    {"id": "normal_batch_cooking", "family": "benign_context", "sources": ["kitchen_2010"], "interpretation": "Separate portions; deliberately identical to microwave_restart events."},
+    {"id": "normal_single_use", "family": "benign_context", "sources": [], "interpretation": "Engineering reference: a two-second door opening followed by one heating cycle."},
+    {"id": "normal_night_snack", "family": "benign_context", "sources": ["minder_markov"], "interpretation": "One night use is not a diagnosis or necessarily unwanted behavior."},
+    {"id": "caregiver_visit", "family": "benign_context", "sources": ["minder_markov"], "interpretation": "Multiple household users can produce a busy appliance stream; identity is not observed."},
+    {"id": "task_omission", "family": "out_of_scope", "sources": ["tea_2002", "kitchen_2010"], "interpretation": "Fridge access without cooking could also mean a cold meal. Not a repetitive positive label."},
+    {"id": "prolonged_heating", "family": "out_of_scope", "sources": ["aal_2020"], "interpretation": "A long heating operation tests a coverage gap in count features; not a clinical duration cutoff."},
+    {"id": "sensor_duplicate", "family": "sensor_fault", "sources": [], "interpretation": "Exact duplicate deliveries must not create extra physical actions."},
+    {"id": "sensor_dropout", "family": "sensor_fault", "sources": ["radar_ad_2024"], "interpretation": "Missing closure/coverage must not be called a confirmed omission or normal period."},
+    {"id": "fridge_distributed_rechecks", "family": "repetition_hypothesis", "sources": ["alz_repetition", "kitchen_2010"], "interpretation": "Engineering variation spreading checks across two hours; gap is not a patient statistic."},
+    {"id": "normal_slow_meal", "family": "benign_context", "sources": ["radar_ad_2024"], "interpretation": "Slower task execution with few interactions must not be labelled repetitive merely for taking longer; no published duration copied."},
+    {"id": "washer_power_recheck", "family": "repetition_hypothesis", "sources": ["kitchen_2010"], "interpretation": "Engineering analogy of task rechecking applied to washer power; no washer-specific dementia evidence. Running/idle encode the existing demo's power adapter, not physical washing."},
+    {"id": "normal_washer_setup", "family": "benign_context", "sources": [], "interpretation": "Power adjustment during setup has observations identical to washer_power_recheck. No clinical positive label."},
+    {"id": "normal_washer_full_cycle", "family": "benign_context", "sources": [], "interpretation": "One simulated physical operation with automatic completion must not become multiple manual restarts."}
+  ]
+}

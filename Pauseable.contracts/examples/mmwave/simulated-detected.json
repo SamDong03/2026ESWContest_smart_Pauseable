@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "event_id": "test-radar:example-session:1",
+  "source": "pauseable-simulator",
+  "data_origin": "simulated",
+  "sensor_id": "test-radar",
+  "session_id": "example-session",
+  "seq": 1,
+  "occurred_at": "2026-09-08T03:00:00.100Z",
+  "time_status": "synced",
+  "uptime_ms": 100,
+  "measurement_profile": "ld6004-target-raw-v1",
+  "sensor_status": "ok",
+  "frame_age_ms": 0,
+  "target_count": 1,
+  "targets_truncated": false,
+  "targets": [{"id": 1, "x": -1.2, "y": 0.5, "z": 1.3, "doppler": -1}],
+  "replay": null
+}

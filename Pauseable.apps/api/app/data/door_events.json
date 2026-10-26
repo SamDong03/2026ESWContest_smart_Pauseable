@@ -1,0 +1,14 @@
+{
+  "events": [
+    {
+      "id": "door-event-001",
+      "occurred_at": "2026-08-18T16:42:00+09:00",
+      "time_label": "오늘 오후 4:42",
+      "direction": "exit",
+      "title": "외출 장면 감지",
+      "description": "현관문이 열리고 외출하는 장면이 촬영됐어요.",
+      "image_file": "front-door-exit-sample.png",
+      "source": "mock_camera"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "demo_scenario": "repetitive_behavior",
+  "patient": {
+    "id": "byunwoojin",
+    "name": "김영희",
+    "location": "거실",
+    "activity": "휴식 중",
+    "is_device_connected": true,
+    "last_connected_label": "방금 전",
+    "safety_label": "안전",
+    "day_summary": "특이사항 없음"
+  },
+  "alerts": [
+    {
+      "id": "alert-door-001",
+      "type": "repetitive_behavior",
+      "category": "확인 필요",
+      "title": "현관문 반복 행동 감지",
+      "description": "최근 20분 동안 현관문을 7회 열고 닫았어요.",
+      "time_label": "오늘 오후 2:42",
+      "device_id": "front-door",
+      "current_count": 7,
+      "normal_min": 0,
+      "normal_max": 2
+    },
+    {
+      "id": "alert-night-001",
+      "type": "night_movement",
+      "category": "확인 필요",
+      "title": "야간 움직임 감지",
+      "description": "새벽에 침실에서 거실로 이동했어요.",
+      "time_label": "오늘 오전 2:18"
+    }
+  ],
+  "door_events": [
+    {
+      "id": "door-event-001",
+      "occurred_at": "2026-08-18T16:42:00+09:00",
+      "time_label": "오늘 오후 4:42",
+      "direction": "exit",
+      "title": "외출 장면 감지",
+      "description": "현관문이 열리고 외출하는 장면이 촬영됐어요.",
+      "image_url": "asset://assets/images/front-door-exit-sample.png",
+      "is_confirmed": false
+    }
+  ],
+  "activity": {
+    "events": [
+      {
+        "occurred_at": "2026-08-26T07:30:12+09:00",
+        "time_label": "오전 7:30:12",
+        "title": "침실 조명 켜짐",
+        "type": "light",
+        "state": "on"
+      },
+      {
+        "occurred_at": "2026-08-26T08:10:04+09:00",
+        "time_label": "오전 8:10:04",
+        "title": "냉장고 문 열림",
+        "type": "refrigerator",
+        "state": "open"
+      },
+      {
+        "occurred_at": "2026-08-26T08:10:19+09:00",
+        "time_label": "오전 8:10:19",
+        "title": "냉장고 문 닫힘",
+        "type": "refrigerator",
+        "state": "closed"
+      },
+      {
+        "occurred_at": "2026-08-26T13:20:33+09:00",
+        "time_label": "오후 1:20:33",
+        "title": "거실 TV 전원 켜짐",
+        "type": "television",
+        "state": "on"
+      },
+      {
+        "occurred_at": "2026-08-26T14:42:08+09:00",
+        "time_label": "오후 2:42:08",
+        "title": "현관문 열림",
+        "type": "doorway",
+        "state": "open"
+      },
+      {
+        "occurred_at": "2026-08-26T14:42:17+09:00",
+        "time_label": "오후 2:42:17",
+        "title": "현관문 닫힘",
+        "type": "doorway",
+        "state": "closed"
+      }
+    ]
+  }
+}

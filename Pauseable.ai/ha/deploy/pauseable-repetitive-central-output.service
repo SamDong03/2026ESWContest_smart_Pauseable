@@ -1,0 +1,21 @@
+[Unit]
+Description=Run repetitive outputs only after Central ActionRouter approval
+After=ha-docker-engine.service am.com.atlas.app.pauseableatlas.service
+Requires=ha-docker-engine.service
+RequiresMountsFor=/data/ha_ai_fullcycle_20260911
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+Group=root
+Environment=TZ=Asia/Seoul
+ExecStart=/bin/sh /data/ha_ai_fullcycle_20260911/config/repetitive-central-output-watch.sh
+Restart=always
+RestartSec=5
+KillMode=control-group
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+{
+  "format_name": "refit",
+  "power_column": "Appliance2",
+  "household_id": "refit-house-2",
+  "appliance": "washing_machine/Appliance2",
+  "citation": "Murray, Stankovic and Stankovic (2017), doi:10.1038/sdata.2016.122; dataset doi:10.15129/9ab14b0e-19ac-4279-938f-27f643078cec; official linked CSV doi:10.5281/zenodo.5063428",
+  "license_name": "CC-BY-4.0",
+  "parameter_basis": "House2 Appliance2 mapping: official CLEAN_READ_ME_081116.txt. Threshold/debounce (20W,1800s,160s) borrowed as a predeclared engineering comparison from UK-DALE washer; NOT REFIT ground truth or tuned on holdout. max=4000W sensor bound; sample=8s, gap=32s.",
+  "source_type": "public",
+  "config": {"on_power_threshold": 20, "min_on_seconds": 1800, "min_off_seconds": 160, "max_power_w": 4000, "sample_seconds": 8, "max_gap_seconds": 32}
+}

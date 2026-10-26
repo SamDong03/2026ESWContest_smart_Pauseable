@@ -1,0 +1,26 @@
+
+
+
+rest_command:
+  pauseable_camera_trigger:
+    url: !secret pauseable_camera_trigger_url
+    method: POST
+    headers:
+      authorization: !secret pauseable_camera_trigger_authorization
+    content_type: "application/json"
+    payload: '{}'
+
+automation:
+  - id: pauseable_virtual_door_unlock_camera_trigger
+    alias: "Pauseable - 도어락 해제 시 현관 카메라 분석"
+    description: "가상 도어락이 잠금 해제되면 Pi 4의 카메라 분석을 시작한다."
+    triggers:
+      - trigger: state
+        entity_id: lock.pauseable_virtual_home_pauseable_virtual_door_lock
+        from: "locked"
+        to: "unlocked"
+    actions:
+      - action: rest_command.pauseable_camera_trigger
+      - delay: "00:00:15"
+    mode: single
+    max_exceeded: silent

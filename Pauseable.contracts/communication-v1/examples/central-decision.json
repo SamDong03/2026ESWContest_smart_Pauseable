@@ -1,0 +1,15 @@
+{
+  "contract_version": "1.0",
+  "event_id": "evt-550e8400-e29b-41d4-a716-446655440000",
+  "occurred_at": "2026-09-16T07:30:00Z",
+  "patient_id": "byunwoojin",
+  "device_id": "pi5-home-01",
+  "source": "central-atlas-app",
+  "decision": "repetitive_behavior",
+  "risk_level": "caution",
+  "risk_score": 58,
+  "pattern_code": "fridge_repeated_check",
+  "message": "냉장고 문을 반복해서 확인하는 행동이 감지되었습니다.",
+  "actions": ["notify_guardian"]
+}
+

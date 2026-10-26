@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/v1/command-ack.schema.json",
+  "title": "Pauseable Command ACK v1",
+  "description": "Pi5가 Render에 보고하는 명령 처리 결과",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "command_id",
+    "device_id",
+    "acknowledged_at",
+    "status"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0" },
+    "command_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "device_id": { "const": "pi5-home-01" },
+    "acknowledged_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "status": { "enum": ["processed", "failed"] },
+    "detail": { "type": "string", "maxLength": 500 }
+  },
+  "additionalProperties": false
+}

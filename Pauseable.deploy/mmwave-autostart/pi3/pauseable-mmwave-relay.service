@@ -1,0 +1,26 @@
+[Unit]
+Description=Pauseable LD6004 USB relay to Pi5 over Wi-Fi
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=pauseable
+Group=pauseable
+SupplementaryGroups=dialout
+Environment=HOME=/home/pauseable
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=/opt/pauseable-mmwave-relay
+StateDirectory=pauseable-mmwave-relay
+StateDirectoryMode=0750
+ExecStart=/usr/bin/python3 -u /opt/pauseable-mmwave-relay/Pauseable.edge/mmwave-relay/relay_supervisor.py --host 192.168.123.102 --baud 230400
+Restart=always
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=12
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+{
+  "contract_version": "1.0",
+  "event_id": "evt-550e8400-e29b-41d4-a716-446655440000",
+  "occurred_at": "2026-09-16T07:30:00Z",
+  "patient_id": "byunwoojin",
+  "device_id": "pi5-home-01",
+  "source": "repetitive-ai",
+  "behavior": "repetitive",
+  "risk_level": "caution",
+  "risk_score": 58,
+  "model_version": "ha-ai-v1.2",
+  "inference_status": "ok",
+  "evidence": {
+    "window_seconds": 1200,
+    "observation_count": 7,
+    "pattern_code": "fridge_repeated_check",
+    "reason_text": "Four fridge checks were detected in a short window.",
+    "decision_policy": "rules_plus_validated_if_ae",
+    "model_status": "active"
+  }
+}
+

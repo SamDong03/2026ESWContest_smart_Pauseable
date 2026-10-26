@@ -1,0 +1,26 @@
+{
+    "water_purifier": {
+        "enabled": true,
+        "backend": "virtual",
+        "virtual": {
+            "dispense_seconds": 3,
+            "amount_ml": 150
+        },
+        "home_assistant": {
+            "power_entity_id": "",
+            "action_entity_id": "button.replace_with_water_purifier_action"
+        }
+    },
+    "tiiun": {
+        "enabled": true,
+        "backend": "virtual",
+        "virtual": {
+            "brightness": 80
+        },
+        "home_assistant": {
+            "power_entity_id": "",
+            "light_entity_id": "light.replace_with_tiiun_grow_light",
+            "brightness_pct": 30
+        }
+    }
+}

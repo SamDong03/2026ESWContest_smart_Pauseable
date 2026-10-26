@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/ha-entity-event.schema.json",
+  "title": "Home Assistant Entity Event",
+  "description": "Home Assistant Entity의 상태가 변했을 때 Central App으로 전달하는 메시지입니다.",
+  "type": "object",
+  "required": ["patient_id", "event_id", "occurred_at", "source", "entity_id", "state"],
+  "properties": {
+    "patient_id": { "type": "string", "minLength": 1, "description": "알림을 받을 대상자 ID" },
+    "event_id": { "type": "string" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "source": { "const": "home-assistant" },
+    "entity_id": { "type": "string", "description": "예: light.living_room" },
+    "state": { "type": ["string", "number", "boolean", "null"] },
+    "previous_state": { "type": ["string", "number", "boolean", "null"] },
+    "attributes": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": false
+}

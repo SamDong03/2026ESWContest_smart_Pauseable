@@ -1,0 +1,10 @@
+{
+  "id": "com.atlas.app.pauseableatlas",
+  "type": "native",
+  "display_type": "headless",
+  "name": "pauseableatlas",
+  "description": "PAUSEABLE Core",
+  "entry": "com.atlas.app.pauseableatlas",
+  "version": "0.2.0"
+}
+

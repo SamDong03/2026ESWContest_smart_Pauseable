@@ -1,0 +1,16 @@
+[Unit]
+Description=Pauseable Home Assistant AI automation loop
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/ha_ai
+EnvironmentFile=/home/pi/ha_ai/deploy/systemd/ha-ai.env
+ExecStart=/home/pi/ha_ai/.venv/bin/python /home/pi/ha_ai/src/run_ha_automation_loop.py --collection-seconds 600 --prefix ha_pi --log-dir outputs/logs/ha_pi
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
