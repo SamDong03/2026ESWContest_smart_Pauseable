@@ -1,0 +1,10 @@
+{
+  "format_name": "ukdale",
+  "household_id": "ukdale-house-2",
+  "appliance": "washing_machine/channel_12",
+  "citation": "Kelly and Knottenbelt (2015), doi:10.1038/sdata.2015.7; dataset doi:10.5286/UKERC.EDC.000001",
+  "license_name": "CC-BY-4.0",
+  "parameter_basis": "JackKelly/UK-DALE_metadata building2.yaml washing machine: threshold=20W, min_on=1800s, min_off=160s, max_power=2500W. Causal confirmation is our implementation, not NILMTK equivalence. https://github.com/JackKelly/UK-DALE_metadata/blob/master/building2.yaml",
+  "source_type": "public",
+  "config": {"on_power_threshold": 20, "min_on_seconds": 1800, "min_off_seconds": 160, "max_power_w": 2500}
+}

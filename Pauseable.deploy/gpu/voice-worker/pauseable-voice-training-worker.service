@@ -1,0 +1,19 @@
+[Unit]
+Description=PAUSEABLE Piper GPU Training Worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Pauseable/Pauseable.ai/voice
+EnvironmentFile=%h/.config/pauseable/voice-worker.env
+ExecStart=%h/Pauseable/Pauseable.ai/voice/.venv/bin/python %h/Pauseable/Pauseable.ai/voice/pipeline/r2_worker.py
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=45
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Check Render periodically for a new Pauseable Piper voice model
+
+[Timer]
+OnActiveSec=2min
+OnUnitInactiveSec=10min
+RandomizedDelaySec=30
+Persistent=true
+Unit=pauseable-voice-model-update.service
+
+[Install]
+WantedBy=timers.target

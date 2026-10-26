@@ -1,0 +1,3 @@
+event_time,device_type,signal_type,action
+2026-09-04 02:10:00,fridge,door,open
+2026-09-04 02:11:00,fridge,door,close

@@ -1,0 +1,602 @@
+[
+  {
+    "candidate": {
+      "name": "matched_legacy9_public",
+      "variant": "legacy9",
+      "augmented": false,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    "train_paths": 144,
+    "threshold": 0.32,
+    "selection_objective": 0.9507246376811593,
+    "public_selection": {
+      "paths": 48,
+      "threshold": 0.32,
+      "accuracy": 0.9375,
+      "balanced_accuracy": 0.9347826086956521,
+      "precision": 0.8928571428571429,
+      "recall": 1.0,
+      "f1": 0.9433962264150944,
+      "roc_auc": 0.9895652173913044,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          20,
+          3
+        ],
+        [
+          0,
+          25
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.8316430233725778,
+        0.9785171568687727
+      ],
+      "by_family": {
+        "smartcare_drawn": {
+          "paths": 48,
+          "correct": 45,
+          "accuracy": 0.9375
+        }
+      }
+    },
+    "generated_selection": {
+      "paths": 600,
+      "threshold": 0.32,
+      "accuracy": 0.9666666666666667,
+      "balanced_accuracy": 0.9666666666666666,
+      "precision": 0.9929577464788732,
+      "recall": 0.94,
+      "f1": 0.9657534246575342,
+      "roc_auc": 0.9991111111111111,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          298,
+          2
+        ],
+        [
+          18,
+          282
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9490755207798911,
+        0.9783200081137791
+      ],
+      "by_family": {
+        "bent_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "corridor_detour": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "meandering_transit": {
+          "paths": 60,
+          "correct": 58,
+          "accuracy": 0.9666666666666667
+        },
+        "open_arc": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_figure8": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_irregular_loop": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeated_shuttle": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repetition_then_transit": {
+          "paths": 60,
+          "correct": 46,
+          "accuracy": 0.7666666666666667
+        },
+        "single_return": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "transit_then_repetition": {
+          "paths": 60,
+          "correct": 56,
+          "accuracy": 0.9333333333333333
+        }
+      }
+    }
+  },
+  {
+    "candidate": {
+      "name": "legacy9_augmented",
+      "variant": "legacy9",
+      "augmented": true,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    "train_paths": 1944,
+    "threshold": 0.66,
+    "selection_objective": 0.9782608695652174,
+    "public_selection": {
+      "paths": 48,
+      "threshold": 0.66,
+      "accuracy": 0.9583333333333334,
+      "balanced_accuracy": 0.9565217391304348,
+      "precision": 0.9259259259259259,
+      "recall": 1.0,
+      "f1": 0.9615384615384616,
+      "roc_auc": 0.9965217391304348,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          21,
+          2
+        ],
+        [
+          0,
+          25
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.8602408885222853,
+        0.9884983479210344
+      ],
+      "by_family": {
+        "smartcare_drawn": {
+          "paths": 48,
+          "correct": 46,
+          "accuracy": 0.9583333333333334
+        }
+      }
+    },
+    "generated_selection": {
+      "paths": 600,
+      "threshold": 0.66,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          300,
+          0
+        ],
+        [
+          0,
+          300
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9936380666717896,
+        1.0000000000000002
+      ],
+      "by_family": {
+        "bent_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "corridor_detour": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "meandering_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "open_arc": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_figure8": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_irregular_loop": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeated_shuttle": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repetition_then_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "single_return": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "transit_then_repetition": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        }
+      }
+    }
+  },
+  {
+    "candidate": {
+      "name": "multiscale_public",
+      "variant": "multiscale",
+      "augmented": false,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    "train_paths": 144,
+    "threshold": 0.66,
+    "selection_objective": 0.9783333333333333,
+    "public_selection": {
+      "paths": 48,
+      "threshold": 0.66,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          23,
+          0
+        ],
+        [
+          0,
+          25
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9258973488472576,
+        0.9999999999999999
+      ],
+      "by_family": {
+        "smartcare_drawn": {
+          "paths": 48,
+          "correct": 48,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "generated_selection": {
+      "paths": 600,
+      "threshold": 0.66,
+      "accuracy": 0.9566666666666667,
+      "balanced_accuracy": 0.9566666666666667,
+      "precision": 1.0,
+      "recall": 0.9133333333333333,
+      "f1": 0.9547038327526133,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          300,
+          0
+        ],
+        [
+          26,
+          274
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9372635612213899,
+        0.9702592063388445
+      ],
+      "by_family": {
+        "bent_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "corridor_detour": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "meandering_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "open_arc": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_figure8": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_irregular_loop": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeated_shuttle": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repetition_then_transit": {
+          "paths": 60,
+          "correct": 39,
+          "accuracy": 0.65
+        },
+        "single_return": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "transit_then_repetition": {
+          "paths": 60,
+          "correct": 55,
+          "accuracy": 0.9166666666666666
+        }
+      }
+    }
+  },
+  {
+    "candidate": {
+      "name": "multiscale_augmented",
+      "variant": "multiscale",
+      "augmented": true,
+      "n_estimators": 200,
+      "max_depth": 5,
+      "min_samples_leaf": 2
+    },
+    "train_paths": 1944,
+    "threshold": 0.66,
+    "selection_objective": 1.0,
+    "public_selection": {
+      "paths": 48,
+      "threshold": 0.66,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          23,
+          0
+        ],
+        [
+          0,
+          25
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9258973488472576,
+        0.9999999999999999
+      ],
+      "by_family": {
+        "smartcare_drawn": {
+          "paths": 48,
+          "correct": 48,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "generated_selection": {
+      "paths": 600,
+      "threshold": 0.66,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          300,
+          0
+        ],
+        [
+          0,
+          300
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9936380666717896,
+        1.0000000000000002
+      ],
+      "by_family": {
+        "bent_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "corridor_detour": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "meandering_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "open_arc": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_figure8": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_irregular_loop": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeated_shuttle": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repetition_then_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "single_return": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "transit_then_repetition": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        }
+      }
+    }
+  },
+  {
+    "candidate": {
+      "name": "multiscale_augmented_depth10",
+      "variant": "multiscale",
+      "augmented": true,
+      "n_estimators": 300,
+      "max_depth": 10,
+      "min_samples_leaf": 3
+    },
+    "train_paths": 1944,
+    "threshold": 0.7,
+    "selection_objective": 1.0,
+    "public_selection": {
+      "paths": 48,
+      "threshold": 0.7,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          23,
+          0
+        ],
+        [
+          0,
+          25
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9258973488472576,
+        0.9999999999999999
+      ],
+      "by_family": {
+        "smartcare_drawn": {
+          "paths": 48,
+          "correct": 48,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "generated_selection": {
+      "paths": 600,
+      "threshold": 0.7,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix_rows_actual_columns_predicted": [
+        [
+          300,
+          0
+        ],
+        [
+          0,
+          300
+        ]
+      ],
+      "accuracy_wilson95_synthetic_only": [
+        0.9936380666717896,
+        1.0000000000000002
+      ],
+      "by_family": {
+        "bent_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "corridor_detour": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "meandering_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "open_arc": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_figure8": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeat_irregular_loop": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repeated_shuttle": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "repetition_then_transit": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "single_return": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        },
+        "transit_then_repetition": {
+          "paths": 60,
+          "correct": 60,
+          "accuracy": 1.0
+        }
+      }
+    }
+  }
+]

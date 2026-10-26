@@ -1,0 +1,20 @@
+[Unit]
+Description=Pauseable continuous HA observation and gated IF-AE lifecycle
+After=network-online.target ha-docker-engine.service
+Wants=network-online.target
+Requires=ha-docker-engine.service
+
+[Service]
+Type=simple
+WorkingDirectory=/data/ha_ai_fullcycle_20260911
+ExecStartPre=-/usr/bin/docker rm -f ha-ai-full
+ExecStartPre=/usr/bin/docker start homeassistant mosquitto
+ExecStart=/usr/bin/docker run --rm --name ha-ai-full --network host --security-opt apparmor=unconfined --memory 512m --cpus 1 --pids-limit 128 --log-opt max-size=5m --log-opt max-file=2 --env-file /data/ha_ai/deploy/systemd/ha-ai.env -e OPENBLAS_NUM_THREADS=1 -e OMP_NUM_THREADS=1 -e TZ=Asia/Seoul -v /data/ha_ai_fullcycle_20260911:/app -w /app ha-ai-runner:review-20260908 python -u src/run_ha_full_service.py --state-dir /app/runtime/local --household-id user_001 --allow-screened-training --model-policy hybrid --cycle-seconds 600
+ExecStop=-/usr/bin/docker stop -t 20 ha-ai-full
+Restart=always
+RestartSec=20
+TimeoutStopSec=25
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Run Pauseable weather light control every minute
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+AccuracySec=10s
+Persistent=true
+Unit=pauseable-weather-light.service
+
+[Install]
+WantedBy=timers.target

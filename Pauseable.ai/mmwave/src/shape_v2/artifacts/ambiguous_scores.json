@@ -1,0 +1,1538 @@
+[
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_one_return:000",
+    "family": "prior_one_return",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {},
+      "note": "One outward trip and one partial return; no clinical truth label.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.1257830895571571,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_one_return:000",
+    "family": "prior_one_return",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {},
+      "note": "One outward trip and one partial return; no clinical truth label.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0036924317991343237,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:000",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.0
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:000",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.0
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:001",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.1
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:001",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.1
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:002",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.2
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.002395833333333333,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:002",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.2
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:003",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.30000000000000004
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.017187499999999998,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:003",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.30000000000000004
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:004",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.4
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.014791666666666665,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:004",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.4
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:005",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.5
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.014791666666666665,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:005",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.5
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:006",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.6000000000000001
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.014791666666666665,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:006",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.6000000000000001
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:007",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.7000000000000001
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.017690826330532212,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:007",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.7000000000000001
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:008",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.8
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.02666200212961897,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:008",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.8
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:009",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.9
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.02666200212961897,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:009",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.9
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:010",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 1.0
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.021367009132420088,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_partial_loop:010",
+    "family": "prior_partial_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 1.0
+      },
+      "note": "Arc sweep is 0.8 to 1.6 pi radians with drift; never a complete revolution.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:000",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.0
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:000",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.0
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0007612922150079264,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:001",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.05
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:001",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.05
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:002",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.1
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:002",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.1
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:003",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.15000000000000002
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:003",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.15000000000000002
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:004",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.2
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:004",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.2
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:005",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.25
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:005",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.25
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:006",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.30000000000000004
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0004883227176220806,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:006",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.30000000000000004
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:007",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.35000000000000003
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.00372775933734039,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:007",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.35000000000000003
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:008",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.4
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.005,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:008",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.4
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:009",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.45
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:009",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.45
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:010",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.5
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:010",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.5
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0025047218010157816,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:011",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.55
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:011",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.55
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:012",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.6000000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.002395833333333333,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:012",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.6000000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0002008820681276352,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:013",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.65
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.0,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:013",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.65
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:014",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.7000000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.01014464518684186,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:014",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.7000000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:015",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.75
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.01864699772177967,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:015",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.75
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.0003751244923700596,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:016",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.8
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.03136700913242009,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:016",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.8
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.012851710027433943,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:017",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.8500000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.047433055231710874,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:017",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.8500000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.04442705249318737,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:018",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.9
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.1312161904067073,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:018",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.9
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.11024754336076731,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:019",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.9500000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.3617714494072208,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:019",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 0.9500000000000001
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.1652826388529196,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:020",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 1.0
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.5003867490335822,
+    "synthetic_shape_class": 1,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:prior_weak_loop:020",
+    "family": "prior_weak_loop",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "strength": 1.0
+      },
+      "note": "Formula strength has no truth label; at 1.0 this is 1.5 turns plus drift.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.18617405416438232,
+    "synthetic_shape_class": 0,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:same_geometry_different_intent:000",
+    "family": "same_geometry_different_intent",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "described_context": "planned walking exercise"
+      },
+      "note": "Exactly the same points; these descriptions are hypothetical context, not patient labels.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.947814553366439,
+    "synthetic_shape_class": 1,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:same_geometry_different_intent:000",
+    "family": "same_geometry_different_intent",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "described_context": "planned walking exercise"
+      },
+      "note": "Exactly the same points; these descriptions are hypothetical context, not patient labels.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.9995499582127794,
+    "synthetic_shape_class": 1,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:same_geometry_different_intent:001",
+    "family": "same_geometry_different_intent",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "described_context": "reported concern about wandering"
+      },
+      "note": "Exactly the same points; these descriptions are hypothetical context, not patient labels.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "historical_baseline",
+    "score_not_calibrated": 0.947814553366439,
+    "synthetic_shape_class": 1,
+    "accuracy": null
+  },
+  {
+    "path_id": "shape-v2:ambiguous:20260911:same_geometry_different_intent:001",
+    "family": "same_geometry_different_intent",
+    "metadata": {
+      "protocol_version": "pauseable-shape-scenarios-v2.0",
+      "data_origin": "simulated",
+      "label_semantics": "unlabelled_exploration",
+      "clinical_label": null,
+      "seed": 20260911,
+      "parameters": {
+        "described_context": "reported concern about wandering"
+      },
+      "note": "Exactly the same points; these descriptions are hypothetical context, not patient labels.",
+      "timestamps_available": false,
+      "units": "arbitrary_not_metres"
+    },
+    "label": null,
+    "model": "selected_model",
+    "score_not_calibrated": 0.9995499582127794,
+    "synthetic_shape_class": 1,
+    "accuracy": null
+  }
+]

@@ -1,0 +1,20 @@
+[Unit]
+Description=Run approved Pauseable wandering comfort outputs and voice guidance
+After=local-fs.target ha-docker-engine.service
+Requires=ha-docker-engine.service
+RequiresMountsFor=/data/pauseable /var/lib/pauseable
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/bin/sh /data/pauseable/wandering-voice/watch.sh
+Restart=always
+RestartSec=5
+KillMode=control-group
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

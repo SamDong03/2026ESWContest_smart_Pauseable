@@ -1,0 +1,20 @@
+[Unit]
+Description=Pauseable HA single-collector submission candidate
+After=network-online.target ha-docker-engine.service
+Wants=network-online.target
+Requires=ha-docker-engine.service
+
+[Service]
+Type=simple
+WorkingDirectory=/data/ha_ai
+ExecStartPre=/usr/bin/test -f /data/ha_ai/models/user_001_real_baseline_v2.json
+ExecStartPre=/usr/bin/docker start homeassistant mosquitto
+ExecStart=/usr/bin/docker run --rm --name ha-ai-submission --network host --security-opt apparmor=unconfined --memory 512m --cpus 1 --pids-limit 128 --log-opt max-size=5m --log-opt max-file=2 --env-file /data/ha_ai/deploy/systemd/ha-ai.env -e OPENBLAS_NUM_THREADS=1 -e OMP_NUM_THREADS=1 -e HA_TIMEZONE=Asia/Seoul -v /data/ha_ai:/app -w /app ha-ai-runner:submission-20261017 python -u src/run_ha_full_service.py --state-dir /app/runtime/submission-local --household-id user_001 --model-policy shadow --cycle-seconds 60 --publish-mqtt
+ExecStop=-/usr/bin/docker stop -t 20 ha-ai-submission
+Restart=on-failure
+RestartSec=20
+TimeoutStopSec=30
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

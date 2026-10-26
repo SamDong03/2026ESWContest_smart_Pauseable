@@ -1,0 +1,58 @@
+name: Voice module checks
+
+on:
+  push:
+    paths:
+      - "Pauseable.ai/voice/**"
+      - "Pauseable.third_party/piper1-gpl/**"
+      - "Pauseable.edge/voice-model/**"
+      - "Pauseable.deploy/gpu/voice-worker/**"
+      - "Pauseable.docs/voice/**"
+      - "Pauseable.contracts/voice-*.schema.json"
+      - ".github/workflows/voice-checks.yml"
+  pull_request:
+    paths:
+      - "Pauseable.ai/voice/**"
+      - "Pauseable.third_party/piper1-gpl/**"
+      - "Pauseable.edge/voice-model/**"
+      - "Pauseable.deploy/gpu/voice-worker/**"
+      - "Pauseable.docs/voice/**"
+      - "Pauseable.contracts/voice-*.schema.json"
+      - ".github/workflows/voice-checks.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: Pauseable.ai/voice
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: Pauseable.ai/voice/requirements.worker.txt
+
+      - name: Install Worker dependencies
+        run: python -m pip install -r requirements.worker.txt
+
+      - name: Run pipeline unit tests
+        run: python -m unittest discover -s pipeline -p 'test_*.py' -v
+
+      - name: Compile project Python sources
+        run: python -m compileall -q pipeline scripts serving
+
+      - name: Validate pipeline configuration JSON
+        run: python -m json.tool configs/guardian-medium-v1.json > /dev/null
+
+      - name: Check device model updater
+        working-directory: Pauseable.edge/voice-model
+        run: python -m unittest discover -s . -p 'test_*.py' -v

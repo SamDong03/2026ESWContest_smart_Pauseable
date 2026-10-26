@@ -1,0 +1,70 @@
+{
+  "checked_date": "2026-09-13",
+  "scope": "source-only publication, not a live Pi check",
+  "platform": "Windows",
+  "architecture": "AMD64",
+  "python": "3.12.14",
+  "versions": {
+    "numpy": "2.3.5",
+    "pandas": "3.0.1",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.3",
+    "joblib": "1.5.2",
+    "threadpoolctl": "3.6.0"
+  },
+  "commands": [
+    {
+      "name": "unit_tests",
+      "command": "python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "seconds": 29.484
+    },
+    {
+      "name": "month_train",
+      "command": "python src/verify_ha_month_cycle.py --output-dir outputs/publication_month --phase train",
+      "exit_code": 0,
+      "seconds": 47.829
+    },
+    {
+      "name": "month_verify",
+      "command": "python src/verify_ha_month_cycle.py --output-dir outputs/publication_month --phase verify",
+      "exit_code": 0,
+      "seconds": 5.875
+    }
+  ],
+  "train_report": {
+    "phase": "train",
+    "passed": true,
+    "source_type": "synthetic",
+    "raw_rows": 788,
+    "feature_rows": 720,
+    "feature_step_minutes": 60,
+    "days": 30,
+    "day29": "collecting",
+    "day30": "active",
+    "architecture": "AMD64",
+    "seconds": 46.0,
+    "limitations": [
+      "Hourly feature endpoints accelerate a month; live endpoints remain one minute.",
+      "Generated history is not real household training data or proof of real accuracy."
+    ]
+  },
+  "verify_report": {
+    "phase": "verify",
+    "passed": true,
+    "restart_load": true,
+    "corruption_fallback": true,
+    "source_isolation": true,
+    "incomplete_history_blocked": true,
+    "source_type": "synthetic",
+    "rows": 96,
+    "model_alerts": 10,
+    "future_daytime_alert_fraction": 0.1111111111111111,
+    "injected_windows": 2,
+    "injected_detected": 2,
+    "architecture": "AMD64",
+    "seconds": 3.8130000000819564
+  },
+  "unit_tests_passed": 74,
+  "all_passed": true
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "event_id": "test-radar:replay-session:1",
+  "source": "pauseable-replay",
+  "data_origin": "replay",
+  "sensor_id": "test-radar",
+  "session_id": "replay-session",
+  "seq": 1,
+  "occurred_at": "2026-09-08T04:00:00.100Z",
+  "time_status": "synced",
+  "uptime_ms": 100,
+  "measurement_profile": "ld6004-target-raw-v1",
+  "sensor_status": "ok",
+  "frame_age_ms": 0,
+  "target_count": 1,
+  "targets_truncated": false,
+  "targets": [{"id": 1, "x": -1.2, "y": 0.5, "z": 1.3, "doppler": -1}],
+  "replay": {
+    "log_id": "stage-a-synthetic-fixture",
+    "frame_index": 0,
+    "original_origin": "simulated",
+    "original_event_id": "test-radar:example-session:1",
+    "original_occurred_at": "2026-09-08T03:00:00.100Z"
+  }
+}

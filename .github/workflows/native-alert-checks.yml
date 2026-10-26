@@ -1,0 +1,68 @@
+name: Native alert checks
+
+on:
+  pull_request:
+    paths:
+      - 'Pauseable.apps/guardian/**'
+      - 'Pauseable.apps/api/**'
+      - 'Pauseable.integrations/home-assistant/weather-light-control/**'
+      - '.github/workflows/native-alert-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Pauseable.apps/guardian/**'
+      - 'Pauseable.apps/api/**'
+      - 'Pauseable.integrations/home-assistant/weather-light-control/**'
+      - '.github/workflows/native-alert-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: Pauseable.apps/api
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check shared app/API catalogs
+        run: |
+          cmp ../guardian/assets/data/kma_regions.json app/data/kma_regions.json
+          cmp ../guardian/assets/data/voice_training_script.json app/data/voice_training_script.json
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -t . -p 'test_*.py'
+      - run: node --test test/web_push_service_worker.test.cjs
+        working-directory: Pauseable.apps/guardian
+      - run: python -m unittest -v test_weather_api.py
+        working-directory: Pauseable.integrations/home-assistant/weather-light-control
+
+  flutter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: Pauseable.apps/guardian
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build web --release
+
+
+      - run: flutter build apk --release

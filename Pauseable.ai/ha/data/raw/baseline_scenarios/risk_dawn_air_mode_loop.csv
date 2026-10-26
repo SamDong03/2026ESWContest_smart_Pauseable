@@ -1,0 +1,7 @@
+event_time,device_type,signal_type,action
+2026-09-05 02:16:00,air_purifier,mode,auto
+2026-09-05 02:20:00,air_purifier,mode,sleep
+2026-09-05 02:24:00,air_purifier,mode,strong
+2026-09-05 02:28:00,air_purifier,mode,auto
+2026-09-05 02:32:00,air_purifier,mode,sleep
+2026-09-05 02:36:00,air_purifier,mode,strong

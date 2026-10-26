@@ -1,0 +1,13 @@
+[Unit]
+Description=Pauseable weather and sunset based Tapo light control
+After=network-online.target ha-docker-engine.service
+Wants=network-online.target
+Requires=ha-docker-engine.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/var/lib/pauseable/weather-light-control/render-location.env
+ExecStart=/usr/bin/docker run --rm --name pauseable-weather-light --pull=never --network host --security-opt apparmor=unconfined --env WEATHER_LOCATION_SOURCE --env PAUSEABLE_API_BASE_URL --env PATIENT_ID --env PAUSEABLE_DEVICE_TOKEN --mount type=bind,src=/var/lib/pauseable/weather-light-control,dst=/app,readonly -w /app --entrypoint python3 ha-ai-runner:review-20260908 /app/weather_api.py
+TimeoutStartSec=90
+StandardOutput=journal
+StandardError=journal

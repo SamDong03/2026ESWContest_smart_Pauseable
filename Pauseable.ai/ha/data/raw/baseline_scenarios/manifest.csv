@@ -1,0 +1,9 @@
+scenario_id,input_csv,input_type,expected_max_level,expected_primary_pattern,expected_episode_min,expected_episode_max,notes
+normal_regular_day,data/raw/baseline_scenarios/normal_regular_day.csv,standard,normal,,0,0,"Typical daytime appliance use with one washer cycle, one dryer cycle, and ordinary fridge openings."
+normal_night_single_fridge,data/raw/baseline_scenarios/normal_night_single_fridge.csv,standard,normal,,0,0,"Single late-night fridge use should not become an alert by itself."
+attention_daytime_fridge_recheck,data/raw/baseline_scenarios/attention_daytime_fridge_recheck.csv,standard,attention,fridge_repeated_check,1,1,"Four fridge checks in ten minutes during daytime should be treated as borderline/attention, not automatically high risk."
+borderline_evening_air_mode,data/raw/baseline_scenarios/borderline_evening_air_mode.csv,standard,attention,air_purifier_repeated_control,1,1,"Three air purifier mode changes before night should expose whether sustained attention is too eager to escalate."
+risk_night_fridge_recheck,data/raw/baseline_scenarios/risk_night_fridge_recheck.csv,standard,risk,fridge_repeated_check,1,1,"Night fridge rechecking with short-window burst and 30-minute support should be risk."
+risk_dawn_air_mode_loop,data/raw/baseline_scenarios/risk_dawn_air_mode_loop.csv,standard,risk,air_purifier_repeated_control,1,1,"Dawn air purifier mode loop should be risk because baseline has no normal examples and time context is high risk."
+risk_washer_restart_after_done,data/raw/baseline_scenarios/risk_washer_restart_after_done.csv,standard,risk,washer_restart_after_done,1,1,"Washer restart after done at night should be risk and excluded from baseline learning."
+raw_noise_home_assistant,data/raw/baseline_scenarios/raw_noise_home_assistant.csv,raw_ha,normal,,0,0,"Raw HA-like CSV with telemetry/noise mixed in; mapper should keep behavior rows and skip telemetry."

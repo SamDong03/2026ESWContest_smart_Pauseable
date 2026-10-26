@@ -1,0 +1,104 @@
+
+
+
+
+name: Build Android push test APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.repository == 'RACOS-Team/Pauseable' && github.event.repository.private
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      FLUTTER_VERSION: '3.47.6'
+    defaults:
+      run:
+        shell: bash
+        working-directory: Pauseable.apps/guardian
+    steps:
+      - name: Checkout the selected commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Use the runner's existing Java and Android SDK
+        run: |
+          set -euo pipefail
+          test -x "$JAVA_HOME_17_X64/bin/java"
+          test -d "$ANDROID_HOME/platforms/android-36"
+          test -d "$ANDROID_HOME/build-tools/36.0.0"
+          printf 'JAVA_HOME=%s\n' "$JAVA_HOME_17_X64" >> "$GITHUB_ENV"
+          printf '%s/bin\n' "$JAVA_HOME_17_X64" >> "$GITHUB_PATH"
+
+      - name: Set up the pinned Flutter version used by native alert checks
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Resolve packages and verify source
+        run: |
+          set -euo pipefail
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - name: Prepare private Android build configuration
+        env:
+          FIREBASE_ANDROID_CONFIG: ${{ vars.PAUSEABLE_FIREBASE_ANDROID_CONFIG_JSON }}
+          APP_TOKEN: ${{ secrets.PAUSEABLE_APP_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          try:
+              config = json.loads(os.environ['FIREBASE_ANDROID_CONFIG'])
+              token = os.environ['APP_TOKEN']
+              clients = config['client']
+              valid_package = any(client['client_info']['android_client_info']['package_name'] == 'com.pauseable.pauseable_guardian' for client in clients)
+              if not valid_package or config['project_info']['project_id'] != 'pauseable-862fe':
+                  raise ValueError()
+              if not token or any(character.isspace() for character in token) or 'REPLACE' in token.upper():
+                  raise ValueError()
+          except (KeyError, ValueError, TypeError):
+              raise SystemExit('Configure the approved Firebase Android variable and Render app secret first') from None
+          Path('android/app/google-services.json').write_text(json.dumps(config), encoding='utf-8')
+          path = Path('android-ci.secrets.json')
+          path.write_text(json.dumps({'API_BASE_URL': 'https://pauseable-api.onrender.com', 'PATIENT_ID': 'byunwoojin', 'APP_TOKEN': token}), encoding='utf-8')
+          path.chmod(0o600)
+          PY
+
+      - name: Build the release APK for private team testing
+        run: |
+          set -euo pipefail
+          flutter build apk --release --dart-define-from-file=android-ci.secrets.json
+          cd build/app/outputs/flutter-apk
+          sha256sum app-release.apk > app-release.apk.sha256
+
+      - name: Upload only the APK and its checksum
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: pauseable-android-push-test-${{ github.sha }}
+          path: |
+            Pauseable.apps/guardian/build/app/outputs/flutter-apk/app-release.apk
+            Pauseable.apps/guardian/build/app/outputs/flutter-apk/app-release.apk.sha256
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Remove temporary configuration from the runner
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for filename in ['android-ci.secrets.json', 'android/app/google-services.json']:
+              Path(filename).unlink(missing_ok=True)
+          PY

@@ -1,0 +1,6 @@
+event_time,device_type,signal_type,action
+2026-09-05 21:30:00,washer,operation,running
+2026-09-05 22:20:00,washer,operation,done
+2026-09-05 22:30:00,washer,operation,running
+2026-09-05 23:20:00,washer,operation,done
+2026-09-05 23:35:00,washer,operation,running

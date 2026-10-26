@@ -1,0 +1,19 @@
+[Unit]
+Description=Pauseable Home Assistant AI automation loop in Docker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/data/ha_ai
+EnvironmentFile=/data/ha_ai/deploy/systemd/ha-ai.env
+Environment=HA_AI_CONTAINER_NAME=ha-ai-loop
+ExecStart=/data/ha_ai/run_pi_ha_ai.sh --collection-seconds 600 --prefix ha_pi_all --summary-csv outputs/ha_pi_all_cycle_summary.csv --log-dir outputs/logs/ha_pi_all
+ExecStop=-/usr/bin/docker rm -f ha-ai-loop
+Restart=always
+RestartSec=20
+TimeoutStopSec=20
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

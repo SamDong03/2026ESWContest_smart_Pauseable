@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/mmwave-target-event.schema.json",
+
+  "title": "Pauseable LD6004 Target Event v1",
+  "description": "LD6004 라이브러리의 추적 대상 출력. 점군이나 보정된 사람 높이를 의미하지 않습니다. live/simulated/replay를 구분합니다.",
+  "type": "object",
+  "required": [
+    "schema_version", "event_id", "source", "data_origin", "sensor_id",
+    "session_id", "seq", "occurred_at", "time_status", "uptime_ms",
+    "measurement_profile", "sensor_status", "frame_age_ms", "target_count",
+    "targets_truncated", "targets", "replay"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "event_id": { "type": "string", "minLength": 5, "maxLength": 108, "description": "sensor_id:session_id:seq. seq는 선행 0 없는 10진수입니다." },
+    "source": { "type": "string", "enum": ["esp32-ld6004", "pauseable-simulator", "pauseable-replay"] },
+    "data_origin": { "type": "string", "enum": ["live", "simulated", "replay"] },
+    "sensor_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,47}$", "maxLength": 48 },
+    "session_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,47}$", "maxLength": 48, "description": "재부팅, 송신 재시작 또는 seq 순환 전에 새 값으로 변경합니다." },
+    "seq": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+    "occurred_at": { "type": ["string", "null"], "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?Z$", "description": "현재 송신 이벤트 생성 시각. 시계 미동기화이면 null이며 수신기 시각으로 덮어쓰지 않습니다." },
+    "time_status": { "type": "string", "enum": ["synced", "unsynced"] },
+    "uptime_ms": { "type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "현재 송신 세션의 단조 증가 경과시간. JS 정수 정밀도 범위 안에서 사용합니다." },
+    "measurement_profile": { "type": "string", "const": "ld6004-target-raw-v1", "description": "단위·축 방향·설치 보정 미확인. 라이브러리 출력값을 그대로 보존합니다." },
+    "sensor_status": { "type": "string", "enum": ["ok", "disconnected", "error"] },
+    "frame_age_ms": { "type": ["integer", "null"], "minimum": 0, "maximum": 9007199254740991, "description": "마지막 정상 UART 프레임 수신 후 경과시간. ok일 때 필수 정수, 오류 상태이면 null." },
+    "target_count": { "type": "integer", "minimum": 0, "maximum": 4, "description": "targets에 실제 전송된 항목 수. 센서 하드웨어 최대 검출 수 주장이 아닙니다." },
+    "targets_truncated": { "type": "boolean", "description": "현재 송신 계약의 4개 제한으로 대상 목록을 잘랐는지 표시합니다." },
+    "targets": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "x", "y", "z", "doppler"],
+        "properties": {
+          "id": { "type": "integer", "minimum": -2147483648, "maximum": 4294967295, "description": "라이브러리 target ID. 사람의 신원 또는 지속 식별자가 아닙니다." },
+          "x": { "type": "number" },
+          "y": { "type": "number" },
+          "z": { "type": "number" },
+          "doppler": { "type": "integer", "minimum": -2147483648, "maximum": 4294967295, "description": "현재 송신 코드의 정수형 출력값. 이동속도 단위로 재해석하지 않습니다." }
+        },
+        "additionalProperties": false
+      }
+    },
+    "replay": {
+      "type": ["object", "null"],
+      "description": "data_origin=replay일 때만 객체. 원본 시각 없는 UART 로그도 log_id/frame_index로 출처를 추적합니다.",
+      "required": ["log_id", "frame_index", "original_origin", "original_event_id", "original_occurred_at"],
+      "properties": {
+        "log_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$", "maxLength": 64 },
+        "frame_index": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "original_origin": { "type": "string", "enum": ["live", "simulated", "unknown"] },
+        "original_event_id": { "type": ["string", "null"], "minLength": 1, "maxLength": 108 },
+        "original_occurred_at": { "type": ["string", "null"], "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?Z$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

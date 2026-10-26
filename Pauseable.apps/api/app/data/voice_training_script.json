@@ -1,0 +1,1447 @@
+{
+  "version": 1,
+  "target_seconds": 800,
+  "total_prompts": 160,
+  "prompts": [
+    {
+      "index": 1,
+      "id": "S001",
+      "file_name": "S001.wav",
+      "text": "할머니 맑은 아침 햇살이 창문 사이로 들어와요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "할머니"
+    },
+    {
+      "index": 2,
+      "id": "S002",
+      "file_name": "S002.wav",
+      "text": "작은 강아지가 잔디밭을 힘차게 달려요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 3,
+      "id": "S003",
+      "file_name": "S003.wav",
+      "text": "노란 개나리 옆에 분홍 진달래가 피었어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 4,
+      "id": "S004",
+      "file_name": "S004.wav",
+      "text": "파란 접시 위에 빨간 사과를 올려 두었어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 5,
+      "id": "S005",
+      "file_name": "S005.wav",
+      "text": "따뜻한 국물이 보글보글 끓고 있어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 6,
+      "id": "S006",
+      "file_name": "S006.wav",
+      "text": "할아버지 차가운 바람이 불어도 하늘은 맑아요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 7,
+      "id": "S007",
+      "file_name": "S007.wav",
+      "text": "종이배가 잔잔한 시냇물을 따라 흘러가요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 8,
+      "id": "S008",
+      "file_name": "S008.wav",
+      "text": "기차가 긴 터널을 지나 넓은 다리를 건너요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 9,
+      "id": "S009",
+      "file_name": "S009.wav",
+      "text": "참새 세 마리가 지붕 위에서 짹짹 울어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 10,
+      "id": "S010",
+      "file_name": "S010.wav",
+      "text": "코끼리가 커다란 코로 시원한 물을 뿌려요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 11,
+      "id": "S011",
+      "file_name": "S011.wav",
+      "text": "토끼는 깡충깡충 뛰고 거북이는 천천히 걸어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 12,
+      "id": "S012",
+      "file_name": "S012.wav",
+      "text": "엄마 포근한 이불을 덮으니 마음이 편안해져요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "엄마"
+    },
+    {
+      "index": 13,
+      "id": "S013",
+      "file_name": "S013.wav",
+      "text": "하얀 구름 뒤로 둥근 달이 떠올랐어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 14,
+      "id": "S014",
+      "file_name": "S014.wav",
+      "text": "초록 잎사귀에 투명한 이슬이 맺혔어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 15,
+      "id": "S015",
+      "file_name": "S015.wav",
+      "text": "바닷가 모래 위에 동그란 발자국이 남았어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 16,
+      "id": "S016",
+      "file_name": "S016.wav",
+      "text": "숲길을 걸으면 솔잎 향기와 새소리가 느껴져요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 17,
+      "id": "S017",
+      "file_name": "S017.wav",
+      "text": "깨끗한 컵에 미지근한 물을 절반쯤 담았어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 18,
+      "id": "S018",
+      "file_name": "S018.wav",
+      "text": "아빠 검은 콩과 하얀 쌀을 섞어 밥을 지었어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "아빠"
+    },
+    {
+      "index": 19,
+      "id": "S019",
+      "file_name": "S019.wav",
+      "text": "부드러운 두부와 아삭한 오이를 준비했어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 20,
+      "id": "S020",
+      "file_name": "S020.wav",
+      "text": "달콤한 배와 새콤한 귤을 접시에 담았어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 21,
+      "id": "S021",
+      "file_name": "S021.wav",
+      "text": "얘기책을 펼치니 예쁜 그림이 가득해요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 22,
+      "id": "S022",
+      "file_name": "S022.wav",
+      "text": "왜 작은 새는 높은 나무 위에서 노래할까요?",
+      "category": "음운 균형 일반",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 23,
+      "id": "S023",
+      "file_name": "S023.wav",
+      "text": "웬일인지 오늘은 햇빛이 유난히 따뜻해요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 24,
+      "id": "S024",
+      "file_name": "S024.wav",
+      "text": "외로운 마음이 들면 우리 함께 노래해요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 25,
+      "id": "S025",
+      "file_name": "S025.wav",
+      "text": "할머니 의자 위에 회색 외투와 흰 모자가 있어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "할머니"
+    },
+    {
+      "index": 26,
+      "id": "S026",
+      "file_name": "S026.wav",
+      "text": "위쪽 선반에 귀여운 인형을 놓아 두었어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 27,
+      "id": "S027",
+      "file_name": "S027.wav",
+      "text": "웨딩드레스의 하얀 레이스가 눈처럼 빛나요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 28,
+      "id": "S028",
+      "file_name": "S028.wav",
+      "text": "뾰족한 연필로 네모난 칸에 이름을 써요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 29,
+      "id": "S029",
+      "file_name": "S029.wav",
+      "text": "까만 고양이가 빨간 끈을 따라 뛰어가요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 30,
+      "id": "S030",
+      "file_name": "S030.wav",
+      "text": "따끈한 빵에서 고소한 냄새가 퍼져요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 31,
+      "id": "S031",
+      "file_name": "S031.wav",
+      "text": "할아버지 빠른 버스가 정류장 앞에서 천천히 멈춰요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 32,
+      "id": "S032",
+      "file_name": "S032.wav",
+      "text": "싸늘한 새벽 공기가 코끝을 스쳐 가요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 33,
+      "id": "S033",
+      "file_name": "S033.wav",
+      "text": "짜릿한 번개 뒤에 커다란 천둥이 울렸어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 34,
+      "id": "S034",
+      "file_name": "S034.wav",
+      "text": "꽃잎이 바람을 타고 마당 끝까지 날아가요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 35,
+      "id": "S035",
+      "file_name": "S035.wav",
+      "text": "닭이 울기 전에 마을의 아침이 밝아와요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 36,
+      "id": "S036",
+      "file_name": "S036.wav",
+      "text": "넓은 들판에서 여덟 마리 양이 풀을 먹어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 37,
+      "id": "S037",
+      "file_name": "S037.wav",
+      "text": "삶은 달걀과 따뜻한 우유를 식탁에 놓았어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 38,
+      "id": "S038",
+      "file_name": "S038.wav",
+      "text": "값을 확인한 뒤 필요한 물건만 골랐어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 39,
+      "id": "S039",
+      "file_name": "S039.wav",
+      "text": "낮에는 햇살이 밝고 밤에는 별빛이 보여요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 40,
+      "id": "S040",
+      "file_name": "S040.wav",
+      "text": "엄마 부엌 앞문을 열면 작은 마당이 나와요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "엄마"
+    },
+    {
+      "index": 41,
+      "id": "S041",
+      "file_name": "S041.wav",
+      "text": "빛이 환한 창가에서 화분의 잎을 닦아요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 42,
+      "id": "S042",
+      "file_name": "S042.wav",
+      "text": "꽃이 피면 벌과 나비가 향기를 찾아와요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 43,
+      "id": "S043",
+      "file_name": "S043.wav",
+      "text": "옷을 가지런히 접어 서랍 안에 넣었어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 44,
+      "id": "S044",
+      "file_name": "S044.wav",
+      "text": "국물 한 숟갈을 먹으니 몸이 따뜻해졌어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 45,
+      "id": "S045",
+      "file_name": "S045.wav",
+      "text": "같이 걸으면 좁은 골목도 즐겁게 지날 수 있어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 46,
+      "id": "S046",
+      "file_name": "S046.wav",
+      "text": "좋은 책을 읽고 기억에 남는 문장을 적어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 47,
+      "id": "S047",
+      "file_name": "S047.wav",
+      "text": "많고 적은 것을 차분하게 비교해 봐요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 48,
+      "id": "S048",
+      "file_name": "S048.wav",
+      "text": "앉아 있는 동안 편안한 음악을 들어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 49,
+      "id": "S049",
+      "file_name": "S049.wav",
+      "text": "아빠 밖에 비가 오지만 방 안은 포근해요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": "아빠"
+    },
+    {
+      "index": 50,
+      "id": "S050",
+      "file_name": "S050.wav",
+      "text": "끝까지 서두르지 않고 천천히 해냈어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 51,
+      "id": "S051",
+      "file_name": "S051.wav",
+      "text": "앞에 놓인 둥근 상자를 조심히 열어 봐요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 52,
+      "id": "S052",
+      "file_name": "S052.wav",
+      "text": "싫은 일은 잠시 멈추고 편하게 말해도 돼요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 53,
+      "id": "S053",
+      "file_name": "S053.wav",
+      "text": "끓는 물은 뜨거우니 가까이 가지 않아요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 54,
+      "id": "S054",
+      "file_name": "S054.wav",
+      "text": "놓고 간 열쇠를 현관 옆에서 찾았어요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 55,
+      "id": "S055",
+      "file_name": "S055.wav",
+      "text": "밝은 웃음소리가 조용한 방 안에 퍼져요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 56,
+      "id": "S056",
+      "file_name": "S056.wav",
+      "text": "나뭇잎 사이로 부드러운 햇빛이 내려와요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 57,
+      "id": "S057",
+      "file_name": "S057.wav",
+      "text": "새벽 공원에서 가벼운 발걸음 소리가 들려요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 58,
+      "id": "S058",
+      "file_name": "S058.wav",
+      "text": "유리병 속에 작은 조약돌이 반짝여요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 59,
+      "id": "S059",
+      "file_name": "S059.wav",
+      "text": "푸른 호수 위로 하얀 오리들이 헤엄쳐요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 60,
+      "id": "S060",
+      "file_name": "S060.wav",
+      "text": "향긋한 차 한 잔이 피곤한 마음을 달래 줘요.",
+      "category": "음운 균형 일반",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 61,
+      "id": "S061",
+      "file_name": "S061.wav",
+      "text": "할머니 괜찮아요. 지금은 안전한 곳에 있어요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": "할머니"
+    },
+    {
+      "index": 62,
+      "id": "S062",
+      "file_name": "S062.wav",
+      "text": "걱정하지 않아도 돼요. 내가 곁에 있어요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 63,
+      "id": "S063",
+      "file_name": "S063.wav",
+      "text": "천천히 숨을 들이쉬고 편하게 내쉬어 봐요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 64,
+      "id": "S064",
+      "file_name": "S064.wav",
+      "text": "서두르지 않아도 돼요. 우리 천천히 해요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 65,
+      "id": "S065",
+      "file_name": "S065.wav",
+      "text": "무서운 마음이 들었구나. 내가 도와줄게요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 66,
+      "id": "S066",
+      "file_name": "S066.wav",
+      "text": "할아버지 많이 놀랐죠? 여기 앉아서 잠깐 쉬어요.",
+      "category": "안심과 상호작용",
+      "tone": "질문",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 67,
+      "id": "S067",
+      "file_name": "S067.wav",
+      "text": "지금 어떤 마음인지 천천히 말해 줄래요?",
+      "category": "안심과 상호작용",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 68,
+      "id": "S068",
+      "file_name": "S068.wav",
+      "text": "내가 잘 듣고 있어요. 편하게 이야기해 주세요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 69,
+      "id": "S069",
+      "file_name": "S069.wav",
+      "text": "지금 당장 모두 해결하지 않아도 괜찮아요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 70,
+      "id": "S070",
+      "file_name": "S070.wav",
+      "text": "엄마 따뜻한 차를 마시면서 잠깐 쉴까요?",
+      "category": "안심과 상호작용",
+      "tone": "질문",
+      "addressee": "엄마"
+    },
+    {
+      "index": 71,
+      "id": "S071",
+      "file_name": "S071.wav",
+      "text": "좋아하는 음악을 함께 들어 볼까요?",
+      "category": "안심과 상호작용",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 72,
+      "id": "S072",
+      "file_name": "S072.wav",
+      "text": "창밖을 보면서 마음을 천천히 가라앉혀 봐요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 73,
+      "id": "S073",
+      "file_name": "S073.wav",
+      "text": "익숙한 사진을 보며 재미있는 얘기를 나눠요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 74,
+      "id": "S074",
+      "file_name": "S074.wav",
+      "text": "여기는 편안하고 익숙한 우리 집이에요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 75,
+      "id": "S075",
+      "file_name": "S075.wav",
+      "text": "문은 잘 닫혀 있고 집 안은 안전해요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 76,
+      "id": "S076",
+      "file_name": "S076.wav",
+      "text": "밖에서 나는 소리는 곧 조용해질 거예요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 77,
+      "id": "S077",
+      "file_name": "S077.wav",
+      "text": "내가 확인하고 있으니 편하게 있어도 돼요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 78,
+      "id": "S078",
+      "file_name": "S078.wav",
+      "text": "아빠 어디 불편한 곳이 있나요? 천천히 말해 주세요.",
+      "category": "안심과 상호작용",
+      "tone": "질문",
+      "addressee": "아빠"
+    },
+    {
+      "index": 79,
+      "id": "S079",
+      "file_name": "S079.wav",
+      "text": "목이 마르면 물을 조금씩 마셔요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 80,
+      "id": "S080",
+      "file_name": "S080.wav",
+      "text": "몸에 힘을 빼고 의자에 편하게 기대 봐요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 81,
+      "id": "S081",
+      "file_name": "S081.wav",
+      "text": "한 걸음씩 천천히 움직이면 괜찮아요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 82,
+      "id": "S082",
+      "file_name": "S082.wav",
+      "text": "바닥을 잘 보면서 천천히 걸어가요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 83,
+      "id": "S083",
+      "file_name": "S083.wav",
+      "text": "잠깐 멈추고 주변을 함께 살펴볼까요?",
+      "category": "안심과 상호작용",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 84,
+      "id": "S084",
+      "file_name": "S084.wav",
+      "text": "할머니 괜찮아요! 다시 천천히 시작하면 돼요.",
+      "category": "안심과 상호작용",
+      "tone": "감탄",
+      "addressee": "할머니"
+    },
+    {
+      "index": 85,
+      "id": "S085",
+      "file_name": "S085.wav",
+      "text": "오늘도 정말 잘하고 있어요!",
+      "category": "안심과 상호작용",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 86,
+      "id": "S086",
+      "file_name": "S086.wav",
+      "text": "내가 차분하게 다시 설명해 줄게요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 87,
+      "id": "S087",
+      "file_name": "S087.wav",
+      "text": "지금은 푹 쉬는 것이 가장 좋아요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 88,
+      "id": "S088",
+      "file_name": "S088.wav",
+      "text": "편한 자세를 찾을 때까지 기다릴게요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 89,
+      "id": "S089",
+      "file_name": "S089.wav",
+      "text": "혼자 해결하려고 애쓰지 않아도 돼요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 90,
+      "id": "S090",
+      "file_name": "S090.wav",
+      "text": "할아버지 도움이 필요하면 언제든 나를 불러 주세요.",
+      "category": "안심과 상호작용",
+      "tone": "평서",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 91,
+      "id": "S091",
+      "file_name": "S091.wav",
+      "text": "엄마 세탁기는 방금 돌리기 시작했어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": "엄마"
+    },
+    {
+      "index": 92,
+      "id": "S092",
+      "file_name": "S092.wav",
+      "text": "세탁기가 잘 돌아가고 있으니 걱정하지 마세요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 93,
+      "id": "S093",
+      "file_name": "S093.wav",
+      "text": "세탁은 이미 시작했어요. 버튼은 다시 누르지 않아도 돼요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 94,
+      "id": "S094",
+      "file_name": "S094.wav",
+      "text": "세탁이 끝나면 내가 바로 알려줄게요!",
+      "category": "가전과 생활 안전",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 95,
+      "id": "S095",
+      "file_name": "S095.wav",
+      "text": "세탁기 문은 작동이 끝난 다음에 열어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 96,
+      "id": "S096",
+      "file_name": "S096.wav",
+      "text": "세탁이 모두 끝났어요! 이제 빨래를 꺼내도 돼요.",
+      "category": "가전과 생활 안전",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 97,
+      "id": "S097",
+      "file_name": "S097.wav",
+      "text": "아빠 냉장고 문이 열려 있어요. 천천히 닫아 주세요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": "아빠"
+    },
+    {
+      "index": 98,
+      "id": "S098",
+      "file_name": "S098.wav",
+      "text": "냉장고 문은 잘 닫혔어요. 다시 확인하지 않아도 돼요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 99,
+      "id": "S099",
+      "file_name": "S099.wav",
+      "text": "냉장고는 지금 정상적으로 작동하고 있어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 100,
+      "id": "S100",
+      "file_name": "S100.wav",
+      "text": "청소기가 지나가도록 발을 조금 옮겨 주세요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 101,
+      "id": "S101",
+      "file_name": "S101.wav",
+      "text": "청소가 끝났어요! 바닥이 깨끗해졌어요.",
+      "category": "가전과 생활 안전",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 102,
+      "id": "S102",
+      "file_name": "S102.wav",
+      "text": "텔레비전은 이미 켜져 있어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 103,
+      "id": "S103",
+      "file_name": "S103.wav",
+      "text": "좋아하는 방송이 곧 시작할 거예요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 104,
+      "id": "S104",
+      "file_name": "S104.wav",
+      "text": "할머니 텔레비전 소리를 조금 낮췄어요. 이제 괜찮나요?",
+      "category": "가전과 생활 안전",
+      "tone": "질문",
+      "addressee": "할머니"
+    },
+    {
+      "index": 105,
+      "id": "S105",
+      "file_name": "S105.wav",
+      "text": "방금 불을 켰어요. 스위치는 다시 누르지 않아도 돼요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 106,
+      "id": "S106",
+      "file_name": "S106.wav",
+      "text": "방 안이 환하고 밝아졌어요!",
+      "category": "가전과 생활 안전",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 107,
+      "id": "S107",
+      "file_name": "S107.wav",
+      "text": "전기밥솥은 지금 잘 작동하고 있어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 108,
+      "id": "S108",
+      "file_name": "S108.wav",
+      "text": "밥이 모두 준비됐어요. 우리 천천히 먹어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 109,
+      "id": "S109",
+      "file_name": "S109.wav",
+      "text": "할아버지 가스레인지가 켜졌는지 내가 확인할게요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 110,
+      "id": "S110",
+      "file_name": "S110.wav",
+      "text": "가스레인지는 안전하게 꺼져 있어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 111,
+      "id": "S111",
+      "file_name": "S111.wav",
+      "text": "전자레인지가 돌아가고 있어요. 끝날 때까지 기다려요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 112,
+      "id": "S112",
+      "file_name": "S112.wav",
+      "text": "전자레인지가 끝났어요. 그릇이 뜨거우니 조심하세요!",
+      "category": "가전과 생활 안전",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 113,
+      "id": "S113",
+      "file_name": "S113.wav",
+      "text": "에어컨은 지금 편안한 온도로 작동하고 있어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 114,
+      "id": "S114",
+      "file_name": "S114.wav",
+      "text": "난방을 켰으니 조금 있으면 따뜻해질 거예요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 115,
+      "id": "S115",
+      "file_name": "S115.wav",
+      "text": "엄마 현관문 가까이에 있네요. 우리 거실로 돌아갈까요?",
+      "category": "가전과 생활 안전",
+      "tone": "질문",
+      "addressee": "엄마"
+    },
+    {
+      "index": 116,
+      "id": "S116",
+      "file_name": "S116.wav",
+      "text": "밖은 어두워요. 지금은 집 안에 있는 것이 안전해요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 117,
+      "id": "S117",
+      "file_name": "S117.wav",
+      "text": "현관문을 열기 전에 잠깐 기다려 주세요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 118,
+      "id": "S118",
+      "file_name": "S118.wav",
+      "text": "내가 먼저 밖의 상황을 확인할게요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 119,
+      "id": "S119",
+      "file_name": "S119.wav",
+      "text": "바닥이 미끄러울 수 있으니 손잡이를 잡아 주세요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 120,
+      "id": "S120",
+      "file_name": "S120.wav",
+      "text": "할아버지 계단 앞에서는 잠깐 멈추고 난간을 잡아요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 121,
+      "id": "S121",
+      "file_name": "S121.wav",
+      "text": "창문은 안전하게 잘 닫혀 있어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 122,
+      "id": "S122",
+      "file_name": "S122.wav",
+      "text": "베란다 문은 지금 열지 말고 함께 기다려요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 123,
+      "id": "S123",
+      "file_name": "S123.wav",
+      "text": "뜨거운 물건은 내가 확인한 다음에 만져요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 124,
+      "id": "S124",
+      "file_name": "S124.wav",
+      "text": "도움이 곧 올 거예요. 지금 자리에서 편하게 기다려요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 125,
+      "id": "S125",
+      "file_name": "S125.wav",
+      "text": "아빠 약을 먹었는지는 내가 함께 확인할게요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": "아빠"
+    },
+    {
+      "index": 126,
+      "id": "S126",
+      "file_name": "S126.wav",
+      "text": "확인하기 전에는 약을 다시 먹지 말고 기다려요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 127,
+      "id": "S127",
+      "file_name": "S127.wav",
+      "text": "음식이 뜨거울 수 있어요. 조금 식혀서 먹어요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 128,
+      "id": "S128",
+      "file_name": "S128.wav",
+      "text": "물은 한 번에 많이 마시지 말고 조금씩 마셔요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 129,
+      "id": "S129",
+      "file_name": "S129.wav",
+      "text": "의자에서 일어날 때는 천천히 움직여요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 130,
+      "id": "S130",
+      "file_name": "S130.wav",
+      "text": "갑자기 아픈 곳이 생기면 바로 나를 불러 주세요.",
+      "category": "가전과 생활 안전",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 131,
+      "id": "S131",
+      "file_name": "S131.wav",
+      "text": "지금은 월요일 아침 여덟 시예요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 132,
+      "id": "S132",
+      "file_name": "S132.wav",
+      "text": "오전 아홉 시 삼십 분에 약속이 있어요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 133,
+      "id": "S133",
+      "file_name": "S133.wav",
+      "text": "오후 두 시에는 집에서 편하게 쉬어요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 134,
+      "id": "S134",
+      "file_name": "S134.wav",
+      "text": "저녁 일곱 시에 가족과 함께 식사해요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 135,
+      "id": "S135",
+      "file_name": "S135.wav",
+      "text": "하나부터 열까지 천천히 같이 세어 볼까요?",
+      "category": "숫자와 시간 방향",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 136,
+      "id": "S136",
+      "file_name": "S136.wav",
+      "text": "사과 두 개와 귤 세 개를 바구니에 담았어요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 137,
+      "id": "S137",
+      "file_name": "S137.wav",
+      "text": "물을 컵의 절반 정도만 따라 주세요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 138,
+      "id": "S138",
+      "file_name": "S138.wav",
+      "text": "오늘 기온은 이십삼 도이고 습도는 적당해요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 139,
+      "id": "S139",
+      "file_name": "S139.wav",
+      "text": "왼쪽 서랍의 첫 번째 칸에 열쇠가 있어요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 140,
+      "id": "S140",
+      "file_name": "S140.wav",
+      "text": "오른쪽 선반에서 두 번째 파란 상자를 꺼내요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 141,
+      "id": "S141",
+      "file_name": "S141.wav",
+      "text": "앞쪽 문으로 세 걸음만 천천히 이동해요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 142,
+      "id": "S142",
+      "file_name": "S142.wav",
+      "text": "뒤쪽 창문에서 한 걸음 떨어져 주세요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 143,
+      "id": "S143",
+      "file_name": "S143.wav",
+      "text": "전화번호 마지막 네 자리를 다시 확인해요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 144,
+      "id": "S144",
+      "file_name": "S144.wav",
+      "text": "오월 십오일 수요일에 병원 예약이 있어요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 145,
+      "id": "S145",
+      "file_name": "S145.wav",
+      "text": "버스는 십 분 뒤에 정류장에 도착해요.",
+      "category": "숫자와 시간 방향",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 146,
+      "id": "S146",
+      "file_name": "S146.wav",
+      "text": "할머니 좋은 아침이에요! 굿모닝!",
+      "category": "호칭과 억양",
+      "tone": "감탄",
+      "addressee": "할머니"
+    },
+    {
+      "index": 147,
+      "id": "S147",
+      "file_name": "S147.wav",
+      "text": "할아버지 오늘 기분은 어때요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": "할아버지"
+    },
+    {
+      "index": 148,
+      "id": "S148",
+      "file_name": "S148.wav",
+      "text": "엄마 이 노래가 마음에 들어요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": "엄마"
+    },
+    {
+      "index": 149,
+      "id": "S149",
+      "file_name": "S149.wav",
+      "text": "아빠 오늘도 함께 있어서 정말 좋아요!",
+      "category": "호칭과 억양",
+      "tone": "감탄",
+      "addressee": "아빠"
+    },
+    {
+      "index": 150,
+      "id": "S150",
+      "file_name": "S150.wav",
+      "text": "우리 따뜻한 차와 시원한 물 중에서 무엇을 마실까요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 151,
+      "id": "S151",
+      "file_name": "S151.wav",
+      "text": "빨간 꽃과 노란 꽃 중에서 어떤 색이 더 좋아요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 152,
+      "id": "S152",
+      "file_name": "S152.wav",
+      "text": "준비됐나요? 지금부터 천천히 시작해 봐요!",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 153,
+      "id": "S153",
+      "file_name": "S153.wav",
+      "text": "와! 창밖에 무지개가 정말 예쁘게 떴어요.",
+      "category": "호칭과 억양",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 154,
+      "id": "S154",
+      "file_name": "S154.wav",
+      "text": "정말 잘했어요! 이번에도 차분하게 해냈어요.",
+      "category": "호칭과 억양",
+      "tone": "감탄",
+      "addressee": null
+    },
+    {
+      "index": 155,
+      "id": "S155",
+      "file_name": "S155.wav",
+      "text": "잠시 후에 다시 설명해 주면 더 편할까요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 156,
+      "id": "S156",
+      "file_name": "S156.wav",
+      "text": "내 목소리가 잘 들리나요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 157,
+      "id": "S157",
+      "file_name": "S157.wav",
+      "text": "오늘은 무엇을 하면서 쉬고 싶어요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 158,
+      "id": "S158",
+      "file_name": "S158.wav",
+      "text": "이 사진을 보니 어떤 생각이 떠오르나요?",
+      "category": "호칭과 억양",
+      "tone": "질문",
+      "addressee": null
+    },
+    {
+      "index": 159,
+      "id": "S159",
+      "file_name": "S159.wav",
+      "text": "필요한 것이 있으면 언제든 편하게 말해 주세요.",
+      "category": "호칭과 억양",
+      "tone": "평서",
+      "addressee": null
+    },
+    {
+      "index": 160,
+      "id": "S160",
+      "file_name": "S160.wav",
+      "text": "오늘 하루도 수고했어요. 이제 편안하게 쉬어요.",
+      "category": "호칭과 억양",
+      "tone": "평서",
+      "addressee": null
+    }
+  ]
+}

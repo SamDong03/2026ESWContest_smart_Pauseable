@@ -1,0 +1,70 @@
+name: pauseable_guardian
+description: "A new Flutter project."
+
+
+publish_to: 'none'
+
+
+
+
+
+
+
+
+
+
+
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.0
+
+
+
+
+
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.8
+  http: ^1.6.0
+  record: ^7.1.1
+  web_socket_channel: ^3.0.3
+  firebase_core: ^4.15.0
+  firebase_messaging: ^16.7.0
+  flutter_local_notifications: ^22.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+
+
+
+
+  flutter_lints: ^6.0.0
+
+
+
+
+
+flutter:
+
+
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/mock/guardian_snapshot.json
+    - assets/data/voice_training_script.json
+    - assets/data/kma_regions.json
+    - assets/images/front-door-exit-sample.png

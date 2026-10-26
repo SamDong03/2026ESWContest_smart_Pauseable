@@ -1,0 +1,24 @@
+{
+    "backend": "virtual",
+    "virtual": {
+        "cycle_seconds": 15
+    },
+    "thinq": {
+        "remote_start_entity_id": "binary_sensor.replace_with_styler_remote_start",
+        "remote_start_ready_states": ["on"],
+        "power_entity_id": "switch.replace_with_styler_power",
+        "operation_entity_id": "select.replace_with_styler_operation",
+        "operation_option": "replace_with_supported_warm_course",
+        "start_entity_id": "button.replace_with_styler_operation",
+        "status_entity_id": "sensor.replace_with_styler_current_status",
+        "complete_states": ["complete"],
+        "error_states": ["error"],
+        "completion_event_entity_id": "event.replace_with_styler_notification",
+        "completion_event_type": "styling_is_complete",
+        "error_event_type": "error_has_occurred",
+        "display_entity_id": "",
+        "startup_delay_seconds": 2,
+        "poll_interval_seconds": 5,
+        "timeout_seconds": 7200
+    }
+}

@@ -1,0 +1,17 @@
+[Unit]
+Description=Pauseable reverse SSH tunnels to the Pi5 hub
+Wants=network-online.target pauseable-gateway.service
+After=network-online.target pauseable-gateway.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=dong
+Group=dong
+EnvironmentFile=/home/dong/.config/pauseable/runtime.env
+ExecStart=/usr/bin/ssh -NT -o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -R 127.0.0.1:18123:127.0.0.1:8123 -R 127.0.0.1:18000:127.0.0.1:8000 ${PI5_SSH_TARGET}
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

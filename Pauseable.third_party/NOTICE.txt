@@ -1,0 +1,113 @@
+Third-party copyright and license notices retained from source headers.
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp
+// SPDX-FileCopyrightText: 2013-2022 Niels Lohmann <https://nlohmann.me>
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// SPDX-License-Identifier: MIT
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// SPDX-FileCopyrightText: 2016-2021 Evan Nemerson <evan@nemerson.com>
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// SPDX-FileCopyrightText: 2018 The Abseil Authors
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// which is part of Google Abseil (https://github.com/abseil/abseil-cpp), licensed under the Apache License 2.0.
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// SPDX-FileCopyrightText: 2008-2009 Björn Hoehrmann <bjoern@hoehrmann.de>
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// SPDX-FileCopyrightText: 2009 Florian Loitsch <https://florian.loitsch.com/>
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+/*!
+@brief implements the Grisu2 algorithm for binary to decimal floating-point
+conversion.
+
+This implementation is a slightly modified version of the reference
+implementation which may be obtained from
+http://florian.loitsch.com/publications (bench.tar.gz).
+
+The code is distributed under the MIT license, Copyright (c) 2009 Florian Loitsch.
+
+For a detailed description of the algorithm see:
+
+[1] Loitsch, "Printing Floating-Point Numbers Quickly and Accurately with
+    Integers", Proceedings of the ACM SIGPLAN 2010 Conference on Programming
+    Language Design and Implementation, PLDI 2010
+[2] Burger, Dybvig, "Printing Floating-Point Numbers Quickly and Accurately",
+    Proceedings of the ACM SIGPLAN 1996 Conference on Programming Language
+    Design and Implementation, PLDI 1996
+*/
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+/*!
+    @brief check whether a string is UTF-8 encoded
+
+    The function checks each byte of a string whether it is UTF-8 encoded. The
+    result of the check is stored in the @a state parameter. The function must
+    be called initially with state 0 (accept). State 1 means the string must
+    be rejected, because the current byte is not allowed. If the string is
+    completely processed, but the state is non-zero, the string ended
+    prematurely; that is, the last byte indicated more bytes should have
+    followed.
+
+    @param[in,out] state  the state of the decoding
+    @param[in,out] codep  codepoint (valid only if resulting state is UTF8_ACCEPT)
+    @param[in] byte       next byte to decode
+    @return               new state
+
+    @note The function has been edited: a std::array is used.
+
+    @copyright Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+    @sa http://bjoern.hoehrmann.de/utf-8/decoder/dfa/
+    */
+
+Files: Pauseable.third_party/piper1-gpl/libpiper/include/uni_algo.h
+/* Public Domain License
+ *
+ * This is free and unencumbered software released into the public domain.
+ *
+ * Anyone is free to copy, modify, publish, use, compile, sell, or distribute this
+ * software, either in source code form or as a compiled binary, for any purpose,
+ * commercial or non-commercial, and by any means.
+ *
+ * In jurisdictions that recognize copyright laws, the author or authors of this
+ * software dedicate any and all copyright interest in the software to the public
+ * domain. We make this dedication for the benefit of the public at large and to
+ * the detriment of our heirs and successors. We intend this dedication to be an
+ * overt act of relinquishment in perpetuity of all present and future rights to
+ * this software under copyright law.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+Files: Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp, Pauseable.third_party/nlohmann/json.hpp
+// SPDX-FileCopyrightText: 2013-2023 Niels Lohmann <https://nlohmann.me>

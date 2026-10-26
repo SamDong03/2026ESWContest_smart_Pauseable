@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+config.json
+location_config.json
+weather_log.txt
+*.log
+render-location.env

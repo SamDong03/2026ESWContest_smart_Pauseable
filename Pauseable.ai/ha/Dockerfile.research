@@ -1,0 +1,13 @@
+FROM python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ ./src/
+COPY tests/ ./tests/
+COPY deploy/ ./deploy/
+COPY scripts/ ./scripts/
+RUN python -c "from pathlib import Path; [p.write_bytes(p.read_bytes().replace(b'\r\n', b'\n')) for folder in ('deploy', 'scripts') for p in Path(folder).rglob('*') if p.suffix in ('.sh', '.awk')]"
+RUN install -d -o 10001 -g 10001 /app/outputs /app/data/raw /app/data/features /app/models /app/runtime
+USER 10001:10001
+CMD ["python", "src/run_ha_evidence_research.py", "--output-dir", "/results/run"]

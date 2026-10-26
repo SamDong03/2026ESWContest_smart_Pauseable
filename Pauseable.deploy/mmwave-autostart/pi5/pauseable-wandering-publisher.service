@@ -1,0 +1,19 @@
+[Unit]
+Description=Pauseable mmWave observation and behavior publishing
+After=network-online.target ha-docker-engine.service
+Wants=network-online.target
+Requires=ha-docker-engine.service
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh /data/pauseable/bin/pauseable-mmwave-prepare-fifo.sh
+ExecStartPre=-/usr/bin/docker -H unix:///run/docker.sock rm -f pauseable-wandering-publisher
+ExecStart=/usr/bin/docker -H unix:///run/docker.sock run --name pauseable-wandering-publisher --security-opt apparmor=unconfined --network host --env-file /var/lib/pauseable-wandering/publisher.env --mount type=bind,src=/run/pauseable-wandering-input.fifo,dst=/run/pauseable-wandering-input.fifo --mount type=bind,src=/var/lib/pauseable-wandering,dst=/var/lib/pauseable-wandering pauseable-wandering-publisher:final
+ExecStop=-/usr/bin/docker stop -t 20 pauseable-wandering-publisher
+Restart=always
+RestartSec=5
+TimeoutStopSec=25
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

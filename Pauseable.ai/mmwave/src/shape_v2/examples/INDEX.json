@@ -1,0 +1,72 @@
+[
+  {
+    "file": "bent_transit.json",
+    "source_path_id": "shape-v2:test:20260911:bent_transit:00000",
+    "synthetic_label": 0,
+    "rule": "0: one traversal of a randomly bent route with forward progress",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "corridor_detour.json",
+    "source_path_id": "shape-v2:test:20260911:corridor_detour:00000",
+    "synthetic_label": 0,
+    "rule": "0: one angular detour with forward progress; no repeated circuit",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "meandering_transit.json",
+    "source_path_id": "shape-v2:test:20260911:meandering_transit:00000",
+    "synthetic_label": 0,
+    "rule": "0: one meandering transit with monotonically increasing route axis",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "single_return.json",
+    "source_path_id": "shape-v2:test:20260911:single_return:00000",
+    "synthetic_label": 0,
+    "rule": "0: one outward trip followed by one partial return, without another outward trip",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "open_arc.json",
+    "source_path_id": "shape-v2:test:20260911:open_arc:00000",
+    "synthetic_label": 0,
+    "rule": "0: one open curved route of less than one full revolution",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "repeated_shuttle.json",
+    "source_path_id": "shape-v2:test:20260911:repeated_shuttle:00000",
+    "synthetic_label": 1,
+    "rule": "1: four to seven traversals of the same independently drawn curved route",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "repeat_irregular_loop.json",
+    "source_path_id": "shape-v2:test:20260911:repeat_irregular_loop:00000",
+    "synthetic_label": 1,
+    "rule": "1: two to four complete traversals of one irregular closed loop",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "repeat_figure8.json",
+    "source_path_id": "shape-v2:test:20260911:repeat_figure8:00000",
+    "synthetic_label": 1,
+    "rule": "1: two to four complete traversals of an asymmetric figure-eight route",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "transit_then_repetition.json",
+    "source_path_id": "shape-v2:test:20260911:transit_then_repetition:00000",
+    "synthetic_label": 1,
+    "rule": "1: a transit followed by two to four complete traversals of one loop",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  },
+  {
+    "file": "repetition_then_transit.json",
+    "source_path_id": "shape-v2:test:20260911:repetition_then_transit:00000",
+    "synthetic_label": 1,
+    "rule": "1: two to four complete traversals of one loop followed by a transit",
+    "note": "Selected from the reported test; examples are not additional test evidence."
+  }
+]

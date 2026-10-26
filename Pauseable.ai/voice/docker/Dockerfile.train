@@ -1,0 +1,61 @@
+FROM python:3.11-slim-bookworm
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        ninja-build \
+        git \
+        ffmpeg \
+        libsndfile1 \
+        espeak-ng \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/piper
+
+COPY Pauseable.third_party/piper1-gpl/ /opt/piper/
+
+RUN python -m pip install --upgrade \
+    pip \
+    setuptools \
+    wheel \
+    "scikit-build<1"
+
+RUN python -m pip install \
+    torch==2.12.1 \
+    --index-url https://download.pytorch.org/whl/cu132
+
+RUN python -m pip install -e '.[train]'
+
+RUN ./build_monotonic_align.sh
+
+RUN python -m pip install "cmake>=3.26,<4" \
+    && cmake --version
+
+RUN python setup.py build_ext --inplace
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        util-linux \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG LOCAL_UID=1000
+ARG LOCAL_GID=1000
+
+RUN groupadd --gid "${LOCAL_GID}" piper \
+    && useradd \
+        --uid "${LOCAL_UID}" \
+        --gid "${LOCAL_GID}" \
+        --create-home \
+        --shell /bin/bash \
+        piper
+
+WORKDIR /workspace
+
+CMD ["bash"]

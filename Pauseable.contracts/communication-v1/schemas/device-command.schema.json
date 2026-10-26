@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/v1/device-command.schema.json",
+  "title": "Pauseable Device Command v1",
+  "description": "Render가 Pi5에 Polling 방식으로 전달하는 명령",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "command_id",
+    "event_id",
+    "device_id",
+    "command_type",
+    "created_at",
+    "expires_at",
+    "payload"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0" },
+    "command_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "device_id": { "const": "pi5-home-01" },
+    "command_type": { "const": "guardian_response" },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "payload": {
+      "type": "object",
+      "required": ["response_id", "action", "responded_at", "responder_id"],
+      "properties": {
+        "response_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "action": { "enum": ["confirmed_safe", "needs_assistance", "dismissed"] },
+        "reason": { "type": "string", "maxLength": 300 },
+        "responded_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "responder_id": { "type": "string", "minLength": 1, "maxLength": 64 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

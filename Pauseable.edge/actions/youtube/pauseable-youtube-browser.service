@@ -1,0 +1,19 @@
+[Unit]
+Description=Pauseable YouTube display browser
+Requires=ha-docker-engine.service
+Wants=app-manager.service window-manager.service
+After=ha-docker-engine.service app-manager.service window-manager.service
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=-/usr/bin/docker -H unix:///run/docker.sock rm pauseable-youtube-bridge
+ExecStart=/bin/sh /var/lib/pauseable/youtube/pauseable-youtube-browser.sh
+ExecStop=/usr/bin/docker -H unix:///run/docker.sock stop -t 10 pauseable-youtube-bridge
+ExecStopPost=-/usr/bin/docker -H unix:///run/docker.sock rm pauseable-youtube-bridge
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+#pragma once
+
+#include <string_view>
+
+namespace pauseable {
+
+inline constexpr std::string_view kEmbeddedHaConfig = R"PAUSEABLE_JSON(
+@HA_CONFIG_JSON@
+)PAUSEABLE_JSON";
+
+}

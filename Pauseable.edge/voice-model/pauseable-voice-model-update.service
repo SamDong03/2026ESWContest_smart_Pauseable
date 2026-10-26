@@ -1,0 +1,15 @@
+[Unit]
+Description=Download and safely activate the latest Pauseable Piper voice model
+Wants=network-online.target
+Requires=ha-docker-engine.service
+After=network-online.target ha-docker-engine.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStartPre=/bin/chmod 0751 /var/lib/pauseable
+ExecStart=/usr/bin/docker run --rm --security-opt apparmor=unconfined --env-file /var/lib/pauseable/config/voice-model.env --mount type=bind,src=/var/lib/pauseable/piper-guardian,dst=/var/lib/pauseable/piper-guardian --mount type=bind,src=/var/lib/pauseable/model-deployment/voice_model_updater.py,dst=/app/voice_model_updater.py,readonly --mount type=bind,src=/usr/lib/libonnxruntime.so.1.24.4,dst=/usr/local/lib/libonnxruntime.so.1,readonly -e LD_LIBRARY_PATH=/var/lib/pauseable/piper-guardian/lib:/usr/local/lib:/usr/lib -e PYTHONUNBUFFERED=1 -w /app --entrypoint python3 ha-ai-runner:review-20260908 /app/voice_model_updater.py
+TimeoutStartSec=10min
+NoNewPrivileges=true
+PrivateTmp=true

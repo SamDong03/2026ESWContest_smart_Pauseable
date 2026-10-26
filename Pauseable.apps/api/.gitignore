@@ -1,0 +1,14 @@
+
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.secrets.json
+/app/uploads/**
+!/app/uploads/**/
+!/app/uploads/**/.gitignore
+/app/data/home_settings/
+/app/data/care_profiles/
+/app/data/favorite_songs/

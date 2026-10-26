@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/v1/app-alert.schema.json",
+  "title": "Pauseable Guardian App Alert v1",
+  "description": "Render가 Flutter 보호자 앱에 전달하는 알림 데이터",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "alert_id",
+    "event_id",
+    "occurred_at",
+    "patient_id",
+    "risk_level",
+    "title",
+    "message",
+    "requires_guardian_response"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0" },
+    "alert_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "related_event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "deprecated": true
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "patient_id": { "const": "byunwoojin" },
+    "device_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "risk_level": { "enum": ["normal", "caution", "danger", "unknown"] },
+    "risk_score": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+    "alert_type": {
+      "enum": ["repetitive_behavior", "wandering", "recovery", "appliance", "door_event"]
+    },
+    "pattern_code": { "type": "string", "pattern": "^[a-z0-9_]+$", "maxLength": 64 },
+    "title": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "message": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "requires_guardian_response": { "type": "boolean" },
+    "media_url": { "type": "string", "format": "uri" }
+  },
+  "additionalProperties": false
+}

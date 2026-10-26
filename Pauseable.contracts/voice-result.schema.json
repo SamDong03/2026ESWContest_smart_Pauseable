@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/voice-result.schema.json",
+  "title": "Voice Generation Result",
+  "description": "GPU 음성 서버가 생성 완료 여부와 재생 가능한 음성 위치를 반환하는 메시지입니다.",
+  "type": "object",
+  "required": ["request_id", "status"],
+  "properties": {
+    "request_id": { "type": "string" },
+    "status": { "enum": ["completed", "failed"] },
+    "audio_url": { "type": "string", "format": "uri" },
+    "selected_message": { "type": "string" },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": false
+}

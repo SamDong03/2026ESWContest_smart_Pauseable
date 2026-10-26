@@ -1,0 +1,263 @@
+{
+  "tihm": {
+    "dataset": "tihm",
+    "source_type": "public",
+    "production_eligible": false,
+    "deployed_to_pi": false,
+    "created_at_utc": "2026-09-13T06:53:27.152477+00:00",
+    "archive_sha256": "368d642b4cdc680d0706abfd3c8b2e5387824d9737ad33f50531bafa6a4bf5a1",
+    "source": "https://zenodo.org/records/7622128",
+    "feature_columns": [
+      "events_kitchen",
+      "events_hallway",
+      "events_lounge",
+      "events_bedroom",
+      "events_fridge_door",
+      "events_bathroom",
+      "events_front_door",
+      "events_back_door",
+      "active_hours",
+      "night_event_fraction",
+      "event_span_hours"
+    ],
+    "feature_rows": 2722,
+    "models_trained": 26,
+    "scored_rows": 319,
+    "scored_subjects": 26,
+    "evaluation": {
+      "by_event_type": {
+        "Agitation": {
+          "all_recorded_subject_event_days": 115,
+          "scored_holdout_event_days": 6,
+          "unscored_event_days": 109,
+          "if_overlap_fraction": 0.16666666666666666,
+          "ae_overlap_fraction": 0.16666666666666666,
+          "either_overlap_fraction": 0.16666666666666666,
+          "both_overlap_fraction": 0.16666666666666666
+        },
+        "Blood pressure": {
+          "all_recorded_subject_event_days": 251,
+          "scored_holdout_event_days": 8,
+          "unscored_event_days": 243,
+          "if_overlap_fraction": 0.0,
+          "ae_overlap_fraction": 0.0,
+          "either_overlap_fraction": 0.0,
+          "both_overlap_fraction": 0.0
+        },
+        "Body temperature": {
+          "all_recorded_subject_event_days": 1,
+          "scored_holdout_event_days": 0,
+          "unscored_event_days": 1,
+          "if_overlap_fraction": null,
+          "ae_overlap_fraction": null,
+          "either_overlap_fraction": null,
+          "both_overlap_fraction": null
+        },
+        "Body water": {
+          "all_recorded_subject_event_days": 63,
+          "scored_holdout_event_days": 1,
+          "unscored_event_days": 62,
+          "if_overlap_fraction": 0.0,
+          "ae_overlap_fraction": 0.0,
+          "either_overlap_fraction": 0.0,
+          "both_overlap_fraction": 0.0
+        },
+        "Pulse": {
+          "all_recorded_subject_event_days": 76,
+          "scored_holdout_event_days": 4,
+          "unscored_event_days": 72,
+          "if_overlap_fraction": 0.0,
+          "ae_overlap_fraction": 0.0,
+          "either_overlap_fraction": 0.0,
+          "both_overlap_fraction": 0.0
+        },
+        "Weight": {
+          "all_recorded_subject_event_days": 4,
+          "scored_holdout_event_days": 0,
+          "unscored_event_days": 4,
+          "if_overlap_fraction": null,
+          "ae_overlap_fraction": null,
+          "either_overlap_fraction": null,
+          "both_overlap_fraction": null
+        }
+      },
+      "precision": null,
+      "specificity": null,
+      "roc_auc": null,
+      "reason": "No explicit negative event labels. Same-day overlap is retrospective, not prediction."
+    },
+    "holdout_alert_fraction_not_accuracy": {
+      "if": 0.15047021943573669,
+      "ae": 0.13793103448275862,
+      "either": 0.19435736677115986,
+      "both": 0.09404388714733543
+    },
+    "limitations": [
+      "Research only; no dementia diagnostic validation or production model promotion.",
+      "No threshold/hyperparameter tuning on these holdouts. Percentile chosen in advance: 95.",
+      "TIHM/MIRATAR: silent days are missing, not normal; sensor coverage unverified.",
+      "Day-level aggregation uses the released naive clock, not assumed UTC or Korea time.",
+      "CASAS: whole scripted sessions, completion/cue and cohort selection bias; not a paper reproduction.",
+      "Clinical labels and demographics never enter sensor feature vectors.",
+      "Small/nonrepresentative cohorts; this is not a prospective clinical evaluation."
+    ],
+    "models_with_optimizer_warnings": 26
+  },
+  "casas": {
+    "dataset": "casas",
+    "source_type": "public",
+    "production_eligible": false,
+    "deployed_to_pi": false,
+    "created_at_utc": "2026-09-13T06:53:42.637493+00:00",
+    "archive_sha256": "f377562f3c6a59791ba4207a86bab986ad075d73c3cd1bacf26953eb88eba71e",
+    "source": "https://zenodo.org/records/15713579",
+    "feature_columns": [
+      "session_minutes",
+      "motion_on_count",
+      "door_open_count",
+      "item_absent_count",
+      "motion_sensor_count",
+      "door_sensor_count",
+      "item_sensor_count",
+      "gap_median_seconds",
+      "gap_p95_seconds"
+    ],
+    "feature_rows": 346,
+    "models_trained": 1,
+    "scored_rows": 98,
+    "scored_subjects": 98,
+    "evaluation": {
+      "dementia": {
+        "positive_subjects": 20,
+        "heldout_reference_subjects": 24,
+        "if": {
+          "positive_alerted": 5,
+          "reference_alerted": 3,
+          "sensitivity": 0.25,
+          "reference_specificity": 0.875,
+          "roc_auc": 0.6416666666666667
+        },
+        "ae": {
+          "positive_alerted": 2,
+          "reference_alerted": 0,
+          "sensitivity": 0.1,
+          "reference_specificity": 1.0,
+          "roc_auc": 0.7312500000000001
+        },
+        "either": {
+          "positive_alerted": 6,
+          "reference_alerted": 3,
+          "sensitivity": 0.3,
+          "reference_specificity": 0.875
+        },
+        "both": {
+          "positive_alerted": 1,
+          "reference_alerted": 0,
+          "sensitivity": 0.05,
+          "reference_specificity": 1.0
+        }
+      },
+      "mci": {
+        "positive_subjects": 54,
+        "heldout_reference_subjects": 24,
+        "if": {
+          "positive_alerted": 6,
+          "reference_alerted": 3,
+          "sensitivity": 0.1111111111111111,
+          "reference_specificity": 0.875,
+          "roc_auc": 0.4729938271604938
+        },
+        "ae": {
+          "positive_alerted": 1,
+          "reference_alerted": 0,
+          "sensitivity": 0.018518518518518517,
+          "reference_specificity": 1.0,
+          "roc_auc": 0.5733024691358024
+        },
+        "either": {
+          "positive_alerted": 6,
+          "reference_alerted": 3,
+          "sensitivity": 0.1111111111111111,
+          "reference_specificity": 0.875
+        },
+        "both": {
+          "positive_alerted": 1,
+          "reference_alerted": 0,
+          "sensitivity": 0.018518518518518517,
+          "reference_specificity": 1.0
+        }
+      }
+    },
+    "holdout_alert_fraction_not_accuracy": {
+      "if": 0.14285714285714285,
+      "ae": 0.030612244897959183,
+      "either": 0.15306122448979592,
+      "both": 0.02040816326530612
+    },
+    "limitations": [
+      "Research only; no dementia diagnostic validation or production model promotion.",
+      "No threshold/hyperparameter tuning on these holdouts. Percentile chosen in advance: 95.",
+      "TIHM/MIRATAR: silent days are missing, not normal; sensor coverage unverified.",
+      "Day-level aggregation uses the released naive clock, not assumed UTC or Korea time.",
+      "CASAS: whole scripted sessions, completion/cue and cohort selection bias; not a paper reproduction.",
+      "Clinical labels and demographics never enter sensor feature vectors.",
+      "Small/nonrepresentative cohorts; this is not a prospective clinical evaluation."
+    ],
+    "models_with_optimizer_warnings": 1
+  },
+  "miratar": {
+    "dataset": "miratar",
+    "source_type": "public",
+    "production_eligible": false,
+    "deployed_to_pi": false,
+    "created_at_utc": "2026-09-13T06:54:44.908326+00:00",
+    "archive_sha256": "300245dd11e9938a8063698ac61c4b13f5d95860a39ad3ed794dbf4ff33c40e7",
+    "source": "https://zenodo.org/records/15553764",
+    "feature_columns": [
+      "sensor_front_door_record_count",
+      "sensor_front_door_one_fraction",
+      "sensor_front_door_recorded_minutes",
+      "sensor_front_door_night_record_fraction",
+      "sensor_bathroom_record_count",
+      "sensor_bathroom_one_fraction",
+      "sensor_bathroom_recorded_minutes",
+      "sensor_bathroom_night_record_fraction",
+      "sensor_bedroom_record_count",
+      "sensor_bedroom_one_fraction",
+      "sensor_bedroom_recorded_minutes",
+      "sensor_bedroom_night_record_fraction",
+      "sensor_kitchen_record_count",
+      "sensor_kitchen_one_fraction",
+      "sensor_kitchen_recorded_minutes",
+      "sensor_kitchen_night_record_fraction",
+      "sensor_living_room_record_count",
+      "sensor_living_room_one_fraction",
+      "sensor_living_room_recorded_minutes",
+      "sensor_living_room_night_record_fraction"
+    ],
+    "feature_rows": 8172,
+    "models_trained": 48,
+    "scored_rows": 1598,
+    "scored_subjects": 48,
+    "evaluation": {
+      "accuracy": null,
+      "reason": "No clinical or anomaly ground truth"
+    },
+    "holdout_alert_fraction_not_accuracy": {
+      "if": 0.12578222778473092,
+      "ae": 0.11514392991239049,
+      "either": 0.16332916145181478,
+      "both": 0.07759699624530664
+    },
+    "limitations": [
+      "Research only; no dementia diagnostic validation or production model promotion.",
+      "No threshold/hyperparameter tuning on these holdouts. Percentile chosen in advance: 95.",
+      "TIHM/MIRATAR: silent days are missing, not normal; sensor coverage unverified.",
+      "Day-level aggregation uses the released naive clock, not assumed UTC or Korea time.",
+      "CASAS: whole scripted sessions, completion/cue and cohort selection bias; not a paper reproduction.",
+      "Clinical labels and demographics never enter sensor feature vectors.",
+      "Small/nonrepresentative cohorts; this is not a prospective clinical evaluation."
+    ],
+    "models_with_optimizer_warnings": 26
+  }
+}

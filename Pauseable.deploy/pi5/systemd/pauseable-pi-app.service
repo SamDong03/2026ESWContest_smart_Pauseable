@@ -1,0 +1,11 @@
+[Unit]
+Description=Start Pauseable Central Atlas App on Pi5
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=dong
+EnvironmentFile=/home/dong/.config/pauseable/runtime.env
+ExecStart=/usr/local/sbin/pauseable-start-pi-app
+TimeoutStartSec=20

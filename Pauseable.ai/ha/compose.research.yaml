@@ -1,0 +1,34 @@
+services:
+  evidence-research:
+    profiles: [research]
+    build:
+      context: .
+      dockerfile: Dockerfile.research
+    image: pauseable-ha-evidence:20261017
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 2g
+    cpus: 2
+    tmpfs: [/tmp]
+    volumes:
+      - ./outputs/evidence_research:/results
+  submission-check:
+    profiles: [submission]
+    build:
+      context: .
+      dockerfile: Dockerfile.research
+    image: pauseable-ha-evidence:20261017
+    command: [python, src/verify_ha_submission.py, --output-dir, /results/check]
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 2g
+    cpus: 2
+    tmpfs: ["/tmp", "/app/data:uid=10001,gid=10001,mode=0700", "/app/outputs:uid=10001,gid=10001,mode=0700"]
+    volumes:
+      - ./outputs/submission_20261017:/results

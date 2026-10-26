@@ -1,0 +1,17 @@
+**
+!requirements.txt
+!src/
+!src/*.py
+!tests/
+!tests/*.py
+!deploy/
+!deploy/**
+!scripts/
+!scripts/**
+!Dockerfile.research
+!Dockerfile.research.dockerignore
+**/*.env
+**/.env
+**/.env.*
+**/*.pem
+**/*.key

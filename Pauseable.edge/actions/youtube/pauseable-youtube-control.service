@@ -1,0 +1,16 @@
+[Unit]
+Description=Pauseable YouTube playback request controller
+Requires=ha-docker-engine.service
+After=ha-docker-engine.service app-manager.service
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=/bin/sh -ec 'if [ ! -p /run/pauseable-youtube-request.fifo ]; then mkfifo /run/pauseable-youtube-request.fifo; fi; chown 5017:0 /run/pauseable-youtube-request.fifo; chmod 0600 /run/pauseable-youtube-request.fifo'
+ExecStart=/var/lib/pauseable/youtube/pauseable-youtube-control.sh
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

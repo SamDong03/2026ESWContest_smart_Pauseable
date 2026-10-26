@@ -1,0 +1,115 @@
+{
+  "public_train": {
+    "paths": 144,
+    "classes": {
+      "0": 69,
+      "1": 75
+    },
+    "families": {
+      "smartcare_drawn": 144
+    },
+    "unique_groups": 144
+  },
+  "public_selection": {
+    "paths": 48,
+    "classes": {
+      "1": 25,
+      "0": 23
+    },
+    "families": {
+      "smartcare_drawn": 48
+    },
+    "unique_groups": 48
+  },
+  "legacy_audit": {
+    "paths": 20,
+    "classes": {
+      "0": 10,
+      "1": 10
+    },
+    "families": {
+      "smartcare_drawn": 20
+    },
+    "unique_groups": 20
+  },
+  "generated_train": {
+    "paths": 1800,
+    "classes": {
+      "0": 900,
+      "1": 900
+    },
+    "families": {
+      "bent_transit": 180,
+      "corridor_detour": 180,
+      "meandering_transit": 180,
+      "single_return": 180,
+      "open_arc": 180,
+      "repeated_shuttle": 180,
+      "repeat_irregular_loop": 180,
+      "repeat_figure8": 180,
+      "transit_then_repetition": 180,
+      "repetition_then_transit": 180
+    },
+    "unique_groups": 1800
+  },
+  "generated_selection": {
+    "paths": 600,
+    "classes": {
+      "0": 300,
+      "1": 300
+    },
+    "families": {
+      "bent_transit": 60,
+      "corridor_detour": 60,
+      "meandering_transit": 60,
+      "single_return": 60,
+      "open_arc": 60,
+      "repeated_shuttle": 60,
+      "repeat_irregular_loop": 60,
+      "repeat_figure8": 60,
+      "transit_then_repetition": 60,
+      "repetition_then_transit": 60
+    },
+    "unique_groups": 600
+  },
+  "generated_test": {
+    "paths": 1000,
+    "classes": {
+      "0": 500,
+      "1": 500
+    },
+    "families": {
+      "bent_transit": 100,
+      "corridor_detour": 100,
+      "meandering_transit": 100,
+      "single_return": 100,
+      "open_arc": 100,
+      "repeated_shuttle": 100,
+      "repeat_irregular_loop": 100,
+      "repeat_figure8": 100,
+      "transit_then_repetition": 100,
+      "repetition_then_transit": 100
+    },
+    "unique_groups": 1000
+  },
+  "generated_challenge": {
+    "paths": 500,
+    "classes": {
+      "0": 250,
+      "1": 250
+    },
+    "families": {
+      "bent_transit": 50,
+      "corridor_detour": 50,
+      "meandering_transit": 50,
+      "single_return": 50,
+      "open_arc": 50,
+      "repeated_shuttle": 50,
+      "repeat_irregular_loop": 50,
+      "repeat_figure8": 50,
+      "transit_then_repetition": 50,
+      "repetition_then_transit": 50
+    },
+    "unique_groups": 500
+  }
+}

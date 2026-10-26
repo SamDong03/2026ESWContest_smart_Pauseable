@@ -1,0 +1,16 @@
+.git
+**/.venv
+**/venv
+**/__pycache__
+**/.dart_tool
+**/build
+**/dataset
+**/checkpoints
+**/cache
+**/logs
+**/output
+**/.worker
+**/worker.env
+**/.env
+**/.env.*
+!**/.env.example

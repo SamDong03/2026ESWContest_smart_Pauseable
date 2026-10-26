@@ -1,0 +1,1084 @@
+{
+  "scope": "Reference mapping only; no device, cloud account, or secret is modified automatically.",
+  "deployment_order": [
+    "Back up model files, environment files, databases, service definitions and image IDs.",
+    "Build and transfer the new device bundles.",
+    "Stop previous units, copy required state to current paths, and configure current names.",
+    "Start the current services together, then perform the separately requested device demonstration."
+  ],
+  "publisher_image": {
+    "previous": "racos-wandering-publisher:rolling-10s-v1",
+    "current": "pauseable-wandering-publisher:final"
+  },
+  "name_mapping": [
+    {
+      "previous": "----racos-",
+      "current": "----pauseable-"
+    },
+    {
+      "previous": "-/var/lib/racos/weather-light-control/render-location.env",
+      "current": "-/var/lib/pauseable/weather-light-control/render-location.env"
+    },
+    {
+      "previous": "/data/profiles/0/appdata/com.atlas.app.pauseableatlas/home/racos-air-purifier-tts.wav",
+      "current": "/data/profiles/0/appdata/com.atlas.app.pauseableatlas/home/pauseable-air-purifier-tts.wav"
+    },
+    {
+      "previous": "/data/profiles/0/appdata/com.atlas.app.pauseableatlas/home/racos-washer-youtube-tts.wav",
+      "current": "/data/profiles/0/appdata/com.atlas.app.pauseableatlas/home/pauseable-washer-youtube-tts.wav"
+    },
+    {
+      "previous": "/data/racos",
+      "current": "/data/pauseable"
+    },
+    {
+      "previous": "/data/racos/backups/wandering-voice-",
+      "current": "/data/pauseable/backups/wandering-voice-"
+    },
+    {
+      "previous": "/data/racos/bin",
+      "current": "/data/pauseable/bin"
+    },
+    {
+      "previous": "/data/racos/bin/racos-central-ensure.sh",
+      "current": "/data/pauseable/bin/pauseable-central-ensure.sh"
+    },
+    {
+      "previous": "/data/racos/bin/racos-mmwave-prepare-fifo.sh",
+      "current": "/data/pauseable/bin/pauseable-mmwave-prepare-fifo.sh"
+    },
+    {
+      "previous": "/data/racos/mmwave",
+      "current": "/data/pauseable/mmwave"
+    },
+    {
+      "previous": "/data/racos/wandering-voice",
+      "current": "/data/pauseable/wandering-voice"
+    },
+    {
+      "previous": "/data/racos/wandering-voice-state",
+      "current": "/data/pauseable/wandering-voice-state"
+    },
+    {
+      "previous": "/data/racos/wandering-voice/watch.sh",
+      "current": "/data/pauseable/wandering-voice/watch.sh"
+    },
+    {
+      "previous": "/data/share/usr/lib/systemd/system/racos-weather-light.service",
+      "current": "/data/share/usr/lib/systemd/system/pauseable-weather-light.service"
+    },
+    {
+      "previous": "/data/share/usr/lib/systemd/system/racos-weather-light.service.before-render",
+      "current": "/data/share/usr/lib/systemd/system/pauseable-weather-light.service.before-render"
+    },
+    {
+      "previous": "/etc/systemd/system/racos-central-ensure.service",
+      "current": "/etc/systemd/system/pauseable-central-ensure.service"
+    },
+    {
+      "previous": "/etc/systemd/system/racos-central-watchdog.timer",
+      "current": "/etc/systemd/system/pauseable-central-watchdog.timer"
+    },
+    {
+      "previous": "/etc/systemd/system/racos-mmwave-relay.service",
+      "current": "/etc/systemd/system/pauseable-mmwave-relay.service"
+    },
+    {
+      "previous": "/home/dong/.config/racos/runtime.env",
+      "current": "/home/dong/.config/pauseable/runtime.env"
+    },
+    {
+      "previous": "/home/dong/.venvs/racos-gateway/bin/python",
+      "current": "/home/dong/.venvs/pauseable-gateway/bin/python"
+    },
+    {
+      "previous": "/home/racos",
+      "current": "/home/pauseable"
+    },
+    {
+      "previous": "/home/racos-browser",
+      "current": "/home/pauseable-browser"
+    },
+    {
+      "previous": "/lock/racos_virtual_door_lock/config",
+      "current": "/lock/pauseable_virtual_door_lock/config"
+    },
+    {
+      "previous": "/number/racos_virtual_air_conditioner_temperature/config",
+      "current": "/number/pauseable_virtual_air_conditioner_temperature/config"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay",
+      "current": "/opt/pauseable-mmwave-relay"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay/Pauseable.contracts",
+      "current": "/opt/pauseable-mmwave-relay/Pauseable.contracts"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay/Pauseable.contracts/",
+      "current": "/opt/pauseable-mmwave-relay/Pauseable.contracts/"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay/Pauseable.contracts/mmwave-target-event.schema.json",
+      "current": "/opt/pauseable-mmwave-relay/Pauseable.contracts/mmwave-target-event.schema.json"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay/tools/mmwave",
+      "current": "/opt/pauseable-mmwave-relay/tools/mmwave"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay/tools/mmwave/",
+      "current": "/opt/pauseable-mmwave-relay/tools/mmwave/"
+    },
+    {
+      "previous": "/opt/racos-mmwave-relay/tools/mmwave/relay_supervisor.py",
+      "current": "/opt/pauseable-mmwave-relay/tools/mmwave/relay_supervisor.py"
+    },
+    {
+      "previous": "/opt/racos-wandering/smartcare/",
+      "current": "/opt/pauseable-wandering/smartcare/"
+    },
+    {
+      "previous": "/racos-central-ensure.service",
+      "current": "/pauseable-central-ensure.service"
+    },
+    {
+      "previous": "/racos-central-ensure.sh",
+      "current": "/pauseable-central-ensure.sh"
+    },
+    {
+      "previous": "/racos-central-watchdog.timer",
+      "current": "/pauseable-central-watchdog.timer"
+    },
+    {
+      "previous": "/racos-wandering-",
+      "current": "/pauseable-wandering-"
+    },
+    {
+      "previous": "/run/racos-air-purifier-message.XXXXXX",
+      "current": "/run/pauseable-air-purifier-message.XXXXXX"
+    },
+    {
+      "previous": "/run/racos-repetitive-demo-bootstrap.started",
+      "current": "/run/pauseable-repetitive-demo-bootstrap.started"
+    },
+    {
+      "previous": "/run/racos-wandering-input.fifo",
+      "current": "/run/pauseable-wandering-input.fifo"
+    },
+    {
+      "previous": "/run/racos-wandering-message.XXXXXX",
+      "current": "/run/pauseable-wandering-message.XXXXXX"
+    },
+    {
+      "previous": "/run/racos-washer-youtube-message.XXXXXX",
+      "current": "/run/pauseable-washer-youtube-message.XXXXXX"
+    },
+    {
+      "previous": "/run/racos-youtube-launch.once",
+      "current": "/run/pauseable-youtube-launch.once"
+    },
+    {
+      "previous": "/run/racos-youtube-request.fifo",
+      "current": "/run/pauseable-youtube-request.fifo"
+    },
+    {
+      "previous": "/run/systemd/system/racos-air-purifier-tts.path",
+      "current": "/run/systemd/system/pauseable-air-purifier-tts.path"
+    },
+    {
+      "previous": "/run/systemd/system/racos-air-purifier-tts.service",
+      "current": "/run/systemd/system/pauseable-air-purifier-tts.service"
+    },
+    {
+      "previous": "/run/systemd/system/racos-repetitive-central-output.service",
+      "current": "/run/systemd/system/pauseable-repetitive-central-output.service"
+    },
+    {
+      "previous": "/run/systemd/system/racos-washer-youtube-tts.path",
+      "current": "/run/systemd/system/pauseable-washer-youtube-tts.path"
+    },
+    {
+      "previous": "/run/systemd/system/racos-washer-youtube-tts.service",
+      "current": "/run/systemd/system/pauseable-washer-youtube-tts.service"
+    },
+    {
+      "previous": "/select/racos_virtual_air_conditioner_mode/config",
+      "current": "/select/pauseable_virtual_air_conditioner_mode/config"
+    },
+    {
+      "previous": "/sensor/racos_virtual_microwave_status/config",
+      "current": "/sensor/pauseable_virtual_microwave_status/config"
+    },
+    {
+      "previous": "/switch/racos_virtual_air_conditioner_power/config",
+      "current": "/switch/pauseable_virtual_air_conditioner_power/config"
+    },
+    {
+      "previous": "/switch/racos_virtual_microwave_power/config",
+      "current": "/switch/pauseable_virtual_microwave_power/config"
+    },
+    {
+      "previous": "/tmp/racos-",
+      "current": "/tmp/pauseable-"
+    },
+    {
+      "previous": "/tmp/racos-bridge-profile",
+      "current": "/tmp/pauseable-bridge-profile"
+    },
+    {
+      "previous": "/tmp/racos-decision-events.jsonl",
+      "current": "/tmp/pauseable-decision-events.jsonl"
+    },
+    {
+      "previous": "/usr/local/sbin/racos-start-pi-app",
+      "current": "/usr/local/sbin/pauseable-start-pi-app"
+    },
+    {
+      "previous": "/var/lib/racos",
+      "current": "/var/lib/pauseable"
+    },
+    {
+      "previous": "/var/lib/racos-mmwave-relay/captures",
+      "current": "/var/lib/pauseable-mmwave-relay/captures"
+    },
+    {
+      "previous": "/var/lib/racos-wandering",
+      "current": "/var/lib/pauseable-wandering"
+    },
+    {
+      "previous": "/var/lib/racos-wandering/publisher.env",
+      "current": "/var/lib/pauseable-wandering/publisher.env"
+    },
+    {
+      "previous": "/var/lib/racos-wandering/wandering-publisher.sqlite3",
+      "current": "/var/lib/pauseable-wandering/wandering-publisher.sqlite3"
+    },
+    {
+      "previous": "/var/lib/racos/config/voice-model.env",
+      "current": "/var/lib/pauseable/config/voice-model.env"
+    },
+    {
+      "previous": "/var/lib/racos/ha.env",
+      "current": "/var/lib/pauseable/ha.env"
+    },
+    {
+      "previous": "/var/lib/racos/model-deployment/voice_model_updater.py",
+      "current": "/var/lib/pauseable/model-deployment/voice_model_updater.py"
+    },
+    {
+      "previous": "/var/lib/racos/piper-guardian",
+      "current": "/var/lib/pauseable/piper-guardian"
+    },
+    {
+      "previous": "/var/lib/racos/piper-guardian/bin/paplay",
+      "current": "/var/lib/pauseable/piper-guardian/bin/paplay"
+    },
+    {
+      "previous": "/var/lib/racos/piper-guardian/lib:/usr/local/lib:/usr/lib",
+      "current": "/var/lib/pauseable/piper-guardian/lib:/usr/local/lib:/usr/lib"
+    },
+    {
+      "previous": "/var/lib/racos/racos-tts.wav",
+      "current": "/var/lib/pauseable/pauseable-tts.wav"
+    },
+    {
+      "previous": "/var/lib/racos/weather-light-control",
+      "current": "/var/lib/pauseable/weather-light-control"
+    },
+    {
+      "previous": "/var/lib/racos/weather-light-control/config.json",
+      "current": "/var/lib/pauseable/weather-light-control/config.json"
+    },
+    {
+      "previous": "/var/lib/racos/weather-light-control/render-location.env",
+      "current": "/var/lib/pauseable/weather-light-control/render-location.env"
+    },
+    {
+      "previous": "/var/lib/racos/weather-light-control/weather_api.py",
+      "current": "/var/lib/pauseable/weather-light-control/weather_api.py"
+    },
+    {
+      "previous": "/var/lib/racos/weather-light-control/weather_api.py.before-render",
+      "current": "/var/lib/pauseable/weather-light-control/weather_api.py.before-render"
+    },
+    {
+      "previous": "/var/lib/racos/youtube/chromium-seccomp.json",
+      "current": "/var/lib/pauseable/youtube/chromium-seccomp.json"
+    },
+    {
+      "previous": "/var/lib/racos/youtube/racos-youtube-browser.sh",
+      "current": "/var/lib/pauseable/youtube/pauseable-youtube-browser.sh"
+    },
+    {
+      "previous": "/var/lib/racos/youtube/racos-youtube-control.sh",
+      "current": "/var/lib/pauseable/youtube/pauseable-youtube-control.sh"
+    },
+    {
+      "previous": "/var/lib/racos/youtube/washer-favorite-url.txt",
+      "current": "/var/lib/pauseable/youtube/washer-favorite-url.txt"
+    },
+    {
+      "previous": "BACKUP/racos-central-ensure.sh",
+      "current": "BACKUP/pauseable-central-ensure.sh"
+    },
+    {
+      "previous": "BASE/config/racos-air-purifier-tts.service",
+      "current": "BASE/config/pauseable-air-purifier-tts.service"
+    },
+    {
+      "previous": "BASE/config/racos-repetitive-central-output.service",
+      "current": "BASE/config/pauseable-repetitive-central-output.service"
+    },
+    {
+      "previous": "BASE/config/racos-washer-youtube-tts.service",
+      "current": "BASE/config/pauseable-washer-youtube-tts.service"
+    },
+    {
+      "previous": "Home-Assistant/weather-light-control/deploy/systemd/racos-weather-light.service",
+      "current": "Home-Assistant/weather-light-control/deploy/systemd/pauseable-weather-light.service"
+    },
+    {
+      "previous": "Pauseable.edge/central/deploy/systemd/racos-central-ensure.sh",
+      "current": "Pauseable.edge/central/deploy/systemd/pauseable-central-ensure.sh"
+    },
+    {
+      "previous": "RACOS",
+      "current": "Pauseable"
+    },
+    {
+      "previous": "RACOS-Central-Atlas/0.2",
+      "current": "Pauseable-Central-Atlas/0.2"
+    },
+    {
+      "previous": "RACOS-SmartCare-research-prototype",
+      "current": "Pauseable-SmartCare-research-prototype"
+    },
+    {
+      "previous": "RACOS_ACTION_STATE_PATH",
+      "current": "PAUSEABLE_ACTION_STATE_PATH"
+    },
+    {
+      "previous": "RACOS_API_URL",
+      "current": "PAUSEABLE_API_URL"
+    },
+    {
+      "previous": "RACOS_APP_BIN",
+      "current": "PAUSEABLE_APP_BIN"
+    },
+    {
+      "previous": "RACOS_APP_DATA",
+      "current": "PAUSEABLE_APP_DATA"
+    },
+    {
+      "previous": "RACOS_APP_DATA/home",
+      "current": "PAUSEABLE_APP_DATA/home"
+    },
+    {
+      "previous": "RACOS_APP_GID",
+      "current": "PAUSEABLE_APP_GID"
+    },
+    {
+      "previous": "RACOS_APP_HOME",
+      "current": "PAUSEABLE_APP_HOME"
+    },
+    {
+      "previous": "RACOS_APP_HOME/ha.env",
+      "current": "PAUSEABLE_APP_HOME/ha.env"
+    },
+    {
+      "previous": "RACOS_APP_HOME/ha_config.json",
+      "current": "PAUSEABLE_APP_HOME/ha_config.json"
+    },
+    {
+      "previous": "RACOS_APP_HOME/piper-guardian",
+      "current": "PAUSEABLE_APP_HOME/piper-guardian"
+    },
+    {
+      "previous": "RACOS_APP_HOME/piper-guardian/",
+      "current": "PAUSEABLE_APP_HOME/piper-guardian/"
+    },
+    {
+      "previous": "RACOS_APP_HOME/piper-guardian/bin/paplay",
+      "current": "PAUSEABLE_APP_HOME/piper-guardian/bin/paplay"
+    },
+    {
+      "previous": "RACOS_APP_HOME/piper-guardian/bin/piper",
+      "current": "PAUSEABLE_APP_HOME/piper-guardian/bin/piper"
+    },
+    {
+      "previous": "RACOS_APP_HOME/runtime",
+      "current": "PAUSEABLE_APP_HOME/runtime"
+    },
+    {
+      "previous": "RACOS_APP_HOME/runtime/racos-tts.wav",
+      "current": "PAUSEABLE_APP_HOME/runtime/pauseable-tts.wav"
+    },
+    {
+      "previous": "RACOS_APP_ID",
+      "current": "PAUSEABLE_APP_ID"
+    },
+    {
+      "previous": "RACOS_APP_ROOT",
+      "current": "PAUSEABLE_APP_ROOT"
+    },
+    {
+      "previous": "RACOS_APP_ROOT/",
+      "current": "PAUSEABLE_APP_ROOT/"
+    },
+    {
+      "previous": "RACOS_APP_TOKEN",
+      "current": "PAUSEABLE_APP_TOKEN"
+    },
+    {
+      "previous": "RACOS_APP_UID",
+      "current": "PAUSEABLE_APP_UID"
+    },
+    {
+      "previous": "RACOS_APP_UID:",
+      "current": "PAUSEABLE_APP_UID:"
+    },
+    {
+      "previous": "RACOS_BRIDGE_UNIT",
+      "current": "PAUSEABLE_BRIDGE_UNIT"
+    },
+    {
+      "previous": "RACOS_BUILD_TESTS",
+      "current": "PAUSEABLE_BUILD_TESTS"
+    },
+    {
+      "previous": "RACOS_CENTRAL",
+      "current": "PAUSEABLE_CENTRAL"
+    },
+    {
+      "previous": "RACOS_DECISION_OUTBOX_DIR",
+      "current": "PAUSEABLE_DECISION_OUTBOX_DIR"
+    },
+    {
+      "previous": "RACOS_DEVICE_ID",
+      "current": "PAUSEABLE_DEVICE_ID"
+    },
+    {
+      "previous": "RACOS_ENV_PATH",
+      "current": "PAUSEABLE_ENV_PATH"
+    },
+    {
+      "previous": "RACOS_EVENT_LEDGER_PATH",
+      "current": "PAUSEABLE_EVENT_LEDGER_PATH"
+    },
+    {
+      "previous": "RACOS_FIFO_CREATED",
+      "current": "PAUSEABLE_FIFO_CREATED"
+    },
+    {
+      "previous": "RACOS_FIFO_READY",
+      "current": "PAUSEABLE_FIFO_READY"
+    },
+    {
+      "previous": "RACOS_FIREBASE_ANDROID_CONFIG_JSON",
+      "current": "PAUSEABLE_FIREBASE_ANDROID_CONFIG_JSON"
+    },
+    {
+      "previous": "RACOS_JSON_INCLUDE",
+      "current": "PAUSEABLE_JSON_INCLUDE"
+    },
+    {
+      "previous": "RACOS_MMWAVE_TEST_TOKEN",
+      "current": "PAUSEABLE_MMWAVE_TEST_TOKEN"
+    },
+    {
+      "previous": "RACOS_PATIENT_ID",
+      "current": "PAUSEABLE_PATIENT_ID"
+    },
+    {
+      "previous": "RACOS_PROPERTY_MANAGER_1_PROXY_H",
+      "current": "PAUSEABLE_PROPERTY_MANAGER_1_PROXY_H"
+    },
+    {
+      "previous": "RACOS_ROOT",
+      "current": "PAUSEABLE_ROOT"
+    },
+    {
+      "previous": "RACOS_SOURCE_ROOT",
+      "current": "PAUSEABLE_SOURCE_ROOT"
+    },
+    {
+      "previous": "RACOS_SOURCE_ROOT/ha.env",
+      "current": "PAUSEABLE_SOURCE_ROOT/ha.env"
+    },
+    {
+      "previous": "RACOS_SOURCE_ROOT/ha_config.json",
+      "current": "PAUSEABLE_SOURCE_ROOT/ha_config.json"
+    },
+    {
+      "previous": "RACOS_SOURCE_ROOT/piper-guardian/.",
+      "current": "PAUSEABLE_SOURCE_ROOT/piper-guardian/."
+    },
+    {
+      "previous": "RACOS_SOURCE_ROOT/piper-guardian/bin/paplay",
+      "current": "PAUSEABLE_SOURCE_ROOT/piper-guardian/bin/paplay"
+    },
+    {
+      "previous": "RACOS_TRIGGER_TOKEN",
+      "current": "PAUSEABLE_TRIGGER_TOKEN"
+    },
+    {
+      "previous": "RACOS_WANDERING_VOICE_BASE:-/data/racos/wandering-voice",
+      "current": "PAUSEABLE_WANDERING_VOICE_BASE:-/data/pauseable/wandering-voice"
+    },
+    {
+      "previous": "RACOS_YOUTUBE_ENABLED",
+      "current": "PAUSEABLE_YOUTUBE_ENABLED"
+    },
+    {
+      "previous": "SOURCE_DIR/deploy/pi3/racos-mmwave-relay.service",
+      "current": "SOURCE_DIR/deploy/pi3/pauseable-mmwave-relay.service"
+    },
+    {
+      "previous": "_racos_frozen_",
+      "current": "_pauseable_frozen_"
+    },
+    {
+      "previous": "am.com.atlas.app.racosyoutubebridge.service",
+      "current": "am.com.atlas.app.pauseableyoutubebridge.service"
+    },
+    {
+      "previous": "binary_sensor.racos_virtual_styler_remote_start",
+      "current": "binary_sensor.pauseable_virtual_styler_remote_start"
+    },
+    {
+      "previous": "button.racos_virtual_styler_start_pause",
+      "current": "button.pauseable_virtual_styler_start_pause"
+    },
+    {
+      "previous": "button.racos_virtual_water_purifier_dispense",
+      "current": "button.pauseable_virtual_water_purifier_dispense"
+    },
+    {
+      "previous": "com.atlas.app.racosyoutubebridge",
+      "current": "com.atlas.app.pauseableyoutubebridge"
+    },
+    {
+      "previous": "deployment/mmwave-autostart/pi3/racos-mmwave-relay.service",
+      "current": "deployment/mmwave-autostart/pi3/pauseable-mmwave-relay.service"
+    },
+    {
+      "previous": "deployment/mmwave-autostart/pi5/20-racos-rolling.conf",
+      "current": "deployment/mmwave-autostart/pi5/20-pauseable-rolling.conf"
+    },
+    {
+      "previous": "deployment/mmwave-autostart/pi5/racos-central-ensure.sh",
+      "current": "deployment/mmwave-autostart/pi5/pauseable-central-ensure.sh"
+    },
+    {
+      "previous": "deployment/mmwave-autostart/pi5/racos-mmwave-prepare-fifo.sh",
+      "current": "deployment/mmwave-autostart/pi5/pauseable-mmwave-prepare-fifo.sh"
+    },
+    {
+      "previous": "event.racos_virtual_styler_notification",
+      "current": "event.pauseable_virtual_styler_notification"
+    },
+    {
+      "previous": "event.racos_virtual_tiiun_notification",
+      "current": "event.pauseable_virtual_tiiun_notification"
+    },
+    {
+      "previous": "event.racos_virtual_water_purifier_notification",
+      "current": "event.pauseable_virtual_water_purifier_notification"
+    },
+    {
+      "previous": "input_boolean.racos_washing_machine",
+      "current": "input_boolean.pauseable_washing_machine"
+    },
+    {
+      "previous": "light.racos_virtual_styler_display",
+      "current": "light.pauseable_virtual_styler_display"
+    },
+    {
+      "previous": "light.racos_virtual_tiiun_grow_light",
+      "current": "light.pauseable_virtual_tiiun_grow_light"
+    },
+    {
+      "previous": "lock.racos_virtual_door_lock",
+      "current": "lock.pauseable_virtual_door_lock"
+    },
+    {
+      "previous": "lock.racos_virtual_home_racos_virtual_door_lock",
+      "current": "lock.pauseable_virtual_home_pauseable_virtual_door_lock"
+    },
+    {
+      "previous": "number.racos_virtual_air_conditioner_temperature",
+      "current": "number.pauseable_virtual_air_conditioner_temperature"
+    },
+    {
+      "previous": "racos",
+      "current": "pauseable"
+    },
+    {
+      "previous": "racos-action-router-test",
+      "current": "pauseable-action-router-test"
+    },
+    {
+      "previous": "racos-air-purifier-tts.path",
+      "current": "pauseable-air-purifier-tts.path"
+    },
+    {
+      "previous": "racos-air-purifier-tts.service",
+      "current": "pauseable-air-purifier-tts.service"
+    },
+    {
+      "previous": "racos-android-push-test-",
+      "current": "pauseable-android-push-test-"
+    },
+    {
+      "previous": "racos-autostart-",
+      "current": "pauseable-autostart-"
+    },
+    {
+      "previous": "racos-behavior-inference-test.jsonl",
+      "current": "pauseable-behavior-inference-test.jsonl"
+    },
+    {
+      "previous": "racos-c-validate-",
+      "current": "pauseable-c-validate-"
+    },
+    {
+      "previous": "racos-central-ensure",
+      "current": "pauseable-central-ensure"
+    },
+    {
+      "previous": "racos-central-ensure.service",
+      "current": "pauseable-central-ensure.service"
+    },
+    {
+      "previous": "racos-central-pi5-home-01",
+      "current": "pauseable-central-pi5-home-01"
+    },
+    {
+      "previous": "racos-central-watchdog.timer",
+      "current": "pauseable-central-watchdog.timer"
+    },
+    {
+      "previous": "racos-contract-",
+      "current": "pauseable-contract-"
+    },
+    {
+      "previous": "racos-decision-outbox-test",
+      "current": "pauseable-decision-outbox-test"
+    },
+    {
+      "previous": "racos-frozen-synthetic-robustness-v1",
+      "current": "pauseable-frozen-synthetic-robustness-v1"
+    },
+    {
+      "previous": "racos-gateway.service",
+      "current": "pauseable-gateway.service"
+    },
+    {
+      "previous": "racos-geometric-repetition-rf-v2",
+      "current": "pauseable-geometric-repetition-rf-v2"
+    },
+    {
+      "previous": "racos-ha-evidence:20261005",
+      "current": "pauseable-ha-evidence:20261005"
+    },
+    {
+      "previous": "racos-ha-evidence:20261017",
+      "current": "pauseable-ha-evidence:20261017"
+    },
+    {
+      "previous": "racos-ha-evidence:submission-final-20261017",
+      "current": "pauseable-ha-evidence:submission-final-20261017"
+    },
+    {
+      "previous": "racos-ha-personalization:20261022",
+      "current": "pauseable-ha-personalization:20261022"
+    },
+    {
+      "previous": "racos-mmwave-archive-test-",
+      "current": "pauseable-mmwave-archive-test-"
+    },
+    {
+      "previous": "racos-mmwave-captures",
+      "current": "pauseable-mmwave-captures"
+    },
+    {
+      "previous": "racos-mmwave-relay",
+      "current": "pauseable-mmwave-relay"
+    },
+    {
+      "previous": "racos-pi-app.service",
+      "current": "pauseable-pi-app.service"
+    },
+    {
+      "previous": "racos-repetitive-central-output.service",
+      "current": "pauseable-repetitive-central-output.service"
+    },
+    {
+      "previous": "racos-replay",
+      "current": "pauseable-replay"
+    },
+    {
+      "previous": "racos-shape-features-v2",
+      "current": "pauseable-shape-features-v2"
+    },
+    {
+      "previous": "racos-shape-scenarios-v2.0",
+      "current": "pauseable-shape-scenarios-v2.0"
+    },
+    {
+      "previous": "racos-shape-v2-sklearn",
+      "current": "pauseable-shape-v2-sklearn"
+    },
+    {
+      "previous": "racos-simulator",
+      "current": "pauseable-simulator"
+    },
+    {
+      "previous": "racos-smartcare-baseline-v1",
+      "current": "pauseable-smartcare-baseline-v1"
+    },
+    {
+      "previous": "racos-voice-model-update.service",
+      "current": "pauseable-voice-model-update.service"
+    },
+    {
+      "previous": "racos-voice-model-update.timer",
+      "current": "pauseable-voice-model-update.timer"
+    },
+    {
+      "previous": "racos-wandering-",
+      "current": "pauseable-wandering-"
+    },
+    {
+      "previous": "racos-wandering-ai-pi5-home-01",
+      "current": "pauseable-wandering-ai-pi5-home-01"
+    },
+    {
+      "previous": "racos-wandering-live-verify-",
+      "current": "pauseable-wandering-live-verify-"
+    },
+    {
+      "previous": "racos-wandering-publisher",
+      "current": "pauseable-wandering-publisher"
+    },
+    {
+      "previous": "racos-wandering-publisher:1",
+      "current": "pauseable-wandering-publisher:1"
+    },
+    {
+      "previous": "racos-wandering-publisher:rolling-10s-v1",
+      "current": "pauseable-wandering-publisher:rolling-10s-v1"
+    },
+    {
+      "previous": "racos-wandering-tts.service",
+      "current": "pauseable-wandering-tts.service"
+    },
+    {
+      "previous": "racos-wandering-verify-",
+      "current": "pauseable-wandering-verify-"
+    },
+    {
+      "previous": "racos-washer-youtube-tts.path",
+      "current": "pauseable-washer-youtube-tts.path"
+    },
+    {
+      "previous": "racos-washer-youtube-tts.service",
+      "current": "pauseable-washer-youtube-tts.service"
+    },
+    {
+      "previous": "racos-weather-light",
+      "current": "pauseable-weather-light"
+    },
+    {
+      "previous": "racos-weather-light.service",
+      "current": "pauseable-weather-light.service"
+    },
+    {
+      "previous": "racos-weather-light.timer",
+      "current": "pauseable-weather-light.timer"
+    },
+    {
+      "previous": "racos-weather-location-check",
+      "current": "pauseable-weather-location-check"
+    },
+    {
+      "previous": "racos-youtube-bridge-test",
+      "current": "pauseable-youtube-bridge"
+    },
+    {
+      "previous": "racos-youtube-browser.service",
+      "current": "pauseable-youtube-browser.service"
+    },
+    {
+      "previous": "racos-youtube-control.service",
+      "current": "pauseable-youtube-control.service"
+    },
+    {
+      "previous": "racos-youtube:1",
+      "current": "pauseable-youtube:1"
+    },
+    {
+      "previous": "racos/ai/repetitive/decision",
+      "current": "pauseable/ai/repetitive/decision"
+    },
+    {
+      "previous": "racos/ai/repetitive/feedback",
+      "current": "pauseable/ai/repetitive/feedback"
+    },
+    {
+      "previous": "racos/ai/wandering/decision",
+      "current": "pauseable/ai/wandering/decision"
+    },
+    {
+      "previous": "racos/virtual",
+      "current": "pauseable/virtual"
+    },
+    {
+      "previous": "racos/virtual/styler",
+      "current": "pauseable/virtual/styler"
+    },
+    {
+      "previous": "racos/virtual/tiiun",
+      "current": "pauseable/virtual/tiiun"
+    },
+    {
+      "previous": "racos/virtual/water_purifier",
+      "current": "pauseable/virtual/water_purifier"
+    },
+    {
+      "previous": "racos_a_contract",
+      "current": "pauseable_a_contract"
+    },
+    {
+      "previous": "racos_camera_trigger:",
+      "current": "pauseable_camera_trigger:"
+    },
+    {
+      "previous": "racos_camera_trigger_authorization",
+      "current": "pauseable_camera_trigger_authorization"
+    },
+    {
+      "previous": "racos_camera_trigger_authorization:",
+      "current": "pauseable_camera_trigger_authorization:"
+    },
+    {
+      "previous": "racos_camera_trigger_url",
+      "current": "pauseable_camera_trigger_url"
+    },
+    {
+      "previous": "racos_camera_trigger_url:",
+      "current": "pauseable_camera_trigger_url:"
+    },
+    {
+      "previous": "racos_mmwave_native",
+      "current": "pauseable_mmwave_native"
+    },
+    {
+      "previous": "racos_virtual",
+      "current": "pauseable_virtual"
+    },
+    {
+      "previous": "racos_virtual_air_conditioner",
+      "current": "pauseable_virtual_air_conditioner"
+    },
+    {
+      "previous": "racos_virtual_air_conditioner_mode",
+      "current": "pauseable_virtual_air_conditioner_mode"
+    },
+    {
+      "previous": "racos_virtual_air_conditioner_power",
+      "current": "pauseable_virtual_air_conditioner_power"
+    },
+    {
+      "previous": "racos_virtual_air_conditioner_temperature",
+      "current": "pauseable_virtual_air_conditioner_temperature"
+    },
+    {
+      "previous": "racos_virtual_door_lock",
+      "current": "pauseable_virtual_door_lock"
+    },
+    {
+      "previous": "racos_virtual_door_unlock_camera_trigger",
+      "current": "pauseable_virtual_door_unlock_camera_trigger"
+    },
+    {
+      "previous": "racos_virtual_home",
+      "current": "pauseable_virtual_home"
+    },
+    {
+      "previous": "racos_virtual_microwave",
+      "current": "pauseable_virtual_microwave"
+    },
+    {
+      "previous": "racos_virtual_microwave_power",
+      "current": "pauseable_virtual_microwave_power"
+    },
+    {
+      "previous": "racos_virtual_microwave_status",
+      "current": "pauseable_virtual_microwave_status"
+    },
+    {
+      "previous": "racos_virtual_styler",
+      "current": "pauseable_virtual_styler"
+    },
+    {
+      "previous": "racos_virtual_styler_display",
+      "current": "pauseable_virtual_styler_display"
+    },
+    {
+      "previous": "racos_virtual_styler_notification",
+      "current": "pauseable_virtual_styler_notification"
+    },
+    {
+      "previous": "racos_virtual_styler_operation",
+      "current": "pauseable_virtual_styler_operation"
+    },
+    {
+      "previous": "racos_virtual_styler_power",
+      "current": "pauseable_virtual_styler_power"
+    },
+    {
+      "previous": "racos_virtual_styler_remaining_time",
+      "current": "pauseable_virtual_styler_remaining_time"
+    },
+    {
+      "previous": "racos_virtual_styler_remote_start",
+      "current": "pauseable_virtual_styler_remote_start"
+    },
+    {
+      "previous": "racos_virtual_styler_start_pause",
+      "current": "pauseable_virtual_styler_start_pause"
+    },
+    {
+      "previous": "racos_virtual_styler_status",
+      "current": "pauseable_virtual_styler_status"
+    },
+    {
+      "previous": "racos_virtual_tiiun",
+      "current": "pauseable_virtual_tiiun"
+    },
+    {
+      "previous": "racos_virtual_tiiun_grow_light",
+      "current": "pauseable_virtual_tiiun_grow_light"
+    },
+    {
+      "previous": "racos_virtual_tiiun_notification",
+      "current": "pauseable_virtual_tiiun_notification"
+    },
+    {
+      "previous": "racos_virtual_tiiun_power",
+      "current": "pauseable_virtual_tiiun_power"
+    },
+    {
+      "previous": "racos_virtual_tiiun_status",
+      "current": "pauseable_virtual_tiiun_status"
+    },
+    {
+      "previous": "racos_virtual_water_purifier",
+      "current": "pauseable_virtual_water_purifier"
+    },
+    {
+      "previous": "racos_virtual_water_purifier_amount",
+      "current": "pauseable_virtual_water_purifier_amount"
+    },
+    {
+      "previous": "racos_virtual_water_purifier_dispense",
+      "current": "pauseable_virtual_water_purifier_dispense"
+    },
+    {
+      "previous": "racos_virtual_water_purifier_notification",
+      "current": "pauseable_virtual_water_purifier_notification"
+    },
+    {
+      "previous": "racos_virtual_water_purifier_power",
+      "current": "pauseable_virtual_water_purifier_power"
+    },
+    {
+      "previous": "racos_virtual_water_purifier_status",
+      "current": "pauseable_virtual_water_purifier_status"
+    },
+    {
+      "previous": "racos_washing_machine",
+      "current": "pauseable_washing_machine"
+    },
+    {
+      "previous": "racosyoutubebridge",
+      "current": "pauseableyoutubebridge"
+    },
+    {
+      "previous": "rest_command.racos_camera_trigger",
+      "current": "rest_command.pauseable_camera_trigger"
+    },
+    {
+      "previous": "secrets.RACOS_APP_TOKEN",
+      "current": "secrets.PAUSEABLE_APP_TOKEN"
+    },
+    {
+      "previous": "select.racos_virtual_air_conditioner_mode",
+      "current": "select.pauseable_virtual_air_conditioner_mode"
+    },
+    {
+      "previous": "select.racos_virtual_styler_operation",
+      "current": "select.pauseable_virtual_styler_operation"
+    },
+    {
+      "previous": "sensor.racos_virtual_microwave_status",
+      "current": "sensor.pauseable_virtual_microwave_status"
+    },
+    {
+      "previous": "sensor.racos_virtual_styler_remaining_time",
+      "current": "sensor.pauseable_virtual_styler_remaining_time"
+    },
+    {
+      "previous": "sensor.racos_virtual_styler_status",
+      "current": "sensor.pauseable_virtual_styler_status"
+    },
+    {
+      "previous": "sensor.racos_virtual_tiiun_status",
+      "current": "sensor.pauseable_virtual_tiiun_status"
+    },
+    {
+      "previous": "sensor.racos_virtual_washer",
+      "current": "sensor.pauseable_virtual_washer"
+    },
+    {
+      "previous": "sensor.racos_virtual_water_purifier_amount",
+      "current": "sensor.pauseable_virtual_water_purifier_amount"
+    },
+    {
+      "previous": "sensor.racos_virtual_water_purifier_status",
+      "current": "sensor.pauseable_virtual_water_purifier_status"
+    },
+    {
+      "previous": "switch.racos_virtual_air_conditioner_power",
+      "current": "switch.pauseable_virtual_air_conditioner_power"
+    },
+    {
+      "previous": "switch.racos_virtual_microwave_power",
+      "current": "switch.pauseable_virtual_microwave_power"
+    },
+    {
+      "previous": "switch.racos_virtual_styler_power",
+      "current": "switch.pauseable_virtual_styler_power"
+    },
+    {
+      "previous": "switch.racos_virtual_tiiun_power",
+      "current": "switch.pauseable_virtual_tiiun_power"
+    },
+    {
+      "previous": "switch.racos_virtual_water_purifier_power",
+      "current": "switch.pauseable_virtual_water_purifier_power"
+    },
+    {
+      "previous": "vars.RACOS_FIREBASE_ANDROID_CONFIG_JSON",
+      "current": "vars.PAUSEABLE_FIREBASE_ANDROID_CONFIG_JSON"
+    },
+    {
+      "previous": "visible_racos_removed",
+      "current": "visible_pauseable_removed"
+    }
+  ],
+  "unchanged_repository": "chimae-yebang/RACOS"
+}

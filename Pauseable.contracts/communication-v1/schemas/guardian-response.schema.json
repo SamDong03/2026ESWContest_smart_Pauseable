@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pauseable.local/contracts/v1/guardian-response.schema.json",
+  "title": "Pauseable Guardian Response v1",
+  "description": "보호자가 알림에 대해 승인, 거절 또는 확인 종료한 결과",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "response_id",
+    "alert_id",
+    "event_id",
+    "patient_id",
+    "action",
+    "responded_at",
+    "responder_id"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0" },
+    "response_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "alert_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "patient_id": { "const": "byunwoojin" },
+    "action": { "enum": ["confirmed_safe", "needs_assistance", "dismissed"] },
+    "reason": { "type": "string", "maxLength": 300 },
+    "responded_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|\\+00:00)$"
+    },
+    "responder_id": { "type": "string", "minLength": 1, "maxLength": 64 }
+  },
+  "additionalProperties": false
+}
