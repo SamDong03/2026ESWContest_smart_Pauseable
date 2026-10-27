@@ -18,10 +18,10 @@
 
 ```text
 Pauseable.contracts/
-├── communication-v1/ — AI→Central→API→앱 연결 규격 v1
-│   ├── examples/ — v1 메시지별 정상 JSON 예시
+├── communication-v1/ — AI→Central→API→앱 연결 규격
+│   ├── examples/ — 메시지별 정상 JSON 예시
 │   └── schemas/ — 추론·최종 사건·알림·명령·응답 Schema
-└── examples/ — 메시지 예시
+└── examples/
     └── mmwave/ — 감지·미감지·오류·잘림·재생 센서 예시
 ```
 
