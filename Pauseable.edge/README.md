@@ -25,7 +25,7 @@
 Pauseable.edge/
 ├── actions/ — 안내 이후 실행하는 음악·화면 출력
 │   ├── favorite-music/ — 앱 등록곡 조회·선택·비동기 재생 요청
-│   │   └── tests/ — 단위·회귀 검사
+│   │   └── tests/
 │   └── youtube/ — Atlas 화면 앱·Chromium·YouTube 제어
 │       ├── files/ — Atlas 앱 등록 정보
 │       ├── include/ — 공개 헤더와 연결 인터페이스
@@ -43,7 +43,7 @@ Pauseable.edge/
 │   ├── deploy/ — 설치·서비스 설정
 │   │   ├── systemd/ — 서비스·타이머 Unit
 │   │   └── wandering-voice/ — 배회 TTS·시간대 라우팅·가전 Bridge
-│   │       └── tests/ — 단위·회귀 검사
+│   │       └── tests/
 │   ├── files/ — Atlas 앱 등록 정보
 │   ├── integration/ — MQTT·API·Outbox·Piper·원시 센서 연결
 │   │   ├── include/ — 공개 헤더와 연결 인터페이스
@@ -52,7 +52,7 @@ Pauseable.edge/
 │   ├── mmwave-tools/ — 센서 계약·Archive 독립 실행 도구
 │   ├── scripts/ — 전처리·실행·출력 보조 스크립트
 │   ├── src/ — 구현 소스
-│   └── tests/ — 단위·회귀 검사
+│   └── tests/
 ├── mmwave-relay/ — Serial 계약 검사·SSH/FIFO 전달·시뮬레이션
 └── voice-model/ — ONNX 모델 다운로드·검증·활성화
 ```
