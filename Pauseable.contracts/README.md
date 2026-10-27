@@ -1,4 +1,4 @@
-# Memolink 공통 통신 규격
+# 공통 통신 규격과 수신 검증
 
 AI·Central·API·보호자 앱 사이의 메시지 형식을 정의합니다. JSON Schema에는 필수 필드, 자료형과 허용값을 명시했습니다. AI 추론, Central의 최종 결정과 앱 알림을 서로 다른 메시지로 구분하고, 각 서비스가 수신 시 형식과 처리 조건을 검사합니다.
 
@@ -10,6 +10,8 @@ AI·Central·API·보호자 앱 사이의 메시지 형식을 정의합니다. J
 
 ## 메시지 구성
 
+이 폴더는 실행 프로그램이 아니라 **생산자와 소비자가 함께 지켜야 할 데이터 계약**입니다. 세 메시지의 책임과 센서·명령·음성의 보조 규격을 나누어 관리합니다.
+
 ![AI Inference, Central Decision, App Alert가 역할에 따라 구분되는 메시지 지도](../Pauseable.docs/assets/readme/contract-map.svg)
 
 AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과에 실행 정책을 적용해 최종 Decision Event를 만들고, API는 보호자가 확인할 알림으로 제공합니다. AI의 `risk` 판정만으로 가전 동작이 실행되지는 않습니다.
@@ -20,8 +22,7 @@ AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과�
 |  Central Decision | 메시지를 승인했으며 어떤 동작을 허용했는가? |
 |  App Alert | 보호자가 어떤 사건과 안내를 확인해야 하는가? |
 
-<details>
-<summary><strong>연결별 Schema 파일 전체 보기</strong></summary>
+### Schema 파일 목록
 
 | 연결 | 기준 파일 | 메시지 의미 |
 | --- | --- | --- |
@@ -33,8 +34,6 @@ AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과�
 | 센서 → 수신기 | [`mmwave-target-event.schema.json`](mmwave-target-event.schema.json) | 센서 대상·위치·시각 등 입력 |
 | HA → 연동 계층 | [`ha-entity-event.schema.json`](ha-entity-event.schema.json) | 엔티티 상태 이벤트 |
 | 음성 요청·결과 | [`voice-request.schema.json`](voice-request.schema.json), [`voice-result.schema.json`](voice-result.schema.json) | 음성 관련 교환 형식 |
-
-</details>
 
 기본 AI·Central 통신은 `communication-v1`을 기준으로 합니다. 그 외 Schema의 적용 범위는 각 모듈의 구현과 배포 설정에 따릅니다.
 
@@ -57,8 +56,7 @@ AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과�
 | `pauseable/ai/repetitive/decision` | `repetitive-ai` | `normal`, `repetitive`, `unknown` |
 | `pauseable/ai/wandering/decision` | `wandering-ai` | `normal`, `wandering`, `unknown` |
 
-<details>
-<summary><strong>주요 필드와 식별 규칙</strong></summary>
+### 필드와 식별 규칙
 
 | 필드 | 목적 |
 | --- | --- |
@@ -75,7 +73,11 @@ AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과�
 
 현재 v1은 시연 대상자·장치 ID를 고정해 검사합니다. 다른 가구나 다중 사용자에게 적용하려면 생산자·Central·Schema·API의 식별 규칙과 접근권한을 함께 변경해야 합니다.
 
-</details>
+HA 내부의 `attention`·`risk`는 전송 계약의 `caution`·`danger`로 매핑합니다. 내부 CSV의 단계 이름을 MQTT에 그대로 복사하는 방식이 아닙니다. 점수·근거·상태 매핑은 각 Publisher와 Central 검증기를 함께 확인합니다.
+
+### 전달과 재전송
+
+MQTT 전달은 메시지 형식과 별개입니다. QoS 1에서는 같은 메시지가 다시 올 수 있으므로 `event_id`와 내용을 함께 검사합니다. 중복 제거는 재전송에 대비한 처리이며 모든 물리 출력의 정확히 한 번 실행을 보장하지는 않습니다. 사건 시각은 Central 기본 정책의 과거 300초·미래 30초 범위도 통과해야 합니다.
 
 ## Central → API: 실행 결정 전달
 

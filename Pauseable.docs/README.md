@@ -1,4 +1,4 @@
-# Memolink 설계·검증 자료
+# 설계·데이터 근거·평가·운영 자료
 
 시스템 설계, AI 평가, 보고서와 장치 운영 자료를 모았습니다. 구현 설명은 영역별 README에서, 실험의 입력·조건·결과는 아래 평가 파일에서 확인할 수 있습니다.
 
@@ -17,6 +17,8 @@
 ![구현 코드·자동 검사·저장된 평가·실제 장치 시험의 검증 범위](assets/readme/evidence-map.svg)
 
 ## 주요 문서
+
+문서는 **설계 → 데이터 근거 → 평가 결과 → 보고서 → 운영 기록**으로 읽습니다. 기능 설명을 찾는 경우 해당 상위 README로, 수치의 출처를 확인하는 경우 원본 평가 파일로 이동합니다.
 
 | 내용 | 자료 |
 | --- | --- |
@@ -37,6 +39,19 @@
 
 평가 파일에는 데이터 출처, 실행 환경과 미실행 항목을 함께 기록했습니다. 소프트웨어 검사와 실제 장치 시험은 구분합니다.
 
+### 데이터 근거
+
+| 범주 | 자료 | 사용하는 목적 |
+| --- | --- | --- |
+| 공개 데이터 | [공개 전력 데이터 검토](ha/public_power_data_guide.md) | 일반 사용 패턴·입력 변환 참고 |
+| 문헌 | [반복행동 증상·가전 시나리오 조사](ha/EVIDENCE_RESEARCH_20261005_KO.md) | 관측 가능한 행동과 가설 구성 |
+| 평가 설계 | [Baseline 검증 절차](ha/ha_baseline_validation_protocol.md), [경로 형태 실험](../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md) | 입력·대조 조건·분할·해석 범위 |
+| 개인 데이터 정책 | [음성 데이터·산출물](voice/DATA_AND_ARTIFACTS_KO.md) | 동의·보관·Git 제외 기준 |
+
+공개 전력 데이터나 문헌으로 만든 합성 시나리오를 실제 치매 환자의 정답 라벨로 취급하지 않습니다.
+
+### 평가 원본과 기록
+
 | 평가 | 기록·결과 | 적용 범위 |
 | --- | --- | --- |
 | HA 자동 검사·월간 운용 | [검증 요약](evaluation/ha/verification_summary.json): 2026-10-23, x86_64·Python 3.12.15, unit 184개·report 16개, 최초 학습·검증·갱신 시험 | 합성 데이터. 해당 기록에서 Pi·실가전 E2E 미실행 |
@@ -44,7 +59,7 @@
 | HA 개인화 | [검증 요약](evaluation/ha/verification_summary.json): 576개 시점에서 attention 6개가 정상으로 조정되고 risk 6개 유지 | 위 모델별 비교와 별도의 시험. 정상 맥락 전체의 오탐 해결을 뜻하지 않음 |
 | HA MQTT·행동 평가 반영 | 같은 검증 요약의 `mqtt`: 로컬 broker, 중복 평가·정정 반영·새 결정 전송 확인 | 합성 입력. Pi·Flutter 연결 시험은 해당 기록에 포함되지 않음 |
 | mmWave 경로 형태 | [`metrics.json`](../Pauseable.ai/mmwave/src/shape_v2/artifacts/metrics.json), [실험 설계](../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md) | 합성 경로. 실측 LD6004·임상 배회 성능 미검증 |
-| 앱·API | [앱 검증 기록](../Pauseable.apps/README.md#7-검증-결과와-남은-확인), [CI](../.github/CI_README.md) | 자동 검사, 서버 연결, 팀 시연 보고와 미확인 항목을 구분 |
+| 앱·API | [앱 검증 기록](../Pauseable.apps/README.md#자동-검사와-팀-실기-기록), [CI](../.github/CI_README.md) | 자동 검사, 서버 연결, 팀 시연 보고와 미확인 항목을 구분 |
 
 ### HA 결과 해석
 

@@ -5,97 +5,163 @@
       "file": "memolink-overview.svg",
       "title": "Memolink 동작 개요 · 개발팀 PAUSEABLE",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "README.md"
+      ]
     },
     {
       "file": "ai-pipelines.svg",
-      "title": "Memolink AI 분석과 음성 학습 구조 · 개발팀 PAUSEABLE",
+      "title": "AI 분석과 음성 학습의 세 범주",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.ai/README.md"
+      ]
     },
     {
       "file": "learning-lifecycle.svg",
-      "title": "이력 수집부터 모델 적용까지",
+      "title": "개인 이력에서 IF·AE 적용까지",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.ai/ha/src/ha_model_lifecycle.py",
+        "Pauseable.ai/ha/src/train_ha_anomaly_models.py"
+      ]
     },
     {
       "file": "apps-connections.svg",
-      "title": "장치 · API · 보호자 앱 연결",
+      "title": "장치·API·보호자 앱의 책임",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.apps/api/app/main.py",
+        "Pauseable.apps/api/app/security.py",
+        "Pauseable.apps/guardian/lib/main.dart"
+      ]
     },
     {
       "file": "notification-sequence.svg",
-      "title": "상황 판단에서 보호자 알림까지",
+      "title": "사건 저장과 보호자 알림 전달",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.apps/api/app/main.py",
+        "Pauseable.apps/api/app/alert_pauses.py"
+      ]
     },
     {
       "file": "contract-map.svg",
-      "title": "AI 추론 · 실행 결정 · 앱 알림의 통신 규격",
+      "title": "세 메시지는 서로 다른 책임을 담습니다",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.contracts/communication-v1/schemas/behavior-inference.schema.json",
+        "Pauseable.contracts/communication-v1/schemas/decision-event.schema.json",
+        "Pauseable.contracts/communication-v1/schemas/app-alert.schema.json"
+      ]
     },
     {
       "file": "validation-gates.svg",
-      "title": "Central 입력 검증과 실행 조건",
+      "title": "Central 수신 검증의 다섯 단계",
       "kind": "architecture",
-      "liveStatus": false
-    },
-    {
-      "file": "device-bundles.svg",
-      "title": "장치별 배포 소스 구성",
-      "kind": "architecture",
-      "liveStatus": false
-    },
-    {
-      "file": "deployment-stages.svg",
-      "title": "빌드 · 설치 · 실기 확인 절차",
-      "kind": "architecture",
-      "liveStatus": false
-    },
-    {
-      "file": "evidence-map.svg",
-      "title": "구현과 검증 자료의 구성",
-      "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.edge/central/core/src/BehaviorInference.cpp",
+        "Pauseable.edge/central/core/src/ActionRouter.cpp"
+      ]
     },
     {
       "file": "central-routing.svg",
-      "title": "Central의 메시지 수신과 출력 제어",
+      "title": "판단 메시지에서 실행과 전송으로",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.edge/central/src/main.cpp",
+        "Pauseable.edge/central/core/src/ActionRouter.cpp",
+        "Pauseable.edge/central/integration/src/DecisionOutbox.cpp"
+      ]
     },
     {
       "file": "model-release.svg",
-      "title": "Pi 음성 모델 검증과 교체",
+      "title": "새 음성 모델의 검증과 교체",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.edge/voice-model/voice_model_updater.py"
+      ]
     },
     {
       "file": "favorite-music.svg",
-      "title": "행동 안내 후 선호 음악 재생",
+      "title": "행동 안내 이후 선호 음악 요청",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.edge/actions/favorite-music",
+        "Pauseable.edge/actions/youtube"
+      ]
     },
     {
       "file": "weather-light.svg",
-      "title": "거주지역 · 날씨 · 태양 고도 기반 조명",
+      "title": "지역·날씨·태양 고도에 따른 조명",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.integrations/home-assistant/weather-light-control/weather_api.py",
+        "Pauseable.integrations/home-assistant/weather-light-control/weather_location.py"
+      ]
+    },
+    {
+      "file": "device-bundles.svg",
+      "title": "장치별 소스와 실행 산출물의 구분",
+      "kind": "architecture",
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.deploy/mmwave-autostart/package_devices.py"
+      ]
+    },
+    {
+      "file": "deployment-stages.svg",
+      "title": "배포의 단계별 진행 조건",
+      "kind": "architecture",
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.deploy/README.md",
+        "Pauseable.docs/DEPLOYMENT_HANDOFF.txt"
+      ]
+    },
+    {
+      "file": "evidence-map.svg",
+      "title": "설계·시험·평가·실기 기록의 읽는 법",
+      "kind": "architecture",
+      "liveStatus": false,
+      "sources": [
+        "Pauseable.docs/evaluation/ha/verification_summary.json",
+        "Pauseable.docs/README.md"
+      ]
     },
     {
       "file": "ci-map.svg",
-      "title": "파트별 자동 검사와 앱 빌드",
+      "title": "자동 검사의 다섯 범주",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        ".github/workflows/ha-report-checks.yml",
+        ".github/workflows/native-alert-checks.yml",
+        ".github/workflows/voice-checks.yml",
+        ".github/workflows/favorite-music-checks.yml",
+        ".github/workflows/native-push-apk.yml"
+      ]
     },
     {
       "file": "apk-build.svg",
-      "title": "Android 시험 APK 생성과 실기 확인",
+      "title": "Android 빌드와 실제 알림 시험",
       "kind": "architecture",
-      "liveStatus": false
+      "liveStatus": false,
+      "sources": [
+        ".github/workflows/native-push-apk.yml",
+        "Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md"
+      ]
     }
   ]
 }

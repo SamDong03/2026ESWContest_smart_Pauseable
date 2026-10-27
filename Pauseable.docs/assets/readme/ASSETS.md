@@ -25,6 +25,19 @@ README와 보고서에서 사용하는 구조도·평가 그래프의 출처와 
 
 SVG는 외부 폰트·스크립트·이미지 없이 GitHub Markdown에서 표시됩니다. 모듈별 세부 조건과 기본값은 각 README 및 실행 코드에 정의되어 있습니다.
 
+### 범주와 표현 기준
+
+| 범주 | 그림에 나타내는 것 |
+| --- | --- |
+| AI | HA·mmWave·Voice의 독립 파이프라인, 학습 자격·검증·모드 선택 |
+| Apps | App·Device·Worker의 인증 경계, 사건 저장과 알림 중지·전달 |
+| Central·계약 | 검증 단계·중복·실행 정책, 로컬 출력과 API 전송 분리 |
+| 장치 운영 | 음성 모델 후보/활성 버전, 음악 요청·오류, 지역·조명 타이머 |
+| 배포·검증 | 소스 묶음/실행 파일 구분, 단계별 진행 조건, 평가 근거의 범위 |
+| CI | Workflow별 검사와 별도 Android 실기 확인 |
+
+파트별 그림 15개는 공통 글꼴·여백·영역 색을 사용하지만, 흐름에 맞춰 연결도·분기·시퀀스·검증표로 구분합니다. 실선은 처리·전달, 점선은 실패·보류 경로를 나타냅니다. `diagram_manifest.json`의 `sources`는 각 그림을 대조한 저장소 파일입니다. 구조도에 평가 수치를 꾸며 넣거나 현재 장치의 성공 상태를 표시하지 않습니다.
+
 전체 시스템과 AI 구조도는 한글 설명과 영역별 색상으로 장치·Pi 5·클라우드의 책임을 구분합니다. Home Assistant는 Pi 5 안에 표시하며, 반복행동·배회 판단과 별도 음성 모델 학습 경로를 구분합니다. 한글은 시스템의 맑은 고딕·Apple SD Gothic Neo·Noto Sans KR 계열 폰트로 표시됩니다.
 
 ## 시스템 구조도 연결 기준
@@ -73,7 +86,9 @@ python -m pip install matplotlib==3.10.8 numpy==2.3.5
 python Pauseable.docs/assets/readme/plot_evaluation.py
 ```
 
-- [`build_diagrams.mjs`](build_diagrams.mjs): Node.js 표준 모듈로 SVG 16개와 [`diagram_manifest.json`](diagram_manifest.json) 생성.
+- [`build_diagrams.mjs`](build_diagrams.mjs): 전체 시스템·개요·파트별 SVG 17개와 [`diagram_manifest.json`](diagram_manifest.json) 생성.
+- [`build_mechanisms.mjs`](build_mechanisms.mjs): AI·Apps·Edge·Contracts·Deploy·Integrations·Docs·CI의 파트별 그림 15개 정의.
+- [`diagram_primitives.mjs`](diagram_primitives.mjs): 글꼴·글자 폭·영역·화살표·표·브랜드 로고의 공통 렌더링.
 - [`build_overview.mjs`](build_overview.mjs): 동작 개요 1개 생성. 외부 이미지 없이 직접 그린 선형 아이콘을 사용하며 위 전체 생성 명령에 포함.
 - [`build_architectures.mjs`](build_architectures.mjs): 전체 시스템 및 AI 구조도 2개 생성. 위 전체 생성 명령에서도 호출하며 별도 실행도 가능.
 - [`build_system_architecture.mjs`](build_system_architecture.mjs): 전체 시스템 구조도의 장치·서비스·프로토콜과 브랜드 로고 배치. 위 구조도 생성기에서 호출.

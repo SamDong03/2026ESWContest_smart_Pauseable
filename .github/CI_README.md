@@ -1,4 +1,4 @@
-# Memolink 자동 검사와 앱 빌드
+# 자동 검사·Android 빌드·결과 확인
 
 HA 보고서 검증, 앱·API, 음성 모델 처리와 음악 출력의 회귀 검사를 GitHub Actions로 실행합니다. Android 시험 APK는 수동 Workflow에서 생성합니다. 실제 서버·장치 설치 절차는 [배포 안내](../Pauseable.deploy/README.md)에 정리했습니다.
 
@@ -12,8 +12,7 @@ HA 보고서 검증, 앱·API, 음성 모델 처리와 음악 출력의 회귀 �
 
 ## 자동 검사 구성
 
-<details>
-<summary><strong>Workflow 파일·실행 조건·산출물</strong></summary>
+### Workflow별 책임
 
 | 파일 | 검사·산출물 | 주요 실행 조건 |
 | --- | --- | --- |
@@ -25,7 +24,11 @@ HA 보고서 검증, 앱·API, 음성 모델 처리와 음악 출력의 회귀 �
 
 경로 조건의 정확한 목록은 각 workflow의 `on` 정의를 확인합니다. README만 바뀐 commit에서는 경로 필터 때문에 일부 또는 전부가 실행되지 않을 수 있습니다.
 
-</details>
+### 실행과 결과 확인
+
+관련 경로 변경은 Workflow의 `on.paths` 조건에 따라 검사를 실행합니다. 각 job은 의존성 설치 → 파트별 검사/빌드 → 결과 기록 순서입니다. 실패한 job의 로그와 대상 commit을 함께 확인합니다. 문서 수정만으로 모든 런타임 검사가 다시 실행되는 것은 아닙니다.
+
+HA Workflow는 보고서 회귀 검사이며 HA 전체 Unit 검사·Pi 장기 운영을 대신하지 않습니다. Voice 검사는 실제 GPU 학습을, 음악 검사는 실제 YouTube 재생을 자동 수행하지 않습니다. 현재 Workflow 목록에는 정식 Atlas Central `.ipk` 빌드와 전체 센서 E2E job이 없습니다.
 
 ## 기준 환경
 

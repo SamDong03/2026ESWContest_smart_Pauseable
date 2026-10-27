@@ -1,4 +1,4 @@
-# Memolink 빌드와 장치 배포
+# 빌드·장치 설치·복구
 
 Pi 3·Pi 4·Pi 5의 배포 소스, systemd 설정과 기존 설치의 이름 변경 정보를 관리합니다. 장치별 소스 묶음을 생성한 뒤, 대상 환경에서 빌드·설정·설치·실기 시험을 진행합니다.
 
@@ -14,6 +14,13 @@ Pi 3·Pi 4·Pi 5의 배포 소스, systemd 설정과 기존 설치의 이름 변
 [전체 프로젝트](../README.md) · [Edge 구성](../Pauseable.edge/README.md) · [전체 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
 
 [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) · [배포 준비 상태](#배포-준비-상태) · [소스 묶음](#기기별-소스-묶음) · [장치별 준비](#장치별-준비)
+
+| 범주 | 다루는 내용 |
+| --- | --- |
+| 산출물 | 소스 묶음·Central 패키지·모바일 앱·음성 모델 구분 |
+| 장치별 구성 | Pi 3 센서 / Pi 4 카메라 / Pi 5 분석·Central / GPU 음성 |
+| 설치 절차 | 백업·소스 검증·대상 빌드·인증/권한·서비스·실기 시험 |
+| 복구·이전 | 기존 설정·모델·DB 보존, 필요한 파일만 교체 |
 
 ![공통 소스에서 Pi 3·Pi 4·Pi 5의 역할별 소스 묶음으로 나누는 배포 구조](../Pauseable.docs/assets/readme/device-bundles.svg)
 
@@ -35,6 +42,14 @@ HA 서비스는 [`Pauseable.ai/ha/deploy`](../Pauseable.ai/ha/deploy), 개별 �
 ![백업부터 소스 검증·빌드·환경 설정·설치·E2E 확인까지의 배포 단계](../Pauseable.docs/assets/readme/deployment-stages.svg)
 
 `tar.gz`는 소스와 설정을 전달하는 압축 파일입니다. Central 앱의 `.ipk`, Android APK와 개인화 ONNX는 각 빌드·학습 절차에서 별도로 생성합니다.
+
+| 단계 | 진행 조건 | 중단·복구 기준 |
+| --- | --- | --- |
+| 백업 | 모델·DB·환경 파일·기존 서비스 보관 | 백업 없이 개인 데이터를 덮어쓰지 않음 |
+| 소스 검증 | Manifest 선언 파일과 체크섬 일치 | 불일치 원인을 검토하고 묶음 승인 보류 |
+| 빌드·설정 | 장치용 SDK·이미지·모델·토큰·권한 준비 | 소스 압축만으로 실행됐다고 판단하지 않음 |
+| 설치 | 대상 장치·필요 경로·서비스 확인 | 실패 시 백업한 해당 파일과 버전 복원 |
+| 실기 확인 | 입력·판정·출력·API·앱 대조 | 서비스 `active`만으로 완료 처리하지 않음 |
 
 ## 배포 준비 상태
 
