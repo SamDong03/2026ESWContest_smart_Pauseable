@@ -16,6 +16,8 @@
 
 Central은 AI JSON을 그대로 API에 전달하지 않습니다. 수신 검증과 Action Router를 거친 결과로 두 번째 메시지를 만듭니다.
 
+첫 번째는 **관측에 대한 판단**, 두 번째는 **Central이 허용한 처리**, 세 번째는 **보호자 화면에 표시할 알림**입니다. 같은 사건을 다루지만 메시지의 역할과 필드는 서로 다릅니다.
+
 <a id="ai--central-추론-전달"></a>
 
 ## 2. AI 판단을 MQTT로 전달한다
@@ -37,12 +39,15 @@ MQTT의 **Topic**은 메시지를 구분하는 주소입니다. 반복행동과 
 | `patient_id`, `device_id` | 대상자와 발생 장치 |
 | `source`, `behavior` | 판단을 만든 프로그램과 관측 행동 |
 | `risk_level`, `risk_score` | 시스템 위험 단계와 0~100의 정수 점수 |
+| `model_version` | 판단에 사용한 모델·정책의 버전 |
 | `inference_status` | 정상 추론, 관측 부족, 센서 오류, 모델 오류 구분 |
 | `evidence` | 선택적인 관측 개수·구간 길이·패턴·판정 근거 |
 
 `inference_status=ok`이면 행동·위험도·정수 점수를 보냅니다. 관측 부족이나 오류이면 행동과 위험도는 `unknown`, 점수는 `null`입니다. HA 내부의 `attention/risk`는 Publisher에서 `caution/danger`로 바꿉니다. 점수는 질병 확률이나 모델 정확도가 아닙니다.
 
 필드가 채워진 예시는 [repetitive-inference.json](communication-v1/examples/repetitive-inference.json)에 있습니다. 예시를 실제 발행할 때는 새 사건 ID와 현재 UTC 시각을 사용해야 합니다.
+
+`event_id`는 전송할 판단 메시지를 식별합니다. 네트워크 재시도에는 같은 ID·같은 내용을 사용하고, 새로운 판단에는 새 ID를 사용합니다. HA에서 여러 판정 시점을 묶은 Episode와 전송 메시지 ID는 구분합니다.
 
 ### 2.2 전달 방식
 
@@ -79,6 +84,8 @@ JSON이 아닌 입력이나 잘못된 필드는 거절 사유를 기록합니다
 
 API도 같은 ID·같은 내용의 재전송과 같은 ID·다른 내용의 충돌을 구별합니다. 실제 예시는 [central-decision.json](communication-v1/examples/central-decision.json), 변환 코드는 [DecisionEvent.cpp](../Pauseable.edge/central/core/src/DecisionEvent.cpp)에 있습니다.
 
+`actions`는 허용한 동작을 나타내는 필드이며 실제 장치의 완료 확인은 아닙니다. 현재 기본 C++ Router는 `control_appliance`를 활성화하지 않습니다. 가전은 Central 승인 로그를 확인하는 [별도 출력 프로그램](../Pauseable.edge/README.md#4-행동별-출력-central-승인-후-가전과-안내를-실행한다)에서 실행합니다.
+
 ## 5. 그 밖의 입력과 응답
 
 | 용도 | 파일 |
@@ -89,7 +96,7 @@ API도 같은 ID·같은 내용의 재전송과 같은 ID·다른 내용의 충�
 | 장치 명령·ACK | [device-command.schema.json](communication-v1/schemas/device-command.schema.json), [command-ack.schema.json](communication-v1/schemas/command-ack.schema.json) |
 | 음성 요청·결과 | [voice-request.schema.json](voice-request.schema.json), [voice-result.schema.json](voice-result.schema.json) |
 
-보조 규격의 적용 여부는 해당 모듈의 수신 코드와 배포 설정을 확인합니다. 파일이 있다는 이유만으로 모든 경로가 연결되어 있다고 보지 않습니다.
+보조 규격의 적용 범위는 모듈마다 다릅니다. 해당 Schema와 실제 수신 코드·배포 설정을 함께 확인합니다.
 
 <a id="검증-구현"></a>
 <a id="버전-관리"></a>

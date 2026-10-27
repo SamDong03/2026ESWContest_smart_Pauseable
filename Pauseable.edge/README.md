@@ -12,6 +12,8 @@
 | 음성 모델 교체 | `voice-model/` | Pi 5 |
 | 선호 음악 | `actions/favorite-music/` | Pi 5 |
 
+먼저 1절에서 **판단 수신 → 검증 → 실행 허용 → 출력·전송**을 읽습니다. 2~3절은 센서·카메라 입력, 4~6절은 행동별 가전·음성·음악 출력, 7절은 설치 후 확인 순서입니다.
+
 <a id="central-app"></a>
 <a id="central-구현과-설치-상세"></a>
 
@@ -70,7 +72,7 @@ EventLedger는 이미 처리한 입력을 기억하는 기록입니다. 다음 �
 
 Outbox는 **API에 보낼 사건을 디스크에 보관하는 대기함**입니다. 전송 실패를 재시도하지만 TTS·가전을 모두 다시 실행하는 큐는 아닙니다. API 접수와 실제 스피커·가전·휴대폰 출력도 각각 확인합니다.
 
-가전 연동은 별도 watcher와 bridge를 사용하는 구성이 포함되어 있습니다. 현재 기본 C++ Router는 `controlAppliance`를 활성화하지 않으므로, 통신 규격에 `control_appliance`가 정의되어 있다는 사실만으로 C++에서 직접 가전 명령까지 실행한다고 설명하지 않습니다.
+watcher는 Central 로그를 지켜보다 승인된 사건의 출력 작업을 시작하는 프로그램이고, bridge는 그 작업을 가전 백엔드 명령으로 연결합니다. 현재 기본 C++ Router의 `controlAppliance`는 비활성입니다. 가전 실행 여부는 별도 watcher·bridge의 설정과 결과 로그에서 확인합니다.
 
 ### 1.5 활성화 설정을 맞춘다
 
@@ -81,6 +83,7 @@ Outbox는 **API에 보낼 사건을 디스크에 보관하는 대기함**입니�
 | `MQTT_DECISIONS_ENABLED` | `true` | 판단 메시지 수신 |
 | `REPETITIVE_ACTIONS_ENABLED` | `false` | 반복행동 실행 허용 |
 | `WANDERING_ACTIONS_ENABLED` | `false` | 배회 실행 허용 |
+| `RECOVERY_NOTIFICATIONS_ENABLED` | `false` | Normal 복귀 알림 |
 | `AI_LOCAL_TTS_ENABLED` | `false` | C++ 로컬 TTS |
 | `DECISION_GATEWAY_ENABLED` | `false` | Outbox·API 전달 |
 | `MMWAVE_ENABLED` | `0` | 별도 원시 UDP 관측 |
@@ -114,7 +117,9 @@ ctest --test-dir build/mmwave-tools -C Release --output-on-failure
 3. SSH로 Pi 5의 `/run/pauseable-wandering-input.fifo`에 전달합니다.
 4. Pi 5의 Python 배회 분석기가 FIFO를 읽습니다.
 
-Serial/dialout 권한, SSH 계정·키와 Pi 5 FIFO reader를 준비해야 합니다. 선택적 UDP 복사는 Central 관측·Archive용입니다. 기본 port는 5005이며, 이 원시 관측은 MQTT AI 판단이나 Action Router 입력과 다릅니다.
+Serial/dialout 권한, Pi 5 주소, SSH 키·등록한 호스트 키와 Pi 5 FIFO reader를 준비해야 합니다. 현재 supervisor의 SSH 접속 계정은 코드에 `root`로 지정되어 있습니다. 주소는 [Pi 3 서비스](../Pauseable.deploy/mmwave-autostart/pi3/pauseable-mmwave-relay.service)의 `--host`를 실제 Pi 5 주소로 맞춥니다.
+
+현재 supervisor는 FIFO 전송과 함께 UDP 관측 복사도 요청합니다. 하위 `relay_serial.py`에서는 `--udp-host`를 지정할 때만 이 복사가 활성화됩니다. 기본 port는 5005이며, 이 원시 관측은 MQTT AI 판단이나 Action Router 입력과 다릅니다.
 
 <a id="카메라-트리거와-사진"></a>
 
@@ -126,6 +131,8 @@ Serial/dialout 권한, SSH 계정·키와 Pi 5 FIFO reader를 준비해야 합�
 4. 앱이 App 인증으로 비공개 이미지를 조회합니다.
 
 예시 트리거는 가상 도어락이므로 실제 엔티티에 맞춰 바꿉니다. [camera.env.example](camera/camera.env.example)과 [Dockerfile](camera/Dockerfile)에서 카메라 권한·인증·시간·주소를 준비합니다. 촬영, 업로드, 앱 조회를 같은 출입 사건으로 대조합니다.
+
+HA가 Pi 4를 호출할 때 쓰는 `PAUSEABLE_TRIGGER_TOKEN`과, Pi 4가 API에 업로드할 때 쓰는 `PAUSEABLE_DEVICE_TOKEN`은 서로 다른 인증값입니다. [HA secrets 예시](camera/home-assistant/secrets.yaml.example)도 함께 맞춥니다.
 
 ## 4. 행동별 출력: Central 승인 후 가전과 안내를 실행한다
 
@@ -164,21 +171,26 @@ watcher는 `CENTRAL_DECISION_ACCEPTED`와 `CENTRAL_ACTION_ROUTED` 로그를 연�
 4. Device API가 현재 등록 목록에서 곡을 무작위 선택합니다.
 5. 기본 `atlas` 모드에서는 검증한 `video_id`를 Pi FIFO로 보내 기존 ATLAS Chromium 화면·스피커에 재생을 요청합니다. `PAUSEABLE_MUSIC_BACKEND=lg_tv`이면 같은 ID를 HA/webOS TV 실행기에 전달합니다.
 
-LG TV 경로의 설치·환경변수·검증 범위는 [LG_TV_SETUP_KO.md](actions/favorite-music/LG_TV_SETUP_KO.md)를 참고합니다. 설치기는 기존 TV 실행기를 함께 배치하며, 실제 TV 재생은 별도 실기 확인이 필요합니다.
+| 재생 방식 | 설정 | 출력 경로 |
+| --- | --- | --- |
+| Pi 화면 | `PAUSEABLE_MUSIC_BACKEND=atlas` · 기본값 | FIFO → ATLAS Chromium → Pi 화면·스피커 |
+| LG TV | `PAUSEABLE_MUSIC_BACKEND=lg_tv` | HA 인증·TV 엔티티 → `webostv.command` → TV YouTube 앱 |
+
+LG TV의 설정과 시험 범위는 [LG TV 연결 안내](actions/favorite-music/LG_TV_SETUP_KO.md)에 있습니다. 설치기는 TV 실행기를 함께 배치하며, TV 경로의 재생 요청에는 ATLAS FIFO를 사용하지 않습니다.
 
 모듈은 [actions/favorite-music](actions/favorite-music)에 있습니다. 기본 재요청 간격은 300초이며 동시에 들어온 요청도 합칩니다. 빈 목록·인증·네트워크·플레이어 오류이면 음악만 건너뜁니다. 보호자 알림·사진 경로와 다른 작업입니다.
 
 ### 6.2 장치에 설치한다
 
 1. 기존 설정·서비스를 백업하고 시연 중인 장치 조작을 멈춥니다.
-2. `/var/lib/pauseable/ha.env`의 Device Token, 기존 Docker 이미지와 YouTube 화면·오디오 환경을 준비합니다. 설치기는 이미지를 자동 빌드하거나 내려받지 않습니다.
+2. `/var/lib/pauseable/ha.env`의 Device Token과 설치기가 요구하는 기존 Docker 이미지를 준비합니다. 설치기는 이미지를 자동 빌드하거나 내려받지 않습니다.
 3. 저장소 루트에서 설치합니다.
 
 ```sh
 sudo sh Pauseable.edge/actions/favorite-music/install.sh
 ```
 
-4. `/data/pauseable/favorite-music/player.env`의 API 주소·`PATIENT_ID`를 앱과 맞춥니다.
+4. `/data/pauseable/favorite-music/player.env`의 API 주소·`PATIENT_ID`를 앱과 맞추고 재생 방식을 선택합니다. `atlas`는 Pi 화면·오디오를, `lg_tv`는 HA Token·TV 엔티티·필요 시 Wake-on-LAN 설정을 준비합니다.
 5. 앱에서 선호곡을 등록하고 아래 명령으로 실제 재생을 시험합니다.
 
 ```sh
@@ -186,18 +198,20 @@ sudo sh /data/pauseable/favorite-music/request.sh
 journalctl -u pauseable-favorite-music.service -u pauseable-youtube-control.service -n 50 --no-pager
 ```
 
-ATLAS의 읽기 전용 루트는 설치기가 임의로 해제하지 않습니다. 서비스는 실제 화면·스피커를 동작시키므로 시험 장치에서 실행합니다. `REQUESTED` 로그는 컨트롤러에 요청한 상태이며 광고·로그인·네트워크·영상 삭제·자동 재생 정책에 따른 실제 재생은 화면과 소리로 확인합니다.
+ATLAS의 읽기 전용 루트는 설치기가 임의로 해제하지 않습니다. 서비스는 선택한 Pi 또는 TV의 실제 출력을 동작시키므로 시험 장치에서 실행합니다. `REQUESTED` 로그는 재생 요청 상태이며 광고·로그인·네트워크·영상 삭제·자동 재생 정책에 따른 실제 재생은 화면과 소리로 확인합니다.
 
 ### 6.3 중단하거나 복구한다
 
 `player.env`의 `PAUSEABLE_FAVORITE_MUSIC_ENABLED=0`은 이후 음악 요청만 중단합니다. `PAUSEABLE_MUSIC_COOLDOWN_SECONDS` 기본값은 300이며, 시험 중 0으로 바꿨다면 복구합니다.
 
-이미 요청한 재생도 멈추려면 해당 작업과 브라우저 서비스를 중지합니다.
+진행 중인 음악 작업은 아래 서비스로 중지합니다. `atlas` 모드에서는 브라우저 서비스도 중지할 수 있습니다.
 
 ```sh
 sudo systemctl stop pauseable-favorite-music.service
 sudo systemctl stop pauseable-youtube-browser.service
 ```
+
+`lg_tv`에서 이미 시작한 영상은 위 Pi 브라우저 중지로 멈추지 않습니다. TV 또는 HA에서 재생 상태를 별도로 확인하고 중단합니다.
 
 설치 전 파일은 설치기가 출력한 `/data/pauseable/backups/favorite-music-...`에 보관됩니다. 해당 파일만 복원하고 `systemctl daemon-reload` 후 출력 watcher·YouTube controller를 재시작합니다. Central·Gateway·API·카메라 전체를 다시 설치할 필요는 없습니다.
 
@@ -211,4 +225,4 @@ sudo systemctl stop pauseable-youtube-browser.service
 4. TTS·가전·음악·휴대폰 알림·출입 사진을 실제 장치에서 각각 확인합니다.
 5. 중복 메시지, 재시작, 연결 끊김과 모델 검증 실패 시의 복구를 시험합니다.
 
-[전체 배포 인계](../Pauseable.deploy/README.md#배포-순서) · [HA 시연 절차](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)
+[장치별 배포](../Pauseable.deploy/README.md#장치별-준비) · [보호자 앱의 실기 알림 시험](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)

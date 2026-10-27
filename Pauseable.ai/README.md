@@ -10,6 +10,8 @@
 | [mmWave 배회](#mmwave-구현과-설치-상세) · `mmwave/` | 대상 위치·시각·품질 | 배회 의심 판단 JSON | Pi 5 |
 | [Voice](#voice-학습과-운영-상세) · `voice/` | 동의한 녹음·대본 | Piper ONNX 음성 모델 | GPU Worker |
 
+각 파트는 **입력 수집 → 가공 → 판단 또는 학습 → 결과 전달 → 실행·검사** 순서로 설명합니다. HA와 mmWave의 결과는 상황에 대한 판단이며, 가전·음성·앱 알림을 실행하는 명령 자체는 아닙니다.
+
 <a id="ha-반복행동-판단"></a>
 
 ## 1. HA: 가전 사용에서 반복행동 판단까지
@@ -51,6 +53,8 @@ Home Assistant의 **엔티티**는 가전의 전원·문 상태·운전 모드 �
 | 지속 서비스 분석 회차 | 이전 분석 종료 후 600초 대기 |
 
 분석 사이에도 수집기는 계속 실행합니다. 인접 Feature는 같은 과거 기록을 공유하므로 Feature 행 수와 독립 사건 수는 다릅니다.
+
+위 600초는 Python 프로그램의 기본값입니다. 제출용 서비스 예시는 `--cycle-seconds 60`으로 덮어씁니다. 실제 분석 간격은 사용한 서비스의 실행 옵션으로 확인합니다.
 
 <a id="baseline과-개인화-모델"></a>
 
@@ -146,13 +150,19 @@ python -m unittest discover -s Pauseable.ai/ha/tests -v
 
 | 실제 연결·운영 | 확인할 파일 |
 | --- | --- |
-| HA 주소·Token·엔티티 매핑 | [실시간 수집 가이드](ha/src/collect_ha_events_ws.py) |
-| 지속 실행 | [run_ha_full_service.py](ha/src/run_ha_full_service.py), [systemd 설정](ha/deploy/systemd) |
+| HA 주소·Token·엔티티 선택 | [환경 파일 예시](ha/deploy/systemd/ha-ai.env.example), [수집기 옵션](ha/src/collect_ha_events_ws.py) |
+| 실제 상태의 동작 매핑 | [entity_mapper.py](ha/src/entity_mapper.py) |
+| 지속 실행 | [run_ha_full_service.py](ha/src/run_ha_full_service.py), [제출용 서비스 예시](ha/deploy/systemd/ha-ai-submission.service.example) |
 | Pi 이미지 | [Dockerfile.pi](ha/Dockerfile.pi) |
 | 연구·시뮬레이션 | [Dockerfile.research](ha/Dockerfile.research), [compose.research.yaml](ha/compose.research.yaml) |
-| 시연 | [DEMO_RUNBOOK_KO.md](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md) |
+| 가상 가전 시연 | [run_ha_live_demo.py](ha/src/run_ha_live_demo.py) |
+| Central 수신 이후 확인 | [장치별 출력 점검](../Pauseable.edge/README.md#실기-점검과-복구-원칙) |
 
 연구 데이터와 실제 가구 이력은 저장 경로·가구 ID·모델 버전을 분리합니다.
+
+기본 연속 수집은 `run_ha_full_service.py`, 가상 가전 시연은 `run_ha_live_demo.py`입니다. 시연 프로그램을 실제 가구의 수집 서비스와 혼용하지 않습니다. `Dockerfile.pi`의 기본 명령은 도움말을 출력하므로 이미지 실행만으로 지속 수집이 시작되지는 않습니다.
+
+제출용 서비스 예시는 `shadow`, 60초 회차, MQTT 전송 활성 옵션을 사용합니다. 기존 `ha-ai-full.service`는 `hybrid`·규칙 선별 이력 허용과 이전 설치 경로를 포함합니다. 배포할 예시 하나를 고르고 주소·경로·이미지·모드·가구 ID를 맞춥니다. 두 수집 서비스를 같은 이력 경로에 동시에 실행하지 않습니다.
 
 <a id="ha-평가-결과"></a>
 
@@ -224,7 +234,7 @@ Pi의 [Model Updater](../Pauseable.edge/README.md#음성-모델-교체)는 후�
 
 ### 3.5 학습 전 검사와 운영
 
-Python 3.11 별도 가상환경을 활성화한 뒤 저장소 루트에서 시작합니다.
+Linux 또는 WSL의 Python 3.11 별도 가상환경을 활성화한 뒤 저장소 루트에서 시작합니다. Worker가 사용하는 `fcntl`은 Windows 기본 Python에서 제공하지 않습니다.
 
 ```sh
 cd Pauseable.ai/voice
@@ -232,7 +242,13 @@ python -m pip install -r requirements.worker.txt
 python -m unittest discover -s pipeline -p 'test_*.py' -v
 ```
 
-실제 GPU 학습 전 [r2_worker.py](voice/pipeline/r2_worker.py)의 `--dry-run`을 수행합니다. 인증 형식은 [worker.env.example](voice/worker.env.example), 입력·보관·삭제 기준은 [데이터 정책](../Pauseable.apps/README.md#음성-녹음과-동의)을 따릅니다.
+실제 GPU 학습 전 아래 명령으로 로컬 녹음 세트를 검사합니다. `LOCAL_DATASET_DIR`를 WAV와 `recording_script.csv`가 있는 폴더로 바꿉니다. 앞 단계와 같은 `Pauseable.ai/voice` 폴더에서 실행합니다.
+
+```sh
+python pipeline/r2_worker.py --dry-run --dataset-dir LOCAL_DATASET_DIR
+```
+
+dry-run은 API·R2·GPU를 호출하지 않습니다. 인증 형식은 [worker.env.example](voice/worker.env.example), 동의·녹음 범위는 [앱의 음성 수집 설명](../Pauseable.apps/README.md#음성-녹음과-동의), 주기 실행은 [Worker 서비스](../Pauseable.deploy/gpu/voice-worker/pauseable-voice-training-worker.service)를 확인합니다.
 
 <a id="데이터-출처와-검증-기준"></a>
 

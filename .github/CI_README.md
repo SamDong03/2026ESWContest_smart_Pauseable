@@ -23,12 +23,14 @@
 
 | 대상 | 정의한 환경 |
 | --- | --- |
-| HA 로컬 검사·API·음악 | Python 3.12 |
+| API·날씨·음악 | Python 3.12 |
 | Voice | Python 3.11 |
 | Flutter | Flutter 3.47.6 |
 | Android | JDK 17·Android SDK 36 및 각 Workflow 실행기 |
 
 각 job은 저장소 checkout, 도구·의존성 준비, 파트별 검사 순으로 진행합니다. API와 앱이 공유하는 지역 목록·음성 대본도 대조합니다. 실제 Token은 공개 소스 대신 Actions 변수·Secret에서 필요한 작업에만 제공합니다.
+
+HA의 Python 3.12 검사는 현재 Workflow에 없으므로 [AI README의 로컬 명령](../Pauseable.ai/README.md#로컬-검사)으로 별도 실행합니다. 코드가 저장소에 있다는 사실과 CI에서 자동 검사한다는 사실은 구분합니다.
 
 ## 3. 검사 결과를 읽는다
 
@@ -66,7 +68,7 @@
 | --- | --- |
 | 모의 API·임시 저장소·Player 응답 | 실제 Render·Pi 화면·스피커·YouTube 재생 |
 | Flutter 분석·테스트·빌드 | 설치한 휴대폰의 권한·잠금·절전·Push 수신 |
-| 저장된 합성 그림 자료·검사 코드 | 실제 가구 데이터·장기 운영·탐지 성능 |
+| 파트별 모의 입력·검사 코드 | 실제 가구 데이터·장기 운영·탐지 성능 |
 | Worker·모델 교체 코드 | GPU 학습·R2 게시·Pi 설치·합성 |
 
 HA 모듈 검사는 [AI 안내](../Pauseable.ai/README.md#로컬-검사)의 명령으로 별도 실행합니다. Voice 검사는 실제 GPU 학습, 음악 검사는 실제 YouTube 재생을 수행하지 않습니다.

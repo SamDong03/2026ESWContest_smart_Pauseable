@@ -2,7 +2,7 @@
 
 이 폴더는 공통 저장소의 소스와 설정을 Pi 3·Pi 4·Pi 5에 나누어 전달하는 배포 도구를 관리합니다. **소스 준비, 대상 환경 빌드, 장치 설치와 실기 확인은 순서대로 진행합니다.** GitHub 갱신만으로 실행 중인 장치가 바뀌지는 않습니다.
 
-[전체 시스템](../README.md) · [장치 프로그램](../Pauseable.edge/README.md) · [상세 배포 인계](README.md#배포-순서)
+[전체 시스템](../README.md) · [장치 프로그램](../Pauseable.edge/README.md) · [장치별 준비](#장치별-준비)
 
 ## 1. 먼저 산출물을 구분한다
 
@@ -22,7 +22,7 @@
 | 장치·영역 | 담당 기능 | 배포 관련 경로 |
 | --- | --- | --- |
 | Pi 3 | mmWave Serial 입력·SSH 중계 | [mmwave-autostart/pi3](mmwave-autostart/pi3) |
-| Pi 4 | 카메라 버퍼·대표 사진 업로드 | [camera 소스](../Pauseable.edge/camera), [배포 인계](README.md#배포-순서) |
+| Pi 4 | 카메라 버퍼·대표 사진 업로드 | [카메라 설정과 입력](../Pauseable.edge/README.md#카메라-트리거와-사진), [Dockerfile](../Pauseable.edge/camera/Dockerfile) |
 | Pi 5 | AI·Central·FIFO·음성·출력 | [mmwave-autostart/pi5](mmwave-autostart/pi5), [pi5/systemd](pi5/systemd) |
 | HA 서비스 | 가전 수집·분석·출력 서비스 | [HA deploy](../Pauseable.ai/ha/deploy) |
 | GPU Worker | Piper 학습 작업 | [gpu/voice-worker](gpu/voice-worker) |
@@ -73,11 +73,11 @@ sha256sum -c BUNDLE.sha256
 
 <a id="배포-준비-상태"></a>
 
-### 현재 소스 검사 결과
+### 검사 결과를 확인하는 방법
 
-2026-10-28 최종 문서 정리를 반영한 소스 Manifest는 744개 파일을 선언합니다. 삭제된 문서 경로를 제외하고, 현재 `main`의 앱·API·음악 출력 변경과 README를 포함해 체크섬을 갱신했습니다.
+Manifest에는 소스·설정·README가 포함됩니다. 불일치가 나오면 해당 파일의 변경이 의도된 것인지 검토한 뒤, 승인한 내용에 맞게 그 항목의 체크섬을 갱신합니다.
 
-소스 무결성 검사와 Pi 3·Pi 4·Pi 5 묶음 생성·압축 내부 체크섬 검사를 통과했습니다. 실제 장치 설치·센서·카메라·음성·휴대폰의 E2E 확인은 별도입니다.
+`--verify-source-manifest`가 성공하면 `SOURCE_MANIFEST_OK files=...`가 출력됩니다. 이후 세 장치의 묶음을 만들고 각 묶음의 `BUNDLE.sha256`을 검사합니다. 이 결과는 파일의 일치를 확인하며 실제 장치 설치·센서·카메라·음성·휴대폰 동작 확인은 별도입니다.
 
 <a id="장치별-준비"></a>
 
@@ -91,7 +91,36 @@ sha256sum -c BUNDLE.sha256
 | GPU Worker | NVIDIA Driver·Docker GPU·Worker Token | dry-run·Job 임대·학습·게시 |
 | API·앱 | API 저장소·Push 설정·앱 빌드 설정 | 인증·이력·설치 APK의 알림 |
 
-Pi 3 설치기의 `--check`는 파일 구성을 확인하고 `--apply`는 설치를 수행합니다. 설치만으로 서비스를 자동 시작하지 않습니다. 각 설치 스크립트와 [배포 인계](README.md#배포-순서)의 시작 순서를 따릅니다. ATLAS 읽기 전용 루트나 보안 설정을 설치 편의를 위해 임의로 완화하지 않습니다.
+### 5.1 Pi 5의 입력 수신·분석을 먼저 준비한다
+
+1. Home Assistant와 MQTT Broker의 주소·인증을 확인합니다.
+2. HA는 [제출용 서비스 예시](../Pauseable.ai/ha/deploy/systemd/ha-ai-submission.service.example)의 경로·이미지·Baseline·가구 ID를 맞춥니다. 이 예시는 `shadow`·60초 회차·MQTT 전송 활성 구성이며 기존 시연용 서비스와 구분합니다.
+3. mmWave는 [Dockerfile](mmwave-autostart/pi5/Dockerfile), [환경 파일 예시](mmwave-autostart/pi5/publisher.env.example), [FIFO 준비 스크립트](mmwave-autostart/pi5/pauseable-mmwave-prepare-fifo.sh)와 Publisher 서비스를 함께 준비합니다. Pi 3가 연결하기 전에 FIFO reader가 있어야 합니다.
+4. Central은 대상 Atlas SDK에서 빌드한 `.ipk`를 설치하고 [수신·출력 활성화 설정](../Pauseable.edge/README.md#15-활성화-설정을-맞춘다)을 맞춥니다.
+
+경로와 이미지 이름은 예시 파일에 지정된 값입니다. 저장소를 내려받았다고 해당 경로·Docker 이미지·서비스가 장치에 생성되는 것은 아닙니다.
+
+### 5.2 Pi 3 릴레이를 연결한다
+
+저장소 또는 Pi 3 소스 묶음의 최상위 폴더에서 먼저 확인합니다.
+
+```sh
+sh Pauseable.deploy/mmwave-autostart/pi3/install.sh --check
+```
+
+실제 설치는 `--apply`입니다. 설치기는 root 권한·`pauseable` 사용자·신규 설치 경로를 요구하며 기존 설치를 덮어쓰지 않습니다. 파일 설치만으로 서비스가 시작되지는 않습니다. [Pi 3 서비스](mmwave-autostart/pi3/pauseable-mmwave-relay.service)의 Pi 5 주소와 Serial 설정, SSH 키·호스트 키를 맞춘 뒤 서비스를 시작합니다.
+
+### 5.3 사진·음성·음악·조명을 연결한다
+
+| 기능 | 다음에 확인할 내용 |
+| --- | --- |
+| 출입 사진 | [HA 트리거·Pi 4 Token·업로드](../Pauseable.edge/README.md#카메라-트리거와-사진) |
+| 개인화 음성 | [GPU Worker](../Pauseable.ai/README.md#voice-학습과-운영-상세) → [Pi 모델 검증·교체](../Pauseable.edge/README.md#음성-모델-교체) |
+| 행동별 가전 출력 | [watcher·시간대 선택·bridge 설정](../Pauseable.edge/README.md#4-행동별-출력-central-승인-후-가전과-안내를-실행한다) |
+| 선호 음악 | [설치기·Device 인증·Pi 또는 LG TV 재생](../Pauseable.edge/README.md#선호-음악-설치와-시험) |
+| 환경 조명 | [지역·날씨·HA 설정·타이머](../Pauseable.integrations/README.md#장치-적용과-확인) |
+
+모듈마다 환경변수 이름이 다릅니다. 예를 들어 API 주소는 Camera·Voice에서 `PAUSEABLE_API_URL`, 조명에서 `PAUSEABLE_API_BASE_URL`, Central의 사건 전송에서는 `DECISION_GATEWAY_URL`을 사용합니다. 각 프로그램의 예시·코드에서 읽는 이름을 확인합니다. ATLAS 읽기 전용 루트나 보안 설정은 설치 편의를 위해 임의로 완화하지 않습니다.
 
 <a id="완료-기준"></a>
 
