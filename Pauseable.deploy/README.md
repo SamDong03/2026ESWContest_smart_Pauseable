@@ -23,8 +23,8 @@
 Pauseable.deploy/
 ├── gpu/ — GPU 음성 학습 장치 설정
 │   └── voice-worker/ — 학습 Worker systemd 서비스
-├── migration/ — 이전 이름·경로·서비스 대응 자료
-│   └── legacy-checks/ — 기존 장치 파일의 이전 체크섬 기록
+├── migration/
+│   └── legacy-checks/
 ├── mmwave-autostart/ — 소스 Manifest·장치별 묶음 생성기
 │   ├── pi3/ — Serial 릴레이 설치기·서비스
 │   └── pi5/ — FIFO·mmWave Docker·Publisher 설정
