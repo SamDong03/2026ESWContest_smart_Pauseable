@@ -3,7 +3,7 @@
   "diagrams": [
     {
       "file": "ai-pipelines.svg",
-      "title": "Three pipelines, separate responsibilities",
+      "title": "PAUSEABLE AI 분석과 음성 학습 구조",
       "kind": "architecture",
       "liveStatus": false
     },

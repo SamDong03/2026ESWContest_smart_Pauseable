@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildArchitectures } from './build_architectures.mjs';
 
 const out = path.dirname(fileURLToPath(import.meta.url));
 const C = { ink: '#203b30', muted: '#65786e', line: '#b4c8bd', green: '#245c45', teal: '#147f82', blue: '#315f92', amber: '#a46a1e', red: '#a54545', paper: '#f5f8f6' };
@@ -23,22 +24,9 @@ async function save(file, title, subtitle, height, content, note = 'Architecture
   diagrams.push({ file, title, kind: 'architecture', liveStatus: false });
 }
 
+await buildArchitectures();
+diagrams.push({ file: 'ai-pipelines.svg', title: 'PAUSEABLE AI 분석과 음성 학습 구조', kind: 'architecture', liveStatus: false });
 let b = '';
-const rows = [
-  ['HA', 'green', ['HA events', 'state_changed / Recorder'], ['Features', '10m / 30m / 1h / 2h'], ['Baseline + IF / AE', 'Repetition / routine gates'], ['MQTT decision', 'repetitive-ai']],
-  ['mmWave', 'blue', ['Target events', 'Position / tracking quality'], ['Trajectory features', 'Shape / personal history'], ['Temporal evidence', 'Persistence / quality gates'], ['MQTT decision', 'wandering-ai']],
-  ['Voice', 'teal', ['Consent + WAV', 'Metadata / format checks'], ['Piper training', 'GPU fine-tuning'], ['Export + validate', 'ONNX / JSON / sample WAV'], ['Model release', 'API / R2 to Pi 5']],
-];
-rows.forEach((row, i) => {
-  const y = 124 + i * 132;
-  b += text(32, y + 45, row[0], 17, C[row[1]], 700);
-  row.slice(2).forEach((step, j) => {
-    const x = 150 + j * 238;
-    b += node(x, y, 224, step[0], [step[1]], row[1], 86);
-    if (j < 3) b += edge(`M${x + 224} ${y + 43}H${x + 238}`);
-  });
-});
-await save('ai-pipelines.svg', 'Three pipelines, separate responsibilities', 'Behavior models publish decisions. Voice training produces a deployable model.', 548, b);
 
 function chain(labels, y = 144, tone = 'green') {
   const gap = 18;

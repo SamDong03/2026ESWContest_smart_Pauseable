@@ -24,6 +24,8 @@
 
 SVG는 이 저장소의 설명을 위해 새로 작성했습니다. 외부 폰트·스크립트·이미지를 불러오지 않으며 GitHub Markdown의 일반 이미지로 표시됩니다. 세부 조건과 기본값은 연결된 README 및 실행 코드를 기준으로 확인합니다.
 
+전체 시스템과 AI 구조도는 한글 설명과 영역별 색상으로 장치·Pi 5·클라우드의 책임을 구분합니다. Home Assistant는 Pi 5 안에 표시하며, 반복행동·배회 판단과 별도 음성 모델 학습 경로를 구분합니다. 한글은 시스템의 맑은 고딕·Apple SD Gothic Neo·Noto Sans KR 계열 폰트로 표시됩니다.
+
 ## 평가 그래프
 
 | 그림 | 원본·범위 | 주의 |
@@ -47,6 +49,7 @@ python Pauseable.docs/assets/readme/plot_evaluation.py
 ```
 
 - [`build_diagrams.mjs`](build_diagrams.mjs): Node.js 표준 모듈로 SVG 15개와 [`diagram_manifest.json`](diagram_manifest.json) 생성.
+- [`build_architectures.mjs`](build_architectures.mjs): 전체 시스템 및 AI 구조도 2개 생성. 위 전체 생성 명령에서도 호출하며 별도 실행도 가능.
 - [`plot_evaluation.py`](plot_evaluation.py): 저장된 JSON을 읽어 PNG 3개와 출처 Manifest 생성. 임시 Matplotlib cache는 종료 시 정리.
 - 별도 모델·서비스 실행, 네트워크 호출, 개인정보·인증값 접근은 하지 않음.
 - 학습 iteration별 Loss 시계열은 선택한 원본에 없어 새 곡선을 만들지 않음.
