@@ -24,8 +24,8 @@
 
 ```text
 Pauseable.ai/
-├── assets/ — AI README의 기존 그림과 출처
-│   └── data/ — 그림에 사용한 저장된 합성 원본
+├── assets/
+│   └── data/
 ├── ha/ — 가전 이벤트 수집·개인화·반복행동 판단
 │   ├── data/ — 입력·예시 자료
 │   │   └── raw/ — 플랫폼 원시 리소스 또는 원시 입력
@@ -37,7 +37,7 @@ Pauseable.ai/
 │   │   └── systemd/ — 서비스·타이머 Unit
 │   ├── scripts/ — 전처리·실행·출력 보조 스크립트
 │   ├── src/ — 구현 소스
-│   └── tests/ — 단위·회귀 검사
+│   └── tests/
 ├── mmwave/ — 이동 경로·개인 변화·지속성 판단
 │   └── src/ — 구현 소스
 │       └── shape_v2/ — 36개 경로 특징과 Random Forest 학습·추론
@@ -53,7 +53,7 @@ Pauseable.ai/
     └── serving/ — 별도 TTS HTTP 서버
 ```
 
-`ha/src`는 실제 처리 코드, `ha/tests`는 회귀 검사, `ha/deploy`는 장치 실행 설정입니다. `mmwave/src/shape_v2`는 현재 저장된 RF 모델의 학습·추론 구성입니다. `voice/pipeline`은 작업 관리, `voice/serving`은 별도 HTTP 합성 서버이며 GPU 학습과 역할이 다릅니다. `assets`는 이 README에서만 사용하는 기존 그림과 합성 원본입니다.
+`ha/src`는 실제 처리 코드, `ha/tests`는 회귀 검사, `ha/deploy`는 장치 실행 설정입니다. `mmwave/src/shape_v2`는 현재 저장된 RF 모델의 학습·추론 구성입니다. `voice/pipeline`은 작업 관리, `voice/serving`은 별도 HTTP 합성 서버이며 GPU 학습과 역할이 다릅니다.
 
 <a id="ha-반복행동-판단"></a>
 <a id="ha-가전-이벤트-수집과-특징-생성"></a>
