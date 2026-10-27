@@ -42,4 +42,12 @@ journalctl --unit="$CENTRAL_UNIT" --boot --lines=0 --follow --output=cat --no-pa
             : > "$claim/failed"
             echo "REPETITIVE_CENTRAL_OUTPUT_FAILED event_id=$event_id output=$selected"
         fi
+
+        # Network/player work runs in a separate oneshot AFTER guidance. Its
+        # failure must never change the action outcome or app notification path.
+        music_request=/data/pauseable/favorite-music/request.sh
+        if [ -r "$music_request" ]; then
+            echo "REPETITIVE_FAVORITE_MUSIC_REQUEST event_id=$event_id"
+            /bin/sh "$music_request" || true
+        fi
     done

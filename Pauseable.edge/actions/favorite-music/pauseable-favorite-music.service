@@ -1,0 +1,16 @@
+[Unit]
+Description=Request a saved favorite song without blocking safety alerts
+After=ha-docker-engine.service
+Requires=ha-docker-engine.service
+RequiresMountsFor=/data/pauseable /var/lib/pauseable
+
+[Service]
+Type=oneshot
+User=root
+UMask=0077
+ExecStart=/bin/sh /data/pauseable/favorite-music/play.sh
+ExecStopPost=-/usr/bin/docker rm --force pauseable-favorite-music-runner
+TimeoutStartSec=150
+TimeoutStopSec=15
+StandardOutput=journal
+StandardError=journal

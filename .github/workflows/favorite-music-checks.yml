@@ -1,0 +1,52 @@
+name: Favorite music device checks
+
+on:
+  pull_request:
+    paths:
+      - 'Pauseable.edge/actions/favorite-music/**'
+      - 'Pauseable.edge/actions/youtube/**'
+      - 'Pauseable.edge/central/deploy/wandering-voice/**'
+      - 'Pauseable.ai/ha/deploy/**'
+      - 'Pauseable.ai/ha/scripts/pauseable-youtube-control.sh'
+      - 'Pauseable.ai/ha/tests/**'
+      - '.github/workflows/favorite-music-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Pauseable.edge/actions/favorite-music/**'
+      - 'Pauseable.edge/actions/youtube/**'
+      - 'Pauseable.edge/central/deploy/wandering-voice/**'
+      - 'Pauseable.ai/ha/deploy/**'
+      - 'Pauseable.ai/ha/scripts/pauseable-youtube-control.sh'
+      - 'Pauseable.ai/ha/tests/**'
+      - '.github/workflows/favorite-music-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  device-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Player and routing tests (mock API/player, no live hardware)
+        run: |
+          python -m unittest discover -s Pauseable.edge/actions/favorite-music/tests -v
+          python -m unittest discover -s Pauseable.ai/ha/tests -p test_repetitive_tts_context.py -v
+          python -m unittest discover -s Pauseable.ai/ha/tests -p test_repetitive_central_output.py -v
+          python -m unittest discover -s Pauseable.edge/central/deploy/wandering-voice/tests -p test_route_filter.py -v
+          python -m unittest discover -s Pauseable.edge/central/deploy/wandering-voice/tests -p test_time_router.py -v
+      - name: Shell syntax
+        run: |
+          for script in Pauseable.edge/actions/favorite-music/*.sh \
+            Pauseable.edge/actions/youtube/pauseable-youtube-control.sh \
+            Pauseable.ai/ha/scripts/pauseable-youtube-control.sh \
+            Pauseable.ai/ha/deploy/repetitive-central-output-watch.sh \
+            Pauseable.edge/central/deploy/wandering-voice/watch.sh; do
+            sh -n "$script"
+          done
