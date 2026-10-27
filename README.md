@@ -1,6 +1,6 @@
 <div align="center">
 
-# PAUSEABLE
+# Memolink
 
 ### 익숙한 생활 속 변화를 살피는 스마트 홈 케어
 
