@@ -78,20 +78,14 @@ class _AlertsTabState extends State<_AlertsTab> {
             padding: const EdgeInsets.only(bottom: 12),
             child: _NotificationCard(
               alert: alert,
-              acknowledged:
-                  alert.isRepetitiveBehavior &&
-                  !alert.isServerAlert &&
-                  widget.anomalyPaused,
-              pausedDuration: alert.isRepetitiveBehavior && !alert.isServerAlert
+              acknowledged: alert.isRepetitiveBehavior && widget.anomalyPaused,
+              pausedDuration: alert.isRepetitiveBehavior
                   ? widget.pausedDuration
                   : null,
-              onConfirmNormal:
-                  alert.isRepetitiveBehavior && !alert.isServerAlert
+              onConfirmNormal: alert.isRepetitiveBehavior
                   ? widget.onConfirmNormal
                   : null,
-              onResume: alert.isRepetitiveBehavior && !alert.isServerAlert
-                  ? widget.onResume
-                  : null,
+              onResume: alert.isRepetitiveBehavior ? widget.onResume : null,
               onTap: () => widget.onAlertTap(alert),
             ),
           ),

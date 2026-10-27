@@ -371,11 +371,12 @@ void main() {
     expect(find.text('안전'), findsOneWidget);
 
     await tester.scrollUntilVisible(
-      find.text('현재 위치'),
+      find.text('활동 상태'),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('현재 위치'), findsOneWidget);
+    expect(find.text('현재 위치'), findsNothing);
+    expect(find.text('3분 전 이동'), findsNothing);
 
     await tester.scrollUntilVisible(
       find.text('최근 알림'),
@@ -528,80 +529,83 @@ void main() {
     expect(find.textContaining('미확인 0건'), findsOneWidget);
   });
 
-  testWidgets('live repeated-behavior alert appears without demo pause action', (
-    tester,
-  ) async {
-    final repository = _MemoryGuardianRepository(snapshot)
-      ..alertHistory = [
-        LiveAppAlert(
-          id: 'evt-repeated-fridge-001',
-          occurredAt: DateTime.utc(2026, 10, 4, 10, 11, 12),
-          riskLevel: 'caution',
-          alertType: 'repetitive_behavior',
-          title: 'AI 반복 행동 감지',
-          message: '냉장고 문을 반복해서 확인하는 행동이 감지되었습니다.',
+  testWidgets(
+    'live repeated-behavior alert offers a real notification pause without fake counts',
+    (tester) async {
+      final repository = _MemoryGuardianRepository(snapshot)
+        ..alertHistory = [
+          LiveAppAlert(
+            id: 'evt-repeated-fridge-001',
+            occurredAt: DateTime.utc(2026, 10, 4, 10, 11, 12),
+            riskLevel: 'caution',
+            alertType: 'repetitive_behavior',
+            title: 'AI 반복 행동 감지',
+            message: '냉장고 문을 반복해서 확인하는 행동이 감지되었습니다.',
+          ),
+        ];
+      await tester.pumpWidget(PauseableApp(repository: repository));
+      await tester.pumpAndSettle();
+      final behaviorCard = find.byKey(const ValueKey('home-behavior-alert'));
+      await tester.scrollUntilVisible(
+        behaviorCard,
+        400,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(
+        find.descendant(of: behaviorCard, matching: find.text('반복행동 감지')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: behaviorCard, matching: find.text('평소 범위')),
+        findsNothing,
+      );
+      expect(
+        find.descendant(of: behaviorCard, matching: find.text('최근 20분')),
+        findsNothing,
+      );
+      expect(
+        find.descendant(
+          of: behaviorCard,
+          matching: find.textContaining('null'),
         ),
-      ];
-    await tester.pumpWidget(PauseableApp(repository: repository));
-    await tester.pumpAndSettle();
-    final behaviorCard = find.byKey(const ValueKey('home-behavior-alert'));
-    await tester.scrollUntilVisible(
-      behaviorCard,
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(
-      find.descendant(of: behaviorCard, matching: find.text('반복행동 감지')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(of: behaviorCard, matching: find.text('평소 범위')),
-      findsNothing,
-    );
-    expect(
-      find.descendant(of: behaviorCard, matching: find.text('최근 20분')),
-      findsNothing,
-    );
-    expect(
-      find.descendant(of: behaviorCard, matching: find.textContaining('null')),
-      findsNothing,
-    );
-    expect(
-      find.descendant(
-        of: behaviorCard,
-        matching: find.text(
-          '감지 시각 · ${repository.alertHistory.single.toGuardianAlert().timeLabel}',
+        findsNothing,
+      );
+      expect(
+        find.descendant(
+          of: behaviorCard,
+          matching: find.text(
+            '감지 시각 · ${repository.alertHistory.single.toGuardianAlert().timeLabel}',
+          ),
         ),
-      ),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(
-        of: behaviorCard,
-        matching: find.text('냉장고 문을 반복해서 확인하는 행동이 감지되었습니다.'),
-      ),
-      findsOneWidget,
-    );
-    await tester.tap(find.text('알림'));
-    await tester.pumpAndSettle();
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: behaviorCard,
+          matching: find.text('냉장고 문을 반복해서 확인하는 행동이 감지되었습니다.'),
+        ),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('알림'));
+      await tester.pumpAndSettle();
 
-    final liveCard = find.ancestor(
-      of: find.text('AI 반복 행동 감지'),
-      matching: find.byType(Card),
-    );
-    expect(liveCard, findsOneWidget);
-    expect(
-      find.descendant(of: liveCard, matching: find.text('정상으로 확인')),
-      findsNothing,
-    );
-    await tester.tap(find.text('AI 반복 행동 감지'));
-    await tester.pumpAndSettle();
-    expect(find.text('확인했습니다'), findsOneWidget);
-    expect(find.text('정상 상황으로 확인'), findsNothing);
-    expect(repository.markedReadIds, ['evt-repeated-fridge-001']);
-    expect(find.textContaining('null'), findsNothing);
-    expect(find.text('감지 횟수'), findsNothing);
-  });
+      final liveCard = find.ancestor(
+        of: find.text('AI 반복 행동 감지'),
+        matching: find.byType(Card),
+      );
+      expect(liveCard, findsOneWidget);
+      expect(
+        find.descendant(of: liveCard, matching: find.text('정상으로 확인')),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('AI 반복 행동 감지'));
+      await tester.pumpAndSettle();
+      expect(find.text('정상 상황으로 확인'), findsOneWidget);
+      expect(repository.markedReadIds, ['evt-repeated-fridge-001']);
+      expect(find.textContaining('null'), findsNothing);
+      expect(find.text('감지 횟수'), findsNothing);
+    },
+  );
 
   for (final metrics in <({int? count, int? min, int? max})>[
     (count: null, min: 1, max: 3),
@@ -871,8 +875,77 @@ void main() {
 
     await tester.tap(find.text('알림'));
     await tester.pumpAndSettle();
-    expect(find.text('확인됨'), findsOneWidget);
+    expect(find.text('알림 중지 중'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
+
+  testWidgets(
+    'saved pause survives reopening, resumes and expires without blocking photos',
+    (tester) async {
+      final repository = _MemoryGuardianRepository(snapshot);
+      repository._setPause(DateTime.now().add(const Duration(minutes: 30)));
+      Future<void> open() async {
+        await tester.pumpWidget(PauseableApp(repository: repository));
+        await tester.pumpAndSettle();
+        await tester.scrollUntilVisible(
+          find.byKey(const ValueKey('home-behavior-alert')),
+          400,
+          scrollable: find.byType(Scrollable).first,
+        );
+      }
+
+      await open();
+      expect(find.text('반복 행동 알림 일시 중지됨'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox.shrink());
+      await open();
+      expect(find.text('반복 행동 알림 일시 중지됨'), findsOneWidget);
+      await tester.ensureVisible(find.text('알림 다시 켜기'));
+      await tester.tap(find.text('알림 다시 켜기'));
+      await tester.pumpAndSettle();
+      expect(repository.snapshot.repetitiveAlertsPaused, isFalse);
+      expect(
+        repository.snapshot.doorEvents,
+        hasLength(snapshot.doorEvents.length),
+      );
+      await tester.pumpWidget(const SizedBox.shrink());
+      repository._setPause(DateTime.now().add(const Duration(seconds: 2)));
+      await open();
+      repository._setPause(DateTime.now().subtract(const Duration(seconds: 1)));
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
+      expect(find.text('반복 행동 알림 일시 중지됨'), findsNothing);
+      expect(find.text('정상으로 확인'), findsWidgets);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
+  testWidgets(
+    'failed pause save never claims that notifications have stopped',
+    (tester) async {
+      final repository = _MemoryGuardianRepository(snapshot)
+        ..failPauseSave = true;
+      tester.view.physicalSize = const Size(800, 1400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(PauseableApp(repository: repository));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('home-behavior-alert')),
+        400,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(find.text('정상으로 확인'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('정상으로 확인'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('1시간 동안 알림 중지'));
+      await tester.pumpAndSettle();
+      expect(find.text('반복 행동 알림 일시 중지됨'), findsNothing);
+      expect(find.textContaining('알림 중지 상태를 확인하지 못했습니다.'), findsOneWidget);
+      expect(repository.snapshot.repetitiveAlertsPaused, isFalse);
+    },
+  );
 
   testWidgets('door alert reloads a missing photo and opens its scene', (
     tester,
@@ -1645,14 +1718,33 @@ class _MemoryGuardianRepository implements GuardianRepository {
   @override
   Future<GuardianSnapshot> loadSnapshot() async => snapshot;
 
+  bool failPauseSave = false;
+
   @override
   Future<void> pauseAlert({
     required String alertId,
     required Duration duration,
-  }) async {}
+  }) async {
+    if (failPauseSave) throw StateError('Pause storage unavailable');
+    _setPause(DateTime.now().add(duration));
+  }
 
   @override
-  Future<void> resumeAlert({required String alertId}) async {}
+  Future<void> resumeAlert({required String alertId}) async {
+    _setPause(null);
+  }
+
+  void _setPause(DateTime? until) {
+    snapshot = GuardianSnapshot(
+      patient: snapshot.patient,
+      alerts: snapshot.alerts,
+      activity: snapshot.activity,
+      doorEvents: snapshot.doorEvents,
+      demoScenario: snapshot.demoScenario,
+      repetitiveAlertPauseAvailable: true,
+      repetitiveAlertPauseUntil: until,
+    );
+  }
 
   @override
   Future<void> confirmDoorEvent({required String eventId}) async {}

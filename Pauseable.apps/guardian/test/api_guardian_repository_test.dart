@@ -513,6 +513,22 @@ void main() {
     final requests = <http.Request>[];
     final client = MockClient((request) async {
       requests.add(request);
+      if (request.url.path.endsWith('/repetitive-alert-pause')) {
+        return http.Response(
+          jsonEncode({
+            'scope': 'repetitive_behavior',
+            'available': true,
+            'is_paused': request.method == 'POST',
+            'paused_until': request.method == 'POST'
+                ? DateTime.now()
+                      .add(const Duration(hours: 1))
+                      .toUtc()
+                      .toIso8601String()
+                : null,
+          }),
+          200,
+        );
+      }
       return http.Response('{}', 200);
     });
     final repository = ApiGuardianRepository(
@@ -529,11 +545,33 @@ void main() {
     await repository.activateDemoScenario(scenarioId: 'inactivity');
 
     expect(requests[0].method, 'POST');
-    expect(requests[0].url.path, '/api/alerts/alert-door-001/pause');
+    expect(
+      requests[0].url.path,
+      '/api/patients/byunwoojin/repetitive-alert-pause',
+    );
     expect(jsonDecode(requests[0].body), {'duration_minutes': 60});
-    expect(requests[1].url.path, '/api/alerts/alert-door-001/resume');
+    expect(requests[1].method, 'DELETE');
+    expect(
+      requests[1].url.path,
+      '/api/patients/byunwoojin/repetitive-alert-pause',
+    );
     expect(requests[2].url.path, '/api/door-events/door-event-001/confirm');
     expect(requests[3].url.path, '/api/demo/scenarios/inactivity');
+  });
+
+  test('unconfirmed legacy pause responses cannot claim that notifications stopped', () async {
+    final repository = ApiGuardianRepository(
+      baseUrl: 'http://127.0.0.1:8000',
+      client: MockClient((_) async => http.Response('{}', 200)),
+    );
+    await expectLater(
+      repository.pauseAlert(
+        alertId: 'a',
+        duration: const Duration(minutes: 30),
+      ),
+      throwsStateError,
+    );
+    await expectLater(repository.resumeAlert(alertId: 'a'), throwsStateError);
   });
 
   test('uploads a WAV voice message as multipart data', () async {

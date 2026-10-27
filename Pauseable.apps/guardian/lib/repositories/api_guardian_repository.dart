@@ -29,7 +29,6 @@ class ApiGuardianRepository implements GuardianRepository {
                tokenProvider: appTokenProvider,
              );
 
-
   static const _requestTimeout = Duration(seconds: 60);
   static const _dashboardTimeout = Duration(seconds: 75);
   static const _voiceUploadTimeout = Duration(seconds: 30);
@@ -161,20 +160,35 @@ class ApiGuardianRepository implements GuardianRepository {
   }) async {
     final response = await _client
         .post(
-          _uri('/api/alerts/$alertId/pause'),
+          _uri('/api/patients/$patientId/repetitive-alert-pause'),
           headers: const {'Content-Type': 'application/json'},
           body: jsonEncode({'duration_minutes': duration.inMinutes}),
         )
         .timeout(_requestTimeout);
     _ensureSuccess(response);
+    final saved = _decodeObject(response);
+    if (saved['scope'] != 'repetitive_behavior' ||
+        saved['available'] != true ||
+        saved['is_paused'] != true ||
+        DateTime.tryParse(saved['paused_until'] as String? ?? '')
+                ?.isAfter(DateTime.now()) !=
+            true) {
+      throw StateError('The server did not confirm the notification pause.');
+    }
   }
 
   @override
   Future<void> resumeAlert({required String alertId}) async {
     final response = await _client
-        .post(_uri('/api/alerts/$alertId/resume'))
+        .delete(_uri('/api/patients/$patientId/repetitive-alert-pause'))
         .timeout(_requestTimeout);
     _ensureSuccess(response);
+    final saved = _decodeObject(response);
+    if (saved['scope'] != 'repetitive_behavior' ||
+        saved['available'] != true ||
+        saved['is_paused'] != false) {
+      throw StateError('The server did not confirm resumed notifications.');
+    }
   }
 
   @override
@@ -192,7 +206,6 @@ class ApiGuardianRepository implements GuardianRepository {
         eventId == '..') {
       throw ArgumentError.value(eventId, 'eventId', 'Invalid door event ID');
     }
-
 
     final response = await _client
         .get(_uri('/api/door-events/${Uri.encodeComponent(eventId)}/image'))
@@ -217,7 +230,6 @@ class ApiGuardianRepository implements GuardianRepository {
         .timeout(_requestTimeout);
     _ensureSuccess(response);
   }
-
 
   @override
   Future<GuardianProfile> loadGuardianProfile() async {

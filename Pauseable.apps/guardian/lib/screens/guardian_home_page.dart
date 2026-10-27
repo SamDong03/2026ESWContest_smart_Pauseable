@@ -115,8 +115,8 @@ class GuardianHomePage extends StatefulWidget {
   State<GuardianHomePage> createState() => _GuardianHomePageState();
 }
 
-class _GuardianHomePageState extends State<GuardianHomePage> {
-
+class _GuardianHomePageState extends State<GuardianHomePage>
+    with WidgetsBindingObserver {
   final Map<String, Future<Uint8List>> _doorPhotoRequests = {};
 
   Future<Uint8List> _loadDoorPhoto(DoorEvent event) async {
@@ -138,7 +138,15 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
   }
 
   int _selectedIndex = Uri.base.queryParameters['tab'] == 'alerts' ? 1 : 0;
-  String? _pausedAnomalyDuration;
+  bool _updatingAnomalyPause = false;
+  Timer? _pauseExpiryTimer;
+  String? get _pausedAnomalyDuration {
+    if (_snapshot?.repetitiveAlertsPaused != true) return null;
+    final until = _snapshot!.repetitiveAlertPauseUntil!.toLocal();
+    String two(int value) => value.toString().padLeft(2, '0');
+    return '${until.month}/${until.day} ${two(until.hour)}:${two(until.minute)}까지';
+  }
+
   GuardianSnapshot? _snapshot;
   GuardianProfile? _guardianProfile;
   GuardianPreferences? _notificationPreferences;
@@ -168,11 +176,30 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadSnapshot();
     _loadGuardianProfile();
     _loadVoiceTrainingProgress();
     _bindLiveAlertClient();
     _bindNativePushClient();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) unawaited(_loadSnapshot());
+  }
+
+  void _schedulePauseExpiry() {
+    _pauseExpiryTimer?.cancel();
+    if (_snapshot?.repetitiveAlertsPaused != true) return;
+    final delay = _snapshot!.repetitiveAlertPauseUntil!.difference(
+      DateTime.now(),
+    );
+    _pauseExpiryTimer = Timer(delay, () {
+      if (!mounted) return;
+      setState(() {});
+      unawaited(_loadSnapshot());
+    });
   }
 
   void _bindNativePushClient() {
@@ -225,15 +252,17 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
   }
 
   Future<void> _showLiveAlertNotification(GuardianAlert alert) async {
+    if (alert.isRepetitiveBehavior &&
+        _snapshot?.repetitiveAlertsPaused == true) {
+      return;
+    }
     final revision = _preferencesRevision;
     try {
       final preferences = await widget.repository.loadPreferences();
       if (!mounted) return;
 
       if (revision == _preferencesRevision) _preferencesChanged(preferences);
-    } catch (_) {
-
-    }
+    } catch (_) {}
     if (!mounted || _notificationPreferences?.safetyNotifications == false) {
       return;
     }
@@ -264,6 +293,8 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _pauseExpiryTimer?.cancel();
     unawaited(_nativeOpenSubscription?.cancel() ?? Future<void>.value());
     unawaited(_liveAlertSubscription?.cancel() ?? Future<void>.value());
     unawaited(_liveStatusSubscription?.cancel() ?? Future<void>.value());
@@ -279,6 +310,7 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
         _mergeServerAlerts();
         _loadError = null;
       });
+      _schedulePauseExpiry();
       unawaited(_loadAlertHistory());
     } catch (error) {
       if (!mounted) return;
@@ -331,6 +363,8 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
       activity: snapshot.activity,
       doorEvents: snapshot.doorEvents,
       demoScenario: snapshot.demoScenario,
+      repetitiveAlertPauseUntil: snapshot.repetitiveAlertPauseUntil,
+      repetitiveAlertPauseAvailable: snapshot.repetitiveAlertPauseAvailable,
     );
   }
 
@@ -404,9 +438,9 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
         _snapshot = snapshot;
         _mergeServerAlerts();
         _loadError = null;
-        _pausedAnomalyDuration = null;
         _confirmedDoorEventIds.clear();
       });
+      _schedulePauseExpiry();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${scenario.label} 시나리오를 적용했습니다.')),
       );
@@ -502,7 +536,7 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
-                child: alert.isRepetitiveBehavior && !alert.isServerAlert
+                child: alert.isRepetitiveBehavior
                     ? FilledButton.icon(
                         onPressed: () {
                           Navigator.pop(sheetContext);
@@ -705,6 +739,15 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
   }
 
   Future<void> _showAnomalyPauseSheet(BuildContext context) async {
+    if (_updatingAnomalyPause) return;
+    if (_snapshot?.repetitiveAlertPauseAvailable != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('서버의 알림 중지 상태를 확인하지 못했습니다. 새로고침 후 다시 시도해 주세요.'),
+        ),
+      );
+      return;
+    }
     final duration = await showModalBottomSheet<String>(
       context: context,
       showDragHandle: true,
@@ -726,14 +769,14 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
               ),
               const SizedBox(height: 8),
               Text(
-                '현관문 반복 행동 알림만 선택한 시간 동안 멈춥니다. 낙상·화재·가스·SOS 등 긴급 알림은 계속 작동합니다.',
+                '이 대상자의 반복행동 알림만 선택한 시간 동안 멈춥니다. 배회 알림·출입 사진 수신과 감지 기록 저장은 유지됩니다. Pi의 감지·TTS·가전 동작은 중단하지 않습니다.',
                 style: TextStyle(
                   color: _secondaryText(sheetContext),
                   height: 1.45,
                 ),
               ),
               const SizedBox(height: 18),
-              ...['30분', '1시간', '3시간', '오늘 하루'].map(
+              ...['30분', '1시간', '3시간', '24시간'].map(
                 (label) => ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: const CircleAvatar(
@@ -757,21 +800,29 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
 
     if (duration == null || !context.mounted) return;
 
+    setState(() => _updatingAnomalyPause = true);
     try {
       await widget.repository.pauseAlert(
         alertId: _snapshot!.repetitiveBehaviorAlert.id,
         duration: _durationForLabel(duration),
       );
+      await _loadSnapshot();
       if (!context.mounted) return;
-      setState(() => _pausedAnomalyDuration = duration);
+      if (_loadError != null || _snapshot?.repetitiveAlertsPaused != true) {
+        throw StateError('Could not confirm saved pause');
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('현관문 반복 행동 알림을 $duration 동안 중지했습니다.')),
+        SnackBar(content: Text('반복행동 알림을 $_pausedAnomalyDuration 중지했습니다.')),
       );
     } catch (_) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('알림 중지 요청에 실패했습니다. 다시 시도해 주세요.')),
+        const SnackBar(
+          content: Text('알림 중지 상태를 확인하지 못했습니다. 새로고침 후 다시 시도해 주세요.'),
+        ),
       );
+    } finally {
+      if (mounted) setState(() => _updatingAnomalyPause = false);
     }
   }
 
@@ -785,20 +836,28 @@ class _GuardianHomePageState extends State<GuardianHomePage> {
   }
 
   Future<void> _resumeAnomalyAlerts() async {
+    if (_updatingAnomalyPause) return;
+    setState(() => _updatingAnomalyPause = true);
     try {
       await widget.repository.resumeAlert(
         alertId: _snapshot!.repetitiveBehaviorAlert.id,
       );
+      await _loadSnapshot();
       if (!mounted) return;
-      setState(() => _pausedAnomalyDuration = null);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('현관문 반복 행동 알림을 다시 켰습니다.')));
+      if (_loadError != null ||
+          _snapshot?.repetitiveAlertPauseAvailable != true ||
+          _snapshot?.repetitiveAlertsPaused == true) {
+        throw StateError('Could not confirm resumed notifications');
+      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('반복행동 알림을 다시 켰습니다.')));
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('알림 재활성화에 실패했습니다. 다시 시도해 주세요.')),
       );
+    } finally {
+      if (mounted) setState(() => _updatingAnomalyPause = false);
     }
   }
 

@@ -20,6 +20,20 @@ void main() {
           requests.add(request);
           expect(request.headers['authorization'], 'Bearer $token');
           expect(request.followRedirects, isFalse);
+          if (request.url.path.endsWith('/repetitive-alert-pause')) {
+            return http.Response(
+              jsonEncode({
+                'scope': 'repetitive_behavior',
+                'available': true,
+                'is_paused': true,
+                'paused_until': DateTime.now()
+                    .add(const Duration(minutes: 10))
+                    .toUtc()
+                    .toIso8601String(),
+              }),
+              200,
+            );
+          }
           return http.Response(
             jsonEncode({
               'target_seconds': 800,
