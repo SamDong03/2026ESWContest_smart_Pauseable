@@ -110,11 +110,11 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 | 반복 가설 24개 | 16/24 | 24/24 | 경보가 발생한 시나리오 수 |
 | 정상 맥락 48개 | 22/48 | 30/48 | 정상 사용에서도 경보가 증가 |
 
-같은 규칙·반복 조건·관측 마스크를 유지한 비교이며 Routine 보정은 미적용입니다. 수치는 환자 수나 임상 탐지 정확도가 아닙니다. [비교 원본](assets/data/baseline_comparison.json)
+같은 규칙·반복 조건·관측 마스크를 유지한 비교이며 Routine 보정은 미적용입니다.[비교 원본](assets/data/baseline_comparison.json)
 
 ![정상 후보 Holdout 144개의 IF 점수와 AE 재구성 오차](assets/ha-model-scores.png)
 
-이 그림은 평가 구간의 점수와 임계값을 보여줍니다. 학습 Loss 곡선과 다르며, 선택한 원본에는 iteration별 Loss 시계열이 없습니다. [그림별 출처·분모](assets/evaluation_figure_manifest.json)
+이 그림은 평가 구간의 점수와 임계값을 보여줍니다.[그림별 출처·분모](assets/evaluation_figure_manifest.json)
 
 <a id="mmwave-구현과-설치-상세"></a>
 
