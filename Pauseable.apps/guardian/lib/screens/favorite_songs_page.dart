@@ -132,7 +132,8 @@ class _FavoriteSongsPageState extends State<FavoriteSongsPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              '이 화면은 링크를 저장합니다. 실제 자동 재생은 멀티미디어 기기 연결 후 동작합니다.',
+              '장비에 노래 재생 연동을 적용하면, 감지 후 음성 안내에 이어 등록한 노래 중 한 곡을 무작위로 선택합니다. '
+              '노래가 없거나 연결에 실패하면 재생을 건너뛰며 기존 알림과 사진 확인은 유지됩니다.',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

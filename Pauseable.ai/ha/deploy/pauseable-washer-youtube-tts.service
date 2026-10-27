@@ -9,4 +9,5 @@ Environment=XDG_RUNTIME_DIR=/run/xdg
 Environment=HOME=/data/profiles/0/appdata/com.atlas.app.pauseableatlas/home
 ExecStartPre=+/bin/sh /data/ha_ai_fullcycle_20260911/scripts/generate-washer-youtube-tts.sh
 ExecStart=/var/lib/pauseable/piper-guardian/bin/paplay /data/profiles/0/appdata/com.atlas.app.pauseableatlas/home/pauseable-washer-youtube-tts.wav
-ExecStartPost=+/usr/bin/docker exec ha-ai-full python /app/src/play_lg_tv_youtube.py
+# The Central output watcher queues favorite music after guidance completes.
+# Keep network/player failures outside this guidance unit.

@@ -85,14 +85,22 @@ class TtsContextTests(unittest.TestCase):
             (
                 "pauseable-washer-youtube-tts.service",
                 "generate-washer-youtube-tts.sh",
-                "play_lg_tv_youtube.py",
+                None,
             ),
         )
         for unit_name, generator, action in cases:
             unit = (DEPLOY / unit_name).read_text(encoding="utf-8")
             self.assertIn(f"ExecStartPre=+/bin/sh /data/ha_ai_fullcycle_20260911/scripts/{generator}", unit)
             self.assertLess(unit.index("ExecStartPre="), unit.index("ExecStart="))
-            self.assertIn(action, unit)
+            if action:
+                self.assertIn(action, unit)
+            else:
+                # TTS remains synchronous; random music is queued separately
+                # by the approved-event watcher, not as a fixed TV video.
+                self.assertNotIn("ExecStartPost=", unit)
+                watcher = (DEPLOY / "repetitive-central-output-watch.sh").read_text(encoding="utf-8")
+                self.assertIn("/data/pauseable/favorite-music/request.sh", watcher)
+                self.assertLess(watcher.index('systemctl start "$target_unit"'), watcher.index('music_request='))
 
     def test_generators_do_not_embed_the_guidance_call_name(self) -> None:
         for name in ("generate-air-purifier-tts.sh", "generate-washer-youtube-tts.sh"):
