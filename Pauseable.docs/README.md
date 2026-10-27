@@ -1,6 +1,14 @@
-# Memolink 설계·검증 자료
+# 📚 Memolink 설계·검증 자료
 
 시스템 설계, AI 평가, 보고서와 장치 운영 자료를 모았습니다. 구현 설명은 영역별 README에서, 실험의 입력·조건·결과는 아래 평가 파일에서 확인할 수 있습니다.
+
+| 확인하려는 내용 | 시작할 곳 |
+| --- | --- |
+| 🏠 어떤 시스템인가? | [프로젝트 소개와 동작 사례](../README.md#-프로젝트-소개) |
+| 🛠️ 어떤 환경에서 만드는가? | [개발환경](DEVELOPMENT_ENVIRONMENT_KO.md) |
+| 🔎 기능이 어느 파일에 있는가? | [기능별 코드 위치](SOURCE_MAP_KO.md) |
+| 📊 무엇을 시험했고 결과가 어떤가? | [평가 자료](#평가-자료-읽기) |
+| 📦 어떻게 설치하고 확인하는가? | [배포 안내](../Pauseable.deploy/README.md), [실기 기록](#실기-시험과-운영-기록) |
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md) · [Deploy](../Pauseable.deploy/README.md)
 
@@ -16,11 +24,11 @@
 | 장치·Runtime·의존성·빌드 도구 | [개발환경](DEVELOPMENT_ENVIRONMENT_KO.md) |
 | Subscribe·Action Router 등 기능별 구현 파일 | [기능별 코드 위치](SOURCE_MAP_KO.md) |
 | 가전 이벤트 수집·특징·학습 | [AI 구성](../Pauseable.ai/README.md), [실시간 수집](ha/ha_realtime_collection_guide.md) |
-| Baseline·IF·AE 및 개인화 | [현재 HA 모듈 운용](../Pauseable.ai/ha/README.md#baseline과-개인화-모델), [Baseline 검증 절차](ha/ha_baseline_validation_protocol.md) |
+| Baseline·IF·AE 및 개인화 | [현재 HA 모듈 운용](../Pauseable.ai/README.md#baseline과-개인화-모델), [Baseline 검증 절차](ha/ha_baseline_validation_protocol.md) |
 | 데이터 확보와 문헌 기반 시나리오 | [공개 데이터 검토](ha/public_power_data_guide.md), [문헌 조사](ha/EVIDENCE_RESEARCH_20261005_KO.md) |
 | mmWave 판단 상태와 경로 평가 | [Runtime](mmwave/RUNTIME.md), [형태 모델 실험 설계](../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md) |
 | MQTT·JSON·Central 실행 정책 | [통신 규격](../Pauseable.contracts/README.md), [장치 실행](../Pauseable.edge/README.md) |
-| 보호자 앱 기능·시험 결과 | [보호자 앱 README](../Pauseable.apps/guardian/README.md) |
+| 보호자 앱 기능·시험 결과 | [보호자 앱 README](../Pauseable.apps/README.md#보호자-앱-상세) |
 | 음성 수집·학습·보관 | [Worker 운영](voice/OPERATIONS_KO.md), [데이터·산출물 정책](voice/DATA_AND_ARTIFACTS_KO.md) |
 | 지역·날씨·조명 | [지역 설정 연동](integrations/home-assistant/RENDER_REGION_SETUP_KO.md) |
 | 장치 설치·시연 | [배포 안내](../Pauseable.deploy/README.md), [배포 인계](DEPLOYMENT_HANDOFF.txt), [HA 시연](ha/DEMO_RUNBOOK_KO.md) |
@@ -36,7 +44,7 @@
 | HA 개인화 | [검증 요약](evaluation/ha/verification_summary.json): 576개 시점에서 attention 6개가 정상으로 조정되고 risk 6개 유지 | 위 모델별 비교와 별도의 시험. 정상 맥락 전체의 오탐 해결을 뜻하지 않음 |
 | HA MQTT·행동 평가 반영 | 같은 검증 요약의 `mqtt`: 로컬 broker, 중복 평가·정정 반영·새 결정 전송 확인 | 합성 입력. Pi·Flutter 연결 시험은 해당 기록에 포함되지 않음 |
 | mmWave 경로 형태 | [`metrics.json`](../Pauseable.ai/mmwave/src/shape_v2/artifacts/metrics.json), [실험 설계](../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md) | 합성 경로. 실측 LD6004·임상 배회 성능 미검증 |
-| 앱·API | [앱 검증 기록](../Pauseable.apps/guardian/README.md#7-검증-결과와-남은-확인), [CI](../.github/CI_README.md) | 자동 검사, 서버 연결, 팀 시연 보고와 미확인 항목을 구분 |
+| 앱·API | [앱 검증 기록](../Pauseable.apps/README.md#7-검증-결과와-남은-확인), [CI](../.github/CI_README.md) | 자동 검사, 서버 연결, 팀 시연 보고와 미확인 항목을 구분 |
 
 ### HA 결과 해석
 
@@ -77,14 +85,14 @@ python Pauseable.docs/assets/readme/plot_evaluation.py
 
 실기 기록에는 설치한 코드·모델 버전, 장치, 명령, 입력과 출력 결과를 남깁니다. 센서 수집, Central 승인, API 저장과 실제 음성·가전·휴대폰 표시를 같은 사건 ID로 대조하는 방식입니다. 개인정보와 인증값은 기록에서 제외합니다.
 
-[Android Push 설정](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md) · [실기 알림 확인](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md) · [선호 음악 설치·시험](../Pauseable.edge/actions/favorite-music/README.md)
+[Android Push 설정](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md) · [실기 알림 확인](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md) · [선호 음악 설치·시험](../Pauseable.edge/README.md#선호-음악-설치와-시험)
 
 <details>
 <summary><strong>날짜별 운영·인수인계 기록</strong></summary>
 
 [`PI_FULL_AUTOMATION_KO.md`](ha/PI_FULL_AUTOMATION_KO.md)와 [`TEAM_HANDOFF_KO.md`](ha/TEAM_HANDOFF_KO.md)는 당시 장치 구성과 확인 결과를 보관한 자료입니다. 예전 IP, 서비스 이름과 미구현 설명은 작성 시점의 상태이며 현재 배포 상태와 다를 수 있습니다.
 
-[`ha_anomaly_shadow_guide.md`](ha/ha_anomaly_shadow_guide.md)는 2026-09-08의 Shadow 초기 안내입니다. 현재 Lifecycle의 자동 학습·Hybrid와 주기 재학습 설정은 [HA 모듈 안내](../Pauseable.ai/ha/README.md)를 기준으로 확인합니다.
+[`ha_anomaly_shadow_guide.md`](ha/ha_anomaly_shadow_guide.md)는 2026-09-08의 Shadow 초기 안내입니다. 현재 Lifecycle의 자동 학습·Hybrid와 주기 재학습 설정은 [HA 모듈 안내](../Pauseable.ai/README.md#ha-구현과-실행-상세)를 기준으로 확인합니다.
 
 </details>
 

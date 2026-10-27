@@ -2,6 +2,12 @@
   "generatedBy": "build_diagrams.mjs",
   "diagrams": [
     {
+      "file": "memolink-overview.svg",
+      "title": "Memolink 동작 개요 · 개발팀 PAUSEABLE",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
       "file": "ai-pipelines.svg",
       "title": "Memolink AI 분석과 음성 학습 구조 · 개발팀 PAUSEABLE",
       "kind": "architecture",

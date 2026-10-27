@@ -1,6 +1,6 @@
 # Home Assistant 이벤트 수집
 
-[HA 모듈](../../Pauseable.ai/ha/README.md) · [개발환경](../DEVELOPMENT_ENVIRONMENT_KO.md) · [시연 절차](DEMO_RUNBOOK_KO.md)
+[HA 모듈](../../Pauseable.ai/README.md#ha-구현과-실행-상세) · [개발환경](../DEVELOPMENT_ENVIRONMENT_KO.md) · [시연 절차](DEMO_RUNBOOK_KO.md)
 
 ## 수집 방식
 

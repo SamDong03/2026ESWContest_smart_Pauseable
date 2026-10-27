@@ -1,6 +1,6 @@
 # mmWave 실시간 구간 분석
 
-[mmWave 모듈](../../Pauseable.ai/mmwave/README.md) · [기능별 코드](../SOURCE_MAP_KO.md#mmwave-이동-분석) · [실험 설계](../../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md)
+[mmWave 모듈](../../Pauseable.ai/README.md#mmwave-구현과-설치-상세) · [기능별 코드](../SOURCE_MAP_KO.md#mmwave-이동-분석) · [실험 설계](../../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md)
 
 ## 분석 구성
 
