@@ -112,6 +112,6 @@ flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000
 | Render 연결 미리보기 | [로컬 웹 중계](guardian/docs/RENDER_WEB_PREVIEW_KO.md) |
 | 앱 지역 → 조명 연동 | [지역 설정 연결](../Pauseable.docs/integrations/home-assistant/RENDER_REGION_SETUP_KO.md) |
 | 선호 음악 → Pi 재생 | [Favorite Music](../Pauseable.edge/actions/favorite-music/README.md) |
-| 자동 검사·APK 산출물 | [CI README](../.github/README.md) |
+| 자동 검사·APK 산출물 | [CI README](../.github/CI_README.md) |
 
 앱·API 코드 반영, 서버 배포, 새 APK 설치, 실제 알림 수신은 각각 별도의 완료 단계로 기록합니다.

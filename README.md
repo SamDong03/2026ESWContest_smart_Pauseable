@@ -71,7 +71,7 @@ Home Assistant로 수집한 가전 이력과 mmWave 이동 정보를 각각 분�
 | `Pauseable.deploy` | 장치별 배포 묶음·서비스 설정·이전 설정 대응표 | [Deploy README](Pauseable.deploy/README.md) |
 | `Pauseable.integrations` | Home Assistant 날씨·지역·조명 연동 | [Integrations README](Pauseable.integrations/README.md) |
 | `Pauseable.docs` | 운영·인수인계·평가·발표 자료 | [Docs README](Pauseable.docs/README.md) |
-| `.github` | 자동 검사와 Android 시험 APK 빌드 | [CI README](.github/README.md) |
+| `.github` | 자동 검사와 Android 시험 APK 빌드 | [CI README](.github/CI_README.md) |
 
 `Pauseable.third_party`에는 외부 소스와 저작권 고지를 보존합니다. 별도 사용 조건은 해당 원본 고지를 확인합니다.
 
@@ -102,7 +102,7 @@ Python 의존성은 파트별 가상환경으로 분리합니다. HA/API CI는 P
 | --- | --- | --- |
 | HA | [2026-10-23 검증 기록](Pauseable.docs/evaluation/ha/verification_summary.json) | unit 184개·report 16개 기록, 합성 데이터 기반 학습·갱신·시나리오 시험 |
 | mmWave | [`shape_v2` 평가](Pauseable.ai/mmwave/src/shape_v2/artifacts/metrics.json) | 경로 형태 연구 모델, 실측 LD6004·임상 배회 성능 미검증 |
-| Central·앱·음성 | 파트별 테스트·[CI 정의](.github/README.md)·운영 점검 문서 | 구현·자동 검사와 실제 장치 E2E 확인을 구분 |
+| Central·앱·음성 | 파트별 테스트·[CI 정의](.github/CI_README.md)·운영 점검 문서 | 구현·자동 검사와 실제 장치 E2E 확인을 구분 |
 
 위 수치는 **저장된 시험 기록**이며 현재 기기의 배포 완료나 임상 성능을 뜻하지 않습니다. HA 평가에는 정상 맥락 48개 중 30개에서도 경보가 발생한 한계가 남아 있습니다. 세부 데이터·제약과 실기 점검은 [검증 자료 안내](Pauseable.docs/README.md#평가-자료-읽기)를 참고합니다.
 

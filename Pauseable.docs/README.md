@@ -42,7 +42,7 @@
 | [HA 비교·시나리오 자료](evaluation/ha) | Baseline/IF/AE 비교와 판정 분포 | 정상 맥락 48개 중 30개 경보, 미해결 오탐 한계 |
 | [mmWave `metrics.json`](../Pauseable.ai/mmwave/src/shape_v2/artifacts/metrics.json) | 경로 형태 모델의 데이터 출처·분할·평가 | `simulated_only`, 실측 LD6004·임상 배회 미검증 |
 | [mmWave 연구 프로토콜](../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md) | 데이터 분리와 모델 선택 과정 | 임상 데이터셋이나 실제 환자 사건 수가 아님 |
-| [CI 안내](../.github/README.md) | 자동 검사·빌드의 대상과 실행 방식 | workflow 정의가 있다는 사실과 최신 실행 성공은 다름 |
+| [CI 안내](../.github/CI_README.md) | 자동 검사·빌드의 대상과 실행 방식 | workflow 정의가 있다는 사실과 최신 실행 성공은 다름 |
 
 ### 수치를 해석할 때
 

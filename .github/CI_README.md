@@ -2,6 +2,8 @@
 
 파트별 자동 검사와 Android 시험 APK 빌드를 정의합니다. 실행 서비스나 장치 배포 코드는 이 폴더가 아니라 [Deploy](../Pauseable.deploy/README.md)와 각 파트에 있습니다.
 
+GitHub가 `.github/README.md`를 프로젝트 홈에 우선 표시하기 때문에, 이 폴더의 안내는 `CI_README.md`로 둡니다. 전체 소개는 저장소 루트의 README에서 시작합니다. [GitHub의 README 선택 규칙](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)을 참고합니다.
+
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md)
 
 ## Workflows
