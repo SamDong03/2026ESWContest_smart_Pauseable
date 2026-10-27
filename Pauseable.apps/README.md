@@ -1,4 +1,6 @@
-# Pauseable.apps
+# 📱 Pauseable.apps
+
+<a id="pauseableapps"></a>
 
 <a id="개인정보와-운영-설정"></a>
 <a id="검증-기록과-실기-확인"></a>
@@ -8,7 +10,11 @@
 
 [프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Edge](../Pauseable.edge/README.md) · [통신 규격](../Pauseable.contracts/README.md)
 
-## 주요 기능
+[주요 기능](#주요-기능) · [폴더 구조](#폴더-구조) · [API 처리 방식](#api-처리-방식) · [보호자 앱의 화면과 연결](#보호자-앱의-화면과-연결) · [설치 및 실행](#설치-및-실행)
+
+<a id="주요-기능"></a>
+
+## 🧩 주요 기능
 
 | 영역 | 제공 기능 |
 | --- | --- |
@@ -17,77 +23,90 @@
 | 알림 | WebSocket·Android FCM·Web Push, 반복행동 알림 일시 중지 |
 | 저장 | 개발용 로컬 파일, 운영용 Cloudflare R2 연결 |
 
-## 폴더 구조
+<a id="폴더-구조"></a>
+
+## 🗂️ 폴더 구조
 
 ```text
 Pauseable.apps/
-├── api/ — 인증·사건 저장·Push·사진·학습 API
-│   ├── app/ — FastAPI 라우트와 도메인별 저장·검증 코드
-│   │   ├── data/ — 시연 기본 자료·지역 목록·녹음 대본
-│   │   ├── media/ — 시연용 출입 사진 샘플
-│   │   └── uploads/ — 로컬 업로드 경로와 Git 제외 설정
-│   │       ├── training/ — 녹음 학습 세트 업로드 경로
-│   │       └── voice/ — 개별 음성 업로드 경로
-│   └── tests/ — 단위·회귀 검사
-└── guardian/ — Flutter 보호자 앱
-    ├── android/ — Android 플랫폼 프로젝트
-    │   ├── app/ — Android 앱 모듈
-    │   │   └── src/ — 구현 소스
-    │   │       ├── debug/ — 디버그 빌드 설정
-    │   │       ├── main/ — 기본 빌드 구현
-    │   │       │   ├── kotlin/ — Android 진입 코드
-    │   │       │   │   └── com/ — Android 앱 Kotlin 패키지 경로
-    │   │       │   │       └── pauseable/ — Android 앱 Kotlin 패키지 경로
-    │   │       │   │           └── pauseable_guardian/ — Android 앱 Kotlin 패키지 경로
-    │   │       │   └── res/ — Android 리소스
-    │   │       │       ├── drawable/ — 실행 화면·알림 리소스
-    │   │       │       ├── drawable-v21/ — Android 5 이상 실행 배경
-    │   │       │       ├── mipmap-hdpi/ — 해상도별 Android 앱 아이콘
-    │   │       │       ├── mipmap-mdpi/ — 해상도별 Android 앱 아이콘
-    │   │       │       ├── mipmap-xhdpi/ — 해상도별 Android 앱 아이콘
-    │   │       │       ├── mipmap-xxhdpi/ — 해상도별 Android 앱 아이콘
-    │   │       │       ├── mipmap-xxxhdpi/ — 해상도별 Android 앱 아이콘
-    │   │       │       ├── raw/ — 플랫폼 원시 리소스 또는 원시 입력
-    │   │       │       ├── values/ — 기본 스타일·문자열
-    │   │       │       └── values-night/ — 야간 테마 스타일
-    │   │       └── profile/ — 프로파일 빌드 설정
-    │   └── gradle/ — Gradle 도구 설정
-    │       └── wrapper/ — Gradle 실행 버전
-    ├── assets/ — 앱 정적 리소스
-    │   ├── data/ — 기상청 지역 목록·녹음 대본
-    │   ├── images/ — 앱에서 사용하는 시연 샘플 이미지
-    │   └── mock/ — 로컬 화면 시험용 스냅샷
-    ├── docs/ — Android Push·실기 확인·웹 중계 안내
-    ├── ios/ — iOS 플랫폼 프로젝트
-    │   ├── Flutter/ — iOS용 Flutter 빌드 설정
-    │   ├── Runner/ — iOS 앱 진입·리소스
-    │   │   ├── Assets.xcassets/ — iOS 이미지 Asset Catalog
-    │   │   │   ├── AppIcon.appiconset/ — iOS 해상도별 앱 아이콘
-    │   │   │   └── LaunchImage.imageset/ — iOS 시작 이미지
-    │   │   └── Base.lproj/ — iOS 시작 화면 Storyboard
-    │   ├── Runner.xcodeproj/ — Xcode 빌드 프로젝트
-    │   │   ├── project.xcworkspace/ — 프로젝트 Workspace
-    │   │   │   └── xcshareddata/ — 공유 Xcode 설정
-    │   │   └── xcshareddata/ — 공유 Xcode 설정
-    │   │       └── xcschemes/ — Runner 실행·빌드 Scheme
-    │   ├── Runner.xcworkspace/ — Xcode Workspace
-    │   │   └── xcshareddata/ — 공유 Xcode 설정
-    │   └── RunnerTests/ — iOS Runner 검사
-    ├── lib/ — 화면·모델·API 접근·알림 서비스
-    │   ├── config/ — API 주소·대상자·빌드 설정
-    │   ├── models/ — 알림·사진·지역·녹음 등 자료형
-    │   ├── repositories/ — API·Mock 자료 접근 계층
-    │   ├── screens/ — 설정 화면과 홈 화면 구성
-    │   │   ├── tabs/ — 홈·알림·기록·설정 탭
-    │   │   └── widgets/ — 사진·돌봄 설정·녹음 UI
-    │   └── services/ — 인증 HTTP·실시간 알림·Push·녹음
-    ├── test/ — Flutter 모델·화면·연결 검사
-    ├── tools/ — APK 빌드·지역 변환·로컬 중계·확인 도구
-    └── web/ — Flutter 웹 실행·Push 리소스
-        └── icons/ — 웹 앱 아이콘
+├── api/                                       # 인증·사건 저장·Push·사진·학습 API
+│   ├── app/                                   # FastAPI 라우트와 도메인별 저장·검증 코드
+│   │   ├── data/
+│   │   ├── media/                             # 시연용 출입 사진 샘플
+│   │   ├── uploads/                           # 로컬 업로드 경로와 Git 제외 설정
+│   │   │   ├── training/                      # 녹음 학습 세트 업로드 경로
+│   │   │   └── voice/                         # 개별 음성 업로드 경로
+│   │   ├── main.py                            # API 라우트·요청 검사·기능 연결
+│   │   ├── security.py                        # 앱·장치·Worker 역할별 인증
+│   │   └── voice_training_service.py          # 녹음 세트·학습 Job·모델 게시 관리
+│   ├── tests/
+│   └── requirements.txt                       # FastAPI 서버 의존성
+└── guardian/                                  # Flutter 보호자 앱
+    ├── android/                               # Android 플랫폼 프로젝트
+    │   ├── app/                               # Android 앱 모듈
+    │   │   └── src/
+    │   │       ├── debug/
+    │   │       ├── main/
+    │   │       │   ├── kotlin/
+    │   │       │   │   └── com/
+    │   │       │   │       └── pauseable/
+    │   │       │   │           └── pauseable_guardian/
+    │   │       │   └── res/
+    │   │       │       ├── drawable/
+    │   │       │       ├── drawable-v21/
+    │   │       │       ├── mipmap-hdpi/
+    │   │       │       ├── mipmap-mdpi/
+    │   │       │       ├── mipmap-xhdpi/
+    │   │       │       ├── mipmap-xxhdpi/
+    │   │       │       ├── mipmap-xxxhdpi/
+    │   │       │       ├── raw/
+    │   │       │       ├── values/
+    │   │       │       └── values-night/
+    │   │       └── profile/
+    │   └── gradle/
+    │       └── wrapper/
+    ├── assets/
+    │   ├── data/
+    │   ├── images/
+    │   └── mock/                              # 로컬 화면 시험용 스냅샷
+    ├── docs/                                  # Android Push·실기 확인·웹 중계 안내
+    ├── ios/                                   # iOS 플랫폼 프로젝트
+    │   ├── Flutter/                           # iOS용 Flutter 빌드 설정
+    │   ├── Runner/                            # iOS 앱 진입·리소스
+    │   │   ├── Assets.xcassets/
+    │   │   │   ├── AppIcon.appiconset/
+    │   │   │   └── LaunchImage.imageset/
+    │   │   └── Base.lproj/
+    │   ├── Runner.xcodeproj/
+    │   │   ├── project.xcworkspace/
+    │   │   │   └── xcshareddata/
+    │   │   └── xcshareddata/
+    │   │       └── xcschemes/
+    │   ├── Runner.xcworkspace/
+    │   │   └── xcshareddata/
+    │   └── RunnerTests/
+    ├── lib/                                   # 화면·모델·API 접근·알림 서비스
+    │   ├── config/                            # API 주소·대상자·빌드 설정
+    │   ├── models/                            # 알림·사진·지역·녹음 등 자료형
+    │   ├── repositories/                      # API·Mock 자료 접근 계층
+    │   │   └── api_guardian_repository.dart   # 보호자 앱의 API 자료 접근
+    │   ├── screens/                           # 설정 화면과 홈 화면 구성
+    │   │   ├── tabs/                          # 홈·알림·기록·설정 탭
+    │   │   └── widgets/                       # 사진·돌봄 설정·녹음 UI
+    │   ├── services/                          # 인증 HTTP·실시간 알림·Push·녹음
+    │   │   ├── live_alert_client.dart         # WebSocket 알림 연결
+    │   │   └── voice_recording_service.dart   # 문장별 음성 녹음
+    │   └── main.dart                          # Flutter 앱 진입과 화면 구성
+    ├── test/
+    ├── tools/                                 # APK 빌드·지역 변환·로컬 중계·확인 도구
+    ├── web/                                   # Flutter 웹 실행·Push 리소스
+    │   └── icons/
+    └── pubspec.yaml                           # Flutter 패키지·Asset 설정
 ```
 
-### API 폴더의 역할
+<a id="api-폴더의-역할"></a>
+
+### ① API 폴더의 역할
 
 | 경로 | 설명 |
 | --- | --- |
@@ -98,7 +117,9 @@ Pauseable.apps/
 | `api/app/uploads` | 로컬 음성·학습 세트 저장 경로. 실제 파일은 Git 제외 |
 | `api/tests` | 인증·중복·이력·사진·학습·알림 회귀 검사 |
 
-### Guardian 폴더의 역할
+<a id="guardian-폴더의-역할"></a>
+
+### ② Guardian 폴더의 역할
 
 | 경로 | 설명 |
 | --- | --- |
@@ -113,7 +134,9 @@ Pauseable.apps/
 
 <a id="api-구현-상세"></a>
 
-## API 처리 방식
+<a id="api-처리-방식"></a>
+
+## ⚙️ API 처리 방식
 
 ```text
 Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충돌 확인
@@ -130,7 +153,9 @@ Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충�
 
 <a id="보호자-앱-상세"></a>
 
-## 보호자 앱의 화면과 연결
+<a id="보호자-앱의-화면과-연결"></a>
+
+## 📱 보호자 앱의 화면과 연결
 
 | 화면 | 동작 |
 | --- | --- |
@@ -143,13 +168,17 @@ Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충�
 
 <a id="알림-수신과-일시-중지"></a>
 
-### 실시간 알림과 일시 중지
+<a id="실시간-알림과-일시-중지"></a>
+
+### ① 실시간 알림과 일시 중지
 
 앱은 REST로 일회용 WebSocket ticket을 발급받아 `/ws/alerts`에 연결합니다. Android 시스템 알림은 FCM, 웹 시스템 알림은 Web Push를 사용합니다.
 
 반복행동 알림 일시 중지는 대상자별 만료 시각을 저장합니다. 중지 중에는 반복행동의 WebSocket·Push 전달을 억제하지만 이력은 보존합니다. 배회·사진·Pi 감지·TTS·가전 동작을 중단하는 기능은 아닙니다. 앱 재실행 후에도 서버 값을 다시 확인합니다.
 
-### 녹음과 개인화 설정
+<a id="녹음과-개인화-설정"></a>
+
+### ② 녹음과 개인화 설정
 
 음성 수집은 동의 기록 후 문장별로 진행합니다. API가 녹음 세트와 학습 Job을 관리하고 GPU Worker가 모델을 게시합니다. 앱의 거주지역·선호곡은 장치가 Device API로 조회합니다.
 
@@ -160,9 +189,13 @@ Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충�
 <a id="개발환경과-실행"></a>
 <a id="로컬-개발과-실기-확인"></a>
 
-## 설치 및 실행
+<a id="설치-및-실행"></a>
 
-### API 로컬 실행
+## 🛠️ 설치 및 실행
+
+<a id="api-로컬-실행"></a>
+
+### ① API 로컬 실행
 
 Python 3.12 가상환경에서 실행합니다. 아래 인증값은 로컬 시험용 예시입니다.
 
@@ -179,7 +212,9 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 
 Windows PowerShell에서는 `.\.venv\Scripts\Activate.ps1`로 활성화하고 `export NAME=value` 대신 `$env:NAME="value"`로 설정합니다.
 
-### Flutter 실행
+<a id="flutter-실행"></a>
+
+### ② Flutter 실행
 
 새 터미널에서 저장소 루트를 기준으로 시작합니다.
 
@@ -191,15 +226,17 @@ flutter test
 flutter run -d chrome --web-port=18109 --dart-define=API_BASE_URL=http://127.0.0.1:8000 --dart-define=APP_TOKEN=LOCAL_DEVELOPMENT_ONLY
 ```
 
-운영 API 주소와 실제 인증값은 공개 README의 예시와 분리합니다. Android의 FCM에는 프로젝트에 맞는 Firebase 클라이언트 설정과 OS 알림 권한이 필요합니다. iOS 프로젝트가 포함되어 있다는 사실만으로 iOS Push 실기 검증이 완료된 것은 아닙니다.
+운영 API 주소와 실제 인증값은 공개 README의 예시와 분리합니다. Android의 FCM에는 프로젝트에 맞는 Firebase 클라이언트 설정과 OS 알림 권한이 필요합니다.
 
-Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀원의-pc에서-빌드하기)에 따라 PC에서 빌드합니다. 공유 App Token을 포함하는 [Actions 수동 빌드](../.github/CI_README.md#android-시험-apk)는 비공개 저장소에서만 실행되며, 현재 공개 제출 저장소에서는 건너뜁니다. 운영 APK는 별도 비공개 저장소에서 관리합니다.
+Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀원의-pc에서-빌드하기)에 따라 PC에서 빌드합니다. 공유 App Token을 포함하는 [Actions 수동 빌드](../.github/workflows/native-push-apk.yml)는 비공개 저장소에서만 실행되며, 현재 공개 제출 저장소에서는 건너뜁니다. 운영 APK는 별도 비공개 저장소에서 관리합니다.
 
 위 로컬 설정은 같은 PC의 API·웹 앱 시험용입니다. Pi 사건·사진 업로드에는 Device Token, 음성 학습에는 Worker Token과 R2 연결을 추가로 준비합니다. 기상청 Key나 서버용 Firebase 키는 Flutter 앱에 넣지 않습니다.
 
 <a id="자동-검사와-팀-실기-기록"></a>
 
-## 검사와 실기 확인
+<a id="검사와-실기-확인"></a>
+
+## 🧪 검사와 실기 확인
 
 | 검사 | 명령·확인 위치 |
 | --- | --- |
@@ -213,6 +250,8 @@ Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀�
 
 <a id="개인정보와-운영-범위"></a>
 
-## 운영 설정
+<a id="운영-설정"></a>
+
+## 🔧 운영 설정
 
 `STORAGE_BACKEND=r2`에는 R2 연결과 역할별 Token이 필요합니다. FCM 서버 키·VAPID 개인키·Device/Worker Token은 앱 빌드에 넣지 않습니다. 현재 공유 App Token은 팀 운용용이며 사용자별 로그인·대상자 권한 분리와 다릅니다. APK도 인증값을 포함할 수 있으므로 운영 APK는 별도로 관리합니다.

@@ -1,4 +1,6 @@
-# Pauseable.ai
+# 🧠 Pauseable.ai
+
+<a id="pauseableai"></a>
 
 <a id="3-lifecycle-학습-시점검증모델-교체"></a>
 <a id="ha-데이터-수집과-특징-생성"></a>
@@ -8,7 +10,11 @@
 
 [프로젝트](../README.md) · [통신 규격](../Pauseable.contracts/README.md) · [장치 실행](../Pauseable.edge/README.md)
 
-## 모듈 개요
+[모듈 개요](#모듈-개요) · [폴더 구조](#폴더-구조) · [HA 반복행동 분석](#ha-반복행동-분석) · [mmWave 배회 의심 판단](#mmwave-배회-의심-판단) · [보호자 음성 학습](#보호자-음성-학습)
+
+<a id="모듈-개요"></a>
+
+## 🧩 모듈 개요
 
 | 모듈 | 입력 | 처리 | 출력 |
 | --- | --- | --- | --- |
@@ -18,50 +24,66 @@
 
 ![HA·mmWave·Voice의 입력과 출력](assets/ai-pipelines.svg)
 
-행동 AI는 MQTT로 판단을 전달하고, 실제 실행 여부는 Central이 결정합니다. Voice는 행동 분류기가 아니라 Pi에서 새 안내 문장을 합성할 음성 모델을 만드는 모듈입니다.
+행동 AI는 MQTT로 판단을 전달하고, 실제 실행 여부는 Central이 결정합니다. Voice는 Pi에서 새 안내 문장을 합성할 음성 모델을 만드는 모듈입니다.
 
-## 폴더 구조
+<a id="폴더-구조"></a>
+
+## 🗂️ 폴더 구조
 
 ```text
 Pauseable.ai/
 ├── assets/
 │   └── data/
-├── ha/ — 가전 이벤트 수집·개인화·반복행동 판단
-│   ├── data/ — 입력·예시 자료
-│   │   └── raw/ — 플랫폼 원시 리소스 또는 원시 입력
-│   │       └── baseline_scenarios/ — Baseline 비교용 합성 가전 이벤트 CSV
-│   ├── deploy/ — 설치·서비스 설정
-│   │   ├── contracts/ — 관련 구성: behavior-inference.schema.json, repetitive-feedback.schema.json
-│   │   ├── public_power/ — 공개 전력 자료 변환·실험 설정
-│   │   ├── research/ — 연구 실행·시험 Broker 설정
-│   │   └── systemd/ — 서비스·타이머 Unit
-│   ├── scripts/ — 전처리·실행·출력 보조 스크립트
-│   ├── src/ — 구현 소스
-│   └── tests/
-├── mmwave/ — 이동 경로·개인 변화·지속성 판단
-│   └── src/ — 구현 소스
-│       └── shape_v2/ — 36개 경로 특징과 Random Forest 학습·추론
-│           ├── artifacts/ — 저장된 모델·선택 결과·학습 출처
-│           ├── examples/ — 회전·왕복·통과 등 합성 경로 예시
-│           └── legacy/ — 비교용 이전 특징·자료 처리 구현
-└── voice/ — 녹음 전처리·Piper 학습·모델 게시
-    ├── configs/ — 학습·실행 설정
-    ├── docker/ — 컨테이너 실행·빌드 구성
-    ├── pipeline/ — 자료 검사·Job Worker·학습 실행·게시
-    ├── provenance/ — Piper 원본 태그·커밋·프로젝트 수정 기록
-    ├── scripts/ — 전처리·실행·출력 보조 스크립트
-    └── serving/ — 별도 TTS HTTP 서버
+├── ha/                               # 가전 이벤트 수집·개인화·반복행동 판단
+│   ├── data/
+│   │   └── raw/
+│   │       └── baseline_scenarios/   # Baseline 비교용 합성 가전 이벤트 CSV
+│   ├── deploy/
+│   │   ├── contracts/                # HA 추론·피드백 메시지 규격
+│   │   ├── public_power/             # 공개 전력 자료 변환·실험 설정
+│   │   ├── research/                 # 연구 실행·시험 Broker 설정
+│   │   └── systemd/
+│   ├── scripts/
+│   ├── src/
+│   │   ├── collect_ha_events_ws.py   # HA 상태 변경 이벤트 수집
+│   │   ├── ha_decision_delivery.py   # 공통 판단 계약 변환과 MQTT 전달
+│   │   └── run_ha_full_service.py    # 수집·분석·개인 모델 처리 실행
+│   ├── tests/
+│   └── requirements.txt              # HA 분석 모듈 의존성
+├── mmwave/                           # 이동 경로·개인 변화·지속성 판단
+│   └── src/
+│       ├── shape_v2/                 # 36개 경로 특징과 Random Forest 학습·추론
+│       │   ├── artifacts/            # 저장된 모델·선택 결과·학습 출처
+│       │   ├── examples/
+│       │   └── legacy/
+│       ├── wandering_live.py         # 센서 스트림의 배회 분석 실행
+│       └── wandering_publisher.py    # 배회 판단의 MQTT 발행
+└── voice/                            # 녹음 전처리·Piper 학습·모델 게시
+    ├── configs/                      # 학습·실행 설정
+    ├── docker/                       # 컨테이너 실행·빌드 구성
+    ├── pipeline/                     # 자료 검사·Job Worker·학습 실행·게시
+    │   ├── prepare_dataset.py        # WAV·대본과 학습 자료 검사
+    │   └── r2_worker.py              # 음성 학습 Job 임대·갱신·게시
+    ├── provenance/                   # Piper 원본 태그·커밋·프로젝트 수정 기록
+    ├── scripts/
+    ├── serving/                      # HTTP 음성 합성 서버
+    │   └── main.py                   # HTTP 음성 합성 API
+    └── train_voice_model.sh          # GPU 음성 학습과 Export 실행
 ```
 
-`ha/src`는 실제 처리 코드, `ha/tests`는 회귀 검사, `ha/deploy`는 장치 실행 설정입니다. `mmwave/src/shape_v2`는 현재 저장된 RF 모델의 학습·추론 구성입니다. `voice/pipeline`은 작업 관리, `voice/serving`은 별도 HTTP 합성 서버이며 GPU 학습과 역할이 다릅니다.
+`ha/deploy`는 장치의 수집·분석 서비스를, `mmwave/src/shape_v2`는 RF 모델의 학습·추론을 구성합니다. `voice/pipeline`은 음성 학습 작업을 관리하고 `voice/serving`은 HTTP 합성 API를 제공합니다.
 
 <a id="ha-반복행동-판단"></a>
 <a id="ha-가전-이벤트-수집과-특징-생성"></a>
 <a id="수집특징생성-주기"></a>
 
-## HA 반복행동 분석
+<a id="ha-반복행동-분석"></a>
 
-### 이벤트에서 특징까지
+## 🏠 HA 반복행동 분석
+
+<a id="이벤트에서-특징까지"></a>
+
+### ① 이벤트에서 특징까지
 
 1. [collect_ha_events_ws.py](ha/src/collect_ha_events_ws.py)가 HA WebSocket의 `state_changed`를 수집합니다.
 2. 엔티티와 상태를 열림·잠금 해제·작동 시작 등 의미 있는 가전 동작으로 바꿉니다.
@@ -77,7 +99,9 @@ Pauseable.ai/
 <a id="baseline과-개인화-모델"></a>
 <a id="3-lifecycle-학습-승인과-모델-교체"></a>
 
-### Baseline과 개인화
+<a id="baseline과-개인화"></a>
+
+### ② Baseline과 개인화
 
 | 단계 | 작동 방식 |
 | --- | --- |
@@ -94,14 +118,18 @@ Pauseable.ai/
 
 Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력을 사용합니다. 관측 품질, IF·AE의 Normal 상태와 보호 규칙을 확인합니다.
 
-### 판단 전달
+<a id="판단-전달"></a>
+
+### ③ 판단 전달
 
 [ha_decision_delivery.py](ha/src/ha_decision_delivery.py)가 현재 판단을 공통 계약으로 변환합니다. `attention/risk`는 계약의 `caution/danger`로 옮기고 관측 부족·오류는 `unknown`으로 보냅니다. MQTT Topic은 `pauseable/ai/repetitive/decision`이며 서비스의 `--publish-mqtt`로 명시적으로 활성화합니다.
 
 <a id="ha-평가-결과"></a>
 <a id="데이터-출처와-검증-기준"></a>
 
-### 저장된 합성 평가
+<a id="저장된-합성-평가"></a>
+
+### ④ 저장된 합성 평가
 
 ![같은 합성 입력에서 모델별 경보가 발생한 시나리오 수](assets/ha-component-comparison.png)
 
@@ -118,7 +146,9 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 
 <a id="mmwave-구현과-설치-상세"></a>
 
-## mmWave 배회 의심 판단
+<a id="mmwave-배회-의심-판단"></a>
+
+## 📡 mmWave 배회 의심 판단
 
 | 단계 | 코드 | 역할 |
 | --- | --- | --- |
@@ -139,7 +169,9 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 
 <a id="voice-학습과-운영-상세"></a>
 
-## 보호자 음성 학습
+<a id="보호자-음성-학습"></a>
+
+## 🗣️ 보호자 음성 학습
 
 ```text
 동의·문장별 녹음 → WAV·대본 검사 → 전처리 → Piper 학습
@@ -164,7 +196,9 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 <a id="ha-구현과-실행-상세"></a>
 <a id="로컬-검사"></a>
 
-## 설치 및 로컬 검사
+<a id="설치-및-로컬-검사"></a>
+
+## 🛠️ 설치 및 로컬 검사
 
 HA·mmWave·Voice는 의존성이 달라 별도 가상환경을 사용합니다. 아래 명령은 저장소 루트 기준입니다.
 
@@ -176,6 +210,6 @@ HA·mmWave·Voice는 의존성이 달라 별도 가상환경을 사용합니다.
 
 장치 실행은 [HA systemd](ha/deploy/systemd), [Pi 5 Publisher](../Pauseable.deploy/mmwave-autostart/pi5), [GPU Worker](../Pauseable.deploy/gpu/voice-worker)를 기준으로 설정합니다. 실제 HA Token·MQTT·기존 모델·가구 ID와 상태 경로를 함께 준비합니다.
 
-처음 HA를 설치할 때는 [환경 예시](ha/deploy/systemd/ha-ai.env.example), [엔티티 매핑](ha/src/entity_mapper.py), [제출용 서비스](ha/deploy/systemd/ha-ai-submission.service.example)를 함께 맞춥니다. 제출 예시는 shadow·60초 회차·MQTT 발행을 사용하며, 기존 `ha-ai-full.service`는 hybrid와 이전 설치 경로를 포함합니다. 동일 이력 경로에 두 수집 서비스를 동시에 실행하지 않습니다. `Dockerfile.pi`의 기본 명령은 도움말이므로 이미지 실행만으로 지속 수집이 시작되지는 않습니다.
+처음 HA를 설치할 때는 [환경 예시](ha/deploy/systemd/ha-ai.env.example), [엔티티 매핑](ha/src/entity_mapper.py), [제출용 서비스](ha/deploy/systemd/ha-ai-submission.service.example)를 함께 맞춥니다. 제출 예시는 shadow·60초 회차·MQTT 발행을 사용하며, 기존 `ha-ai-full.service`는 hybrid와 이전 설치 경로를 포함합니다. 동일 이력 경로에는 수집 서비스를 하나 선택해 실행합니다. `Dockerfile.pi`는 기본 명령으로 `run_ha_automation_loop.py --help`를 제공하며, 지속 수집은 서비스의 실행 명령과 옵션으로 설정합니다.
 
-Voice Worker의 `fcntl`은 Windows 기본 Python에 없으므로 Linux·WSL의 Python 3.11에서 검사합니다. `voice/`에서 `python pipeline/r2_worker.py --dry-run --dataset-dir LOCAL_DATASET_DIR`로 로컬 WAV·대본을 먼저 확인할 수 있으며, 이 dry-run은 API·R2·GPU를 호출하지 않습니다.
+Voice Worker는 `fcntl`을 사용하는 Linux·WSL의 Python 3.11 환경에서 검사합니다. `voice/`에서 `python pipeline/r2_worker.py --dry-run --dataset-dir LOCAL_DATASET_DIR`를 실행하면 로컬 WAV·대본의 검사 결과를 확인할 수 있습니다.

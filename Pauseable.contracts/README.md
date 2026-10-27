@@ -1,10 +1,16 @@
-# Pauseable.contracts
+# 📐 Pauseable.contracts
+
+<a id="pauseablecontracts"></a>
 
 **센서·AI·Central·API·보호자 앱이 주고받는 JSON의 형식과 의미를 정의합니다.**
 
 [프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Central](../Pauseable.edge/README.md) · [API·앱](../Pauseable.apps/README.md)
 
-## 주요 구성
+[주요 구성](#주요-구성) · [폴더 구조](#폴더-구조) · [데이터가 전달되는 단계](#데이터가-전달되는-단계) · [AI 판단 메시지](#ai-판단-메시지) · [수신 검증](#수신-검증)
+
+<a id="주요-구성"></a>
+
+## 🧩 주요 구성
 
 | 구분 | 내용 |
 | --- | --- |
@@ -12,17 +18,29 @@
 | 메시지 예시 | 정상 판단·명령·응답과 센서 오류 상황의 JSON |
 | 규격 버전 | AI→Central→API 연결에는 `communication-v1` 사용 |
 
-이 폴더가 메시지를 직접 전송하지는 않습니다. 각 생산자·소비자가 같은 계약을 적용하도록 검사 기준을 제공합니다.
+각 생산자·소비자가 같은 JSON 계약을 적용하도록 필드 정의와 검사 기준을 제공합니다.
 
-## 폴더 구조
+<a id="폴더-구조"></a>
+
+## 🗂️ 폴더 구조
 
 ```text
 Pauseable.contracts/
-├── communication-v1/ — AI→Central→API→앱 연결 규격
-│   ├── examples/ — 메시지별 정상 JSON 예시
-│   └── schemas/ — 추론·최종 사건·알림·명령·응답 Schema
-└── examples/
-    └── mmwave/ — 감지·미감지·오류·잘림·재생 센서 예시
+├── communication-v1/                        # AI→Central→API→앱 연결 규격
+│   ├── examples/
+│   └── schemas/                             # 추론·최종 사건·알림·명령·응답 Schema
+│       ├── app-alert.schema.json            # API → 보호자 앱 알림 규격
+│       ├── behavior-inference.schema.json   # AI → Central 행동 추론 규격
+│       ├── command-ack.schema.json          # 장치 명령 처리 결과 규격
+│       ├── decision-event.schema.json       # Central → API 최종 사건 규격
+│       ├── device-command.schema.json       # 장치 실행 명령 규격
+│       └── guardian-response.schema.json    # 보호자 후속 응답 규격
+├── examples/
+│   └── mmwave/                              # 감지·미감지·오류·잘림·재생 센서 예시
+├── ha-entity-event.schema.json              # HA 엔티티 관측 규격
+├── mmwave-target-event.schema.json          # mmWave 원시 대상·좌표·품질 규격
+├── voice-request.schema.json                # 음성 합성 요청 규격
+└── voice-result.schema.json                 # 음성 합성 결과 규격
 ```
 
 | 경로 | 설명 |
@@ -34,7 +52,9 @@ Pauseable.contracts/
 
 <a id="메시지-구성"></a>
 
-## 데이터가 전달되는 단계
+<a id="데이터가-전달되는-단계"></a>
+
+## 🔗 데이터가 전달되는 단계
 
 | 단계 | 생산자 → 소비자 | 기준 파일 |
 | --- | --- | --- |
@@ -47,7 +67,9 @@ Pauseable.contracts/
 
 <a id="ai--central-추론-전달"></a>
 
-## AI 판단 메시지
+<a id="ai-판단-메시지"></a>
+
+## 📨 AI 판단 메시지
 
 | Topic | `source` | `behavior` |
 | --- | --- | --- |
@@ -68,7 +90,9 @@ Pauseable.contracts/
 
 <a id="수신-메시지-검증"></a>
 
-## 수신 검증
+<a id="수신-검증"></a>
+
+## 🔍 수신 검증
 
 1. JSON 문법, 필수 필드, 자료형과 허용값을 검사합니다.
 2. MQTT Topic과 `source`·행동의 조합을 확인합니다.
@@ -80,7 +104,9 @@ Pauseable.contracts/
 
 <a id="central--api-실행-결정-전달"></a>
 
-## 최종 사건과 보조 규격
+<a id="최종-사건과-보조-규격"></a>
+
+## 📋 최종 사건과 보조 규격
 
 Central은 Device 인증으로 `POST /api/events/decisions`에 전송합니다. `source`는 `central-atlas-app`이며 v1의 actions에는 `notify_guardian`, `control_appliance`가 있습니다. `Idempotency-Key` 헤더를 사용하면 본문의 사건 ID와 일치해야 합니다. [최종 사건 예시](communication-v1/examples/central-decision.json)
 
@@ -96,7 +122,9 @@ Central은 Device 인증으로 `POST /api/events/decisions`에 전송합니다. 
 <a id="검증-구현"></a>
 <a id="버전-관리"></a>
 
-## 규격 변경과 검사
+<a id="규격-변경과-검사"></a>
+
+## 🧪 규격 변경과 검사
 
 변경 시 Schema·예시·생산자·소비자와 장치에 설치한 사본을 함께 확인합니다. 정상·unknown·필드 누락·시각 오류·같은 ID의 내용 충돌을 검사합니다.
 
@@ -104,4 +132,4 @@ Central은 Device 인증으로 `POST /api/events/decisions`에 전송합니다. 
 python -m json.tool Pauseable.contracts/communication-v1/schemas/behavior-inference.schema.json
 ```
 
-이 명령은 JSON 문법만 확인합니다. 실제 의미 검증은 [Central 테스트](../Pauseable.edge/central/tests), [API 테스트](../Pauseable.apps/api/tests), [센서 계약 검사](../Pauseable.edge/mmwave-relay/test_contract.py)에서 확인합니다.
+JSON 문법을 확인한 뒤 메시지의 필드·조합·시간·중복 처리는 [Central 테스트](../Pauseable.edge/central/tests), [API 테스트](../Pauseable.apps/api/tests), [센서 계약 검사](../Pauseable.edge/mmwave-relay/test_contract.py)에서 확인합니다.
