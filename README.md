@@ -14,7 +14,7 @@
 
 **치매 환자를 위한 스마트 가전 AIoT 시스템**
 
-임베디드 소프트웨어 경진대회 · 스마트 가전 부문 · 개발팀 Pauseable
+임베디드 소프트웨어 경진대회 · 스마트 가전 부문 · Pauseable
 
 Memolink는 집 안의 가전 사용과 실내 이동을 기록하고, 반복행동과 배회 의심 상황을 분석합니다. Raspberry Pi 5의 Central이 판단 메시지를 확인해 현장 안내를 실행하고, 보호자 앱으로 알림과 출입 사진을 전달합니다.
 
@@ -82,10 +82,10 @@ mmWave 수신 경로 → 배회 AI ──────┘                   └�
 
 ```text
 2026ESWContest_smart_Pauseable/
-├── .github/ — GitHub Actions 검사와 빌드 설정
-│   └── workflows/ — 원본 자동 검사·배포 작업
+├── .github/
+│   └── workflows/
 ├── Pauseable.ai/ — 행동 분석과 보호자 음성 학습
-│   ├── assets/ — AI README의 기존 그림과 출처
+│   ├── assets/
 │   ├── ha/ — 가전 이벤트 수집·개인화·반복행동 판단
 │   ├── mmwave/ — 이동 경로·개인 변화·지속성 판단
 │   └── voice/ — 녹음 전처리·Piper 학습·모델 게시
@@ -93,11 +93,11 @@ mmWave 수신 경로 → 배회 AI ──────┘                   └�
 │   ├── api/ — 인증·사건 저장·Push·사진·학습 API
 │   └── guardian/ — Flutter 보호자 앱
 ├── Pauseable.contracts/ — 공통 JSON 규격과 메시지 예시
-│   ├── communication-v1/ — AI→Central→API→앱 연결 규격 v1
-│   └── examples/ — 메시지 예시
+│   ├── communication-v1/ — AI→Central→API→앱 연결 규격
+│   └── examples/
 ├── Pauseable.deploy/ — 장치별 소스 묶음·서비스·이전 설정
 │   ├── gpu/ — GPU 음성 학습 장치 설정
-│   ├── migration/ — 이전 이름·경로·서비스 대응 자료
+│   ├── migration/
 │   ├── mmwave-autostart/ — 소스 Manifest·장치별 묶음 생성기
 │   └── pi5/ — Pi 5 앱·Gateway·웹 실행 설정
 ├── Pauseable.edge/ — Central·센서·카메라·로컬 출력
