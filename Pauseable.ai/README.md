@@ -110,7 +110,7 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 | 반복 가설 24개 | 16/24 | 24/24 | 경보가 발생한 시나리오 수 |
 | 정상 맥락 48개 | 22/48 | 30/48 | 정상 사용에서도 경보가 증가 |
 
-같은 규칙·반복 조건·관측 마스크를 유지한 비교이며 Routine 보정은 미적용입니다.[비교 원본](assets/data/baseline_comparison.json)
+같은 규칙·반복 조건·관측 마스크를 유지한 비교이며 Routine 보정은 미적용입니다. [비교 원본](assets/data/baseline_comparison.json)
 
 ![정상 후보 Holdout 144개의 IF 점수와 AE 재구성 오차](assets/ha-model-scores.png)
 
@@ -129,13 +129,13 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 | 지속성 | [temporal_evidence.py](mmwave/src/temporal_evidence.py) | 연속 구간·누적 시간·시작/해제 경계 |
 | 판단 전송 | [wandering_publisher.py](mmwave/src/wandering_publisher.py) | `pauseable/ai/wandering/decision` 발행 |
 
-기본 정책은 높은 증거가 3개 연속 구간·총 90초 이상 이어지는 경우 후보를 만듭니다. 저장 RF의 시작 기준은 0.66이며 개인 변화는 P95에서 시작해 P90 미만에서 해제합니다. 개인 이력이 없으면 해당 분석은 `unavailable`로 유지합니다.
+기본 정책은 높은 증거가 3개 연속 구간·총 90초 이상 이어지는 경우 후보를 만듭니다. 저장 RF의 시작 기준은 0.59이며 개인 변화는 P95에서 시작해 P90 미만에서 해제합니다. 개인 이력이 없으면 해당 분석은 `unavailable`로 유지합니다.
 
 ![합성 경로에서 반복 이동 후 통과로 바뀌는 경계 사례](assets/mmwave-inspect-paths.png)
 
-초록 원은 시작, ×는 끝입니다. 좌표는 임의 단위이며 `label`은 생성 규칙, `pred`는 분류 결과, `score`는 보정되지 않은 점수입니다. 실측 LD6004·임상 배회 검증을 나타내지 않습니다. [실험 설계](mmwave/src/shape_v2/PROTOCOL.md)
+초록 원은 시작, ×는 끝입니다. 좌표는 임의 단위이며 `label`은 생성 규칙, `pred`는 분류 결과, `score`는 보정되지 않은 점수입니다. [실험 설계](mmwave/src/shape_v2/PROTOCOL.md)
 
-저장소의 센서 입력 구현은 [Serial 릴레이](../Pauseable.edge/mmwave-relay)와 Pi 5 FIFO를 포함합니다. Pi가 ESP32에 전원만 공급하는 구성에서는 그 Pi가 중계하지 않습니다. ESP32 Wi-Fi 직결을 사용할 때는 별도 펌웨어와 UDP 수신→AI 입력 전달까지 맞춰야 합니다. Central의 원시 UDP 관측을 켜는 것만으로 AI 판단이 연결되지는 않습니다.
+저장소의 센서 입력 구현은 [Serial 릴레이](../Pauseable.edge/mmwave-relay)와 Pi 5 FIFO를 포함합니다. Pi가 ESP32에 전원만 공급하는 구성에서는 그 Pi가 중계하지 않습니다. ESP32 Wi-Fi 직결을 사용할 때는 별도 펌웨어와 UDP 수신→AI 입력 전달까지 맞춰야 합니다.
 
 <a id="voice-학습과-운영-상세"></a>
 
@@ -179,7 +179,3 @@ HA·mmWave·Voice는 의존성이 달라 별도 가상환경을 사용합니다.
 처음 HA를 설치할 때는 [환경 예시](ha/deploy/systemd/ha-ai.env.example), [엔티티 매핑](ha/src/entity_mapper.py), [제출용 서비스](ha/deploy/systemd/ha-ai-submission.service.example)를 함께 맞춥니다. 제출 예시는 shadow·60초 회차·MQTT 발행을 사용하며, 기존 `ha-ai-full.service`는 hybrid와 이전 설치 경로를 포함합니다. 동일 이력 경로에 두 수집 서비스를 동시에 실행하지 않습니다. `Dockerfile.pi`의 기본 명령은 도움말이므로 이미지 실행만으로 지속 수집이 시작되지는 않습니다.
 
 Voice Worker의 `fcntl`은 Windows 기본 Python에 없으므로 Linux·WSL의 Python 3.11에서 검사합니다. `voice/`에서 `python pipeline/r2_worker.py --dry-run --dataset-dir LOCAL_DATASET_DIR`로 로컬 WAV·대본을 먼저 확인할 수 있으며, 이 dry-run은 API·R2·GPU를 호출하지 않습니다.
-
-## 그림과 원본 관리
-
-기존 AI 그림 7개를 그대로 재사용했습니다. [provenance.json](assets/provenance.json)은 원본 커밋과 파일 해시를, [evaluation_figure_manifest.json](assets/evaluation_figure_manifest.json)은 합성 자료의 범위와 수치를 기록합니다. SVG의 문서용 아이콘 고지는 [SimpleIcons.LICENSE.txt](assets/SimpleIcons.LICENSE.txt)에 보존했습니다.
