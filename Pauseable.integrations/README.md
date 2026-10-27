@@ -1,4 +1,4 @@
-# 💡 Pauseable.integrations
+# Pauseable.integrations
 
 <a id="pauseableintegrations"></a>
 
@@ -10,7 +10,7 @@
 
 <a id="기능-개요"></a>
 
-## 🔎 기능 개요
+## 기능 개요
 
 | 구성 | 사용하는 정보 | 역할 |
 | --- | --- | --- |
@@ -24,7 +24,7 @@
 
 <a id="폴더-구조"></a>
 
-## 🗂️ 폴더 구조
+## 폴더 구조
 
 ```text
 Pauseable.integrations/
@@ -46,7 +46,7 @@ Pauseable.integrations/
 <a id="지역-설정-처리"></a>
 <a id="처리-방식"></a>
 
-## ⚙️ 처리 방식
+## 처리 방식
 
 ```text
 앱 거주지역 저장 → Device API에서 격자 조회 → 기상청 예보 조회
@@ -66,7 +66,7 @@ Pauseable.integrations/
 
 앱 연동에서는 `render`를 사용합니다. API 응답의 시·도, 시·군·구, 읍·면·동과 정수 격자 좌표를 검증한 뒤 예보 조회에 사용합니다. 지역 미설정 응답은 종료 코드 `2`로 처리하고, 다음 실행에서 다시 조회합니다.
 
-기상청 격자는 앱에 저장한 거주지역을 기준으로 하고, 태양 고도는 HA의 집 위치를 기준으로 합니다. 설치 시 두 위치를 같은 거주지로 설정합니다. 수동 지역 선택은 [weather_location.py](home-assistant/weather-light-control/weather_location.py)에서 `data/kma_grid.xlsx`를 읽어 `location_config.json`으로 저장합니다.
+기상청 격자는 앱에 저장한 거주지역을 기준으로 하고, 태양 고도는 HA의 집 위치를 기준으로 합니다. 설치 시 두 위치를 같은 거주지로 설정합니다. 수동 지역 선택 도구 [weather_location.py](home-assistant/weather-light-control/weather_location.py)를 사용하려면 기상청 격자 Excel을 `data/kma_grid.xlsx`에 별도로 준비해야 합니다. 도구가 선택 결과를 `location_config.json`으로 저장하며, 앱 지역을 조회하는 `render` 모드에는 이 Excel이 필요하지 않습니다.
 
 <a id="날씨와-태양-고도"></a>
 
@@ -116,7 +116,7 @@ Pauseable.integrations/
 <a id="준비할-설정"></a>
 <a id="설정-준비"></a>
 
-## 🔧 설정 준비
+## 설정 준비
 
 ### ① 설정 파일
 
@@ -136,7 +136,7 @@ systemd 서비스는 지역 조회용 환경변수 4개를 Docker에 전달하�
 <a id="로컬-검사와-조회-시험"></a>
 <a id="로컬-검사와-지역-조회"></a>
 
-## 🧪 로컬 검사와 지역 조회
+## 로컬 검사와 지역 조회
 
 ### ① 모듈 검사
 
@@ -165,7 +165,7 @@ python weather_api.py --check-location
 <a id="장치-적용과-확인"></a>
 <a id="pi-서비스와-확인"></a>
 
-## ⏱️ Pi 서비스와 확인
+## Pi 서비스와 확인
 
 ### ① 실행 환경과 주기
 
@@ -199,4 +199,4 @@ sudo systemctl disable --now pauseable-weather-light.timer
 sudo systemctl stop pauseable-weather-light.service
 ```
 
-현재 주기 실행은 systemd 타이머에서 관리하고, 조명 전원은 HA의 `light` 엔티티에서 직접 조절할 수 있습니다.
+현재 주기 실행은 systemd 타이머에서 관리합니다. 앱·API에는 `auto_lighting_enabled` 설정이 있지만, `weather_api.py`는 아직 이 값을 읽지 않습니다. 자동 제어를 중지하려면 위 명령으로 타이머를 중지해야 합니다. HA에서 조명 전원을 직접 바꾸더라도 타이머가 실행 중이면 다음 회차에 계산한 값으로 다시 제어합니다.

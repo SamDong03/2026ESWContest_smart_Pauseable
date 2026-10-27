@@ -1,4 +1,4 @@
-# 📐 Pauseable.contracts
+# Pauseable.contracts
 
 <a id="pauseablecontracts"></a>
 
@@ -10,7 +10,7 @@
 
 <a id="주요-구성"></a>
 
-## 🧩 주요 구성
+## 주요 구성
 
 | 구분 | 내용 |
 | --- | --- |
@@ -22,7 +22,7 @@
 
 <a id="폴더-구조"></a>
 
-## 🗂️ 폴더 구조
+## 폴더 구조
 
 ```text
 Pauseable.contracts/
@@ -54,7 +54,7 @@ Pauseable.contracts/
 
 <a id="데이터가-전달되는-단계"></a>
 
-## 🔗 데이터가 전달되는 단계
+## 데이터가 전달되는 단계
 
 | 단계 | 생산자 → 소비자 | 기준 파일 |
 | --- | --- | --- |
@@ -69,7 +69,7 @@ Pauseable.contracts/
 
 <a id="ai-판단-메시지"></a>
 
-## 📨 AI 판단 메시지
+## AI 판단 메시지
 
 | Topic | `source` | `behavior` |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ Pauseable.contracts/
 
 <a id="수신-검증"></a>
 
-## 🔍 수신 검증
+## 수신 검증
 
 1. JSON 문법, 필수 필드, 자료형과 허용값을 검사합니다.
 2. MQTT Topic과 `source`·행동의 조합을 확인합니다.
@@ -106,7 +106,7 @@ Pauseable.contracts/
 
 <a id="최종-사건과-보조-규격"></a>
 
-## 📋 최종 사건과 보조 규격
+## 최종 사건과 보조 규격
 
 Central은 Device 인증으로 `POST /api/events/decisions`에 전송합니다. `source`는 `central-atlas-app`이며 v1의 actions에는 `notify_guardian`, `control_appliance`가 있습니다. `Idempotency-Key` 헤더를 사용하면 본문의 사건 ID와 일치해야 합니다. [최종 사건 예시](communication-v1/examples/central-decision.json)
 
@@ -124,7 +124,7 @@ Central은 Device 인증으로 `POST /api/events/decisions`에 전송합니다. 
 
 <a id="규격-변경과-검사"></a>
 
-## 🧪 규격 변경과 검사
+## 규격 변경과 검사
 
 변경 시 Schema·예시·생산자·소비자와 장치에 설치한 사본을 함께 확인합니다. 정상·unknown·필드 누락·시각 오류·같은 ID의 내용 충돌을 검사합니다.
 

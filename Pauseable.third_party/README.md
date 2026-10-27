@@ -1,4 +1,4 @@
-# 📦 Pauseable.third_party
+# Pauseable.third_party
 
 <a id="pauseablethird_party"></a>
 
@@ -10,7 +10,7 @@
 
 <a id="포함한-외부-소스"></a>
 
-## 🧩 포함한 외부 소스
+## 포함한 외부 소스
 
 | 구성 | 저장된 버전 | Pauseable에서 사용하는 기능 |
 | --- | --- | --- |
@@ -22,7 +22,7 @@
 
 <a id="폴더-구조"></a>
 
-## 🗂️ 폴더 구조
+## 폴더 구조
 
 전체 하위 폴더와 핵심 라이브러리·빌드·라이선스 파일을 표시했습니다.
 
@@ -98,7 +98,7 @@ Pauseable.third_party/
 
 <a id="pauseable과-연결되는-위치"></a>
 
-## 🔗 Pauseable과 연결되는 위치
+## Pauseable과 연결되는 위치
 
 ```text
 앱 녹음 → AI 음성 전처리·Job 관리 → Piper 학습 → ONNX·설정 Export
@@ -121,7 +121,7 @@ Pi의 런타임 구성은 `bin/piper`, `lib`, `share/espeak-ng-data`와 `models`
 
 <a id="원본과-변경-기록"></a>
 
-## 🧾 원본과 변경 기록
+## 원본과 변경 기록
 
 ### ① 버전과 출처
 
@@ -139,7 +139,7 @@ Pi의 런타임 구성은 `bin/piper`, `lib`, `share/espeak-ng-data`와 `models`
 
 <a id="라이선스와-자료-구분"></a>
 
-## 📄 라이선스와 고지
+## 라이선스와 고지
 
 | 구성 | 라이선스·고지 파일 |
 | --- | --- |

@@ -1,4 +1,4 @@
-# 🖥️ Pauseable.edge
+# Pauseable.edge
 
 <a id="pauseableedge"></a>
 
@@ -10,7 +10,7 @@
 
 <a id="주요-기능"></a>
 
-## 🧩 주요 기능
+## 주요 기능
 
 | 구성 | 입력 | 처리·출력 |
 | --- | --- | --- |
@@ -22,7 +22,7 @@
 
 <a id="폴더-구조"></a>
 
-## 🗂️ 폴더 구조
+## 폴더 구조
 
 전체 하위 폴더와 주요 실행·설정 파일을 표시했습니다.
 
@@ -97,7 +97,7 @@ Pauseable.edge/
 <a id="central-수신과-설치-상세"></a>
 <a id="central-처리-과정"></a>
 
-## ⚙️ Central 처리 과정
+## Central 처리 과정
 
 ```text
 행동 AI → MQTT 수신 → 메시지 검증 → Decision → Action Router
@@ -117,7 +117,7 @@ Pauseable.edge/
 
 ### ② 실행 계획과 재알림 간격
 
-[ActionRouter.cpp](central/core/src/ActionRouter.cpp)는 출처별 활성 상태, 마지막 위험 단계, 마지막 알림 시각과 사건 ID를 저장합니다. 첫 위험 발생, 위험 단계 상승과 재알림 간격 경과를 기준으로 실행 계획을 만듭니다.
+[ActionRouter.cpp](central/core/src/ActionRouter.cpp)는 출처별 활성 상태, 마지막 위험 단계, 마지막 알림 시각과 사건 ID를 저장합니다. 행동별 실행 정책이 활성화되어 있으면 첫 위험 발생, 위험 단계 상승과 재알림 간격 경과를 기준으로 실행 계획을 만듭니다. 실제 음성 출력과 API 전송은 아래의 TTS·Gateway 설정도 각각 활성화해야 합니다.
 
 | 상황 | Router 처리 |
 | --- | --- |
@@ -160,7 +160,7 @@ Outbox는 전송 성공, 재시도 예약, 영구 실패와 횟수 초과를 구
 <a id="센서-릴레이와-카메라"></a>
 <a id="mmwave-입력"></a>
 
-## 📡 mmWave 입력
+## mmWave 입력
 
 ### ① Serial·SSH·FIFO 전달
 
@@ -178,7 +178,7 @@ Central은 `MMWAVE_ENABLED=1`에서 UDP 5005 입력을 수신합니다. `MMWAVE_
 <a id="카메라-트리거와-업로드"></a>
 <a id="출입-카메라"></a>
 
-## 📷 출입 카메라
+## 출입 카메라
 
 ### ① 도어락에서 촬영까지
 
@@ -210,7 +210,7 @@ Central은 `MMWAVE_ENABLED=1`에서 UDP 5005 입력을 수신합니다. `MMWAVE_
 
 <a id="음성-모델-교체"></a>
 
-## 🗣️ 음성 모델 교체
+## 음성 모델 교체
 
 [voice_model_updater.py](voice-model/voice_model_updater.py)는 API의 최신 모델 Manifest를 조회하고 아래 순서로 개인화 음성을 적용합니다.
 
@@ -232,7 +232,7 @@ Central은 `MMWAVE_ENABLED=1`에서 UDP 5005 입력을 수신합니다. `MMWAVE_
 <a id="선호-음악-설치와-시험"></a>
 <a id="선호-음악과-현장-출력"></a>
 
-## 🎵 선호 음악과 화면 출력
+## 선호 음악과 화면 출력
 
 ### ① 등록곡 선택과 재생 요청
 
@@ -251,7 +251,7 @@ Pi 방식은 [youtube-control.sh](actions/favorite-music/youtube-control.sh)와 
 
 <a id="빌드와-검사"></a>
 
-## 🛠️ 빌드와 검사
+## 빌드와 검사
 
 ### ① Central 빌드 환경
 
@@ -274,7 +274,7 @@ python -m unittest discover -s Pauseable.edge/camera -p 'test_*.py' -v
 <a id="실기-점검과-보존-규칙"></a>
 <a id="실기-확인"></a>
 
-## ✅ 장치 연결 확인
+## 장치 연결 확인
 
 | 연결 | 확인 항목 |
 | --- | --- |

@@ -1,4 +1,4 @@
-# 📱 Pauseable.apps
+# Pauseable.apps
 
 <a id="pauseableapps"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="주요-기능"></a>
 
-## 🧩 주요 기능
+## 주요 기능
 
 | 영역 | 제공 기능 |
 | --- | --- |
@@ -25,7 +25,7 @@
 
 <a id="폴더-구조"></a>
 
-## 🗂️ 폴더 구조
+## 폴더 구조
 
 ```text
 Pauseable.apps/
@@ -136,7 +136,7 @@ Pauseable.apps/
 
 <a id="api-처리-방식"></a>
 
-## ⚙️ API 처리 방식
+## API 처리 방식
 
 ```text
 Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충돌 확인
@@ -155,7 +155,7 @@ Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충�
 
 <a id="보호자-앱의-화면과-연결"></a>
 
-## 📱 보호자 앱의 화면과 연결
+## 보호자 앱의 화면과 연결
 
 | 화면 | 동작 |
 | --- | --- |
@@ -191,7 +191,7 @@ Central 최종 사건 → Device 인증·계약 검사 → event_id 중복·충�
 
 <a id="설치-및-실행"></a>
 
-## 🛠️ 설치 및 실행
+## 설치 및 실행
 
 <a id="api-로컬-실행"></a>
 
@@ -228,7 +228,7 @@ flutter run -d chrome --web-port=18109 --dart-define=API_BASE_URL=http://127.0.0
 
 운영 API 주소와 실제 인증값은 공개 README의 예시와 분리합니다. Android의 FCM에는 프로젝트에 맞는 Firebase 클라이언트 설정과 OS 알림 권한이 필요합니다.
 
-Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀원의-pc에서-빌드하기)에 따라 PC에서 빌드합니다. 공유 App Token을 포함하는 [Actions 수동 빌드](../.github/workflows/native-push-apk.yml)는 비공개 저장소에서만 실행되며, 현재 공개 제출 저장소에서는 건너뜁니다. 운영 APK는 별도 비공개 저장소에서 관리합니다.
+Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀원의-pc에서-빌드하기)에 따라 PC에서 빌드합니다. 공유 App Token을 포함하는 [Actions 수동 빌드](../.github/workflows/native-push-apk.yml)는 저장소 이름과 비공개 조건을 확인하며, 현재 공개 제출 저장소에서는 건너뜁니다. 실제 인증값이 포함된 APK는 공개 저장소와 분리해 관리합니다.
 
 위 로컬 설정은 같은 PC의 API·웹 앱 시험용입니다. Pi 사건·사진 업로드에는 Device Token, 음성 학습에는 Worker Token과 R2 연결을 추가로 준비합니다. 기상청 Key나 서버용 Firebase 키는 Flutter 앱에 넣지 않습니다.
 
@@ -236,7 +236,7 @@ Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀�
 
 <a id="검사와-실기-확인"></a>
 
-## 🧪 검사와 실기 확인
+## 검사와 실기 확인
 
 | 검사 | 명령·확인 위치 |
 | --- | --- |
@@ -252,6 +252,8 @@ Android APK는 [Android Push 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀�
 
 <a id="운영-설정"></a>
 
-## 🔧 운영 설정
+## 운영 설정
 
-`STORAGE_BACKEND=r2`에는 R2 연결과 역할별 Token이 필요합니다. FCM 서버 키·VAPID 개인키·Device/Worker Token은 앱 빌드에 넣지 않습니다. 현재 공유 App Token은 팀 운용용이며 사용자별 로그인·대상자 권한 분리와 다릅니다. APK도 인증값을 포함할 수 있으므로 운영 APK는 별도로 관리합니다.
+서버 운영 시 `PAUSEABLE_ENV=production`을 지정하고 App·Device·Worker Token을 각각 설정합니다. 개발 모드에서는 설정하지 않은 역할의 인증 검사가 생략되므로 위 로컬 실행 예시를 외부에 공개하지 않습니다. `STORAGE_BACKEND=r2`에는 R2 연결도 필요합니다.
+
+FCM 서버 키·VAPID 개인키·Device/Worker Token은 앱 빌드에 넣지 않습니다. 현재 공유 App Token은 팀 운용용이며 사용자별 로그인·대상자 권한 분리와 다릅니다. APK도 인증값을 포함할 수 있으므로 운영 APK는 별도로 관리합니다.
