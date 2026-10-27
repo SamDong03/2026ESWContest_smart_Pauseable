@@ -1,10 +1,25 @@
 # PAUSEABLE / Integrations
 
-AI 판단과 별개로, 외부 정보와 Home Assistant를 연결하는 모듈입니다. 현재는 **보호자 앱의 거주 지역 → 기상청 격자 → 날씨·태양 고도 기반 조명** 경로를 포함합니다.
+**보호자가 설정한 지역의 날씨와 태양 고도를 조명 제어에 반영합니다.** AI의 반복행동·배회 판단과는 별도 경로이며, 외부 정보·API·Home Assistant를 연결하는 모듈입니다.
 
 [전체 프로젝트](../README.md) · [API·앱](../Pauseable.apps/README.md) · [배포 안내](../Pauseable.deploy/README.md)
 
-## 구성
+![Guardian 지역 설정에서 기상청·HA sun 정보와 조명 제어로 이어지는 연결](../Pauseable.docs/assets/readme/weather-light.svg)
+
+## 조명 한 회차의 처리
+
+| 입력·단계 | 하는 일 |
+| --- | --- |
+| Guardian 지역 | 앱이 저장한 대상자별 거주 지역 확인 |
+| 위치 조회 | Device 인증으로 API의 지역과 기상청 `nx/ny` 조회 |
+| 환경 정보 | 기상청 날씨와 HA `sun.sun`의 태양 고도 사용 |
+| 규칙 적용 | 밝기·색온도 규칙으로 HA 조명 엔티티에 명령 |
+| 오류 처리 | Render 모드의 위치 조회 실패 시 해당 회차 변경 중단 |
+
+약 1분 간격의 타이머 실행과 실제 조명 반응은 별도로 확인합니다. 이 주기는 HA AI의 WebSocket 수집 주기와 관계없습니다.
+
+<details>
+<summary><strong>구현 파일과 설정 위치</strong></summary>
 
 | 파일 | 역할 |
 | --- | --- |
@@ -15,15 +30,9 @@ AI 판단과 별개로, 외부 정보와 Home Assistant를 연결하는 모듈�
 | [`deploy/systemd`](home-assistant/weather-light-control/deploy/systemd) | 서비스와 타이머 |
 | [`test_weather_api.py`](home-assistant/weather-light-control/test_weather_api.py) | API·위치 연동 회귀 검사 |
 
-## 연결 방식
+</details>
 
-```text
-Guardian에서 거주 지역 저장
-  → API의 대상자별 home-environment
-  → 조명 모듈이 Device Token으로 지역·nx/ny 조회
-  → 기상청 날씨 + HA sun.sun
-  → 기존 밝기·색온도 규칙 → HA 조명 엔티티
-```
+## 모드와 실패 처리
 
 | 모드 | 동작 |
 | --- | --- |
@@ -35,6 +44,9 @@ Render 모드 오류를 숨기고 예전 로컬 지역으로 바꾸거나 조명
 
 ## 준비할 설정
 
+<details>
+<summary><strong>비공개 설정 체크리스트</strong></summary>
+
 | 항목 | 위치·주의 |
 | --- | --- |
 | 기상청 Service Key | 장치의 비공개 `config.json` |
@@ -44,7 +56,12 @@ Render 모드 오류를 숨기고 예전 로컬 지역으로 바꾸거나 조명
 
 예시 파일을 복사한 뒤 실제 값을 로컬 편집기로 입력합니다. 기존 설정을 덮어쓰지 않고, 토큰을 채팅·Git·명령행 인자로 공개하지 않습니다. App/Worker Token을 조명 장치의 Device Token 대신 사용하지 않습니다.
 
+</details>
+
 ## 로컬 검사와 조회 시험
+
+<details>
+<summary><strong>회귀 검사와 조명을 바꾸지 않는 조회 명령</strong></summary>
 
 별도 Python 가상환경을 활성화하고 **저장소 루트에서** 시작합니다.
 
@@ -65,6 +82,8 @@ python weather_api.py --check-location
 ```
 
 `--check-location`은 **조명 명령을 보내지 않는 조회 시험**입니다. 옵션 없는 실행이나 systemd 시작은 실제 조명을 바꿀 수 있으므로 여기서는 자동으로 실행하지 않습니다.
+
+</details>
 
 ## 장치 적용과 확인
 

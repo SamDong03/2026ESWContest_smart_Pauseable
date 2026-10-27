@@ -1,6 +1,6 @@
 # PAUSEABLE / Edge
 
-Raspberry Pi에서 센서 입력·판단 수신·음성·가전·출입 사진을 연결하는 런타임 영역입니다. **AI의 판단을 실제 동작으로 옮기기 전 검증하고 제어하는 역할**이 중심입니다.
+**AI가 판단을 보내면 Central이 실행 여부를 정하고, 장치별 모듈이 실제 출력을 맡습니다.** Raspberry Pi의 센서 중계·판단 수신·음성·가전·사진을 연결하는 런타임 영역입니다.
 
 [전체 프로젝트](../README.md) · [AI 판단](../Pauseable.ai/README.md) · [배포 안내](../Pauseable.deploy/README.md)
 
@@ -17,17 +17,17 @@ Raspberry Pi에서 센서 입력·판단 수신·음성·가전·출입 사진�
 
 ## Central App
 
-```text
-MQTT Subscriber
-  → JSON 구조·Topic/source·시각·식별자 검증
-  → event_id 중복·동일 ID 내용 충돌 확인
-  → 내부 Decision 변환
-  → Action Router: 실행 허용·위험도·cooldown
-  → TTS·설정된 가전 출력
-  → 영속 Outbox / Gateway → API → Guardian
-```
+![MQTT 입력의 검증·중복 제거·Action Router와 로컬 출력·Outbox 분기](../Pauseable.docs/assets/readme/central-routing.svg)
 
-### 코드 진입점
+| 단계 | 담당 역할 | 이후 단계로 넘기지 않는 사례 |
+| --- | --- | --- |
+| Subscriber / Validator | JSON·Topic/source·시각·ID 확인 | 출처 불일치·오래된 사건·잘못된 필드 |
+| Decision / Dedup | 내부 결정으로 변환, 중복·동일 ID 충돌 구분 | 이미 처리한 사건·같은 ID의 다른 내용 |
+| Action Router | 행동별 활성화·위험도·cooldown 확인 | 실행 비활성·억제 중인 동작 |
+| Local / Gateway | 허용한 출력 실행, API 전송·재시도 | 관측 부족을 가전 명령으로 바꾸지 않음 |
+
+<details>
+<summary><strong>Central 기능별 코드 진입점</strong></summary>
 
 | 기능 | 파일 |
 | --- | --- |
@@ -40,6 +40,8 @@ MQTT Subscriber
 | API 전송 | [`DecisionGatewayClient.cpp`](central/integration/src/DecisionGatewayClient.cpp) |
 | 로컬 음성 합성 | [`PiperTtsEngine.cpp`](central/integration/src/PiperTtsEngine.cpp) |
 
+</details>
+
 ### 입력과 실행의 경계
 
 - 반복행동과 배회를 서로 다른 MQTT Topic에서 받고 `source` 일치 여부를 확인합니다.
@@ -49,7 +51,8 @@ MQTT Subscriber
 - Outbox는 API 전송 대기·재시도용 영속 상태입니다. 실제 TTS·가전 동작까지 보장하는 큐는 아닙니다.
 - 최종 API 메시지와 중복 처리 계약은 [Contracts](../Pauseable.contracts/README.md)를 따릅니다.
 
-### 빌드와 시험
+<details>
+<summary><strong>Central 빌드 환경과 독립 수신기 host 테스트</strong></summary>
 
 정식 Central은 C++17·CMake와 Atlas/webOS SDK, `sdbus-c++`, 플랫폼 전용 라이브러리가 필요합니다. [`CMakeLists.txt`](central/CMakeLists.txt)에 의존성이 정의되어 있습니다. 일반 PC의 CMake만으로 정식 앱이나 `.ipk`까지 만들어지지는 않습니다.
 
@@ -63,6 +66,8 @@ ctest --test-dir build/mmwave-tools -C Release --output-on-failure
 
 이는 Central 전체의 TTS·D-Bus·가전 E2E 시험이 아닙니다. Central host 테스트 소스는 [`central/tests`](central/tests)에 있습니다.
 
+</details>
+
 ## 센서 릴레이와 카메라
 
 | 파트 | 주요 파일 | 확인할 조건 |
@@ -74,21 +79,24 @@ ctest --test-dir build/mmwave-tools -C Release --output-on-failure
 
 ## 음성 모델 교체
 
+![모델 다운로드·크기와 SHA-256 확인·설정과 로컬 합성 검사 후 교체, 실패 시 기존 모델 유지](../Pauseable.docs/assets/readme/model-release.svg)
+
 [`voice_model_updater.py`](voice-model/voice_model_updater.py)는 API/R2에서 모델을 받아 크기·SHA-256·설정·로컬 합성 결과를 확인한 뒤 활성 모델을 교체합니다. 새 모델이 검증되지 않으면 기존 모델을 유지합니다.
 
 환경 예시: [`voice-model.env.example`](voice-model/voice-model.env.example). 학습 원본과 보관·삭제 정책은 [Voice 데이터 정책](../Pauseable.docs/voice/DATA_AND_ARTIFACTS_KO.md)을 따릅니다.
 
 ## 선호 음악과 출력 경로
 
-```text
-Guardian의 선호 음악 설정 → API 저장
-  → Central이 승인한 반복행동/배회 안내
-  → 기존 TTS·가전 처리 이후 favorite-music 작업
-  → Device 인증으로 현재 선호 목록에서 선택
-  → 검증된 video_id → Pi 화면·스피커 재생 요청
-```
+![Central 승인 이후 선호 음악 작업·Device API 조회·Pi Player 실행으로 이어지는 경로](../Pauseable.docs/assets/readme/favorite-music.svg)
 
 최근 변경은 **기존 반복행동의 고정 LG TV 영상 호출을 Pi의 선호 음악 경로로 통일**한 것입니다. 빈 목록·인증·네트워크·플레이어 오류는 음악 경로만 건너뜁니다. 기본 음악 cooldown은 300초이며 판단 알림 cooldown과 별도입니다.
+
+| 상태 | 의미 |
+| --- | --- |
+| Central 승인 | 해당 안내·동작을 실행 정책상 허용 |
+| API 전달 완료 | 서버가 사건을 접수함. TTS·가전 전체 성공과는 다름 |
+| Player 요청 | 재생 요청 단계. 실제 화면·소리는 별도 확인 |
+| 음악 조회·재생 실패 | 음악만 건너뛰고 기존 안내 경로와 분리해 기록 |
 
 설치·수동 시험·로그·되돌리기는 [Favorite Music README](actions/favorite-music/README.md)에 있습니다. 재생 요청 로그만으로 실제 영상과 소리가 나왔다고 기록하지 않습니다.
 

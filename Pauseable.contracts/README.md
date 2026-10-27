@@ -1,10 +1,17 @@
 # PAUSEABLE / Contracts
 
-장치·AI·Central·API·보호자 앱이 같은 의미로 데이터를 주고받기 위한 **JSON Schema와 메시지 계약**입니다. 이 폴더 자체가 메시지를 변환하거나 구독하는 서비스는 아닙니다.
+**AI의 추론, Central의 실행 결정, 앱의 알림을 서로 구분하는 공통 약속입니다.** JSON Schema는 필드·형식·허용값을 정의하고, 각 서비스는 그 계약과 실행 정책을 검증합니다. 이 폴더 자체가 메시지를 구독하거나 변환하는 서비스는 아닙니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Central](../Pauseable.edge/README.md) · [API·앱](../Pauseable.apps/README.md)
 
 ## 계약 지도
+
+![AI Inference, Central Decision, App Alert가 역할에 따라 구분되는 메시지 지도](../Pauseable.docs/assets/readme/contract-map.svg)
+
+같은 사건을 이어받더라도 세 메시지의 책임은 다릅니다. AI가 `risk`를 보냈다는 사실과 Central이 가전 동작을 허용했다는 사실을 하나로 취급하지 않습니다.
+
+<details>
+<summary><strong>연결별 Schema 파일 전체 보기</strong></summary>
 
 | 연결 | 기준 파일 | 메시지 의미 |
 | --- | --- | --- |
@@ -17,16 +24,31 @@
 | HA → 연동 계층 | [`ha-entity-event.schema.json`](ha-entity-event.schema.json) | 엔티티 상태 이벤트 |
 | 음성 요청·결과 | [`voice-request.schema.json`](voice-request.schema.json), [`voice-result.schema.json`](voice-result.schema.json) | 음성 관련 교환 형식 |
 
+</details>
+
 스키마 파일이 있다는 사실만으로 해당 생산자·소비자의 배포와 실기 연결이 완료된 것은 아닙니다. 실행 중인 구현도 함께 확인합니다.
 
-## AI → Central
+## 검증을 통과하는 순서
+
+![JSON 해석, 계약, 출처·시각, 사건 ID, 실행 정책의 단계별 검증](../Pauseable.docs/assets/readme/validation-gates.svg)
+
+| 입력 사례 | 처리 원칙 |
+| --- | --- |
+| 반복행동 Topic에 배회 `source` | 출처 불일치로 거절 |
+| 오래된 사건·허용 범위 밖의 미래 시각 | 로그를 남기고 실행에 전달하지 않음 |
+| 동일 ID·동일 내용 | 중복으로 처리 |
+| 동일 ID·다른 내용 | 충돌로 구분 |
+| 관측 부족·센서/모델 오류 | `unknown`으로 구분, 정상이나 자동 가전 동작으로 바꾸지 않음 |
+
+## AI → Central: 추론 전달
 
 | MQTT Topic | `source` | 허용 행동 범위 |
 | --- | --- | --- |
 | `pauseable/ai/repetitive/decision` | `repetitive-ai` | `normal`, `repetitive`, `unknown` |
 | `pauseable/ai/wandering/decision` | `wandering-ai` | `normal`, `wandering`, `unknown` |
 
-### 주요 필드
+<details>
+<summary><strong>주요 필드와 식별 규칙</strong></summary>
 
 | 필드 | 목적 |
 | --- | --- |
@@ -43,7 +65,9 @@
 
 현재 v1 스키마에는 **시연 대상자·장치 ID를 고정한 제약**이 있습니다. 다른 가구로 배포할 때 producer·Central 설정·스키마·API의 식별 규칙을 함께 검토해야 하며, README의 예시 ID만 바꾸면 다중 사용자 지원이 완성되는 것은 아닙니다.
 
-## Central → API
+</details>
+
+## Central → API: 실행 결정 전달
 
 Central은 AI 메시지를 그대로 전달하지 않고 내부 Decision과 실행 정책을 반영해 `POST /api/events/decisions`로 보냅니다.
 

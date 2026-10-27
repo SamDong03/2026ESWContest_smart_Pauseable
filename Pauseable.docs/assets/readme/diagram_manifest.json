@@ -1,0 +1,95 @@
+{
+  "generatedBy": "build_diagrams.mjs",
+  "diagrams": [
+    {
+      "file": "ai-pipelines.svg",
+      "title": "Three pipelines, separate responsibilities",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "learning-lifecycle.svg",
+      "title": "From observation to a versioned model",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "apps-connections.svg",
+      "title": "The app and API connect people, devices and jobs",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "notification-sequence.svg",
+      "title": "One event, several acknowledgements",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "contract-map.svg",
+      "title": "A shared meaning, not just valid JSON",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "validation-gates.svg",
+      "title": "Validate first, route second",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "device-bundles.svg",
+      "title": "One source tree, three device bundles",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "deployment-stages.svg",
+      "title": "Deployment is a sequence of explicit steps",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "evidence-map.svg",
+      "title": "Read evidence in layers",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "central-routing.svg",
+      "title": "Central is the execution boundary",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "model-release.svg",
+      "title": "A downloaded model is not yet an active model",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "favorite-music.svg",
+      "title": "Favorite music is an additional output path",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "weather-light.svg",
+      "title": "Region settings connect the app to lighting",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "ci-map.svg",
+      "title": "Checks are scoped to the component that changed",
+      "kind": "architecture",
+      "liveStatus": false
+    },
+    {
+      "file": "apk-build.svg",
+      "title": "Build the test app, then verify it on the phone",
+      "kind": "architecture",
+      "liveStatus": false
+    }
+  ]
+}

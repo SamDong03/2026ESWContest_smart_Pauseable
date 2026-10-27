@@ -1,26 +1,31 @@
 # PAUSEABLE / Apps
 
-보호자가 사용하는 **Flutter 앱**과 장치·앱·학습 작업을 연결하는 **FastAPI 서버**입니다. AI 추론 자체나 Pi의 가전 실행을 이 폴더가 대신하지는 않습니다.
+**장치에서 감지한 상황을 보호자가 확인하고, 보호자의 설정을 다시 장치로 전달합니다.** Flutter 앱은 알림·사진·녹음·설정을 담당하고, FastAPI는 장치와 앱의 인증·저장·전달을 담당합니다.
 
 [전체 프로젝트](../README.md) · [통신 계약](../Pauseable.contracts/README.md) · [장치 실행](../Pauseable.edge/README.md)
 
-## 구성과 역할
+![Pi·API·Guardian·GPU Worker 및 비공개 모델 저장소의 연결](../Pauseable.docs/assets/readme/apps-connections.svg)
+
+## 무엇을 담당하는가
 
 | 폴더 | 역할 | 주요 기술 |
 | --- | --- | --- |
 | [`api`](api) | 인증·알림 이력·출입 사진·설정·음성 학습/모델 API | Python, FastAPI, R2, Firebase |
 | [`guardian`](guardian) | 알림·사진 확인, 녹음·지역·선호 음악 설정 | Flutter, Dart, WebSocket, FCM |
 
-## 연결 구조
+## 알림 한 건이 전달되는 과정
 
-```text
-Pi 5 Central ── Decision Event ──> API ── 이력·WebSocket·Push ──> Guardian
-Pi 4 Camera ── 출입 사진 ────────> API ── 인증된 조회 ──────────> Guardian
-Guardian ── 설정·동의·녹음 ──────> API / R2 ── 학습 작업 ──────> GPU Worker
-Pi 5 Model Updater <────────────── API / R2 <── 검증 모델 ─────── GPU Worker
-```
+![Central 결정부터 API 저장·WebSocket·Push·보호자 확인까지의 순서](../Pauseable.docs/assets/readme/notification-sequence.svg)
 
-## API 서버
+| 확인 지점 | 확인할 내용 | 이것만으로 알 수 없는 것 |
+| --- | --- | --- |
+| API 접수 | 인증·계약·`event_id`가 허용되었는가 | 휴대폰에 표시되었는가 |
+| 이력 저장·재전송 | 같은 ID의 재전송이 새 알림을 중복 생성하지 않는가 | 모든 출력 장치의 실행 성공 |
+| 휴대폰 표시·읽음 | 실제 표시와 보호자 확인이 기록되는가 | 보호자가 현장에서 조치했는가 |
+
+AI 추론과 Pi의 가전 실행은 이 폴더가 대신하지 않습니다. WebSocket의 실시간 전달과 앱이 background 상태일 때의 Push 경로도 별도로 확인합니다.
+
+## API 기능
 
 시작점은 [`api/app/main.py`](api/app/main.py), 인증 구분은 [`api/app/security.py`](api/app/security.py)입니다.
 
@@ -35,7 +40,8 @@ Pi 5 Model Updater <────────────── API / R2 <── 
 
 `202 Accepted`나 Push 제공자의 접수 응답만으로 실제 휴대폰 표시까지 성공했다고 판단하지 않습니다. 같은 `event_id`를 재전송했을 때 새로운 알림이 중복 생성되는지도 구분합니다.
 
-### 로컬 API 실행
+<details>
+<summary><strong>API 개발 환경과 실행 명령</strong></summary>
 
 Python 3.12와 별도 가상환경을 사용합니다. **저장소 루트에서** 시작합니다.
 
@@ -64,7 +70,10 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 
 API 문서: `http://127.0.0.1:8000/docs`. 기본 local storage는 실행 PC에 기록합니다. 이 개발 명령은 Render 운영 배포를 변경하지 않습니다.
 
-### 인증과 저장 설정
+</details>
+
+<details>
+<summary><strong>API 인증과 저장 설정</strong></summary>
 
 | 환경변수 | 용도 |
 | --- | --- |
@@ -76,11 +85,20 @@ API 문서: `http://127.0.0.1:8000/docs`. 기본 local storage는 실행 PC에 �
 
 토큰이 없는 development 모드를 외부에 노출하지 않습니다. 운영에서는 HTTPS, 서버 비밀 설정, 영속 저장소와 역할별 토큰이 필요합니다. App Token과 Device/Worker Token을 혼용하지 않습니다.
 
+</details>
+
 ## Flutter 보호자 앱
 
 주요 화면과 모델은 [`guardian/lib`](guardian/lib), API 주소·대상자·App Token은 [`api_config.dart`](guardian/lib/config/api_config.dart)에서 빌드 설정으로 읽습니다.
 
-### 로컬 웹 실행
+| 앱에서 하는 일 | 연결되는 경로 |
+| --- | --- |
+| 상황·알림·출입 사진 확인 | API 이력·인증된 사진·WebSocket·FCM |
+| 지역·선호 음악 설정 | API 저장 → 조명 모듈·Pi 음악 Player 조회 |
+| 녹음·학습 동의·모델 상태 확인 | API/R2 → GPU Worker → Pi Model Updater |
+
+<details>
+<summary><strong>Flutter 개발 환경과 로컬 웹 실행</strong></summary>
 
 Flutter 3.47.6을 기준으로 구성되어 있습니다. **새 터미널에서 저장소 루트 기준으로** 실행합니다.
 
@@ -93,6 +111,8 @@ flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000
 ```
 
 이 명령은 같은 PC의 로컬 API를 사용합니다. 실제 Render를 확인할 때는 공유 App Token을 웹 파일에 직접 넣는 대신 [로컬 Render 중계 안내](guardian/docs/RENDER_WEB_PREVIEW_KO.md)를 따릅니다.
+
+</details>
 
 ### Android Push 확인
 

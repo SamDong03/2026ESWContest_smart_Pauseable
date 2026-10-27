@@ -1,12 +1,17 @@
 # PAUSEABLE / CI
 
-파트별 자동 검사와 Android 시험 APK 빌드를 정의합니다. 실행 서비스나 장치 배포 코드는 이 폴더가 아니라 [Deploy](../Pauseable.deploy/README.md)와 각 파트에 있습니다.
+**변경한 코드의 회귀 문제를 확인하고, 팀 시험용 Android 앱을 빌드합니다.** 파트별 검사와 APK 산출물을 관리하며 실제 Pi·서버 설치는 [Deploy](../Pauseable.deploy/README.md)와 각 파트에서 진행합니다.
 
 GitHub가 `.github/README.md`를 프로젝트 홈에 우선 표시하기 때문에, 이 폴더의 안내는 `CI_README.md`로 둡니다. 전체 소개는 저장소 루트의 README에서 시작합니다. [GitHub의 README 선택 규칙](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)을 참고합니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md)
 
-## Workflows
+![HA·App/API·Voice·음악·수동 APK 빌드의 검사 범위와 실행 조건](../Pauseable.docs/assets/readme/ci-map.svg)
+
+## 어떤 검사를 실행하는가
+
+<details>
+<summary><strong>Workflow 파일·실행 조건·산출물</strong></summary>
 
 | 파일 | 검사·산출물 | 주요 실행 조건 |
 | --- | --- | --- |
@@ -17,6 +22,8 @@ GitHub가 `.github/README.md`를 프로젝트 홈에 우선 표시하기 때문�
 | [`native-push-apk.yml`](workflows/native-push-apk.yml) | 비공개 팀 시험 APK와 SHA-256 | `workflow_dispatch` 수동 실행 |
 
 경로 조건의 정확한 목록은 각 workflow의 `on` 정의를 확인합니다. README만 바뀐 commit에서는 경로 필터 때문에 일부 또는 전부가 실행되지 않을 수 있습니다.
+
+</details>
 
 ## 기준 환경
 
@@ -31,12 +38,12 @@ GitHub가 `.github/README.md`를 프로젝트 홈에 우선 표시하기 때문�
 
 ## Android 시험 APK
 
-```text
-Actions → Build Android push test APK → Run workflow
-  → 소스 검사·Flutter 테스트
-  → 승인된 비공개 빌드 설정
-  → APK + SHA-256 artifact
-```
+![수동 요청·비공개 설정·검사·Android 빌드·APK와 SHA-256 산출물 순서](../Pauseable.docs/assets/readme/apk-build.svg)
+
+Actions의 **Build Android push test APK → Run workflow**에서 시작합니다. 빌드 산출물을 내려받은 뒤 실제 휴대폰 설치·권한·수신 시험을 진행합니다. 이 그림은 빌드 절차이며 최신 실행의 성공 표시가 아닙니다.
+
+<details>
+<summary><strong>APK 빌드에 필요한 설정</strong></summary>
 
 | 설정 | 용도 |
 | --- | --- |
@@ -44,6 +51,8 @@ Actions → Build Android push test APK → Run workflow
 | Actions Secret `PAUSEABLE_APP_TOKEN` | 비공개 팀 시험 앱의 API 인증 |
 
 서버용 Firebase 서비스 계정 JSON·Device Token·Worker Token·R2 키는 APK 빌드에 넣지 않습니다. 서비스 계정과 `google-services.json`은 서로 다른 파일입니다.
+
+</details>
 
 수동 APK workflow는 비공개 `RACOS-Team/Pauseable`에서 실행되도록 제한되어 있고 artifact 보관 기간은 3일입니다. 현재 공유 App Token·시험용 서명 빌드는 공개 배포용 인증·릴리스 체계를 대신하지 않습니다. 상세 준비와 실제 휴대폰 수신 확인은 [Android Push 안내](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md)를 따릅니다.
 

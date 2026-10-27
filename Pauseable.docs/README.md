@@ -1,10 +1,12 @@
 # PAUSEABLE / Docs
 
-전체 시스템의 운영·검증·연구·시연 자료를 찾는 문서 인덱스입니다. **처음 보는 사람은 현재 구조 → 담당 파트 → 검증 원본 → 실기 절차 순서**로 읽으면 됩니다.
+**전체 구조를 이해한 뒤, 근거 자료를 확인하고 장치에서 재현하는 순서로 읽습니다.** 운영·검증·연구·시연 문서를 모았으며, 과거 기록과 현재 실행 코드를 구분해 안내합니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md) · [Deploy](../Pauseable.deploy/README.md)
 
-## 목적별 시작점
+![코드·자동 검사·저장된 평가·실제 장치 E2E의 서로 다른 검증 범위](assets/readme/evidence-map.svg)
+
+## 필요한 문서 찾기
 
 | 알고 싶은 내용 | 먼저 볼 자료 |
 | --- | --- |
@@ -20,7 +22,8 @@
 | 앱 Push·실기 수신 | [Android 설정](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md), [실기 점검](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md) |
 | 최근 선호 음악 출력 | [Favorite Music](../Pauseable.edge/actions/favorite-music/README.md) |
 
-## 자료 구성
+<details>
+<summary><strong>문서 폴더 구성</strong></summary>
 
 | 경로 | 내용 |
 | --- | --- |
@@ -31,6 +34,8 @@
 | [`evaluation/ha`](evaluation/ha) | HA 평가 원본·보고서 데이터·회귀 검사 |
 | [`presentation/ha`](presentation/ha) | 저장된 HA 보고서 PPTX/PDF |
 | [`assets`](assets) | README 시스템 구조도 등 문서용 그림 |
+
+</details>
 
 ## 평가 자료 읽기
 
@@ -59,8 +64,23 @@
 | HA 보고서 PowerPoint | [`HA_Final_Report.pptx`](presentation/ha/HA_Final_Report.pptx) |
 | HA 보고서 PDF | [`HA_Final_Report.pdf`](presentation/ha/HA_Final_Report.pdf) |
 | 현재 README 시스템 구조도 | [`pauseable-system.svg`](assets/pauseable-system.svg) |
+| 파트별 연결·처리 흐름 | [`readme`](assets/readme) 안의 SVG 15개 |
+| HA 데이터·모델 비교 | [Event / Feature](assets/readme/ha-event-features.png), [IF / AE Score](assets/readme/ha-model-scores.png), [Component 비교](assets/readme/ha-component-comparison.png) |
+| 그림 출처·재생성 | [Asset 안내](assets/readme/ASSETS.md), [평가 그림 Manifest](assets/readme/evaluation_figure_manifest.json) |
 
 발표·보고서 파일은 저장된 버전의 산출물입니다. 최신 코드·실험 결과를 자동으로 따라 바뀌지 않으므로, 인용 전 평가 원본과 날짜를 대조합니다.
+
+### 그림을 다시 만들 때
+
+구조도는 Node.js 표준 모듈로 생성하고, HA 그래프는 Matplotlib로 **저장된 평가 JSON을 읽어서만** 생성합니다. 모델 재학습이나 장치 설정 변경은 하지 않습니다. 저장소 루트에서 실행합니다.
+
+```sh
+node Pauseable.docs/assets/readme/build_diagrams.mjs
+# Separate documentation environment: matplotlib 3.10.8, numpy 2.3.5
+python Pauseable.docs/assets/readme/plot_evaluation.py
+```
+
+일반 PC에서 그림을 재생성할 수 있지만, 그림 생성 성공은 AI·앱·장치의 기능 테스트 통과를 의미하지 않습니다.
 
 ## 과거 기록을 읽는 기준
 

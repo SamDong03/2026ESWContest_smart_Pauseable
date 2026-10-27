@@ -1,10 +1,12 @@
 # PAUSEABLE / Deploy
 
-장치별 소스 묶음, systemd 설정, 이름 이전 대응표를 관리합니다. **소스 준비·바이너리 빌드·기기 설치·실기 확인을 별도 단계**로 구분합니다.
+**같은 저장소의 코드를 실행할 장치별로 나누어 준비합니다.** 소스 묶음, systemd 설정, 이름 이전 대응표를 관리하며, 소스 준비·빌드·설치·실기 확인을 별도의 완료 단계로 구분합니다.
 
 [전체 프로젝트](../README.md) · [Edge 구성](../Pauseable.edge/README.md) · [전체 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
 
-## 구성
+![공통 소스에서 Pi 3·Pi 4·Pi 5의 역할별 소스 묶음으로 나누는 배포 구조](../Pauseable.docs/assets/readme/device-bundles.svg)
+
+## 장치별 배포 구성
 
 | 경로 | 대상 | 내용 |
 | --- | --- | --- |
@@ -19,14 +21,9 @@ HA 전용 서비스는 [`Pauseable.ai/ha/deploy`](../Pauseable.ai/ha/deploy), �
 
 ## 배포 순서
 
-```text
-기존 장치·DB·모델·설정 백업
-  → 현재 소스와 manifest 검증
-  → 기기별 소스 묶음
-  → 대상 SDK / Docker / Flutter 빌드
-  → 장치 환경·권한·서비스 준비
-  → 입력부터 출력까지 단계별 실기 점검
-```
+![백업부터 소스 검증·빌드·환경 설정·설치·E2E 확인까지의 배포 단계](../Pauseable.docs/assets/readme/deployment-stages.svg)
+
+`tar.gz`는 소스 전달 단위, `.ipk`는 대상 플랫폼의 앱 설치 단위, APK는 Android 앱 설치 단위입니다. 소스 묶음을 만들었다고 Central 앱이나 개인화 모델이 장치에 설치되는 것은 아닙니다.
 
 ## 먼저 확인할 배포 점검 항목
 
@@ -40,6 +37,9 @@ Pauseable.ai/ha/deploy/pauseable-washer-youtube-tts.service
 최근 출력 코드 변경과 [`FILES.sha256`](mmwave-autostart/FILES.sha256)을 배포 담당자가 대조해야 합니다. 현재 문서 수정에서는 서비스나 manifest를 임의로 변경하지 않았습니다. **검사를 우회하거나 해시만 맞춰 통과시키지 말고, 새 파일의 포함 여부와 변경 내용을 검토한 뒤 목록을 갱신**해야 합니다. 아래 패키지 명령은 소스 검증이 통과한 뒤 사용합니다.
 
 ## 기기별 소스 묶음
+
+<details>
+<summary><strong>소스 검증·묶음 생성·압축 해제 후 무결성 확인</strong></summary>
 
 Python 3.12로 **저장소 루트에서** 실행합니다.
 
@@ -59,6 +59,8 @@ python Pauseable.deploy/mmwave-autostart/package_devices.py --output deployment-
 ```sh
 sha256sum -c BUNDLE.sha256
 ```
+
+</details>
 
 이 파일은 **소스·설정 압축**입니다. Central 바이너리·`.ipk`·APK·개인화 ONNX·원본 녹음·실제 토큰은 포함되지 않습니다. 체크섬 통과는 장치 실행 완료나 기능 검증을 뜻하지 않습니다.
 
