@@ -114,7 +114,7 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 
 ![정상 후보 Holdout 144개의 IF 점수와 AE 재구성 오차](assets/ha-model-scores.png)
 
-이 그림은 평가 구간의 점수와 임계값을 보여줍니다.[그림별 출처·분모](assets/evaluation_figure_manifest.json)
+이 그림은 평가 구간의 점수와 임계값을 보여줍니다. [그림별 출처·분모](assets/evaluation_figure_manifest.json)
 
 <a id="mmwave-구현과-설치-상세"></a>
 
