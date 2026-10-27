@@ -4,8 +4,8 @@
 이번 Android 알림 경로는 `Pi → Render → Firebase Cloud Messaging(FCM) → 설치한 APK`이다.
 FCM은 휴대폰에 알림을 전달하는 서비스이며, 별도 API 서버를 만드는 절차가 아니다.
 
-휴대폰 알림 코드는 PR #19로 main에 반영되었고 기존 Render 서버의 배포가 Live인 것을 확인했다.
-수동 APK 빌드 워크플로도 main에 게시되어 있다. 서비스 계정 키와 빌드 토큰을 설정하고 새 APK를 설치해야 실제 휴대폰 알림을 시험할 수 있다.
+휴대폰 알림 코드와 수동 APK 빌드 Workflow는 main에 포함되어 있다. 실제 시험에는 서버의 FCM 설정과 Android 앱 설정을 준비한 새 APK가 필요하다.
+현재 공개 제출 저장소에서는 공유 App Token을 포함하는 수동 빌드를 건너뛰므로, 아래의 PC 로컬 빌드 방법을 사용한다.
 배포 완료와 실제 휴대폰 수신 확인은 각각 기록한다.
 
 ## 1. Firebase Android 앱 설정
@@ -27,8 +27,8 @@ FCM은 휴대폰에 알림을 전달하는 서비스이며, 별도 API 서버를
 ## 2. 기존 Render 서버에 FCM 연결
 
 대상은 [기존 pauseable-api 서비스](https://dashboard.render.com/web/srv-dacls7rm8hqs73bbl84g)이다.
-저장소는 `RACOS-Team/Pauseable`를 사용한다. 이 구조를 GitHub에 반영할 때 기존 Render API의 Root Directory를 `Pauseable.apps/api`, Build Command를 `python -m pip install -r requirements.txt`, Start Command를 `python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT`로 함께 변경한다. 로컬 폴더 이동만으로 운영 Render 설정이 바뀌지는 않는다.
-휴대폰 알림 API와 `../api/requirements.txt` 변경이 포함된 코드는 배포되어 있다. 아래의 FCM 자격증명 설정을 마친 뒤 환경변수를 사용하는 새 배포를 확인한다.
+소스 저장소는 `SamDong03/2026ESWContest_smart_Pauseable`이다. Render의 연결 저장소와 Root Directory `Pauseable.apps/api`, Build Command `python -m pip install -r requirements.txt`, Start Command `python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT`를 확인한다. GitHub 저장소 이전만으로 Render의 연결 설정과 배포 버전이 함께 갱신되는 것은 아니다.
+아래 FCM 자격증명 설정을 마친 뒤 해당 환경변수를 사용하는 배포와 실제 휴대폰 수신을 확인한다.
 
 서비스 **Environment**에 다음을 설정한다.
 
@@ -49,7 +49,7 @@ Secret File 대신 환경변수 `PAUSEABLE_FIREBASE_SERVICE_ACCOUNT_JSON`에 서
 
 ### GitHub에서 수동으로 APK 받기
 
-이미 게시된 [Build Android push test APK 워크플로](https://github.com/RACOS-Team/Pauseable/actions/workflows/native-push-apk.yml)를 사용할 수 있다.
+이미 게시된 [Build Android push test APK 워크플로](https://github.com/SamDong03/2026ESWContest_smart_Pauseable/actions/workflows/native-push-apk.yml)는 저장소가 비공개일 때만 사용할 수 있다. 현재 공개 제출 저장소에서는 job이 건너뛰어지므로 [PC 로컬 빌드](#팀원의-pc에서-빌드하기)를 사용한다. 공유 Token이 들어 있는 APK를 만들기 위해 공개 저장소의 보호 조건을 해제하지 않는다.
 설정 **Secrets and variables → Actions**에 아래 값을 준비한다. Render 앱 토큰을 GitHub로 전달하는 작업은 사용자 승인 후 수행한다.
 
 | 종류 | 이름 | 값 |
@@ -59,7 +59,7 @@ Secret File 대신 환경변수 `PAUSEABLE_FIREBASE_SERVICE_ACCOUNT_JSON`에 서
 
 Firebase Android 앱 설정은 클라이언트 설정이고, 전송용 서비스 계정 JSON은 서버 비밀 키다. Actions Variable에는 Android 앱 설정을 넣는다.
 설정을 완료하면 **Actions → Build Android push test APK → Run workflow → main**을 선택해 수동으로 실행한다.
-이 워크플로는 비공개 `RACOS-Team/Pauseable` 저장소에서 수동 실행하며, 분석과 Flutter 테스트가 통과해야 APK를 빌드한다.
+이 워크플로는 `SamDong03/2026ESWContest_smart_Pauseable`가 비공개일 때 수동 실행하며, 분석과 Flutter 테스트가 통과해야 APK를 빌드한다.
 완료된 실행의 artifact에서 `pauseable-android-push-test-<커밋>`을 다운로드하고 ZIP 안의 `app-release.apk`를 설치한다.
 함께 들어 있는 `app-release.apk.sha256`으로 파일 체크섬을 확인할 수 있다. artifact는 3일 후 만료되므로 그 전에 팀 시험 파일을 받아 둔다.
 [GitHub 수동 실행 안내](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)
@@ -115,7 +115,7 @@ Windows PowerShell에서는 같은 검사와 빌드를 한 번에 실행할 수 
 5. 다시 시험 버튼을 누른 뒤 바로 홈 버튼을 눌러 다른 앱으로 이동한다. 약 10초 뒤 수신을 확인한다.
 6. 앱을 다시 열고 시험 버튼을 누른 뒤 바로 휴대폰을 잠근다. 약 10초 뒤 수신을 확인하고, 알림을 눌러 Pauseable 알림 화면으로 이동하는지 확인한다.
 
-**시험 알림 보내기**는 사용자가 요청한 연결 시험이므로 **안전 이상 알림** 스위치와 무관하게 전송하며 소리가 있는 알림 채널을 사용한다.
+**시험 알림 보내기**는 사용자가 요청한 연결 시험이므로 **안전 이상 알림** 스위치와 무관하게 전송한다. 소리는 저장한 **알림음** 설정에 따라 유음·무음 채널을 사용한다.
 실제 소리와 진동은 휴대폰의 채널 설정, 무음 모드, 방해 금지 설정에 따른다.
 
 | 상태 | 확인할 결과 |

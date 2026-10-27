@@ -19,7 +19,7 @@ TIIUN_TOPIC = "pauseable/virtual/tiiun"
 ORIGIN = {
     "name": "Pauseable wandering comfort bridge",
     "sw_version": "1.0.0",
-    "support_url": "https://github.com/RACOS-Team/Pauseable",
+    "support_url": "https://github.com/SamDong03/2026ESWContest_smart_Pauseable",
 }
 
 WATER_DEVICE = {

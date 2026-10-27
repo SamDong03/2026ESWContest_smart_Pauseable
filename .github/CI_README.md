@@ -45,6 +45,8 @@ HA의 Python 3.12 검사는 현재 Workflow에 없으므로 [AI README의 로컬
 
 ## 4. Android 시험 APK를 수동으로 만든다
 
+이 작업은 App Token을 포함하는 비공개 팀 시험용입니다. 공개 제출 저장소에서는 `github.event.repository.private` 조건에 따라 건너뜁니다. 공개 상태에서 시험 APK가 필요하면 [로컬 비공개 빌드](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md#팀원의-pc에서-빌드하기)를 사용합니다.
+
 1. **Actions → Build Android push test APK → Run workflow**를 선택합니다.
 2. 빌드할 버전을 고릅니다.
 3. Workflow가 Flutter 분석·테스트 후 비공개 Android 설정을 준비합니다.
@@ -56,7 +58,7 @@ HA의 Python 3.12 검사는 현재 Workflow에 없으므로 [AI README의 로컬
 | Variable `PAUSEABLE_FIREBASE_ANDROID_CONFIG_JSON` | Android 앱 Firebase 클라이언트 설정 |
 | Secret `PAUSEABLE_APP_TOKEN` | 팀 시험 앱 API 인증 |
 
-이 Workflow는 `RACOS-Team/Pauseable`의 비공개 저장소에서 실행하도록 제한하며 artifact 보관 기간은 3일입니다. Firebase 서버용 서비스 계정과 Device/Worker Token·R2 키를 APK에 넣지 않습니다. 시험 서명과 공유 App Token은 공개 배포의 서명·로그인 관리와 구분합니다.
+Workflow의 저장소 식별자는 `SamDong03/2026ESWContest_smart_Pauseable`이며 비공개 상태에서만 실행하도록 제한합니다. artifact 보관 기간은 3일입니다. Firebase 서버용 서비스 계정과 Device/Worker Token·R2 키를 APK에 넣지 않습니다. 시험 서명과 공유 App Token은 공개 배포의 서명·로그인 관리와 구분합니다.
 
 [Android Push 설정](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md) · [실기 알림 확인](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)
 

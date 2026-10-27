@@ -208,7 +208,7 @@ JDK 17·Android SDK 36과 [Firebase 설정](guardian/docs/ANDROID_PUSH_SETUP_KO.
 flutter build apk --release --dart-define-from-file=android-test.secrets.json
 ```
 
-APK는 `build/app/outputs/flutter-apk/app-release.apk`에 생깁니다. [Actions 수동 빌드](../.github/CI_README.md#android-시험-apk)도 사용할 수 있습니다. 설치 후에는 [실기 알림 확인 절차](guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)를 진행합니다.
+APK는 `build/app/outputs/flutter-apk/app-release.apk`에 생깁니다. [Actions 수동 빌드](../.github/CI_README.md#android-시험-apk)는 비공개 저장소에서만 실행되며 공개 제출 저장소에서는 건너뜁니다. 설치 후에는 [실기 알림 확인 절차](guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)를 진행합니다.
 
 <a id="주요-코드"></a>
 
@@ -237,8 +237,8 @@ APK는 `build/app/outputs/flutter-apk/app-release.apk`에 생깁니다. [Actions
 
 | 대상 버전 | 저장된 기록 |
 | --- | --- |
-| [d2b49a8](https://github.com/RACOS-Team/Pauseable/commit/d2b49a8a32beeb5fca4e61e0be0a20a7f60fc27b) · 음악 연동 | Flutter 85개, API 158개, 웹 서비스워커 6개 통과, 웹·APK 빌드 성공 |
-| [dae8b91](https://github.com/RACOS-Team/Pauseable/commit/dae8b9199c18d834c9f4168b5a20707d2c4c413f) · 홈 표시 정리 | Flutter 91개, API 166개, 웹 서비스워커 6개 통과 |
+| [d2b49a8](https://github.com/SamDong03/2026ESWContest_smart_Pauseable/commit/d2b49a8a32beeb5fca4e61e0be0a20a7f60fc27b) · 음악 연동 | Flutter 85개, API 158개, 웹 서비스워커 6개 통과, 웹·APK 빌드 성공 |
+| [dae8b91](https://github.com/SamDong03/2026ESWContest_smart_Pauseable/commit/dae8b9199c18d834c9f4168b5a20707d2c4c413f) · 홈 표시 정리 | Flutter 91개, API 166개, 웹 서비스워커 6개 통과 |
 
 Render 선호곡 저장·재조회와 음성 동의 저장, Chrome 탭을 닫은 상태의 웹 Push는 팀 시험 기록이 있습니다. 배회·야간 현관 사진은 팀원의 휴대폰 실장비 시연 성공 보고가 있습니다. 위 수치는 해당 버전의 기록이며 최신 변경을 같은 수로 재시험했다는 뜻은 아닙니다.
 

@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    if: github.repository == 'RACOS-Team/Pauseable' && github.event.repository.private
+    if: github.repository == 'SamDong03/2026ESWContest_smart_Pauseable' && github.event.repository.private
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
