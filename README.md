@@ -37,8 +37,6 @@ Memolink는 집 안의 가전 사용과 실내 이동을 기록하고, 반복행
 | Cloudflare R2 | 비공개 파일 저장소 | 사진·녹음·모델 등 저장 |
 | 보호자 휴대폰·웹 | Flutter Guardian | 알림·사진 확인과 돌봄 설정 |
 
-![Memolink 전체 시스템 구성](Pauseable.docs/assets/pauseable-system.svg)
-
 개발 PC는 코드 작성과 빌드에 사용합니다. 현장 서비스는 Pi에서 실행하는 구성이며, 앱·외부 API·Push·YouTube·클라우드 파일을 사용하는 기능에는 인터넷 연결이 필요합니다.
 
 <a id="주요-기능"></a>
@@ -132,17 +130,16 @@ Central은 AI 모델이 아니라 **판단 메시지와 실제 실행 사이의 
 | [Pauseable.apps](Pauseable.apps/README.md) | 사건을 저장하는 API와 보호자 앱의 조회·알림·설정 |
 | [Pauseable.integrations](Pauseable.integrations/README.md) | 거주지역·날씨·태양 고도를 사용하는 조명 제어 |
 | [Pauseable.deploy](Pauseable.deploy/README.md) | 장치별 준비, 소스 묶음, 설치·복구 순서 |
-| [Pauseable.docs](Pauseable.docs/README.md) | 개발환경·코드 위치·구조도·그림 원본 |
 | [.github](.github/CI_README.md) | GitHub Actions의 자동 검사와 Android 시험 APK 빌드 |
 
-하위 폴더 설명은 위 8개 README에 모았습니다. `Pauseable.third_party`는 외부 코드와 라이선스 고지를 보존하는 영역입니다. 작품명은 Memolink이며, 폴더·서비스·Topic의 `pauseable` 식별자는 설치 호환성을 위해 유지합니다.
+하위 폴더 설명은 위 7개 README에 모았습니다. `Pauseable.third_party`는 외부 코드와 라이선스 고지를 보존하는 영역입니다. 작품명은 Memolink이며, 폴더·서비스·Topic의 `pauseable` 식별자는 설치 호환성을 위해 유지합니다.
 
 <a id="개발-환경"></a>
 <a id="실행과-검토"></a>
 
 ## 7. 실행을 준비하는 순서
 
-1. [개발환경](Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)에서 Pi·SDK·Python·Flutter·GPU의 역할과 버전을 확인합니다.
+1. 각 파트의 README에서 Pi·SDK·Python·Flutter·GPU의 역할과 버전을 확인합니다.
 2. [API와 앱](Pauseable.apps/README.md#개발환경과-실행)의 로컬 검사를 먼저 실행하고, 대상자 ID와 인증을 맞춥니다.
 3. HA 엔티티 또는 mmWave 입력을 연결하고 [AI 검사](Pauseable.ai/README.md#ha-구현과-실행-상세)를 실행합니다.
 4. [Central](Pauseable.edge/README.md#빌드와-검사)을 SDK로 빌드·설치하고 MQTT·Router·출력·Gateway 설정을 적용합니다.
@@ -163,7 +160,7 @@ Python 환경은 HA·API·Voice별로 분리합니다. Central은 C++17·Atlas S
 | API·앱 | 인증·저장·알림·화면 테스트와 팀 시험 기록 | 배포 버전별 Android 권한·잠금·절전 상태 |
 | Voice | 녹음·Worker·게시·모델 교체 검사 | 새 녹음 세트의 GPU 학습과 Pi 스피커 출력 |
 
-평가 조건과 수치의 원본은 [평가 자료 안내](Pauseable.docs/README.md#평가-자료-읽기)에 있습니다. 합성 시나리오 결과를 환자 대상 정확도로 해석하지 않습니다. 배포 소스 Manifest와 장치별 묶음의 체크섬 검사 결과는 [배포 준비 상태](Pauseable.deploy/README.md#배포-준비-상태)에서 확인합니다.
+알고리즘과 검사 범위는 [AI 안내](Pauseable.ai/README.md)에서 확인합니다. 합성 시나리오 결과를 환자 대상 정확도로 해석하지 않습니다. 배포 소스 Manifest와 장치별 묶음의 체크섬 검사 결과는 [배포 준비 상태](Pauseable.deploy/README.md#배포-준비-상태)에서 확인합니다.
 
 <a id="운영-범위와-개인정보"></a>
 
@@ -173,7 +170,7 @@ Python 환경은 HA·API·Voice별로 분리합니다. Central은 C++17·Atlas S
 
 관측 부족이나 추론 오류는 `unknown`으로 처리합니다. 반복 조작의 원인을 기억 장애로 확정하거나 이동만으로 치매·배회를 진단하는 시스템으로 설명하지 않습니다.
 
-[음성 데이터 정책](Pauseable.apps/README.md#음성-녹음과-동의) · [기능별 코드 위치](Pauseable.docs/SOURCE_MAP_KO.md) · [배포 인계](Pauseable.deploy/README.md#배포-순서)
+[음성 데이터 정책](Pauseable.apps/README.md#음성-녹음과-동의) · [배포 인계](Pauseable.deploy/README.md#배포-순서)
 
 <a id="외부-소스"></a>
 

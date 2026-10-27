@@ -2,15 +2,13 @@
 
 이 폴더에는 입력과 목적이 다른 세 프로그램이 있습니다. **HA는 가전 사용을, mmWave는 실내 이동을 분석합니다. Voice는 안내에 사용할 보호자 음성 모델을 만듭니다.** 행동 분석 결과의 실행 여부는 [Central](../Pauseable.edge/README.md#central-app)이 결정합니다.
 
-[전체 시스템](../README.md) · [통신 형식](../Pauseable.contracts/README.md) · [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)
+[전체 시스템](../README.md) · [통신 형식](../Pauseable.contracts/README.md)
 
 | 범주 | 입력 | 결과 | 실행 위치 |
 | --- | --- | --- | --- |
 | [HA 반복행동](#ha-반복행동-판단) · `ha/` | Home Assistant 상태 변경 | 반복행동 판단 JSON | Pi 5 |
 | [mmWave 배회](#mmwave-구현과-설치-상세) · `mmwave/` | 대상 위치·시각·품질 | 배회 의심 판단 JSON | Pi 5 |
 | [Voice](#voice-학습과-운영-상세) · `voice/` | 동의한 녹음·대본 | Piper ONNX 음성 모델 | GPU Worker |
-
-![HA·mmWave·Voice의 입력, 처리와 출력](../Pauseable.docs/assets/readme/ai-pipelines.svg)
 
 <a id="ha-반복행동-판단"></a>
 
@@ -54,10 +52,6 @@ Home Assistant의 **엔티티**는 가전의 전원·문 상태·운전 모드 �
 
 분석 사이에도 수집기는 계속 실행합니다. 인접 Feature는 같은 과거 기록을 공유하므로 Feature 행 수와 독립 사건 수는 다릅니다.
 
-![같은 48시간의 가전별 상태 변경과 표준화한 54개 특징](../Pauseable.docs/assets/readme/ha-event-features.png)
-
-위쪽은 시간당 상태 변경 횟수, 아래쪽은 Train에서 학습한 scaler로 표준화한 54개 특징입니다. 같은 48시간의 합성 이력을 사용합니다. 아래쪽 색상만 −2~4로 제한하며 원래 값은 유지합니다. [원본 데이터](../Pauseable.docs/assets/readme/data/visual_data.json) · [그림별 출처](../Pauseable.docs/assets/readme/evaluation_figure_manifest.json)
-
 <a id="baseline과-개인화-모델"></a>
 
 ### 1.4 Baseline으로 초기 판단을 만든다
@@ -98,8 +92,6 @@ AE는 ReLU·Adam을 사용합니다. IF와 AE는 정상 사용과 다른 입력�
 <a id="3-lifecycle-학습-시점검증모델-교체"></a>
 
 ### 1.6 검증한 모델만 적용한다
-
-![정상 후보 선별, 시간순 학습·검증, 모델 적용과 실패 처리](../Pauseable.docs/assets/readme/learning-lifecycle.svg)
 
 학습이 끝나면 수렴 경고, 특징·가구 호환성, 파일 무결성, 점수 계산을 검사합니다. 정상 후보 Holdout에서 IF 또는 AE가 경보인 비율도 확인하며 기본 허용 상한은 15%입니다. 통과한 버전만 활성 모델로 지정합니다.
 
@@ -164,23 +156,9 @@ python -m unittest discover -s Pauseable.ai/ha/tests -v
 
 <a id="ha-평가-결과"></a>
 
-### 1.11 저장된 평가 결과
+### 1.11 검사와 적용 범위
 
-![같은 조건에서 Baseline·IF·AE·Hybrid의 시나리오별 경보 수 비교](../Pauseable.docs/assets/readme/ha-component-comparison.png)
-
-| 시험 입력 | Baseline | Hybrid | 읽는 기준 |
-| --- | --- | --- | --- |
-| 반복 가설 24개 | 16/24 경보 | 24/24 경보 | 동일 규칙·관측 조건에서 모델 추가 비교 |
-| 정상 맥락 48개 | 22/48 경보 | 30/48 경보 | 정상 사용 경보도 증가 |
-| 별도 Routine 576시점 | Attention 6·Risk 6 | Attention 6개 Normal 보정, Risk 6개 유지 | 위 48개와 다른 시험 |
-
-모델 비교는 합성 입력을 사용했고 Routine 보정은 미적용입니다. 경보 수는 Attention 또는 Risk가 한 번 이상 나온 시나리오 수로, 환자 대상 정확도가 아닙니다. 저장된 별도 학습 기록은 Train 428·Calibration 142·Holdout 144, AE 337 iterations·최종 Optimizer Loss 약 0.0382입니다. Loss와 탐지 성능은 구분해 읽습니다.
-
-![정상 후보 Holdout 144개의 IF·AE 점수와 각 임계값](../Pauseable.docs/assets/readme/ha-model-scores.png)
-
-이 그래프는 Holdout의 모델 점수와 Calibration에서 정한 경계입니다. Training Loss 곡선은 아니며, 선택한 평가 JSON에는 iteration별 Loss 시계열이 없습니다.
-
-[평가 원본과 조건](../Pauseable.docs/README.md#평가-자료-읽기) · [모델별 비교 JSON](../Pauseable.docs/assets/readme/data/baseline_comparison.json) · [시각 자료와 출처](../Pauseable.docs/assets/readme/ASSETS.md)
+[HA 테스트](ha/tests)는 수집·관측 품질·학습·모델 교체·개인화·MQTT 판단 전송을 검사합니다. 합성 입력의 회귀 검사와 실제 가구의 장기 성능은 구분합니다. 임상 탐지 정확도는 검증하지 않았으며, 서비스 실행과 실제 Pi·가전·휴대폰 출력도 각각 확인합니다.
 
 <a id="mmwave-구현과-설치-상세"></a>
 
@@ -212,11 +190,7 @@ LD6004/ESP32의 대상·좌표·시각·품질 정보는 Pi 3의 Serial 릴레�
 
 ### 2.5 연구 결과와 실제 연결을 확인한다
 
-![합성 경로의 반복 이동 후 전환 사례와 Random Forest 결과](../Pauseable.docs/assets/readme/mmwave-inspect-paths.png)
-
-`label`은 생성 규칙의 정답, `pred`는 모델의 분류 결과, `score`는 보정되지 않은 점수입니다. 좌표는 실제 미터 단위가 아닙니다.
-
-현재 보관한 경로 그림은 [학습·평가 코드](mmwave/src/shape_v2/train.py)가 생성한 합성 결과입니다. 실측 LD6004·임상 배회 성능은 검증하지 않았습니다. 합성 경로 그림의 좌표·정답·점수를 실제 환자의 위치와 성능으로 해석하지 않습니다.
+[경로 학습·평가 코드](mmwave/src/shape_v2/train.py)는 합성 경로를 사용합니다. 실측 LD6004·임상 배회 성능은 검증하지 않았습니다. 합성 경로의 좌표·정답·점수를 실제 환자의 위치와 성능으로 해석하지 않습니다.
 
 설치 시에는 [의존성](mmwave/requirements.txt), [Pi 5 실행 설정](../Pauseable.deploy/mmwave-autostart/pi5), [센서 계약](../Pauseable.contracts/mmwave-target-event.schema.json)을 준비하고 입력·Runtime·MQTT·Central 출력을 순서대로 확인합니다.
 
@@ -245,8 +219,6 @@ LD6004/ESP32의 대상·좌표·시각·품질 정보는 Pi 3의 Serial 릴레�
 Worker는 임대를 갱신하며 작업 상태를 API에 보고합니다. 녹음을 그대로 재생하는 기능이 아니라 새로운 안내 문장을 합성할 모델을 만드는 과정입니다.
 
 ### 3.4 Pi가 검증한 모델을 안내에 적용한다
-
-![후보 다운로드·검증·시험 합성·활성화와 실패 시 기존 모델 유지](../Pauseable.docs/assets/readme/model-release.svg)
 
 Pi의 [Model Updater](../Pauseable.edge/README.md#음성-모델-교체)는 후보를 내려받아 크기·SHA-256·Piper 설정과 로컬 합성을 확인합니다. 통과한 모델만 활성화하고 실패하면 기존 모델을 유지합니다. 학습은 GPU Worker, 실제 TTS 합성·재생은 Pi의 역할입니다.
 
