@@ -95,7 +95,3 @@ Pi 3를 ESP32 전원 공급용으로만 쓰는 구성에서는 Serial 릴레이 
 서비스가 `active`인 것과 실제 센서·가전·스피커·앱이 동작한 것은 구분합니다. 동일 사건 ID로 입력, AI 판단, Central 승인, Outbox·API 저장과 보호자 표시를 확인합니다. 출입 사진은 해당 출입 사건으로 대조하고 중복·단절·재시작도 시험합니다.
 
 <a id="기존-장치에서-이름-이전"></a>
-
-## 이전 설치와 복구
-
-[legacy-to-pauseable.json](migration/legacy-to-pauseable.json)의 경로·서비스·Topic 대응을 확인합니다. 이름 변경과 DB·모델 호환성 확인은 별도입니다. 장치의 개인 이력 전체를 덮어쓰지 않고 필요한 파일만 복원합니다. Unit 변경 뒤에는 `systemctl daemon-reload`와 해당 서비스의 입력·출력을 확인합니다.
