@@ -1,0 +1,60 @@
+{
+  "original_assets": true,
+  "files": [
+    {
+      "file": "ai-pipelines.svg",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "8cb9abb91a465f9570242cd2b74605754ed2359807fb9f95f6dafe1247d7f16a"
+    },
+    {
+      "file": "ha-event-features.png",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "bb5751a77289dddb578f18237b831ce58953a0bb825879d72df094f6a9e557df"
+    },
+    {
+      "file": "learning-lifecycle.svg",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "714bf1883694dbb0ca99bd893a9c48dc7522bc514847089cbb2ced807ea77cb4"
+    },
+    {
+      "file": "ha-component-comparison.png",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "76c912ae0d342dad571d33968e04d9378f402a9dd3fd72c1d97c5febf21adddb"
+    },
+    {
+      "file": "ha-model-scores.png",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "c504419001a44966d6580780c4346ca4a1c50c660e7dfade9fed0d33ff8cbd6e"
+    },
+    {
+      "file": "mmwave-inspect-paths.png",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "2ed4009782c90ee27cf51b94a7b65f8454f18118382cc981eb81292c3a8e3b61"
+    },
+    {
+      "file": "model-release.svg",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "3507c33240f815dbeb60815d22714d683a8a0fdae94a12b2a828ba84741871de"
+    },
+    {
+      "file": "evaluation_figure_manifest.json",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "dc5b462e16d826274f4fe80f4ed4eab6762c068bfbf8e0ce87dce01b542068f2"
+    },
+    {
+      "file": "SimpleIcons.LICENSE.txt",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "9046848b63a5c92bff14e4accca80bd987e0623b74adf9226ce5198d312b79d5"
+    },
+    {
+      "file": "data/visual_data.json",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "086134c32f03e84b8bba0ef68e361e3032ac7df8957fd211df0ba57273da9b11"
+    },
+    {
+      "file": "data/baseline_comparison.json",
+      "source_revision": "e906afa84950351ba15b3a7056c4bb5ba3869c0d",
+      "sha256": "d67614326c55bb8ded4ec62b049f4884ce226ed31965cea77b9e5a8d2d0363be"
+    }
+  ]
+}

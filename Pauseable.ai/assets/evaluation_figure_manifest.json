@@ -1,0 +1,81 @@
+{
+  "scope": "Stored synthetic verification fixture; not patient performance",
+  "model_training_performed": false,
+  "source_sha256": {
+    "visual_data.json": "086134c32f03e84b8bba0ef68e361e3032ac7df8957fd211df0ba57273da9b11",
+    "baseline_comparison.json": "d67614326c55bb8ded4ec62b049f4884ce226ed31965cea77b9e5a8d2d0363be"
+  },
+  "source_paths": {
+    "visual_data.json": "data/visual_data.json",
+    "baseline_comparison.json": "data/baseline_comparison.json"
+  },
+  "figures": [
+    {
+      "file": "ha-event-features.png",
+      "event_shape": [
+        8,
+        48
+      ],
+      "feature_shape": [
+        54,
+        48
+      ],
+      "event_total": 52,
+      "standardization": "stored training scaler; no refit",
+      "color_clip_only": [
+        -2,
+        4
+      ]
+    },
+    {
+      "file": "ha-model-scores.png",
+      "sample_count": 144,
+      "kind": "saved holdout scores, not training loss",
+      "thresholds": {
+        "if": {
+          "attention": 0.6052487905912406,
+          "risk": 0.6370089315424112
+        },
+        "ae": {
+          "attention": 0.1541015366578528,
+          "risk": 0.3495419762219494
+        }
+      }
+    },
+    {
+      "file": "ha-component-comparison.png",
+      "methods": [
+        "baseline",
+        "baseline_if",
+        "baseline_ae",
+        "hybrid"
+      ],
+      "cohorts": [
+        {
+          "family": "repetition_hypothesis",
+          "total": 24,
+          "alert_cases": [
+            16,
+            18,
+            24,
+            24
+          ]
+        },
+        {
+          "family": "benign_context",
+          "total": 48,
+          "alert_cases": [
+            22,
+            28,
+            30,
+            30
+          ]
+        }
+      ],
+      "routine_correction_applied": false,
+      "ablation_semantics": "All methods retain the same Baseline, repetition gate and observation mask. IF/AE ablations disable only the other model promotion signal; model-driven risk still requires both models risk. Baseline risk is preserved.",
+      "interpretation": "scenario alert counts, not clinical accuracy"
+    }
+  ],
+  "loss_curve": "Not plotted: epoch/iteration loss history is not present in the selected tracked evaluation JSON."
+}
