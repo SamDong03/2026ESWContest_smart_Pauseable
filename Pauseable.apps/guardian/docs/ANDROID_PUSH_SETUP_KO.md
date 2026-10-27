@@ -147,16 +147,15 @@ python tools/verify_native_push.py --config android-test.secrets.json
 앱의 **설정 → 안전 이상 알림**을 켠다. 이 스위치가 꺼져 있으면 실제 반복행동·배회 휴대폰 푸시를 보내지 않는다.
 **알림음**을 켜면 소리가 있는 채널을, 끄면 소리와 진동을 요청하지 않는 채널을 사용한다. 소리를 끈 경우에도 알림 목록에는 표시된다.
 시험 알림에서 소리가 났다는 이유로 실제 행동 알림의 **알림음** 설정이 켜진 것으로 판단하지 않는다.
-서버를 다시 배포한 뒤에는 두 스위치를 다시 확인한다. 현재 서버는 재시작 시 기본값인 **안전 이상 알림 켜짐, 알림음 꺼짐**으로 돌아온다.
+알림 설정은 대상자별로 저장한다. `STORAGE_BACKEND=r2`이면 `patients/{patient_id}/notification-preferences.json`의 저장값을 서버 재시작·재배포 후에도 불러온다. 저장값이 없을 때의 기본값은 **안전 이상 알림 켜짐, 알림음 꺼짐**이다. 로컬 저장 모드에서는 파일 보존 여부에 따라 달라지므로, Render의 임시 파일시스템만으로 재배포 후 보존을 보장하지 않는다.
 GitHub의 최신 `Pauseable.ai/ha/scripts/start-repetitive-demo.sh`를 실제 Pi의 같은 스크립트 위치에 반영한다.
-Central의 기존 `ha.env`에 Render의 `PAUSEABLE_DEVICE_TOKEN`이 있어야 한다. 값을 로그나 화면 공유에 출력하지 않는다.
+현재 스크립트는 장비 설정 파일 `/var/lib/pauseable/ha.env`에 Render의 `PAUSEABLE_DEVICE_TOKEN`이 있는지 먼저 확인한다. Central의 기존 `ha.env`도 필요하다. 값을 로그나 화면 공유에 출력하지 않는다.
 
 ```sh
-ENABLE_GUARDIAN_ALERTS=1 /data/ha_ai_fullcycle_20260911/scripts/start-repetitive-demo.sh
+/data/ha_ai_fullcycle_20260911/scripts/start-repetitive-demo.sh
 ```
 
-이 실행은 `REPETITIVE_ACTIONS_ENABLED=1`, `DECISION_GATEWAY_ENABLED=1`을 설정한다.
-옵션 없이 스크립트를 다시 실행하면 서버 전달이 꺼진다.
+현재 스크립트는 `ENABLE_GUARDIAN_ALERTS` 값을 읽지 않고 Central 설정에 `REPETITIVE_ACTIONS_ENABLED=1`, `DECISION_GATEWAY_ENABLED=1`을 기록한다. 따라서 별도 옵션 없이 실행해도 서버 전달 설정을 켜며, 옵션을 생략한다고 전달이 꺼지는 것은 아니다. 실제 알림 생성에는 Device Token, Central 승인 및 `notify_guardian` 동작 등 아래의 전송 조건도 충족되어야 한다.
 기본 반복행동 알림 간격은 900초다. 같은 단계의 위험을 연달아 시험하면 cooldown 때문에 새 알림이 생기지 않을 수 있다.
 휴대폰 전송 자체는 앱의 시험 알림 버튼으로 먼저 확인하고, 실제 행동 경로는 새 이벤트와 정상/위험 전환을 확인하며 시험한다.
 
