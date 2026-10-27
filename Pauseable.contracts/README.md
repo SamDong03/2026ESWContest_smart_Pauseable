@@ -91,7 +91,7 @@ Central은 Device 인증으로 `POST /api/events/decisions`에 전송합니다. 
 | 음성 합성 요청·결과 | [voice-request](voice-request.schema.json), [voice-result](voice-result.schema.json) |
 | 장치 명령 | [device-command](communication-v1/schemas/device-command.schema.json) |
 
-최상위 [decision-event.schema.json](decision-event.schema.json)은 간략 형식입니다. `communication-v1`의 최종 사건과 필드·허용값이 같다고 가정하지 않습니다.
+최상위 [decision-event.schema.json](decision-event.schema.json)은 간략 형식입니다.
 
 <a id="검증-구현"></a>
 <a id="버전-관리"></a>
