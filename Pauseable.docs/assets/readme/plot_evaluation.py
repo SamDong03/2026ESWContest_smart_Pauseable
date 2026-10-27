@@ -1,5 +1,3 @@
-"""Plot stored evaluation fixtures only; do not train or change a runtime model."""
-
 import hashlib
 import json
 import os
@@ -16,8 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 OUT = Path(__file__).resolve().parent
-ROOT = OUT.parents[2]
-EVAL = ROOT / "Pauseable.docs" / "evaluation" / "ha"
+EVAL = OUT / "data"
 SOURCE = EVAL / "visual_data.json"
 COMPARISON = EVAL / "baseline_comparison.json"
 data = json.loads(SOURCE.read_text(encoding="utf-8"))
@@ -35,6 +32,7 @@ manifest = {
     "scope": "Stored synthetic verification fixture; not patient performance",
     "model_training_performed": False,
     "source_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (SOURCE, COMPARISON)},
+    "source_paths": {p.name: "data/" + p.name for p in (SOURCE, COMPARISON)},
     "figures": [],
 }
 

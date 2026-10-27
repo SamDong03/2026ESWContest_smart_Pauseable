@@ -132,7 +132,7 @@ Central은 AI 모델이 아니라 **판단 메시지와 실제 실행 사이의 
 | [Pauseable.apps](Pauseable.apps/README.md) | 사건을 저장하는 API와 보호자 앱의 조회·알림·설정 |
 | [Pauseable.integrations](Pauseable.integrations/README.md) | 거주지역·날씨·태양 고도를 사용하는 조명 제어 |
 | [Pauseable.deploy](Pauseable.deploy/README.md) | 장치별 준비, 소스 묶음, 설치·복구 순서 |
-| [Pauseable.docs](Pauseable.docs/README.md) | 설계·데이터 근거·평가 결과·보고서·운영 기록의 위치 |
+| [Pauseable.docs](Pauseable.docs/README.md) | 개발환경·코드 위치·구조도·그림 원본 |
 | [.github](.github/CI_README.md) | GitHub Actions의 자동 검사와 Android 시험 APK 빌드 |
 
 하위 폴더 설명은 위 8개 README에 모았습니다. `Pauseable.third_party`는 외부 코드와 라이선스 고지를 보존하는 영역입니다. 작품명은 Memolink이며, 폴더·서비스·Topic의 `pauseable` 식별자는 설치 호환성을 위해 유지합니다.
@@ -163,7 +163,7 @@ Python 환경은 HA·API·Voice별로 분리합니다. Central은 C++17·Atlas S
 | API·앱 | 인증·저장·알림·화면 테스트와 팀 시험 기록 | 배포 버전별 Android 권한·잠금·절전 상태 |
 | Voice | 녹음·Worker·게시·모델 교체 검사 | 새 녹음 세트의 GPU 학습과 Pi 스피커 출력 |
 
-평가 조건과 수치의 원본은 [평가 자료 안내](Pauseable.docs/README.md#평가-자료-읽기)에 있습니다. 합성 시나리오 결과를 환자 대상 정확도로 해석하지 않습니다. 배포 소스 Manifest에는 현재 체크섬 불일치가 있으므로 [배포 준비 상태](Pauseable.deploy/README.md#배포-준비-상태)를 먼저 확인합니다.
+평가 조건과 수치의 원본은 [평가 자료 안내](Pauseable.docs/README.md#평가-자료-읽기)에 있습니다. 합성 시나리오 결과를 환자 대상 정확도로 해석하지 않습니다. 배포 소스 Manifest와 장치별 묶음의 체크섬 검사 결과는 [배포 준비 상태](Pauseable.deploy/README.md#배포-준비-상태)에서 확인합니다.
 
 <a id="운영-범위와-개인정보"></a>
 
@@ -173,7 +173,7 @@ Python 환경은 HA·API·Voice별로 분리합니다. Central은 C++17·Atlas S
 
 관측 부족이나 추론 오류는 `unknown`으로 처리합니다. 반복 조작의 원인을 기억 장애로 확정하거나 이동만으로 치매·배회를 진단하는 시스템으로 설명하지 않습니다.
 
-[음성 데이터 정책](Pauseable.docs/voice/DATA_AND_ARTIFACTS_KO.md) · [기능별 코드 위치](Pauseable.docs/SOURCE_MAP_KO.md) · [배포 인계](Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
+[음성 데이터 정책](Pauseable.apps/README.md#음성-녹음과-동의) · [기능별 코드 위치](Pauseable.docs/SOURCE_MAP_KO.md) · [배포 인계](Pauseable.deploy/README.md#배포-순서)
 
 <a id="외부-소스"></a>
 

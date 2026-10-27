@@ -110,4 +110,4 @@ API도 같은 ID·같은 내용의 재전송과 같은 ID·다른 내용의 충�
 python -m json.tool Pauseable.contracts/communication-v1/schemas/behavior-inference.schema.json
 ```
 
-[Central 테스트](../Pauseable.edge/central/tests) · [API 테스트](../Pauseable.apps/api/tests) · [초기 규격 대조 기록](communication-v1/ALIGNMENT_REVIEW.md)
+[Central 테스트](../Pauseable.edge/central/tests) · [API 테스트](../Pauseable.apps/api/tests)

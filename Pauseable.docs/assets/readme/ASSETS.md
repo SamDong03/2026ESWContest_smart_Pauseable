@@ -68,13 +68,13 @@ Home Assistant, Raspberry Pi, Python, Docker, C++, MQTT, FastAPI, Render, Cloudf
 
 | 그림 | 원본·범위 | 주의 |
 | --- | --- | --- |
-| [`ha-event-features.png`](ha-event-features.png) | [`visual_data.json`](../../evaluation/ha/visual_data.json), 48시간·8개 가전·54개 특징·52개 상태 변경 | 두 Heatmap은 단위가 다름. 아래 색만 −2~4로 제한 |
+| [`ha-event-features.png`](ha-event-features.png) | [`visual_data.json`](data/visual_data.json), 48시간·8개 가전·54개 특징·52개 상태 변경 | 두 Heatmap은 단위가 다름. 아래 색만 −2~4로 제한 |
 | [`ha-model-scores.png`](ha-model-scores.png) | 같은 원본의 정상 후보 Holdout 144개, IF/AE 점수와 각 임계값 | 학습 Loss나 환자 탐지 성능이 아님 |
-| [`ha-component-comparison.png`](ha-component-comparison.png) | [`baseline_comparison.json`](../../evaluation/ha/baseline_comparison.json), 반복 가설 24개·정상 맥락 48개 | 경보 건수와 분모를 그대로 표시. 임상 정확도가 아님 |
+| [`ha-component-comparison.png`](ha-component-comparison.png) | [`baseline_comparison.json`](data/baseline_comparison.json), 반복 가설 24개·정상 맥락 48개 | 경보 건수와 분모를 그대로 표시. 임상 정확도가 아님 |
 
-세 그래프는 합성 평가 자료를 사용합니다. [`evaluation_figure_manifest.json`](evaluation_figure_manifest.json)에 원본 SHA-256, 사용 수치와 해석 범위를 기록했습니다. 생성기는 원본 JSON을 읽고 저장된 scaler 결과를 사용하며 모델 학습은 수행하지 않습니다.
+세 그래프의 원본은 `data/`에 그림 재생성용 자료로 보관합니다. 예전 평가 보고서·실행 기록과 분리하며, 합성 평가 자료를 사용합니다. [`evaluation_figure_manifest.json`](evaluation_figure_manifest.json)에 원본 SHA-256, 사용 수치와 해석 범위를 기록했습니다. 생성기는 원본 JSON을 읽고 저장된 scaler 결과를 사용하며 모델 학습은 수행하지 않습니다.
 
-[`inspect_paths.png`](../../../Pauseable.ai/mmwave/src/shape_v2/artifacts/inspect_paths.png)는 `shape_v2/train.py`가 생성한 합성 경로 분류 결과입니다. 좌표는 실제 미터 단위가 아니며, 해당 연구의 경로 생성 규칙과 모델 점수를 나타냅니다.
+[`mmwave-inspect-paths.png`](mmwave-inspect-paths.png)는 `shape_v2/train.py`가 생성한 합성 경로 분류 결과입니다. 좌표는 실제 미터 단위가 아니며, 해당 연구의 경로 생성 규칙과 모델 점수를 나타냅니다.
 
 ## 재생성
 

@@ -123,7 +123,7 @@ API의 Push 요청 성공과 휴대폰의 실제 표시는 별도로 확인합�
 
 권장 총 녹음시간 800초는 입력 상한이 아닙니다. 녹음 화면 종료 후 실패 자료의 영구 복구와 전체 삭제·동의 철회 UI는 아직 제공하지 않습니다. 동의 거부·저장 실패는 녹음과 업로드만 막고 기존 알림·사진 조회는 유지합니다.
 
-다음 과정: [Voice 전처리·학습](../Pauseable.ai/README.md#voice-학습과-운영-상세) · [Pi 모델 교체](../Pauseable.edge/README.md#음성-모델-교체) · [데이터 보관 정책](../Pauseable.docs/voice/DATA_AND_ARTIFACTS_KO.md)
+다음 과정: [Voice 전처리·학습](../Pauseable.ai/README.md#voice-학습과-운영-상세) · [Pi 모델 교체](../Pauseable.edge/README.md#음성-모델-교체) · [데이터 보관 정책](README.md#음성-녹음과-동의)
 
 ## 5. 돌봄 설정을 장치에 연결한다
 

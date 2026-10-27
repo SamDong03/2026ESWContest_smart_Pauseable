@@ -209,4 +209,4 @@ sudo systemctl stop pauseable-youtube-browser.service
 4. TTS·가전·음악·휴대폰 알림·출입 사진을 실제 장치에서 각각 확인합니다.
 5. 중복 메시지, 재시작, 연결 끊김과 모델 검증 실패 시의 복구를 시험합니다.
 
-[전체 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt) · [HA 시연 절차](../Pauseable.docs/ha/DEMO_RUNBOOK_KO.md) · [기능별 코드 위치](../Pauseable.docs/SOURCE_MAP_KO.md#central-수신과-실행)
+[전체 배포 인계](../Pauseable.deploy/README.md#배포-순서) · [HA 시연 절차](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md) · [기능별 코드 위치](../Pauseable.docs/SOURCE_MAP_KO.md#central-수신과-실행)

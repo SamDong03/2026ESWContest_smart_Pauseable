@@ -7,10 +7,10 @@ import tarfile
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-COMMON = ("Pauseable.contracts", "Pauseable.deploy/migration", "Pauseable.docs/DEPLOYMENT_HANDOFF.txt")
+COMMON = ("Pauseable.contracts", "Pauseable.deploy/migration")
 COMPONENTS = {
     "pi3": ("Pauseable.edge/mmwave-relay", "Pauseable.deploy/mmwave-autostart/pi3", *COMMON),
-    "pi4": ("Pauseable.edge/camera", "Pauseable.docs/DEPLOYMENT_HANDOFF.txt", "Pauseable.deploy/migration"),
+    "pi4": ("Pauseable.edge/camera", "Pauseable.deploy/migration"),
     "pi5": (
         "Pauseable.edge/central", "Pauseable.edge/voice-model", "Pauseable.edge/actions", "Pauseable.edge/mmwave-relay",
         "Pauseable.ai/mmwave", "Pauseable.ai/ha", "Pauseable.ai/voice/serving", "Pauseable.apps/api",

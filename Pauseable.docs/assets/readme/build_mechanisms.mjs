@@ -189,7 +189,7 @@ export async function buildMechanisms() {
   b += arrow('M436 405H480V259H528') + arrow('M912 405H956V259H1004', 'blue');
   b += note(32, 540, 660, '검증 실패 시 진행 중단', '체크섬을 무조건 갱신하지 않고 원인과 포함 파일을 검토합니다.', 'red') + note(716, 540, 692, '설치 실패 시 필요한 파일만 복구', '개인 이력·DB를 덮어쓰지 않고 백업 버전과 설정을 복원합니다.', 'amber');
   b += text(32, 664, 'GitHub 반영 ≠ 장치 설치 ≠ 서비스 active ≠ 실제 출력 완료', 22, C.ink, 700, 1376);
-  await save('deployment-stages.svg', '배포의 단계별 진행 조건', '소스 검증·설치·실기 시험을 구분하고, 실패한 단계에서 멈추거나 기존 상태로 복구합니다.', 704, b, ['Pauseable.deploy/README.md', 'Pauseable.docs/DEPLOYMENT_HANDOFF.txt']);
+  await save('deployment-stages.svg', '배포의 단계별 진행 조건', '소스 검증·설치·실기 시험을 구분하고, 실패한 단계에서 멈추거나 기존 상태로 복구합니다.', 704, b, ['Pauseable.deploy/README.md', 'Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md']);
 
   b = group(32, 126, 660, 266, '구현 코드', 'green') +
     box(52, 210, 620, 144, '해당 버전이 무엇을 하는가', ['입력 · 알고리즘 · 통신 · 실행 정책', '기능별 코드 위치 / 현재 README', '코드 존재만으로 장치 적용을 증명하지 않음']);
@@ -200,17 +200,16 @@ export async function buildMechanisms() {
   b += group(748, 432, 660, 266, '장치 실기 기록', 'amber') +
     box(768, 516, 620, 144, '설치한 버전이 실제로 동작했는가', ['장치 · 설정 · 모델 · 입력 · 출력', '같은 event_id로 API · 화면 · 소리 대조', '과거 팀 시연과 최신 버전 재시험 구분'], 'amber');
   b += text(32, 746, '네 범주의 근거를 함께 제시합니다. 자동 검사 하나를 전체 실기 성능으로 확대하지 않습니다.', 20, C.muted, 400, 1376);
-  await save('evidence-map.svg', '설계·시험·평가·실기 기록의 읽는 법', '검증 자료를 네 범주로 나누고, 각 자료가 설명하는 범위를 구분합니다.', 790, b, ['Pauseable.docs/evaluation/ha/verification_summary.json', 'Pauseable.docs/README.md']);
+  await save('evidence-map.svg', '설계·시험·평가·실기 기록의 읽는 법', '검증 자료를 네 범주로 나누고, 각 자료가 설명하는 범위를 구분합니다.', 790, b, ['Pauseable.docs/assets/readme/evaluation_figure_manifest.json', 'Pauseable.docs/README.md']);
 
   b = table(32, 132, [262, 638, 476], ['Workflow', '검사 범주', '실행 / 산출물'], [
-    ['HA 보고서', '보고서 회귀 · 일반 / python -O', '관련 PR · main push · 수동'],
     ['앱 · API', 'API · catalog · Push · 날씨 / Flutter 분석·시험', '관련 PR · main push · 수동'],
     ['Voice', 'Worker · pipeline · 설정 · 모델 updater', '관련 push · PR / 검사 로그'],
     ['선호 음악', '모의 Player · 라우팅 · Shell 문법', '관련 PR · main push · 수동'],
     ['Android 시험 APK', '비공개 설정 · 분석·시험 · release 빌드', '수동 / APK + SHA-256'],
   ], 'blue', 72);
   b += note(32, 596, 660, '경로 필터와 대상 commit', '문서 수정만으로 모든 런타임 검사가 다시 실행되지는 않습니다.', 'blue') + note(716, 596, 692, '실기 E2E는 별도 시험', 'CI 통과는 GPU 학습·Pi 출력·휴대폰 표시 완료가 아닙니다.', 'amber');
-  await save('ci-map.svg', '자동 검사의 다섯 범주', '각 Workflow의 책임을 분리하며, 실제 실행 여부와 결과는 Actions 기록에서 확인합니다.', 720, b, ['.github/workflows/ha-report-checks.yml', '.github/workflows/native-alert-checks.yml', '.github/workflows/voice-checks.yml', '.github/workflows/favorite-music-checks.yml', '.github/workflows/native-push-apk.yml']);
+  await save('ci-map.svg', '자동 검사의 네 범주', '각 Workflow의 책임을 분리하며, 실제 실행 여부와 결과는 Actions 기록에서 확인합니다.', 720, b, ['.github/workflows/native-alert-checks.yml', '.github/workflows/voice-checks.yml', '.github/workflows/favorite-music-checks.yml', '.github/workflows/native-push-apk.yml']);
 
   b = group(32, 126, 660, 406, 'GitHub Actions / 수동 빌드', 'blue', 'flutter') +
     box(52, 210, 620, 112, 'workflow_dispatch + 팀 시험 설정', ['Firebase Android 클라이언트 설정 · App Token', 'Device / Worker / R2 / 서버 비밀 키 제외'], 'blue') +

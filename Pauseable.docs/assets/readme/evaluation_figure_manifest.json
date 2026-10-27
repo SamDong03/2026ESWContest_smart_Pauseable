@@ -5,6 +5,10 @@
     "visual_data.json": "086134c32f03e84b8bba0ef68e361e3032ac7df8957fd211df0ba57273da9b11",
     "baseline_comparison.json": "d67614326c55bb8ded4ec62b049f4884ce226ed31965cea77b9e5a8d2d0363be"
   },
+  "source_paths": {
+    "visual_data.json": "data/visual_data.json",
+    "baseline_comparison.json": "data/baseline_comparison.json"
+  },
   "figures": [
     {
       "file": "ha-event-features.png",

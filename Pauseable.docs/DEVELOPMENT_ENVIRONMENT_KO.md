@@ -72,7 +72,7 @@ Windows PowerShell:
 python -m pip install -r Pauseable.ai/ha/requirements.txt
 ```
 
-이후 [HA 로컬 검사](../Pauseable.ai/README.md#로컬-검사)를 실행합니다. API·Flutter는 [로컬 앱 실행](../Pauseable.apps/README.md), Voice는 [Worker 설치](voice/OPERATIONS_KO.md), Central은 [빌드 구분](../Pauseable.edge/README.md#빌드와-검사)을 따릅니다.
+이후 [HA 로컬 검사](../Pauseable.ai/README.md#로컬-검사)를 실행합니다. API·Flutter는 [로컬 앱 실행](../Pauseable.apps/README.md), Voice는 [Worker 설치](../Pauseable.ai/voice/pipeline/r2_worker.py), Central은 [빌드 구분](../Pauseable.edge/README.md#빌드와-검사)을 따릅니다.
 
 ## 개인 설정 관리
 

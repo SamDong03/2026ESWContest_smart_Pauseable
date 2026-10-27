@@ -2,7 +2,7 @@
 
 이 폴더는 공통 저장소의 소스와 설정을 Pi 3·Pi 4·Pi 5에 나누어 전달하는 배포 도구를 관리합니다. **소스 준비, 대상 환경 빌드, 장치 설치와 실기 확인은 순서대로 진행합니다.** GitHub 갱신만으로 실행 중인 장치가 바뀌지는 않습니다.
 
-[전체 시스템](../README.md) · [장치 프로그램](../Pauseable.edge/README.md) · [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) · [상세 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
+[전체 시스템](../README.md) · [장치 프로그램](../Pauseable.edge/README.md) · [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) · [상세 배포 인계](README.md#배포-순서)
 
 ## 1. 먼저 산출물을 구분한다
 
@@ -22,7 +22,7 @@
 | 장치·영역 | 담당 기능 | 배포 관련 경로 |
 | --- | --- | --- |
 | Pi 3 | mmWave Serial 입력·SSH 중계 | [mmwave-autostart/pi3](mmwave-autostart/pi3) |
-| Pi 4 | 카메라 버퍼·대표 사진 업로드 | [camera 소스](../Pauseable.edge/camera), [배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt) |
+| Pi 4 | 카메라 버퍼·대표 사진 업로드 | [camera 소스](../Pauseable.edge/camera), [배포 인계](README.md#배포-순서) |
 | Pi 5 | AI·Central·FIFO·음성·출력 | [mmwave-autostart/pi5](mmwave-autostart/pi5), [pi5/systemd](pi5/systemd) |
 | HA 서비스 | 가전 수집·분석·출력 서비스 | [HA deploy](../Pauseable.ai/ha/deploy) |
 | GPU Worker | Piper 학습 작업 | [gpu/voice-worker](gpu/voice-worker) |
@@ -62,7 +62,7 @@ python Pauseable.deploy/mmwave-autostart/package_devices.py --output deployment-
 | 묶음 | 포함 대상 |
 | --- | --- |
 | `pauseable-pi3.tar.gz` | 센서 릴레이·관련 계약·설치 설정 |
-| `pauseable-pi4.tar.gz` | 카메라·배포 인계·이전 설정 |
+| `pauseable-pi4.tar.gz` | 카메라·이전 설정 |
 | `pauseable-pi5.tar.gz` | Manifest에 선언한 Central·AI·API·음성·연동·Pi 5 설정 |
 
 묶음에는 실제 Token·원본 녹음·개인 모델을 넣지 않습니다. 압축을 푼 최상위 폴더에서 포함 파일을 다시 확인합니다.
@@ -73,16 +73,11 @@ sha256sum -c BUNDLE.sha256
 
 <a id="배포-준비-상태"></a>
 
-### 현재 소스 검사에서 확인된 중단 지점
+### 현재 소스 검사 결과
 
-2026-10-28에 최신 소스로 재실행한 Manifest 검사는 다음 파일에서 실패했습니다.
+2026-10-28 최종 문서 정리를 반영한 소스 Manifest는 782개 파일을 선언합니다. 삭제된 문서 경로를 제외하고, 현재 `main`의 앱·API·음악 출력 변경과 README·그림을 포함해 체크섬을 갱신했습니다.
 
-```text
-Source checksum mismatch:
-Pauseable.ai/ha/deploy/pauseable-washer-youtube-tts.service
-```
-
-현재 파일이 Manifest의 기대 체크섬과 다릅니다. 의도한 서비스 변경인지 검토하고, 승인한 소스에 맞게 Manifest를 갱신한 뒤 검사를 다시 통과시켜야 합니다. 검사를 우회한 묶음은 설치하지 않습니다.
+소스 무결성 검사와 Pi 3·Pi 4·Pi 5 묶음 생성·압축 내부 체크섬 검사를 통과했습니다. 실제 장치 설치·센서·카메라·음성·휴대폰의 E2E 확인은 별도입니다.
 
 <a id="장치별-준비"></a>
 
@@ -96,7 +91,7 @@ Pauseable.ai/ha/deploy/pauseable-washer-youtube-tts.service
 | GPU Worker | NVIDIA Driver·Docker GPU·Worker Token | dry-run·Job 임대·학습·게시 |
 | API·앱 | API 저장소·Push 설정·앱 빌드 설정 | 인증·이력·설치 APK의 알림 |
 
-Pi 3 설치기의 `--check`는 파일 구성을 확인하고 `--apply`는 설치를 수행합니다. 설치만으로 서비스를 자동 시작하지 않습니다. 각 설치 스크립트와 [배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)의 시작 순서를 따릅니다. ATLAS 읽기 전용 루트나 보안 설정을 설치 편의를 위해 임의로 완화하지 않습니다.
+Pi 3 설치기의 `--check`는 파일 구성을 확인하고 `--apply`는 설치를 수행합니다. 설치만으로 서비스를 자동 시작하지 않습니다. 각 설치 스크립트와 [배포 인계](README.md#배포-순서)의 시작 순서를 따릅니다. ATLAS 읽기 전용 루트나 보안 설정을 설치 편의를 위해 임의로 완화하지 않습니다.
 
 <a id="완료-기준"></a>
 

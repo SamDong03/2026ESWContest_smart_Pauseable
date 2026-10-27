@@ -85,7 +85,7 @@ python weather_api.py --check-location
 
 1. API가 반환한 대상자·지역·격자를 확인합니다.
 2. HA의 집 위치와 조명 엔티티를 확인합니다.
-3. [설치 가이드](../Pauseable.docs/integrations/home-assistant/RENDER_REGION_SETUP_KO.md)에 따라 서비스·타이머를 적용합니다.
+3. [설치 가이드](home-assistant/weather-light-control/render-location.env.example)에 따라 서비스·타이머를 적용합니다.
 4. 다음 회차의 계산 결과와 실제 밝기·색온도를 대조합니다.
 5. Render 지역 조회 실패 시 조명 변경을 중단하는지 확인합니다.
 

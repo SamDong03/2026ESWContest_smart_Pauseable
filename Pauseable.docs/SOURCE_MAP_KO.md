@@ -31,7 +31,7 @@
 | 개인 이력 | [personal_baseline.py](../Pauseable.ai/mmwave/src/personal_baseline.py) | 과거 관측 분포와 변화 비교 |
 | 판단 전달 | [wandering_publisher.py](../Pauseable.ai/mmwave/src/wandering_publisher.py) | 계약에 맞는 MQTT 메시지 |
 
-[mmWave 모듈 안내](../Pauseable.ai/README.md#mmwave-구현과-설치-상세) · [Runtime 정책](mmwave/RUNTIME.md)
+[mmWave 모듈 안내](../Pauseable.ai/README.md#mmwave-구현과-설치-상세) · [Runtime 정책](../Pauseable.ai/mmwave/src/wandering_runtime.py)
 
 ## Central 수신과 실행
 
@@ -69,7 +69,7 @@
 | WAV 전처리 | [preprocess.py](../Pauseable.ai/voice/scripts/preprocess.py) | mono·22,050 Hz·PCM16 변환 |
 | Pi 모델 교체 | [voice_model_updater.py](../Pauseable.edge/voice-model/voice_model_updater.py) | 다운로드·해시·설정·합성 검사 후 적용 |
 
-[Voice 모듈 안내](../Pauseable.ai/README.md#voice-학습과-운영-상세) · [데이터 정책](voice/DATA_AND_ARTIFACTS_KO.md)
+[Voice 모듈 안내](../Pauseable.ai/README.md#voice-학습과-운영-상세) · [데이터 정책](../Pauseable.apps/README.md#음성-녹음과-동의)
 
 ## 설치와 검증
 

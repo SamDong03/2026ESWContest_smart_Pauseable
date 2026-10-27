@@ -8,7 +8,7 @@
 `브라우저(127.0.0.1:18108) → 같은 출처의 로컬 중계 → https://pauseable-api.onrender.com`
 
 - 이름·지역·노래 링크 저장, 녹음 업로드, 알림 조회는 실제 Render에 전달됩니다.
-- 거주 지역은 자동 조명용 기상청 격자를 저장하는 입력 기능입니다. 앱에 날씨를 표시하지 않습니다. 조명 장비를 `WEATHER_LOCATION_SOURCE=render`로 설정하면 Device 인증 지역 조회 API를 통해 이 저장값을 사용합니다. 장비에는 App Token이 아닌 Device Token을 설정하며, [장비 적용 안내](../../../Pauseable.docs/integrations/home-assistant/RENDER_REGION_SETUP_KO.md)를 따릅니다. 로컬 웹 중계는 장비 API를 대신 제공하거나 Device Token을 브라우저에 전달하지 않습니다.
+- 거주 지역은 자동 조명용 기상청 격자를 저장하는 입력 기능입니다. 앱에 날씨를 표시하지 않습니다. 조명 장비를 `WEATHER_LOCATION_SOURCE=render`로 설정하면 Device 인증 지역 조회 API를 통해 이 저장값을 사용합니다. 장비에는 App Token이 아닌 Device Token을 설정하며, [환경 예시](../../../Pauseable.integrations/home-assistant/weather-light-control/render-location.env.example)를 기준으로 설정하고, [weather_api.py](../../../Pauseable.integrations/home-assistant/weather-light-control/weather_api.py)의 `--check-location`으로 조명 제어 없이 지역 조회를 확인합니다. 로컬 웹 중계는 장비 API를 대신 제공하거나 Device Token을 브라우저에 전달하지 않습니다.
 - WebSocket의 기존 일회용 접속권과 실시간 메시지도 중계합니다.
 - 실제 앱 토큰은 Python 서버만 읽습니다. Flutter 빌드에는 실행마다 생성되는 별개의 로컬 접속값만 넣습니다.
 - 중계는 고정 Render 주소와 설정된 대상자만 사용합니다. 다른 대상자, Pi/Worker 이벤트 전송, 가상 감지 이벤트 생성 경로는 차단합니다.

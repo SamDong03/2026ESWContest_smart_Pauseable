@@ -1,4 +1,7 @@
 .git
+.tmp-mmwave
+.chart-data-*
+**/training-runs
 **/.venv
 **/venv
 **/__pycache__

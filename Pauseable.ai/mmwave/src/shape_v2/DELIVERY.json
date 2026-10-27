@@ -31,29 +31,9 @@
       "bytes": 2681,
       "sha256": "8818cce2d90d251cb5be3bcf57fe73f4726a7fd9ddbd1076bf1931ae4d1c4af6"
     },
-    "artifacts/REPORT.md": {
-      "bytes": 4090,
-      "sha256": "6096060f6ac11227404c4043c0ae302e6f01395f9f54b9a686302c62bc1bb3c1"
-    },
-    "artifacts/REVIEW.md": {
-      "bytes": 3004,
-      "sha256": "1e147d1c060177063648b21bb6f89b8f07bbae76023e1d0100e4272a2bd890a2"
-    },
-    "artifacts/ROBUSTNESS.md": {
-      "bytes": 1496,
-      "sha256": "c2cf4118b16a21d9904b3d5ef8baf402488f0773601ceb48e176a76393ce957a"
-    },
-    "artifacts/ambiguous_scores.json": {
-      "bytes": 50237,
-      "sha256": "3b15ebb68f40cc4cb4da8264901b8bf3a8aea0334edf48fda500bb77190c1e7d"
-    },
     "artifacts/candidate_selection.json": {
       "bytes": 13309,
       "sha256": "225c209a131af940aa1b9e4c54f5b73137e19fccbda50c347c3dd69496e27dd5"
-    },
-    "artifacts/comparison.png": {
-      "bytes": 60253,
-      "sha256": "0fa7ddd1b6080b20404fb88f1063a98c50d42bde040c864777d4179b1c5b00be"
     },
     "artifacts/excluded.json": {
       "bytes": 899,
@@ -63,17 +43,9 @@
       "bytes": 400457,
       "sha256": "f0eee7678af1e81703c89ed917774eb8dd936203a36a481bdccaee11e311ea98"
     },
-    "artifacts/inspect_paths.png": {
-      "bytes": 189977,
-      "sha256": "2ed4009782c90ee27cf51b94a7b65f8454f18118382cc981eb81292c3a8e3b61"
-    },
     "artifacts/manifest.json": {
       "bytes": 1999,
       "sha256": "7d5a1a98dd5c5f4cb85caca6b83d94c876abd6d5dda39a10605698eabf210781"
-    },
-    "artifacts/metrics.json": {
-      "bytes": 19387,
-      "sha256": "196bb5ef1bced1f0425261492a7a988cd59c7946bcde045291ab8297afc85f1f"
     },
     "artifacts/model.joblib": {
       "bytes": 442212,
@@ -83,21 +55,9 @@
       "bytes": 158465,
       "sha256": "ffb32cf97ac7bd5edca1357e1ba60c8d899772d83795fcfa8842a577a8a3a4c8"
     },
-    "artifacts/predictions.csv": {
-      "bytes": 822305,
-      "sha256": "f1e38f3b2a36bedb54a7b8595e3abe62c3bcde7167ce757f4d3e0369b5af976e"
-    },
     "artifacts/protocol.json": {
       "bytes": 2059,
       "sha256": "83a941a3051021e0168c83412751670cb5a13a0809918e1d43587e1008169a91"
-    },
-    "artifacts/robustness.json": {
-      "bytes": 2462093,
-      "sha256": "914726fab498051b8bf647ab1d14cbf749c511d4f9eb9ddc152892ea19cfbfb3"
-    },
-    "artifacts/robustness.png": {
-      "bytes": 79803,
-      "sha256": "99066427b49183b07a88ed67adbf3ed5cee0ee3177d7ab3ae47621459d71897c"
     },
     "artifacts/selected.json": {
       "bytes": 443,

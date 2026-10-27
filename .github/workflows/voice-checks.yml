@@ -7,7 +7,6 @@ on:
       - "Pauseable.third_party/piper1-gpl/**"
       - "Pauseable.edge/voice-model/**"
       - "Pauseable.deploy/gpu/voice-worker/**"
-      - "Pauseable.docs/voice/**"
       - "Pauseable.contracts/voice-*.schema.json"
       - ".github/workflows/voice-checks.yml"
   pull_request:
@@ -16,7 +15,6 @@ on:
       - "Pauseable.third_party/piper1-gpl/**"
       - "Pauseable.edge/voice-model/**"
       - "Pauseable.deploy/gpu/voice-worker/**"
-      - "Pauseable.docs/voice/**"
       - "Pauseable.contracts/voice-*.schema.json"
       - ".github/workflows/voice-checks.yml"
 

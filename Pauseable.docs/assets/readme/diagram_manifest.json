@@ -127,7 +127,7 @@
       "liveStatus": false,
       "sources": [
         "Pauseable.deploy/README.md",
-        "Pauseable.docs/DEPLOYMENT_HANDOFF.txt"
+        "Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md"
       ]
     },
     {
@@ -136,17 +136,16 @@
       "kind": "architecture",
       "liveStatus": false,
       "sources": [
-        "Pauseable.docs/evaluation/ha/verification_summary.json",
+        "Pauseable.docs/assets/readme/evaluation_figure_manifest.json",
         "Pauseable.docs/README.md"
       ]
     },
     {
       "file": "ci-map.svg",
-      "title": "자동 검사의 다섯 범주",
+      "title": "자동 검사의 네 범주",
       "kind": "architecture",
       "liveStatus": false,
       "sources": [
-        ".github/workflows/ha-report-checks.yml",
         ".github/workflows/native-alert-checks.yml",
         ".github/workflows/voice-checks.yml",
         ".github/workflows/favorite-music-checks.yml",

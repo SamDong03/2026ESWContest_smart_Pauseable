@@ -10,7 +10,6 @@
 
 | Workflow | 실행하는 검사·빌드 | 시작 조건 |
 | --- | --- | --- |
-| [ha-report-checks.yml](workflows/ha-report-checks.yml) | HA 보고서 회귀, 일반·`python -O` 검사 | 관련 경로 PR·main push·수동 |
 | [native-alert-checks.yml](workflows/native-alert-checks.yml) | API·공유 목록·서비스워커·날씨, Flutter analyze/test/web/APK | 관련 경로 PR·main push·수동 |
 | [voice-checks.yml](workflows/voice-checks.yml) | Voice Worker·파이프라인·모델 교체 테스트, Python·JSON 검사 | 관련 경로 push·PR |
 | [favorite-music-checks.yml](workflows/favorite-music-checks.yml) | 음악 Player·출력 필터·Shell 문법 | 관련 경로 PR·main push·수동 |
@@ -24,7 +23,7 @@
 
 | 대상 | 정의한 환경 |
 | --- | --- |
-| HA Report·API·음악 | Python 3.12 |
+| HA 로컬 검사·API·음악 | Python 3.12 |
 | Voice | Python 3.11 |
 | Flutter | Flutter 3.47.6 |
 | Android | JDK 17·Android SDK 36 및 각 Workflow 실행기 |
@@ -67,10 +66,10 @@
 | --- | --- |
 | 모의 API·임시 저장소·Player 응답 | 실제 Render·Pi 화면·스피커·YouTube 재생 |
 | Flutter 분석·테스트·빌드 | 설치한 휴대폰의 권한·잠금·절전·Push 수신 |
-| HA 보고서 데이터·검증 로직 | 실제 가구 데이터·장기 운영·탐지 성능 |
+| 저장된 합성 그림 자료·검사 코드 | 실제 가구 데이터·장기 운영·탐지 성능 |
 | Worker·모델 교체 코드 | GPU 학습·R2 게시·Pi 설치·합성 |
 
-HA Workflow는 HA 전체 Unit 검사나 Pi 장기 운영을 대신하지 않습니다. Voice 검사는 실제 GPU 학습, 음악 검사는 실제 YouTube 재생을 수행하지 않습니다.
+HA 모듈 검사는 [AI 안내](../Pauseable.ai/README.md#로컬-검사)의 명령으로 별도 실행합니다. Voice 검사는 실제 GPU 학습, 음악 검사는 실제 YouTube 재생을 수행하지 않습니다.
 
 <a id="검사-유지-기준"></a>
 

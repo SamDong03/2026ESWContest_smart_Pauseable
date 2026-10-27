@@ -142,16 +142,15 @@ Python 3.12의 별도 가상환경을 활성화한 뒤 **저장소 루트에서*
 ```sh
 python -m pip install -r Pauseable.ai/ha/requirements.txt
 python -m unittest discover -s Pauseable.ai/ha/tests -v
-python -m unittest discover -s Pauseable.docs/evaluation/ha/checks -v
 ```
 
 | 실제 연결·운영 | 확인할 파일 |
 | --- | --- |
-| HA 주소·Token·엔티티 매핑 | [실시간 수집 가이드](../Pauseable.docs/ha/ha_realtime_collection_guide.md) |
+| HA 주소·Token·엔티티 매핑 | [실시간 수집 가이드](ha/src/collect_ha_events_ws.py) |
 | 지속 실행 | [run_ha_full_service.py](ha/src/run_ha_full_service.py), [systemd 설정](ha/deploy/systemd) |
 | Pi 이미지 | [Dockerfile.pi](ha/Dockerfile.pi) |
 | 연구·시뮬레이션 | [Dockerfile.research](ha/Dockerfile.research), [compose.research.yaml](ha/compose.research.yaml) |
-| 시연 | [DEMO_RUNBOOK_KO.md](../Pauseable.docs/ha/DEMO_RUNBOOK_KO.md) |
+| 시연 | [DEMO_RUNBOOK_KO.md](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md) |
 
 연구 데이터와 실제 가구 이력은 저장 경로·가구 ID·모델 버전을 분리합니다.
 
@@ -167,7 +166,7 @@ python -m unittest discover -s Pauseable.docs/evaluation/ha/checks -v
 
 모델 비교는 합성 입력을 사용했고 Routine 보정은 미적용입니다. 경보 수는 Attention 또는 Risk가 한 번 이상 나온 시나리오 수로, 환자 대상 정확도가 아닙니다. 저장된 별도 학습 기록은 Train 428·Calibration 142·Holdout 144, AE 337 iterations·최종 Optimizer Loss 약 0.0382입니다. Loss와 탐지 성능은 구분해 읽습니다.
 
-[평가 원본과 조건](../Pauseable.docs/README.md#평가-자료-읽기) · [모델별 비교 JSON](../Pauseable.docs/evaluation/ha/baseline_comparison.json) · [시각 자료와 출처](../Pauseable.docs/assets/readme/ASSETS.md)
+[평가 원본과 조건](../Pauseable.docs/README.md#평가-자료-읽기) · [모델별 비교 JSON](../Pauseable.docs/assets/readme/data/baseline_comparison.json) · [시각 자료와 출처](../Pauseable.docs/assets/readme/ASSETS.md)
 
 <a id="mmwave-구현과-설치-상세"></a>
 
@@ -199,11 +198,11 @@ LD6004/ESP32의 대상·좌표·시각·품질 정보는 Pi 3의 Serial 릴레�
 
 ### 2.5 연구 결과와 실제 연결을 확인한다
 
-저장된 [metrics.json](mmwave/src/shape_v2/artifacts/metrics.json)은 `simulated_only`이며 실측 LD6004·임상 배회 검증과 연구 모델 자동 알림이 비활성 상태임을 명시합니다. 합성 경로 그림의 좌표·정답·점수를 실제 환자의 위치와 성능으로 해석하지 않습니다.
+현재 보관한 경로 그림은 [학습·평가 코드](mmwave/src/shape_v2/train.py)가 생성한 합성 결과입니다. 실측 LD6004·임상 배회 성능은 검증하지 않았습니다. 합성 경로 그림의 좌표·정답·점수를 실제 환자의 위치와 성능으로 해석하지 않습니다.
 
 설치 시에는 [의존성](mmwave/requirements.txt), [Pi 5 실행 설정](../Pauseable.deploy/mmwave-autostart/pi5), [센서 계약](../Pauseable.contracts/mmwave-target-event.schema.json)을 준비하고 입력·Runtime·MQTT·Central 출력을 순서대로 확인합니다.
 
-[Runtime 상세](../Pauseable.docs/mmwave/RUNTIME.md) · [실험 설계](mmwave/src/shape_v2/PROTOCOL.md) · [센서 중계](../Pauseable.edge/README.md#센서-릴레이와-카메라)
+[Runtime 상세](mmwave/src/wandering_runtime.py) · [실험 설계](mmwave/src/shape_v2/PROTOCOL.md) · [센서 중계](../Pauseable.edge/README.md#센서-릴레이와-카메라)
 
 <a id="voice-학습과-운영-상세"></a>
 
@@ -241,7 +240,7 @@ python -m pip install -r requirements.worker.txt
 python -m unittest discover -s pipeline -p 'test_*.py' -v
 ```
 
-실제 GPU 학습 전 [운영 가이드의 dry-run](../Pauseable.docs/voice/OPERATIONS_KO.md#3-설치와-사전-점검)을 수행합니다. 인증 형식은 [worker.env.example](voice/worker.env.example), 입력·보관·삭제 기준은 [데이터 정책](../Pauseable.docs/voice/DATA_AND_ARTIFACTS_KO.md)을 따릅니다.
+실제 GPU 학습 전 [r2_worker.py](voice/pipeline/r2_worker.py)의 `--dry-run`을 수행합니다. 인증 형식은 [worker.env.example](voice/worker.env.example), 입력·보관·삭제 기준은 [데이터 정책](../Pauseable.apps/README.md#음성-녹음과-동의)을 따릅니다.
 
 <a id="데이터-출처와-검증-기준"></a>
 
@@ -254,4 +253,4 @@ python -m unittest discover -s pipeline -p 'test_*.py' -v
 | 실제 가구 이력 | 출처·품질·정상 검토 후 개인화 학습 | 수집 범위와 검토 상태를 모델에 함께 기록 |
 | 보호자 녹음 | 동의한 음성 모델 학습 | 녹음·checkpoint·개인 모델·Token은 Git 제외 |
 
-[공개 데이터 검토](../Pauseable.docs/ha/public_power_data_guide.md) · [문헌 조사](../Pauseable.docs/ha/EVIDENCE_RESEARCH_20261005_KO.md) · [Baseline 검증 절차](../Pauseable.docs/ha/ha_baseline_validation_protocol.md) · [Piper 원본·버전](voice/provenance) · [외부 고지](../Pauseable.third_party/NOTICE.txt)
+[공개 데이터 변환](ha/src/prepare_public_power.py) · [합성 시나리오 구현](ha/src/ha_evidence_scenarios.py) · [Lifecycle 검사](ha/tests/test_full_lifecycle.py) · [Piper 원본·버전](voice/provenance) · [외부 고지](../Pauseable.third_party/NOTICE.txt)

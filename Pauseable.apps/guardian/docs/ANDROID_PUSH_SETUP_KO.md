@@ -168,7 +168,7 @@ GitHub의 최신 `Pauseable.ai/ha/scripts/start-repetitive-demo.sh`를 실제 Pi
 
 새 결정의 HTTP `202`만으로 알림 생성이 증명되지는 않는다. 결정에 `notify_guardian` 동작이 있어야 한다.
 같은 이벤트 ID를 다시 보내면 중복으로 처리되며 추가 알림을 보내지 않는다.
-상세 Pi 실행 조건은 기존 `Pauseable.docs/ha/DEMO_RUNBOOK_KO.md`의 보호자 알림 절차를 따른다.
+Pi의 냉장고·세탁기 분석 실행 조건은 [run_repetitive_hybrid_demo.py](../../../Pauseable.ai/ha/src/run_repetitive_hybrid_demo.py)와 [run_washer_hybrid_demo.py](../../../Pauseable.ai/ha/src/run_washer_hybrid_demo.py)의 실행 옵션을 기준으로 한다. 실제 장비의 엔티티 ID, 기준선·모델 경로와 Central의 알림 전달 설정을 함께 확인한다.
 
 ## 문제가 남을 때 확인할 지점
 
