@@ -1,87 +1,63 @@
-# 거주지역·날씨·조명 연동
+# 거주지역·날씨를 이용한 조명 제어
 
-보호자 앱의 거주지역 설정, 기상청 날씨와 HA의 태양 고도를 조명 제어에 사용하는 모듈입니다. 조회한 환경 정보에 밝기·색온도 규칙을 적용해 HA 조명 엔티티에 전달합니다. 반복행동·배회 판단과는 별도로 동작합니다.
+이 모듈은 보호자 앱의 거주지역, 기상청 날씨와 Home Assistant의 태양 고도를 사용해 조명을 조절합니다. **반복행동·배회 AI와 별개로 실행하는 환경 조명 규칙**입니다.
 
-**행동 분석이 아니라 생활 환경을 조절하는 경로**입니다. 보호자가 등록한 지역을 바탕으로 환경 정보를 가져오고, 미리 정한 조명 규칙을 실행합니다. 앱 설정 저장·장치 조회·실제 조명 반응을 각각 확인합니다.
+[전체 시스템](../README.md) · [앱·API](../Pauseable.apps/README.md) · [장치 배포](../Pauseable.deploy/README.md)
 
-[전체 프로젝트](../README.md) · [API·앱](../Pauseable.apps/README.md) · [배포 안내](../Pauseable.deploy/README.md)
+<a id="처리-과정"></a>
 
-[처리 과정](#처리-과정) · [준비할 설정](#준비할-설정) · [로컬 검사](#로컬-검사와-조회-시험) · [장치 적용](#장치-적용과-확인)
+## 1. 보호자 앱에서 거주지역을 저장한다
 
-![Guardian 지역 설정에서 기상청·HA sun 정보와 조명 제어로 이어지는 연결](../Pauseable.docs/assets/readme/weather-light.svg)
+보호자가 Guardian에서 지역을 선택하면 API에 지역 코드와 기상청 격자가 저장됩니다. 이는 GPS 추적이나 상세 주소 수집이 아니라 날씨 조회에 사용할 지역 설정입니다.
 
-## 처리 과정
+<a id="모드와-실패-처리"></a>
 
-이 모듈은 행동 AI가 아니라 **환경 조명 규칙**입니다. 지역 설정, 날씨·태양 고도 조회, 밝기·색온도 계산, HA 명령을 분리합니다.
+## 2. 조명 장치가 지역과 환경 정보를 조회한다
 
-| 입력·단계 | 하는 일 |
+[weather_location.py](home-assistant/weather-light-control/weather_location.py)와 [weather_api.py](home-assistant/weather-light-control/weather_api.py)가 위치 설정을 읽습니다.
+
+| 모드 | 지역을 얻는 곳 |
 | --- | --- |
-|  Guardian 지역 | 앱이 저장한 대상자별 거주 지역 확인 |
-|  위치 조회 | Device 인증으로 API의 지역과 기상청 `nx/ny` 조회 |
-|  환경 정보 | 기상청 날씨와 HA `sun.sun`의 태양 고도 사용 |
-|  규칙 적용 | 밝기·색온도 규칙으로 HA 조명 엔티티에 명령 |
-|  오류 처리 | Render 모드의 위치 조회 실패 시 해당 회차 변경 중단 |
+| `WEATHER_LOCATION_SOURCE=render` | Device 인증으로 API의 대상자별 거주지역·기상청 `nx/ny` 조회 |
+| `legacy` 또는 미설정 | 기존 장치의 위치 설정 |
 
-systemd 타이머는 약 1분 간격으로 실행됩니다. HA AI의 상태 변경 수집과 별개의 주기이며, 지역 조회와 조명 명령 결과를 기록합니다.
+지역을 확인한 뒤 기상청에서 `SKY`·`PTY`를 가져오고, HA의 `sun.sun`에서 태양 고도를 읽습니다. 태양 고도는 HA에 설정한 집 위치를 사용하므로 실제 거주지역과 맞춰야 합니다.
 
-### 조명 계산 규칙
+## 3. 밝기·색온도와 전원 상태를 계산한다
 
-[`calculate_light()`](home-assistant/weather-light-control/weather_api.py)는 태양 고도에 따라 기본 밝기·색온도를 계산하고 기상청 `SKY`·`PTY`로 보정합니다.
+`calculate_light()`는 아래 규칙을 적용합니다.
 
-| 항목 | 현재 코드 |
+| 계산 항목 | 현재 규칙 |
 | --- | --- |
-| 기본 밝기 | 고도 20° 이상 10%, −6° 이하 70%, 사이는 선형 계산 |
-| 날씨 보정 | 구름 많음 +10, 흐림 +20, 강수 +20; 밝기 0~97% 제한 |
-| 기본 색온도 | 고도에 따라 2,700~4,500 K, 흐림·강수로 보정; 2,500~6,500 K 제한 |
-| 전원 조건 | 고도 20° 미만 또는 구름 많음·흐림·강수일 때 켬; 그 외 끔 |
-| HA 실행 | 설정한 `light.*`에 `turn_on`/`turn_off`, 밝기·색온도 전달 |
+| 기본 밝기 | 태양 고도 20° 이상 10%, -6° 이하 70%, 중간은 선형 계산 |
+| 날씨 밝기 보정 | 구름 많음 +10, 흐림 +20, 강수 +20. 최종 0~97% 제한 |
+| 기본 색온도 | 고도에 따라 2,700~4,500 K, 날씨 보정 후 2,500~6,500 K 제한 |
+| 켜는 조건 | 고도 20° 미만 또는 구름 많음·흐림·강수 |
+| 끄는 조건 | 그 외의 맑은 낮 조건 |
 
-기본 밝기 계산과 전원 조건은 별개입니다. 맑은 낮에 계산값이 10%여도 전원 조건에 따라 꺼질 수 있습니다. 조도 센서의 실측 lux나 학습 모델로 조명을 조절하는 기능은 아닙니다.
+기본 밝기 계산과 전원을 켜는 조건은 다릅니다. 밝기를 10%로 계산했더라도 맑은 낮에는 전원 조건에 따라 끕니다. 조도 센서의 실측 lux나 학습 모델을 사용하는 방식은 아닙니다.
 
-<details>
-<summary><strong>구현 파일과 설정 위치</strong></summary>
+## 4. HA 조명 엔티티에 전달한다
 
-| 파일 | 역할 |
-| --- | --- |
-| [`weather_api.py`](home-assistant/weather-light-control/weather_api.py) | 지역·날씨 조회와 HA 조명 밝기·색온도 처리 |
-| [`weather_location.py`](home-assistant/weather-light-control/weather_location.py) | 위치 설정과 Render 지역 조회 |
-| [`config.example.json`](home-assistant/weather-light-control/config.example.json) | 기상청·HA·조명 엔티티 설정 형식 |
-| [`render-location.env.example`](home-assistant/weather-light-control/render-location.env.example) | Device 인증·지역 출처 설정 예시 |
-| [`deploy/systemd`](home-assistant/weather-light-control/deploy/systemd) | 서비스와 타이머 |
-| [`test_weather_api.py`](home-assistant/weather-light-control/test_weather_api.py) | API·위치 연동 회귀 검사 |
+계산 결과를 설정한 `light.*` 엔티티의 `turn_on`·`turn_off`로 전달합니다. 켜는 요청에는 밝기와 색온도를 함께 넣습니다. [systemd 타이머](home-assistant/weather-light-control/deploy/systemd)는 부팅 후 2분에 시작하고 약 1분 간격으로 실행합니다.
 
-</details>
+Render 지역 조회가 실패하거나 지역·격자가 유효하지 않으면 그 회차의 조명 변경을 중단하고 다음 실행에서 재시도합니다. 이 경우 임의 지역으로 전환하거나 조명을 끄지 않고 기존 상태를 유지합니다.
 
-## 모드와 실패 처리
+<a id="준비할-설정"></a>
 
-| 모드 | 동작 |
-| --- | --- |
-| `WEATHER_LOCATION_SOURCE=render` | 앱에 저장된 지역을 Device 인증 API로 조회 |
-| `legacy` 또는 미설정 | 기존 장치의 위치 설정 사용 |
-| Render 조회 실패·지역 미설정·격자 오류 | 해당 회차 조명 변경 중단, 다음 실행에서 재시도 |
+## 5. 연결 설정을 준비한다
 
-Render 모드에서 위치 조회에 실패하면 해당 회차 변경을 중단하고 다음 실행에서 재시도합니다. 로컬 지역으로 자동 전환하거나 조명을 끄는 대신 기존 상태를 유지합니다. 태양 고도 계산에 사용하는 HA의 집 위치도 실제 거주지역과 맞춰 설정합니다.
+| 설정 | 준비할 값 | 예시 파일 |
+| --- | --- | --- |
+| 기상청 | Service Key | [config.example.json](home-assistant/weather-light-control/config.example.json) |
+| HA | 주소·장기 Token·조명 엔티티 ID | 같은 설정 파일 |
+| API 지역 조회 | API 주소·대상자·Device Token·위치 출처 | [render-location.env.example](home-assistant/weather-light-control/render-location.env.example) |
 
-## 준비할 설정
+실제 값은 장치의 비공개 `config.json`·`render-location.env`에 저장하고 읽기 권한을 제한합니다. App Token 대신 Device Token을 사용합니다.
 
-<details>
-<summary><strong>비공개 설정 체크리스트</strong></summary>
+<a id="로컬-검사와-조회-시험"></a>
 
-| 항목 | 위치·주의 |
-| --- | --- |
-| 기상청 Service Key | 장치의 비공개 `config.json` |
-| HA 주소·장기 Token·조명 Entity ID | 장치의 비공개 `config.json` |
-| Render API·대상자·Device Token | 비공개 `render-location.env` |
-| 실제 거주 지역 | Guardian에서 저장하고 API 영속 저장 여부 확인 |
-
-실제 값은 장치의 비공개 설정 파일에 저장합니다. 기존 설정을 백업하고 파일 읽기 권한을 제한합니다. 조명 장치는 Device Token을 사용하며, 인증값은 소스·로그에서 제외합니다.
-
-</details>
-
-## 로컬 검사와 조회 시험
-
-<details>
-<summary><strong>회귀 검사와 조명을 바꾸지 않는 조회 명령</strong></summary>
+## 6. 조명을 바꾸기 전에 조회부터 검사한다
 
 별도 Python 가상환경을 활성화하고 **저장소 루트에서** 시작합니다.
 
@@ -91,7 +67,7 @@ python -m pip install -r requirements.txt
 python -m unittest -v test_weather_api.py
 ```
 
-장치의 비공개 환경 파일을 준비한 뒤 Linux 셸에서 다음처럼 조회만 확인할 수 있습니다.
+장치의 비공개 환경 파일을 준비한 뒤 Linux 셸에서 위치만 조회합니다.
 
 ```sh
 chmod 600 render-location.env
@@ -101,17 +77,16 @@ set +a
 python weather_api.py --check-location
 ```
 
-`--check-location`은 조명 명령 없이 위치 조회만 검사합니다. 옵션 없는 실행과 서비스 시작은 실제 조명 제어를 수행합니다.
+`--check-location`은 조명 명령을 보내지 않습니다. 옵션 없는 실행이나 서비스 시작은 실제 조명을 제어합니다.
 
-</details>
+<a id="장치-적용과-확인"></a>
 
-## 장치 적용과 확인
+## 7. 타이머를 적용하고 조명을 확인한다
 
-장치 경로·서비스·타이머·Docker 실행과 복귀 절차는 [지역 설정 연동 가이드](../Pauseable.docs/integrations/home-assistant/RENDER_REGION_SETUP_KO.md)를 따릅니다. 저장소 타이머는 약 1분 간격으로 실행하도록 구성되어 있습니다.
+1. API가 반환한 대상자·지역·격자를 확인합니다.
+2. HA의 집 위치와 조명 엔티티를 확인합니다.
+3. [설치 가이드](../Pauseable.docs/integrations/home-assistant/RENDER_REGION_SETUP_KO.md)에 따라 서비스·타이머를 적용합니다.
+4. 다음 회차의 계산 결과와 실제 밝기·색온도를 대조합니다.
+5. Render 지역 조회 실패 시 조명 변경을 중단하는지 확인합니다.
 
-1. API 지역 조회 성공을 확인합니다.
-2. 반환 격자와 대상자 일치를 확인합니다.
-3. 다음 타이머 실행과 실제 조명 반응을 확인합니다.
-4. 통신 실패 시 조명 변경이 중단되는지 확인합니다.
-
-앱 설정 저장, 장치의 위치 조회와 조명 변경은 각각 확인합니다. 현재 `auto_lighting_enabled` 저장 기능과 장치 타이머의 시작·중지는 직접 연결된 기능이 아닙니다.
+현재 앱의 `auto_lighting_enabled` 저장은 장치 타이머의 시작·중지와 직접 연결된 기능이 아닙니다. 앱 설정 저장과 장치에서의 실행 여부를 각각 확인합니다.

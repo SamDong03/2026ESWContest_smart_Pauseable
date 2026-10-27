@@ -1,118 +1,113 @@
-# 공통 통신 규격과 수신 검증
+# 프로그램 사이의 메시지 규격
 
-AI·Central·API·보호자 앱 사이의 메시지 형식을 정의합니다. JSON Schema에는 필수 필드, 자료형과 허용값을 명시했습니다. AI 추론, Central의 최종 결정과 앱 알림을 서로 다른 메시지로 구분하고, 각 서비스가 수신 시 형식과 처리 조건을 검사합니다.
+이 폴더는 **AI·Central·API·앱이 같은 데이터를 같은 의미로 읽도록 정한 약속**을 보관합니다. JSON은 데이터를 표현하는 형식이고, JSON Schema는 필수 항목·자료형·허용값을 정의한 검사 기준입니다. 실제 송수신은 각 프로그램이 수행합니다.
 
-**통신 규격은 서로 다른 프로그램이 같은 사건을 같은 의미로 읽기 위한 약속**입니다. JSON이 데이터의 표현 형식이라면, JSON Schema는 어떤 항목이 반드시 있고 어떤 값을 허용하는지 정한 검사 기준입니다. 규격 파일만으로 통신이 실행되는 것은 아니며, 각 프로그램의 수신 코드가 이를 검사합니다.
+[전체 시스템](../README.md) · [AI](../Pauseable.ai/README.md) · [Central](../Pauseable.edge/README.md) · [API·앱](../Pauseable.apps/README.md)
 
-[전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Central](../Pauseable.edge/README.md) · [API·앱](../Pauseable.apps/README.md)
+<a id="메시지-구성"></a>
 
-[Schema 구성](#메시지-구성) · [수신 검증](#수신-메시지-검증) · [AI 입력](#ai--central-추론-전달) · [API 전달](#central--api-실행-결정-전달) · [검증 코드](#검증-구현)
+## 1. 세 종류의 메시지를 구분한다
 
-## 메시지 구성
+| 순서 | 보내는 곳과 받는 곳 | 메시지에 담는 내용 | 기준 파일 |
+| --- | --- | --- | --- |
+| 1 | 행동 AI에서 Central로 | 관측한 행동·위험 단계·점수·근거 | [behavior-inference.schema.json](communication-v1/schemas/behavior-inference.schema.json) |
+| 2 | Central에서 API로 | 최종 판단과 허용한 actions | [decision-event.schema.json](communication-v1/schemas/decision-event.schema.json) |
+| 3 | API에서 보호자 앱으로 | 보호자가 확인할 사건·안내·읽음 정보 | [app-alert.schema.json](communication-v1/schemas/app-alert.schema.json) |
 
-이 폴더는 실행 프로그램이 아니라 **생산자와 소비자가 함께 지켜야 할 데이터 계약**입니다. 세 메시지의 책임과 센서·명령·음성의 보조 규격을 나누어 관리합니다.
+Central은 AI JSON을 그대로 API에 전달하지 않습니다. 수신 검증과 Action Router를 거친 결과로 두 번째 메시지를 만듭니다.
 
-![AI Inference, Central Decision, App Alert가 역할에 따라 구분되는 메시지 지도](../Pauseable.docs/assets/readme/contract-map.svg)
+<a id="ai--central-추론-전달"></a>
 
-AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과에 실행 정책을 적용해 최종 Decision Event를 만들고, API는 보호자가 확인할 알림으로 제공합니다. AI의 `risk` 판정만으로 가전 동작이 실행되지는 않습니다.
+## 2. AI 판단을 MQTT로 전달한다
 
-| 단계 | 메시지가 답하는 질문 |
-| --- | --- |
-|  AI Inference | 어떤 행동을 관측했고 어떤 상태로 판단했는가? |
-|  Central Decision | 메시지를 승인했으며 어떤 동작을 허용했는가? |
-|  App Alert | 보호자가 어떤 사건과 안내를 확인해야 하는가? |
+MQTT의 **Topic**은 메시지를 구분하는 주소입니다. 반복행동과 배회는 다른 Topic을 사용하며, 본문의 `source`도 그 Topic과 일치해야 합니다.
 
-### Schema 파일 목록
-
-| 연결 | 기준 파일 | 메시지 의미 |
-| --- | --- | --- |
-| 반복행동·배회 AI → Central | [`communication-v1/schemas/behavior-inference.schema.json`](communication-v1/schemas/behavior-inference.schema.json) | AI 판단 상태·점수·관측 근거 |
-| Central → API | [`communication-v1/schemas/decision-event.schema.json`](communication-v1/schemas/decision-event.schema.json) | 최종 Decision과 허용된 actions |
-| API → 앱 | [`communication-v1/schemas/app-alert.schema.json`](communication-v1/schemas/app-alert.schema.json) | 보호자에게 보여줄 알림 |
-| 보호자 응답 | [`guardian-response.schema.json`](communication-v1/schemas/guardian-response.schema.json) | 보호자 응답 형식 |
-| 장치 명령·응답 | [`device-command.schema.json`](communication-v1/schemas/device-command.schema.json), [`command-ack.schema.json`](communication-v1/schemas/command-ack.schema.json) | 명령·ACK 형식 |
-| 센서 → 수신기 | [`mmwave-target-event.schema.json`](mmwave-target-event.schema.json) | 센서 대상·위치·시각 등 입력 |
-| HA → 연동 계층 | [`ha-entity-event.schema.json`](ha-entity-event.schema.json) | 엔티티 상태 이벤트 |
-| 음성 요청·결과 | [`voice-request.schema.json`](voice-request.schema.json), [`voice-result.schema.json`](voice-result.schema.json) | 음성 관련 교환 형식 |
-
-기본 AI·Central 통신은 `communication-v1`을 기준으로 합니다. 그 외 Schema의 적용 범위는 각 모듈의 구현과 배포 설정에 따릅니다.
-
-## 수신 메시지 검증
-
-![JSON 해석, 계약, 출처·시각, 사건 ID, 실행 정책의 단계별 검증](../Pauseable.docs/assets/readme/validation-gates.svg)
-
-| 입력 사례 | 처리 원칙 |
-| --- | --- |
-| 반복행동 Topic에 배회 `source` | 출처 불일치로 거절 |
-| 오래된 사건·허용 범위 밖의 미래 시각 | 로그를 남기고 실행에 전달하지 않음 |
-| 동일 ID·동일 내용 | 중복으로 처리 |
-| 동일 ID·다른 내용 | 충돌로 구분 |
-| 관측 부족·센서/모델 오류 | `unknown`으로 구분, 정상이나 자동 가전 동작으로 바꾸지 않음 |
-
-## AI → Central: 추론 전달
-
-| MQTT Topic | `source` | 허용 행동 범위 |
+| Topic | `source` | 허용 `behavior` |
 | --- | --- | --- |
 | `pauseable/ai/repetitive/decision` | `repetitive-ai` | `normal`, `repetitive`, `unknown` |
 | `pauseable/ai/wandering/decision` | `wandering-ai` | `normal`, `wandering`, `unknown` |
 
-### 필드와 식별 규칙
+### 2.1 메시지의 항목을 읽는 순서
 
-| 필드 | 목적 |
+| 필드 | 의미 |
 | --- | --- |
-| `contract_version` | 현재 v1 계약은 `1.0` |
-| `event_id` | 사건 식별과 중복·내용 충돌 확인 |
-| `occurred_at` | UTC 사건 시각, 타임존을 명시 |
-| `patient_id`, `device_id` | 대상자·장치 일치 확인 |
-| `source`, `behavior` | Topic·출처·행동의 의미 일치 |
-| `risk_level`, `risk_score` | 위험 단계와 시스템 점수 |
-| `inference_status` | 정상 추론·관측 부족·센서/모델 오류 구분 |
-| `evidence` | 관측 개수·시간 범위·패턴·판단 근거 |
+| `contract_version` | 사용한 규격 버전. 현재 v1은 `1.0` |
+| `event_id` | 사건 식별자. 재전송과 중복·충돌을 구별할 때 사용 |
+| `occurred_at` | 타임존을 명시한 UTC 사건 시각 |
+| `patient_id`, `device_id` | 대상자와 발생 장치 |
+| `source`, `behavior` | 판단을 만든 프로그램과 관측 행동 |
+| `risk_level`, `risk_score` | 시스템 위험 단계와 0~100의 정수 점수 |
+| `inference_status` | 정상 추론, 관측 부족, 센서 오류, 모델 오류 구분 |
+| `evidence` | 선택적인 관측 개수·구간 길이·패턴·판정 근거 |
 
-`inference_status=ok`이면 행동·위험도·정수 점수가 해당 계약을 따라야 합니다. 관측 부족이나 오류이면 행동과 위험도는 `unknown`, 점수는 `null`로 표현합니다. `risk_score`는 0~100의 시스템 점수이지 치매 확률이나 정확도가 아닙니다.
+`inference_status=ok`이면 행동·위험도·정수 점수를 보냅니다. 관측 부족이나 오류이면 행동과 위험도는 `unknown`, 점수는 `null`입니다. HA 내부의 `attention/risk`는 Publisher에서 `caution/danger`로 바꿉니다. 점수는 질병 확률이나 모델 정확도가 아닙니다.
 
-현재 v1은 시연 대상자·장치 ID를 고정해 검사합니다. 다른 가구나 다중 사용자에게 적용하려면 생산자·Central·Schema·API의 식별 규칙과 접근권한을 함께 변경해야 합니다.
+필드가 채워진 예시는 [repetitive-inference.json](communication-v1/examples/repetitive-inference.json)에 있습니다. 예시를 실제 발행할 때는 새 사건 ID와 현재 UTC 시각을 사용해야 합니다.
 
-HA 내부의 `attention`·`risk`는 전송 계약의 `caution`·`danger`로 매핑합니다. 내부 CSV의 단계 이름을 MQTT에 그대로 복사하는 방식이 아닙니다. 점수·근거·상태 매핑은 각 Publisher와 Central 검증기를 함께 확인합니다.
+### 2.2 전달 방식
 
-### 전달과 재전송
+Central의 현재 수신 경로는 **QoS 1, retained=false** 메시지를 처리합니다. QoS 1은 재전송으로 같은 메시지가 두 번 도착할 수 있으므로, 소비자도 사건 ID와 내용을 검사해야 합니다.
 
-MQTT 전달은 메시지 형식과 별개입니다. QoS 1에서는 같은 메시지가 다시 올 수 있으므로 `event_id`와 내용을 함께 검사합니다. 중복 제거는 재전송에 대비한 처리이며 모든 물리 출력의 정확히 한 번 실행을 보장하지는 않습니다. 사건 시각은 Central 기본 정책의 과거 300초·미래 30초 범위도 통과해야 합니다.
+현재 v1 Schema의 대상자·장치는 시연 ID로 고정되어 있습니다. 다른 가구를 연결할 때는 Publisher·Central 설정·Schema·API의 ID를 함께 맞춥니다.
 
-## Central → API: 실행 결정 전달
+<a id="수신-메시지-검증"></a>
 
-Central은 AI 메시지를 그대로 전달하지 않고 내부 Decision과 실행 정책을 반영해 `POST /api/events/decisions`로 보냅니다.
+## 3. Central이 메시지를 검사한다
 
-- `source`는 `central-atlas-app`입니다.
-- `decision`은 `normal`, `repetitive_behavior`, `wandering_suspected`, `unknown`을 구분합니다.
-- v1 최종 Event의 `actions`에는 `notify_guardian`, `control_appliance`가 정의되어 있습니다.
-- Device Token으로 인증하고 `event_id`를 기준으로 중복을 처리합니다.
-- API의 `Idempotency-Key`와 본문의 `event_id`가 다르면 거절합니다.
-- 동일 ID에 다른 내용이 들어오는 충돌과 동일 메시지 재전송을 구분합니다.
+1. JSON을 해석하고 필수 필드·자료형·허용값을 확인합니다.
+2. Topic과 `source`, 행동 종류의 조합을 검사합니다.
+3. 대상자·장치와 사건 시각을 검사합니다. 기본 허용 범위는 과거 300초·미래 30초입니다.
+4. 같은 사건 ID의 이전 내용을 확인합니다. 같은 내용은 중복으로 무시하고 다른 내용은 충돌로 차단합니다.
+5. 통과한 메시지를 C++ 내부 Decision으로 바꿉니다.
+6. Action Router가 실행 정책을 별도로 검사합니다.
 
-## 검증 구현
+JSON이 아닌 입력이나 잘못된 필드는 거절 사유를 기록합니다. 정상 데이터로 자동 변환하지 않습니다. `unknown` 역시 `normal`과 다른 상태로 유지합니다.
 
-| 단계 | 구현 | 검증 범위 |
-| --- | --- | --- |
-| Central 입력 | [`BehaviorInference.cpp`](../Pauseable.edge/central/core/src/BehaviorInference.cpp) | JSON 필드·출처·Topic·시각·ID·중복 |
-| Central 실행 | [`ActionRouter.cpp`](../Pauseable.edge/central/core/src/ActionRouter.cpp) | 행동별 활성화·위험도·cooldown·실행 허용 |
-| API 수신 | [`main.py`](../Pauseable.apps/api/app/main.py) | 인증·요청 모델·UTC·actions·이벤트 충돌 |
+<a id="central--api-실행-결정-전달"></a>
 
-형식이 올바른 JSON도 출처·시각·ID·실행 조건을 통과해야 처리합니다. JSON이 아닌 입력이나 잘못된 메시지는 거절 사유를 기록하며, 정상 메시지로 자동 변환하지 않습니다.
+## 4. Central의 최종 사건을 API에 보낸다
 
-## 버전 관리
+보호자 전달이 허용된 사건은 Outbox에 보관한 뒤 Device Token으로 `POST /api/events/decisions`에 전송합니다.
 
-최상위의 [`decision-event.schema.json`](decision-event.schema.json)은 간략 형식이며 `communication-v1`과 필드·허용값이 다릅니다. 통신 규격을 변경할 때는 사용하는 버전과 배포 사본을 함께 갱신합니다.
+| 항목 | 최종 사건의 값 |
+| --- | --- |
+| `source` | `central-atlas-app` |
+| `decision` | `normal`, `repetitive_behavior`, `wandering_suspected`, `unknown` |
+| `actions` | v1에서 정의한 `notify_guardian`, `control_appliance` |
+| `event_id` | API 저장과 재전송 중복 처리의 기준 |
+| `Idempotency-Key` | 헤더가 있으면 본문의 `event_id`와 일치해야 함 |
 
-1. 생산자·소비자·Topic·인증·버전을 먼저 정합니다.
-2. 정상·unknown·누락 필드·범위 초과·동일 ID 충돌 사례를 함께 확인합니다.
-3. JSON Schema와 C++/Python 검증기의 의미가 일치하는지 테스트합니다.
-4. 배포 사본·환경 설정을 함께 맞추고 이전 메시지와의 호환 여부를 기록합니다.
+API도 같은 ID·같은 내용의 재전송과 같은 ID·다른 내용의 충돌을 구별합니다. 실제 예시는 [central-decision.json](communication-v1/examples/central-decision.json), 변환 코드는 [DecisionEvent.cpp](../Pauseable.edge/central/core/src/DecisionEvent.cpp)에 있습니다.
 
-예를 들어 아래 명령은 **JSON 문법만 확인**합니다. 의미 검증이나 E2E 시험을 대신하지 않습니다. 저장소 루트에서 실행합니다.
+## 5. 그 밖의 입력과 응답
+
+| 용도 | 파일 |
+| --- | --- |
+| mmWave 대상·좌표·시각 | [mmwave-target-event.schema.json](mmwave-target-event.schema.json) |
+| HA 엔티티 상태 | [ha-entity-event.schema.json](ha-entity-event.schema.json) |
+| 보호자 응답 | [guardian-response.schema.json](communication-v1/schemas/guardian-response.schema.json) |
+| 장치 명령·ACK | [device-command.schema.json](communication-v1/schemas/device-command.schema.json), [command-ack.schema.json](communication-v1/schemas/command-ack.schema.json) |
+| 음성 요청·결과 | [voice-request.schema.json](voice-request.schema.json), [voice-result.schema.json](voice-result.schema.json) |
+
+보조 규격의 적용 여부는 해당 모듈의 수신 코드와 배포 설정을 확인합니다. 파일이 있다는 이유만으로 모든 경로가 연결되어 있다고 보지 않습니다.
+
+<a id="검증-구현"></a>
+<a id="버전-관리"></a>
+
+## 6. 규격을 변경하고 확인하는 순서
+
+1. 변경할 생산자·소비자와 사용하는 규격 버전을 정합니다.
+2. Schema와 예시를 바꾼 뒤 정상·unknown·누락·범위 초과 사례를 준비합니다.
+3. [Central 검증기](../Pauseable.edge/central/core/src/BehaviorInference.cpp), [Action Router](../Pauseable.edge/central/core/src/ActionRouter.cpp), [API 수신기](../Pauseable.apps/api/app/main.py)의 해석을 함께 맞춥니다.
+4. 중복·시각 오류·같은 ID의 내용 충돌을 검사합니다.
+5. 장치에 설치한 버전과 설정도 갱신하고 실제 메시지를 대조합니다.
+
+최상위 [decision-event.schema.json](decision-event.schema.json)은 간략 형식이며 `communication-v1`과 다릅니다. 현재 AI·Central·API 연결은 `communication-v1`을 기준으로 확인합니다.
+
+아래 명령은 저장소 루트에서 **JSON 문법만** 확인합니다. 전체 의미 검증은 각 생산자·소비자의 테스트에서 수행합니다.
 
 ```sh
 python -m json.tool Pauseable.contracts/communication-v1/schemas/behavior-inference.schema.json
 ```
 
-규격의 초기 대조 내용은 [`ALIGNMENT_REVIEW.md`](communication-v1/ALIGNMENT_REVIEW.md)에 보관했습니다. 현재 동작은 위 검증 코드와 해당 버전의 테스트를 기준으로 확인합니다.
+[Central 테스트](../Pauseable.edge/central/tests) · [API 테스트](../Pauseable.apps/api/tests) · [초기 규격 대조 기록](communication-v1/ALIGNMENT_REVIEW.md)

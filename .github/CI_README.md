@@ -1,80 +1,79 @@
-# 자동 검사·Android 빌드·결과 확인
+# GitHub Actions 검사와 Android 빌드
 
-HA 보고서 검증, 앱·API, 음성 모델 처리와 음악 출력의 회귀 검사를 GitHub Actions로 실행합니다. Android 시험 APK는 수동 Workflow에서 생성합니다. 실제 서버·장치 설치 절차는 [배포 안내](../Pauseable.deploy/README.md)에 정리했습니다.
+이 폴더의 `workflows/`는 코드를 바꿨을 때 실행할 검사와 빌드 순서를 정의합니다. 이를 **CI**라고 합니다. 관련 경로의 변경을 감지하고, 임시 실행 환경에서 의존성을 설치한 뒤 테스트·분석·빌드를 수행합니다.
 
-**CI는 코드를 바꿀 때 기존 기능이 깨졌는지 자동으로 검사하는 절차**입니다. GitHub Actions의 Workflow는 검사·빌드 순서를 정한 파일입니다. 검사 통과, APK 생성, 실제 휴대폰 알림 수신은 서로 다른 결과로 확인합니다.
+[전체 시스템](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md) · [배포](../Pauseable.deploy/README.md)
 
-[전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md)
+<a id="자동-검사-구성"></a>
 
-[자동 검사 구성](#자동-검사-구성) · [기준 환경](#기준-환경) · [Android 시험 APK](#android-시험-apk) · [실기 검증 구분](#자동-검사와-실기-검증의-차이)
+## 1. 변경한 파트의 Workflow를 확인한다
 
-![HA·App/API·Voice·음악·수동 APK 빌드의 검사 범위와 실행 조건](../Pauseable.docs/assets/readme/ci-map.svg)
-
-## 자동 검사 구성
-
-### Workflow별 책임
-
-| 파일 | 검사·산출물 | 주요 실행 조건 |
+| Workflow | 실행하는 검사·빌드 | 시작 조건 |
 | --- | --- | --- |
-| [`ha-report-checks.yml`](workflows/ha-report-checks.yml) | HA report regression, 일반·`python -O` 검사 | 관련 경로 PR·main push·수동 |
-| [`native-alert-checks.yml`](workflows/native-alert-checks.yml) | API tests·공유 catalog·웹 알림·날씨, Flutter analyze/test/web/APK | 관련 경로 PR·main push·수동 |
-| [`voice-checks.yml`](workflows/voice-checks.yml) | Worker/pipeline tests·Python compile·설정 JSON·모델 updater tests | 관련 경로 push·PR |
-| [`favorite-music-checks.yml`](workflows/favorite-music-checks.yml) | 음악 Player·라우팅 회귀·Shell 문법 | 관련 경로 PR·main push·수동 |
-| [`native-push-apk.yml`](workflows/native-push-apk.yml) | 비공개 팀 시험 APK와 SHA-256 | `workflow_dispatch` 수동 실행 |
+| [ha-report-checks.yml](workflows/ha-report-checks.yml) | HA 보고서 회귀, 일반·`python -O` 검사 | 관련 경로 PR·main push·수동 |
+| [native-alert-checks.yml](workflows/native-alert-checks.yml) | API·공유 목록·서비스워커·날씨, Flutter analyze/test/web/APK | 관련 경로 PR·main push·수동 |
+| [voice-checks.yml](workflows/voice-checks.yml) | Voice Worker·파이프라인·모델 교체 테스트, Python·JSON 검사 | 관련 경로 push·PR |
+| [favorite-music-checks.yml](workflows/favorite-music-checks.yml) | 음악 Player·출력 필터·Shell 문법 | 관련 경로 PR·main push·수동 |
+| [native-push-apk.yml](workflows/native-push-apk.yml) | 비공개 팀 시험 APK·SHA-256 | 수동 `workflow_dispatch` |
 
-경로 조건의 정확한 목록은 각 workflow의 `on` 정의를 확인합니다. README만 바뀐 commit에서는 경로 필터 때문에 일부 또는 전부가 실행되지 않을 수 있습니다.
+정확한 경로 조건은 각 파일의 `on.paths`를 확인합니다. README만 바뀌면 경로 조건에 따라 일부 또는 전체 검사가 실행되지 않을 수 있습니다.
 
-### 실행과 결과 확인
+<a id="기준-환경"></a>
 
-관련 경로 변경은 Workflow의 `on.paths` 조건에 따라 검사를 실행합니다. 각 job은 의존성 설치 → 파트별 검사/빌드 → 결과 기록 순서입니다. 실패한 job의 로그와 대상 commit을 함께 확인합니다. 문서 수정만으로 모든 런타임 검사가 다시 실행되는 것은 아닙니다.
+## 2. Workflow가 검사 환경을 준비한다
 
-HA Workflow는 보고서 회귀 검사이며 HA 전체 Unit 검사·Pi 장기 운영을 대신하지 않습니다. Voice 검사는 실제 GPU 학습을, 음악 검사는 실제 YouTube 재생을 자동 수행하지 않습니다. 현재 Workflow 목록에는 정식 Atlas Central `.ipk` 빌드와 전체 센서 E2E job이 없습니다.
-
-## 기준 환경
-
-| 영역 | 정의된 환경 |
+| 대상 | 정의한 환경 |
 | --- | --- |
-| HA report·API·Favorite Music | Python 3.12 |
-| Voice 검사 | Python 3.11 |
+| HA Report·API·음악 | Python 3.12 |
+| Voice | Python 3.11 |
 | Flutter | Flutter 3.47.6 |
-| Android 빌드 | JDK 17, Android SDK 36, workflow의 실행기 설정 |
+| Android | JDK 17·Android SDK 36 및 각 Workflow 실행기 |
 
-의존성은 각 파트의 `requirements`·`pubspec`과 Workflow에 정의합니다. Python 환경은 AI·API·Voice별로 분리합니다.
+각 job은 저장소 checkout, 도구·의존성 준비, 파트별 검사 순으로 진행합니다. API와 앱이 공유하는 지역 목록·음성 대본도 대조합니다. 실제 Token은 공개 소스 대신 Actions 변수·Secret에서 필요한 작업에만 제공합니다.
 
-## Android 시험 APK
+## 3. 검사 결과를 읽는다
 
-![수동 요청·비공개 설정·검사·Android 빌드·APK와 SHA-256 산출물 순서](../Pauseable.docs/assets/readme/apk-build.svg)
+1. 저장소의 **Actions**에서 대상 commit의 실행을 선택합니다.
+2. 실패한 job과 step을 열고 오류와 실행 명령을 확인합니다.
+3. 코드·계약·설정 중 무엇이 바뀌었는지 대조합니다.
+4. 수정한 뒤 같은 범위의 검사를 다시 실행합니다.
 
-Actions의 **Build Android push test APK → Run workflow**에서 실행합니다. 빌드 후 APK와 SHA-256을 산출물로 제공하며, 휴대폰에 설치해 알림 권한과 수신 상태를 시험합니다.
+검사 성공, APK 생성과 실제 장치 동작은 서로 다른 결과입니다. 현재 Workflow에는 정식 Atlas Central `.ipk` 빌드와 전체 센서 E2E job이 없습니다.
 
-<details>
-<summary><strong>APK 빌드에 필요한 설정</strong></summary>
+<a id="android-시험-apk"></a>
 
-| 설정 | 용도 |
+## 4. Android 시험 APK를 수동으로 만든다
+
+1. **Actions → Build Android push test APK → Run workflow**를 선택합니다.
+2. 빌드할 버전을 고릅니다.
+3. Workflow가 Flutter 분석·테스트 후 비공개 Android 설정을 준비합니다.
+4. release APK와 SHA-256을 생성해 artifact로 올립니다.
+5. 휴대폰에 설치한 뒤 실제 알림 수신을 시험합니다.
+
+| Actions 설정 | 용도 |
 | --- | --- |
-| Actions Variable `PAUSEABLE_FIREBASE_ANDROID_CONFIG_JSON` | Android 앱의 Firebase 클라이언트 설정 |
-| Actions Secret `PAUSEABLE_APP_TOKEN` | 비공개 팀 시험 앱의 API 인증 |
+| Variable `PAUSEABLE_FIREBASE_ANDROID_CONFIG_JSON` | Android 앱 Firebase 클라이언트 설정 |
+| Secret `PAUSEABLE_APP_TOKEN` | 팀 시험 앱 API 인증 |
 
-서버용 Firebase 서비스 계정 JSON·Device Token·Worker Token·R2 키는 APK 빌드에 넣지 않습니다. 서비스 계정과 `google-services.json`은 서로 다른 파일입니다.
+이 Workflow는 `RACOS-Team/Pauseable`의 비공개 저장소에서 실행하도록 제한하며 artifact 보관 기간은 3일입니다. Firebase 서버용 서비스 계정과 Device/Worker Token·R2 키를 APK에 넣지 않습니다. 시험 서명과 공유 App Token은 공개 배포의 서명·로그인 관리와 구분합니다.
 
-</details>
+[Android Push 설정](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md) · [실기 알림 확인](../Pauseable.apps/guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)
 
-수동 APK workflow는 비공개 `RACOS-Team/Pauseable`에서 실행되도록 제한되어 있고 artifact 보관 기간은 3일입니다. 현재 공유 App Token·시험용 서명 빌드는 공개 배포용 인증·릴리스 체계를 대신하지 않습니다. 상세 준비와 실제 휴대폰 수신 확인은 [Android Push 안내](../Pauseable.apps/guardian/docs/ANDROID_PUSH_SETUP_KO.md)를 따릅니다.
+<a id="자동-검사와-실기-검증의-차이"></a>
 
-## 자동 검사와 실기 검증의 차이
+## 5. 실제 장치에서 남은 연결을 확인한다
 
-| CI에서 확인하는 것 | 별도 확인할 것 |
+| 자동 검사에서 다루는 범위 | 별도 실기 시험 |
 | --- | --- |
-| 모의 API·플레이어와 회귀 테스트 | 실제 Render·YouTube·Pi 화면·스피커 |
-| Flutter 분석·테스트·빌드 | 설치한 휴대폰의 알림 권한·FCM 수신·잠금 화면 |
-| report 데이터·검증 로직 | 실제 가구 데이터·장기 운영·탐지 성능 |
-| Worker·모델 교체 코드 | GPU 학습·R2 게시·Pi 설치·로컬 합성 |
+| 모의 API·임시 저장소·Player 응답 | 실제 Render·Pi 화면·스피커·YouTube 재생 |
+| Flutter 분석·테스트·빌드 | 설치한 휴대폰의 권한·잠금·절전·Push 수신 |
+| HA 보고서 데이터·검증 로직 | 실제 가구 데이터·장기 운영·탐지 성능 |
+| Worker·모델 교체 코드 | GPU 학습·R2 게시·Pi 설치·합성 |
 
-검사 결과는 대상 commit의 Actions 실행 기록으로 확인합니다. 현재 CI는 모의 입력과 파트별 검사를 수행하며, 센서부터 가전·휴대폰 출력까지의 실기 E2E는 별도 시험으로 관리합니다.
+HA Workflow는 HA 전체 Unit 검사나 Pi 장기 운영을 대신하지 않습니다. Voice 검사는 실제 GPU 학습, 음악 검사는 실제 YouTube 재생을 수행하지 않습니다.
 
-## 검사 유지 기준
+<a id="검사-유지-기준"></a>
 
-1. 수정하는 파트의 테스트와 경로 필터를 확인합니다.
-2. 공유 계약 변경이면 producer·consumer 회귀 검사도 확인합니다.
-3. 테스트·인증·권한 조건의 변경은 기능 변경과 함께 검토합니다.
-4. 실제 장치 동작이나 Push 발송을 CI에 추가할 때는 모의 시험과 명확히 분리합니다.
+## 6. 검사를 바꿀 때 함께 확인한다
+
+공유 계약을 바꾸면 보내는 프로그램과 받는 프로그램의 회귀 검사도 함께 수정합니다. 새 테스트가 경로 필터에 포함되는지 확인하고, 실장비·Push 발송처럼 외부 상태를 바꾸는 시험은 모의 검사와 분리합니다.
