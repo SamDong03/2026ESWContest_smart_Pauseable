@@ -64,7 +64,7 @@ Pauseable.contracts/
 | `inference_status` | 정상 추론·관측 부족·센서 오류·모델 오류 구분 |
 | `evidence` | 관측 개수·구간·패턴 등 선택적 근거 |
 
-관측 부족·오류는 행동과 위험도를 `unknown`, 점수를 `null`로 전달합니다. 이 점수를 질병 확률이나 탐지 정확도로 해석하지 않습니다. [반복행동 예시](communication-v1/examples/repetitive-inference.json)
+관측 부족·오류는 행동과 위험도를 `unknown`, 점수를 `null`로 전달합니다. [반복행동 예시](communication-v1/examples/repetitive-inference.json)
 
 <a id="수신-메시지-검증"></a>
 
