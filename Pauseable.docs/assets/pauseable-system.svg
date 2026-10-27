@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="530" viewBox="0 0 1140 530" role="img" aria-labelledby="title desc">
+  <title id="title">PAUSEABLE system architecture</title>
+  <desc id="desc">Home Assistant and mmWave feed separate AI pipelines. Pi 5 Central validates their MQTT decisions and routes voice, device and guardian outputs. Camera and personalized voice training are supporting paths.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#71817b"/></marker>
+  </defs>
+  <rect width="1140" height="530" rx="8" fill="#f5f8f6"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g fill="#668074" font-size="12" font-weight="700">
+      <text x="28" y="34">01 / SENSE</text><text x="274" y="34">02 / UNDERSTAND</text><text x="526" y="34">03 / ROUTE</text><text x="806" y="34">04 / GUIDE &amp; CONNECT</text>
+    </g>
+    <g fill="#ffffff" stroke="#d3dfd8">
+      <rect x="24" y="72" width="206" height="88" rx="6"/><rect x="24" y="224" width="206" height="88" rx="6"/>
+      <rect x="270" y="72" width="196" height="88" rx="6"/><rect x="270" y="224" width="196" height="88" rx="6"/>
+      <rect x="800" y="62" width="314" height="80" rx="6"/><rect x="800" y="184" width="314" height="80" rx="6"/><rect x="800" y="306" width="314" height="60" rx="6"/>
+    </g>
+    <rect x="520" y="136" width="220" height="124" rx="6" fill="#244f3d"/>
+    <g fill="none" stroke="#71817b" stroke-width="1.6" marker-end="url(#arrow)">
+      <path d="M230 116H270"/><path d="M230 268H270"/>
+      <path d="M466 116H490V166H520"/><path d="M466 268H490V230H520"/>
+      <path d="M740 174H768V102H800"/><path d="M740 224H800"/><path d="M957 264V306"/>
+    </g>
+    <g fill="#22362c" font-size="19" font-weight="700">
+      <text x="42" y="108">Home Assistant</text><text x="42" y="260">ESP32 / mmWave</text>
+      <text x="288" y="108">Repetitive AI</text><text x="288" y="260">Wandering AI</text>
+      <text x="820" y="94">Voice &amp; Device Output</text><text x="820" y="216">FastAPI / Render</text><text x="820" y="343">Flutter Guardian App</text>
+    </g>
+    <g fill="#65756d" font-size="14">
+      <text x="42" y="134">Appliance state events</text><text x="42" y="286">Pi 3 sensor relay</text>
+      <text x="288" y="134">Baseline + IF + AE</text><text x="288" y="286">Trajectory / personal history</text>
+      <text x="820" y="120">Piper TTS / HA / favorite music</text><text x="820" y="242">History / WebSocket / Push</text>
+      <text x="485" y="340" text-anchor="middle">MQTT / JSON</text>
+    </g>
+    <g fill="#ffffff" text-anchor="middle">
+      <text x="630" y="174" font-size="21" font-weight="700">Pi 5 / Central</text><text x="630" y="202" font-size="14">Contract / time / duplicate</text><text x="630" y="226" font-size="14">Action Router / Outbox</text>
+    </g>
+    <path d="M24 391H1114" stroke="#d3dfd8"/>
+    <g font-size="14">
+      <text x="28" y="425" fill="#244f3d" font-weight="700">CAMERA</text><text x="176" y="425" fill="#52645b">Pi 4 camera → API → guardian door-event photos</text>
+      <text x="28" y="464" fill="#244f3d" font-weight="700">VOICE MODEL</text><text x="176" y="464" fill="#52645b">Guardian recording → API / R2 → GPU Worker → ONNX → Pi 5 model updater</text>
+      <text x="28" y="503" fill="#7c8881" font-size="12">Software architecture. Deployment and physical end-to-end verification are separate steps.</text>
+    </g>
+  </g>
+</svg>
