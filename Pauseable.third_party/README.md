@@ -1,97 +1,151 @@
-# Pauseable.third_party
+# 📦 Pauseable.third_party
 
-**Pauseable이 사용하는 외부 소스와 원본 라이선스·저작권 고지를 보관합니다.**
+<a id="pauseablethird_party"></a>
+
+**Central의 JSON 처리와 개인화 음성 학습·합성에 사용하는 외부 소스, 버전과 라이선스를 관리합니다.**
 
 [프로젝트](../README.md) · [AI 음성 학습](../Pauseable.ai/README.md#voice-학습과-운영-상세) · [Central](../Pauseable.edge/README.md)
 
-## 포함한 외부 소스
+[외부 소스](#포함한-외부-소스) · [폴더 구조](#폴더-구조) · [프로젝트 연결](#pauseable과-연결되는-위치) · [변경 기록](#원본과-변경-기록)
 
-| 구성 | 프로젝트에서 쓰는 곳 | 기록된 버전·조건 |
+<a id="포함한-외부-소스"></a>
+
+## 🧩 포함한 외부 소스
+
+| 구성 | 저장된 버전 | Pauseable에서 사용하는 기능 |
 | --- | --- | --- |
-| `nlohmann/json.hpp` | C++ Central의 JSON 처리 | 동봉한 [MIT 라이선스](nlohmann/LICENSE.MIT) |
-| `piper1-gpl` | 보호자 음성 학습·Export·TTS | Piper v1.5.0, 패키지 표기 `GPL-3.0-or-later` |
-| `NOTICE.txt` | 원본 헤더에서 보존한 고지 | 포함된 저작권·외부 코드 출처 |
+| `nlohmann/json.hpp` | 3.11.3 | C++의 JSON 파싱, 필드 검사와 사건·상태 직렬화 |
+| `piper1-gpl/` | Piper 1.5.0 기반 | 보호자 음성 학습, ONNX Export와 로컬 TTS |
+| `NOTICE.txt` | 외부 코드 고지 모음 | 저작권·출처 기록 |
 
-프로젝트의 학습·Job 연동 코드는 [Pauseable.ai/voice](../Pauseable.ai/voice)에 있고, 이 폴더는 그 기반 외부 라이브러리입니다. 장치에 설치할 Piper 실행 파일이나 개인화 ONNX 모델을 함께 보관하는 폴더는 아닙니다.
+음성 학습의 데이터 준비·Job 관리·모델 게시 코드는 [Pauseable.ai/voice](../Pauseable.ai/voice)에 있으며, 해당 파이프라인이 이 폴더의 Piper 소스를 빌드하고 실행합니다.
 
-## 폴더 구조
+<a id="폴더-구조"></a>
+
+## 🗂️ 폴더 구조
+
+전체 하위 폴더와 핵심 라이브러리·빌드·라이선스 파일을 표시했습니다.
 
 ```text
 Pauseable.third_party/
-├── nlohmann/ — C++ JSON 단일 헤더와 MIT 라이선스
-└── piper1-gpl/ — Piper 1.5.0 원본 기반 TTS·학습 소스
-    ├── .github/ — 관련 구성: build-libpiper.yml, publish.yml
-    │   └── workflows/ — 원본 자동 검사·배포 작업
-    ├── docker/ — 컨테이너 실행·빌드 구성
-    ├── docs/ — Piper CLI·API·빌드·학습 원본 문서
-    ├── etc/ — Piper 원본 로고 리소스
-    ├── libpiper/ — Piper C/C++ 합성 라이브러리
-    │   ├── include/ — 공개 헤더와 연결 인터페이스
-    │   ├── src/ — 구현 소스
-    │   │   └── main/ — 기본 빌드 구현
-    │   │       └── utils/ — CLI·테스트 공통 도구
-    │   └── tests/ — 단위·회귀 검사
-    │       └── utils/ — CLI·테스트 공통 도구
-    ├── script/ — 원본 개발·학습·Export·패키징 도구
-    ├── src/ — 구현 소스
-    │   └── piper/ — Python TTS·음소화·다운로드·학습
-    │       ├── img/ — 원본 패키지 이미지
-    │       ├── tashkeel/ — 아랍어 발음 보조 자료와 원본 고지
-    │       ├── templates/ — Piper HTTP UI 템플릿
-    │       └── train/ — 학습·추론·ONNX Export
-    │           └── vits/ — VITS 모델·Dataset·학습 구성
-    │               └── monotonic_align/ — Cython 정렬 연산
-    └── tests/ — 단위·회귀 검사
+├── nlohmann/                              # C++ JSON 라이브러리
+│   ├── json.hpp                           # nlohmann/json 3.11.3 단일 헤더
+│   └── LICENSE.MIT                        # MIT 라이선스
+├── piper1-gpl/                            # Piper 1.5.0 음성 합성·학습 소스
+│   ├── .github/
+│   │   └── workflows/
+│   ├── docker/
+│   ├── docs/                              # Piper CLI·API·빌드·학습 안내
+│   ├── etc/
+│   ├── libpiper/                          # C/C++ 음성 합성 라이브러리
+│   │   ├── include/
+│   │   ├── src/
+│   │   │   └── main/
+│   │   │       └── utils/
+│   │   └── tests/
+│   │       └── utils/
+│   ├── script/
+│   ├── src/
+│   │   └── piper/                         # Python 합성·음소 변환·모델 로드
+│   │       ├── img/
+│   │       ├── tashkeel/                  # 아랍어 발음 보조 자료와 고지
+│   │       ├── templates/
+│   │       ├── train/                     # PyTorch 학습·추론·ONNX Export
+│   │       │   └── vits/                  # VITS 모델·Dataset·학습 구성
+│   │       │       └── monotonic_align/   # Cython 기반 텍스트·음성 정렬
+│   │       └── voice.py                   # ONNX 모델 로드와 음성 합성
+│   ├── tests/
+│   ├── CMakeLists.txt                     # eSpeak 연동 확장 빌드
+│   ├── COPYING                            # Piper 원본 라이선스
+│   └── setup.py                           # 패키지 버전·의존성·CLI 등록
+└── NOTICE.txt                             # 외부 코드의 저작권·출처 고지
 ```
 
-### nlohmann
+<a id="nlohmann"></a>
 
-`nlohmann/`에는 C++ 단일 JSON 헤더와 라이선스가 있습니다. Central의 CMake include 경로가 이 사본을 참조합니다. Piper 내부의 `libpiper/include/json.hpp`는 upstream 구성에 포함된 별도 사본이므로 위치가 다릅니다.
+### ① nlohmann/json
 
-### Piper 하위 폴더
+[json.hpp](nlohmann/json.hpp)는 JSON 자료형과 파싱·직렬화를 제공하는 단일 C++ 헤더입니다. Central은 `nlohmann::json`으로 MQTT 입력, 추론 결과, 최종 사건과 로컬 상태 파일을 처리합니다.
 
-| 경로 | 내용 |
+| 사용 코드 | JSON 처리 |
 | --- | --- |
-| `piper1-gpl/src/piper` | Python 음성 합성·음소화·다운로드·실행 코드 |
-| `src/piper/train` | 학습 실행·PyTorch 추론·ONNX Export |
-| `src/piper/train/vits` | VITS 모델·학습 구성·Dataset |
-| `src/piper/train/vits/monotonic_align` | Cython 정렬 연산 |
-| `src/piper/tashkeel` | 아랍어 발음 보조 코드·자료·고지 |
-| `src/piper/templates`, `img` | HTTP 템플릿과 원본 패키지 리소스 |
-| `libpiper/include`, `libpiper/src` | C/C++ 라이브러리·CLI·공통 유틸리티 |
-| `libpiper/tests`, `tests` | C++·Python 원본 검사 |
-| `script` | 개발·검사·Export·음성 다운로드·패키징 도구 |
-| `docker` | 원본 컨테이너 진입 설정 |
-| `docs` | CLI·Python/HTTP API·빌드·학습 안내 |
-| `.github/workflows` | 원본 프로젝트의 CI 구성 |
-| `etc` | 원본 로고와 리소스 |
+| [BehaviorInference.cpp](../Pauseable.edge/central/core/src/BehaviorInference.cpp) | 수신 추론의 필드·자료형·허용값 검사 |
+| [ActionRouter.cpp](../Pauseable.edge/central/core/src/ActionRouter.cpp) | 출처별 활성 상태·위험도·마지막 알림 시각 저장·복원 |
+| [DecisionEvent.cpp](../Pauseable.edge/central/core/src/DecisionEvent.cpp) | 보호자에게 전달할 사건 구성 |
+| [DecisionOutbox.cpp](../Pauseable.edge/central/integration/src/DecisionOutbox.cpp) | 전송 대기 JSON과 재시도 정보 저장 |
 
-## Pauseable과 연결되는 위치
+[Central CMake](../Pauseable.edge/central/CMakeLists.txt)는 `Pauseable.third_party`를 include 경로에 추가해 이 헤더를 사용합니다. Piper의 C/C++ 라이브러리는 자체 `libpiper/include/json.hpp` 사본을 사용합니다.
+
+<a id="piper-하위-폴더"></a>
+
+### ② Piper 모듈 구성
+
+| 경로 | 주요 구현 |
+| --- | --- |
+| `piper1-gpl/src/piper/voice.py` | ONNX 세션 생성, 모델 설정 로드, 음성 합성 |
+| `src/piper/__main__.py` | `piper` CLI의 입력·출력 옵션과 합성 실행 |
+| `src/piper/phonemize_espeak.py` | eSpeak 기반 텍스트 음소 변환 |
+| `src/piper/phoneme_ids.py` | 음소를 모델 입력 ID로 변환 |
+| `src/piper/audio_playback.py` | 합성 오디오 재생 |
+| `src/piper/download_voices.py` | 음성 모델 다운로드 도구 |
+| `src/piper/http_server.py`, `templates/` | HTTP 합성과 웹 UI |
+| `src/piper/train/` | 학습 CLI, PyTorch 추론, ONNX Export |
+| `src/piper/train/vits/` | VITS 네트워크, 손실 함수, Dataset·학습 설정 |
+| `src/piper/train/vits/monotonic_align/` | 텍스트·음성 정렬용 Cython 연산 |
+| `libpiper/` | C/C++ 합성 API와 실행 도구 |
+| `script/`, `docker/` | 개발·검사·다운로드·패키징과 컨테이너 실행 도구 |
+| `docs/` | CLI·Python/HTTP API·빌드·학습 문서 |
+
+<a id="pauseable과-연결되는-위치"></a>
+
+## 🔗 Pauseable과 연결되는 위치
 
 ```text
-앱 녹음 → Pauseable.ai/voice 전처리·Job 관리
-→ piper1-gpl 학습·ONNX Export → API/R2 게시
-→ Pauseable.edge/voice-model 검증 → 장치 Piper로 TTS
+앱 녹음 → AI 음성 전처리·Job 관리 → Piper 학습 → ONNX·설정 Export
+→ API/R2 게시 → Pi 모델 검증·활성화 → Piper 합성 → 현장 음성 안내
 
-Central JSON 입력·출력 → nlohmann/json.hpp
+Central의 MQTT·상태·사건 JSON ↔ nlohmann/json.hpp
 ```
 
-GPU 학습 환경은 [Dockerfile.train](../Pauseable.ai/voice/docker/Dockerfile.train), 작업 실행은 [train_voice_model.sh](../Pauseable.ai/voice/train_voice_model.sh)를 기준으로 준비합니다. 장치 실행은 SDK·운영체제·CPU에 맞는 Piper 바이너리와 모델 파일이 별도로 필요합니다.
+### ① GPU 음성 학습
 
-## 원본과 변경 기록
+[Dockerfile.train](../Pauseable.ai/voice/docker/Dockerfile.train)은 이 폴더의 Piper 소스를 `/opt/piper`에 복사하고 `.[train]` 구성으로 설치합니다. 이어 `build_monotonic_align.sh`와 `setup.py build_ext --inplace`를 실행해 정렬 연산과 확장 모듈을 빌드합니다.
 
-| 기록 | 위치 |
+[train_voice_model.sh](../Pauseable.ai/voice/train_voice_model.sh)와 [음성 파이프라인](../Pauseable.ai/voice/pipeline)이 전처리된 WAV·대본을 학습에 전달하고, 생성한 checkpoint에서 ONNX와 모델 설정을 내보냅니다. 모델 게시에는 API와 R2 연결을 사용합니다.
+
+### ② Pi 음성 합성
+
+[voice-model](../Pauseable.edge/voice-model/voice_model_updater.py)이 게시된 ONNX·설정을 검증하고 장치 모델 경로에 적용합니다. [PiperTtsEngine.cpp](../Pauseable.edge/central/integration/src/PiperTtsEngine.cpp)는 장치의 Piper 실행 파일과 활성 모델을 이용해 안내 문장을 WAV로 합성합니다.
+
+Pi의 런타임 구성은 `bin/piper`, `lib`, `share/espeak-ng-data`와 `models` 경로를 기준으로 준비합니다. 학습 환경은 Python·PyTorch, 장치 합성은 ONNX 모델과 해당 장치용 Piper 런타임을 사용합니다.
+
+<a id="원본과-변경-기록"></a>
+
+## 🧾 원본과 변경 기록
+
+### ① 버전과 출처
+
+| 기록 | 위치·값 |
 | --- | --- |
-| 원본 태그 | [piper1-gpl-tag.txt](../Pauseable.ai/voice/provenance/piper1-gpl-tag.txt): `v1.5.0` |
-| 원본 커밋 | [piper1-gpl-commit.txt](../Pauseable.ai/voice/provenance/piper1-gpl-commit.txt): `e2a4b1fa1c502bbb97e729a5b34a6af565007843` |
-| 프로젝트 수정 | [piper1-gpl-v1.5.0-local.patch](../Pauseable.ai/voice/provenance/piper1-gpl-v1.5.0-local.patch) |
-| Piper 라이선스 | [COPYING](piper1-gpl/COPYING), [setup.py](piper1-gpl/setup.py) |
-| 헤더별 고지 | [NOTICE.txt](NOTICE.txt) |
+| nlohmann 버전 | [json.hpp](nlohmann/json.hpp)의 `NLOHMANN_JSON_VERSION_*`: `3.11.3` |
+| Piper 원본 태그 | [piper1-gpl-tag.txt](../Pauseable.ai/voice/provenance/piper1-gpl-tag.txt): `v1.5.0` |
+| Piper 원본 커밋 | [piper1-gpl-commit.txt](../Pauseable.ai/voice/provenance/piper1-gpl-commit.txt): `e2a4b1fa1c502bbb97e729a5b34a6af565007843` |
+| 프로젝트 적용 패치 | [piper1-gpl-v1.5.0-local.patch](../Pauseable.ai/voice/provenance/piper1-gpl-v1.5.0-local.patch) |
+| 패키지 정의 | [setup.py](piper1-gpl/setup.py): `piper-tts`, 버전 `1.5.0` |
 
-원본 태그·패키지 버전과 프로젝트 수정 기록을 함께 확인합니다. 라이브러리 소스를 바꿀 때는 사용 중인 학습·합성 경로와 기존 모델의 호환성도 검사합니다.
+### ② 적용한 학습·Export 변경
 
-## 라이선스와 자료 구분
+저장된 패치는 학습 checkpoint를 `val_mel`과 마지막 상태 중심으로 보관하도록 콜백 구성을 조정하고, ONNX Export 호출에 `dynamo=False`를 지정합니다. 원본 태그·커밋과 패치를 함께 기록해 현재 학습 환경의 소스 구성을 재현합니다.
 
-원본 라이선스·저작권 고지는 함께 보존합니다. 외부 코드·학습 자료·음성 모델은 각각의 이용 조건을 확인합니다. 소스를 공개했다고 모든 외부 데이터나 개인 모델에 동일한 이용 조건이 적용되는 것은 아닙니다.
+<a id="라이선스와-자료-구분"></a>
 
-AI README의 기존 SVG에 사용한 문서용 아이콘 고지는 [SimpleIcons.LICENSE.txt](../Pauseable.ai/assets/SimpleIcons.LICENSE.txt)에 있습니다. 개인 녹음·학습 checkpoint·ONNX와 실제 인증값은 이 외부 소스 폴더에 넣지 않습니다.
+## 📄 라이선스와 고지
+
+| 구성 | 라이선스·고지 파일 |
+| --- | --- |
+| nlohmann/json | [LICENSE.MIT](nlohmann/LICENSE.MIT) |
+| Piper | [COPYING](piper1-gpl/COPYING), [setup.py](piper1-gpl/setup.py)의 `GPL-3.0-or-later` 표기 |
+| 기타 외부 코드 | [NOTICE.txt](NOTICE.txt)와 각 원본 소스의 고지 |
+| AI 문서용 SVG 아이콘 | [SimpleIcons.LICENSE.txt](../Pauseable.ai/assets/SimpleIcons.LICENSE.txt) |
+
+라이브러리의 원본 라이선스·저작권·출처 파일을 소스와 함께 보존합니다. Piper의 언어별 보조 자료는 해당 하위 폴더의 출처·라이선스 파일에서 확인할 수 있습니다.
