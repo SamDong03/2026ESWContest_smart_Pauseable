@@ -1,8 +1,10 @@
-# Memolink / Apps
+# Memolink 보호자 앱과 API
 
 Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행동 판단 알림과 출입 사진을 보여주고, 보호자 음성·호칭·거주지역·선호 음악을 등록합니다. API는 장치와 앱의 인증, 사건 이력 저장, 실시간 알림과 음성 학습 작업을 처리합니다.
 
 [전체 프로젝트](../README.md) · [통신 계약](../Pauseable.contracts/README.md) · [장치 실행](../Pauseable.edge/README.md)
+
+[API 서버](api/README.md) · [보호자 앱 상세](guardian/README.md) · [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)
 
 ![Pi·API·Guardian·GPU Worker 및 비공개 모델 저장소의 연결](../Pauseable.docs/assets/readme/apps-connections.svg)
 
@@ -10,8 +12,8 @@ Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행
 
 | 폴더 | 역할 | 주요 기술 |
 | --- | --- | --- |
-| [`api`](api) | 인증·알림 이력·출입 사진·설정·음성 학습/모델 API | Python, FastAPI, R2, Firebase |
-| [`guardian`](guardian) | 알림·사진 확인, 녹음·지역·선호 음악 설정 | Flutter, Dart, WebSocket, FCM |
+| [API 서버](api/README.md) | 인증·알림 이력·출입 사진·설정·음성 학습/모델 API | Python, FastAPI, R2, Firebase |
+| [보호자 앱](guardian/README.md) | 알림·사진 확인, 녹음·지역·선호 음악 설정 | Flutter, Dart, WebSocket, FCM |
 
 ## 알림 한 건이 전달되는 과정
 
@@ -29,6 +31,8 @@ Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행
 
 시작점은 [`api/app/main.py`](api/app/main.py), 인증 구분은 [`api/app/security.py`](api/app/security.py)입니다.
 
+[로컬 API 실행](#api-로컬-실행) · [Flutter 웹 실행](#flutter-로컬-실행) · [Android Push 확인](#android-push-확인)
+
 | 기능 | 담당 처리 |
 | --- | --- |
 | 결정 수신 | `POST /api/events/decisions`, 계약·UTC·event ID 확인 |
@@ -39,6 +43,8 @@ Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행
 | 음성 | 동의·녹음·학습 Job·Worker 임대·모델 게시와 설치 확인 |
 
 같은 `event_id`의 재전송은 중복으로 처리하며, 같은 ID에 다른 내용이 들어오면 충돌로 구분합니다. API와 Push 서비스의 접수 응답 이후 실제 휴대폰 표시까지 확인하는 절차는 [실기 알림 점검](guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)에 정리했습니다.
+
+### API 로컬 실행
 
 <details>
 <summary><strong>API 개발 환경과 실행 명령</strong></summary>
@@ -102,6 +108,8 @@ API 문서는 `http://127.0.0.1:8000/docs`에서 확인합니다. 위 설정은 
 | 상황·알림·출입 사진 확인 | API 이력·인증된 사진·WebSocket·FCM |
 | 지역·선호 음악 설정 | API 저장 → 조명 모듈·Pi 음악 Player 조회 |
 | 녹음·학습 동의·모델 상태 확인 | API/R2 → GPU Worker → Pi Model Updater |
+
+### Flutter 로컬 실행
 
 <details>
 <summary><strong>Flutter 개발 환경과 로컬 웹 실행</strong></summary>

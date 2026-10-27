@@ -1,8 +1,10 @@
-# Memolink / 설계·검증 자료
+# Memolink 설계·검증 자료
 
 시스템 설계, AI 평가, 보고서와 장치 운영 자료를 모았습니다. 구현 설명은 영역별 README에서, 실험의 입력·조건·결과는 아래 평가 파일에서 확인할 수 있습니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md) · [Deploy](../Pauseable.deploy/README.md)
+
+[개발환경](DEVELOPMENT_ENVIRONMENT_KO.md) · [기능별 코드 위치](SOURCE_MAP_KO.md) · [평가 자료](#평가-자료-읽기) · [보고서](#보고서와-시각-자료) · [운영 기록](#실기-시험과-운영-기록)
 
 ![구현 코드·자동 검사·저장된 평가·실제 장치 시험의 검증 범위](assets/readme/evidence-map.svg)
 
@@ -11,8 +13,10 @@
 | 내용 | 자료 |
 | --- | --- |
 | 시스템 목적·아키텍처·소스 구성 | [프로젝트 README](../README.md) |
+| 장치·Runtime·의존성·빌드 도구 | [개발환경](DEVELOPMENT_ENVIRONMENT_KO.md) |
+| Subscribe·Action Router 등 기능별 구현 파일 | [기능별 코드 위치](SOURCE_MAP_KO.md) |
 | 가전 이벤트 수집·특징·학습 | [AI 구성](../Pauseable.ai/README.md), [실시간 수집](ha/ha_realtime_collection_guide.md) |
-| Baseline·IF·AE 및 개인화 | [이상 탐지 운용](ha/ha_anomaly_shadow_guide.md), [Baseline 검증 절차](ha/ha_baseline_validation_protocol.md) |
+| Baseline·IF·AE 및 개인화 | [현재 HA 모듈 운용](../Pauseable.ai/ha/README.md#baseline과-개인화-모델), [Baseline 검증 절차](ha/ha_baseline_validation_protocol.md) |
 | 데이터 확보와 문헌 기반 시나리오 | [공개 데이터 검토](ha/public_power_data_guide.md), [문헌 조사](ha/EVIDENCE_RESEARCH_20261005_KO.md) |
 | mmWave 판단 상태와 경로 평가 | [Runtime](mmwave/RUNTIME.md), [형태 모델 실험 설계](../Pauseable.ai/mmwave/src/shape_v2/PROTOCOL.md) |
 | MQTT·JSON·Central 실행 정책 | [통신 규격](../Pauseable.contracts/README.md), [장치 실행](../Pauseable.edge/README.md) |
@@ -79,6 +83,8 @@ python Pauseable.docs/assets/readme/plot_evaluation.py
 <summary><strong>날짜별 운영·인수인계 기록</strong></summary>
 
 [`PI_FULL_AUTOMATION_KO.md`](ha/PI_FULL_AUTOMATION_KO.md)와 [`TEAM_HANDOFF_KO.md`](ha/TEAM_HANDOFF_KO.md)는 당시 장치 구성과 확인 결과를 보관한 자료입니다. 예전 IP, 서비스 이름과 미구현 설명은 작성 시점의 상태이며 현재 배포 상태와 다를 수 있습니다.
+
+[`ha_anomaly_shadow_guide.md`](ha/ha_anomaly_shadow_guide.md)는 2026-09-08의 Shadow 초기 안내입니다. 현재 Lifecycle의 자동 학습·Hybrid와 주기 재학습 설정은 [HA 모듈 안내](../Pauseable.ai/ha/README.md)를 기준으로 확인합니다.
 
 </details>
 

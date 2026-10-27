@@ -1,8 +1,10 @@
-# Memolink / CI
+# Memolink 자동 검사와 앱 빌드
 
 HA 보고서 검증, 앱·API, 음성 모델 처리와 음악 출력의 회귀 검사를 GitHub Actions로 실행합니다. Android 시험 APK는 수동 Workflow에서 생성합니다. 실제 서버·장치 설치 절차는 [배포 안내](../Pauseable.deploy/README.md)에 정리했습니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md)
+
+[자동 검사 구성](#자동-검사-구성) · [기준 환경](#기준-환경) · [Android 시험 APK](#android-시험-apk) · [실기 검증 구분](#자동-검사와-실기-검증의-차이)
 
 ![HA·App/API·Voice·음악·수동 APK 빌드의 검사 범위와 실행 조건](../Pauseable.docs/assets/readme/ci-map.svg)
 

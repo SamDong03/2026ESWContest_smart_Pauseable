@@ -1,8 +1,10 @@
-# Memolink / Integrations
+# Memolink Home Assistant 환경 연동
 
 보호자 앱의 거주지역 설정, 기상청 날씨와 HA의 태양 고도를 조명 제어에 사용하는 모듈입니다. 조회한 환경 정보에 밝기·색온도 규칙을 적용해 HA 조명 엔티티에 전달합니다. 반복행동·배회 판단과는 별도로 동작합니다.
 
 [전체 프로젝트](../README.md) · [API·앱](../Pauseable.apps/README.md) · [배포 안내](../Pauseable.deploy/README.md)
+
+[처리 과정](#처리-과정) · [준비할 설정](#준비할-설정) · [로컬 검사](#로컬-검사와-조회-시험) · [장치 적용](#장치-적용과-확인)
 
 ![Guardian 지역 설정에서 기상청·HA sun 정보와 조명 제어로 이어지는 연결](../Pauseable.docs/assets/readme/weather-light.svg)
 

@@ -10,6 +10,8 @@ Home Assistant · mmWave · Raspberry Pi · Personalized Voice
 
 **개발팀 PAUSEABLE**
 
+[시스템 구조](#시스템-아키텍처) · [개발환경](Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) · [기능별 코드](Pauseable.docs/SOURCE_MAP_KO.md) · [실행 안내](#실행과-검토) · [검증 자료](Pauseable.docs/README.md#평가-자료-읽기)
+
 </div>
 
 ---
@@ -31,11 +33,11 @@ Memolink는 PAUSEABLE 팀이 개발한 **생활 안전 보조 시스템**입니�
 
 | 주요 기능 | 처리 방식 |
 | --- | --- |
-| 가전 반복행동 분석 | 상태 변경 이력 → 시간 구간별 특징 → Baseline + Isolation Forest + Autoencoder |
-| 배회 의심 상황 분석 | mmWave 이동 경로 → 반복 형태·지속성·개인 이력 비교 |
+| 가전 반복행동 분석 | 상태 변경 이력 → 시간 구간별 특징 → Baseline + Isolation Forest + Autoencoder. [HA 구현](Pauseable.ai/ha/README.md) |
+| 배회 의심 상황 분석 | mmWave 이동 경로 → 반복 형태·지속성·개인 이력 비교. [mmWave 구현](Pauseable.ai/mmwave/README.md) |
 | 상황별 안내와 출력 | Central 승인 → Piper TTS·설정된 가전 동작·선호 음악 재생 요청 |
 | 보호자 연결 | API → 알림 이력·WebSocket·FCM/Web Push, 출입 사진 확인 |
-| 개인화 음성 | 보호자 동의·녹음 → GPU 학습 → ONNX 검증 → Pi 음성 모델 교체 |
+| 개인화 음성 | 보호자 동의·녹음 → GPU 학습 → ONNX 검증 → Pi 음성 모델 교체. [Voice 구현](Pauseable.ai/voice/README.md) |
 
 ## 시스템 아키텍처
 
@@ -101,10 +103,14 @@ Memolink는 PAUSEABLE 팀이 개발한 **생활 안전 보조 시스템**입니�
 
 Python 의존성은 파트별 가상환경으로 분리합니다. HA/API CI는 Python 3.12, Voice CI는 Python 3.11, Flutter CI는 Flutter 3.47.6을 사용합니다. Central 정식 앱 빌드에는 Atlas SDK와 전용 라이브러리가 필요합니다.
 
-### 실행과 검토
+장치·Runtime·의존성 버전과 준비 방법은 [개발환경](Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)에 정리했습니다. 이벤트 처리·학습·실행 정책은 각 모듈의 구현 설명에서 다룹니다.
+
+## 실행과 검토
 
 | 확인 목적 | 자료 |
 | --- | --- |
+| 개발 도구와 실행 환경 준비 | [개발환경](Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) |
+| 기능을 구현한 파일 찾기 | [기능별 코드 위치](Pauseable.docs/SOURCE_MAP_KO.md) |
 | 판단 알고리즘과 학습 과정 | [AI 구성](Pauseable.ai/README.md) |
 | 메시지 수신·실행 제어 | [통신 규격](Pauseable.contracts/README.md), [Central 및 장치 모듈](Pauseable.edge/README.md) |
 | 로컬 API·앱 실행 | [Apps 실행 안내](Pauseable.apps/README.md), [보호자 앱 상세](Pauseable.apps/guardian/README.md) |
@@ -119,7 +125,7 @@ Python 의존성은 파트별 가상환경으로 분리합니다. HA/API CI는 P
 | mmWave | [`shape_v2` 평가](Pauseable.ai/mmwave/src/shape_v2/artifacts/metrics.json) | 경로 형태 연구 모델, 실측 LD6004·임상 배회 성능 미검증 |
 | Central·앱·음성 | 파트별 테스트·[CI](.github/CI_README.md)·[앱 검증 기록](Pauseable.apps/guardian/README.md#7-검증-결과와-남은-확인) | 메시지 검증·라우팅·앱/API·음성 처리 검사. 장치별 설치와 실기 확인은 별도 |
 
-HA와 경로 형태 모델의 평가는 합성 데이터를 사용했습니다. HA의 Routine 보정 미적용 비교에서는 정상 맥락 48개 중 30개에서도 경보가 발생했습니다. 별도 개인화 시험 결과와 구분해 해석해야 하며, 실제 사용자 데이터의 탐지 성능은 추가 검증이 필요합니다. 각 기록의 날짜·데이터·미실행 항목은 [검증 자료](Pauseable.docs/README.md#평가-자료-읽기)에 명시했습니다.
+여기서 소개한 HA·경로 형태 평가는 합성 자료를 사용했습니다. 반복 입력의 경보 변화와 정상 사례의 경보, Routine 보정 결과를 구분해 제시합니다. 실험 조건·결과 수치·미실행 항목은 [검증 자료](Pauseable.docs/README.md#평가-자료-읽기)에서 확인할 수 있습니다.
 
 ## 적용 범위와 개인정보
 

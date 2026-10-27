@@ -4,6 +4,8 @@
 
 [전체 프로젝트](../../README.md) · [앱/API 구성](../README.md) · [API 코드](../api/app/main.py) · [Pi 음악 적용 안내](../../Pauseable.edge/actions/favorite-music/README.md)
 
+[개발환경](../../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) · [구현된 기능](#2-구현된-기능과-범위) · [검증 결과](#7-검증-결과와-남은-확인)
+
 - 담당: **권태준 ([ktj-oss](https://github.com/ktj-oss))**: Flutter 화면·상태 처리, API·실시간 알림·녹음 및 설정 연동
 - 주요 기술: Flutter/Dart, REST API, WebSocket, Web Push, Android FCM
 - 주 실행·시험 환경: 노트북 웹앱 및 Android 앱. iOS 폴더는 있으나 iOS 실기 빌드·푸시 수신을 검증한 상태는 아닙니다.

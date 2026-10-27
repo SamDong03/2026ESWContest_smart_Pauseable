@@ -1,20 +1,24 @@
-# Memolink / AI
+# Memolink AI 분석과 음성 학습
 
 가전 반복행동 분석, mmWave 이동 경로 분석, 보호자 음성 모델 학습을 구현한 영역입니다. HA·mmWave 모듈은 판단 결과를 MQTT로 전달하고, Voice 모듈은 Pi에서 사용할 Piper 음성 모델을 생성합니다. 판단 결과에 따른 실행 여부는 [Central](../Pauseable.edge/README.md)이 결정합니다.
 
 [전체 프로젝트](../README.md) · [통신 계약](../Pauseable.contracts/README.md) · [검증 자료](../Pauseable.docs/README.md)
 
+[HA 구현](ha/README.md) · [mmWave 구현](mmwave/README.md) · [Voice 구현](voice/README.md) · [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)
+
 ![HA, mmWave, Voice의 입력·처리·출력과 담당 환경](../Pauseable.docs/assets/readme/ai-pipelines.svg)
 
 | 파트 | 입력 → 출력 | 실행 환경 | 코드 |
 | --- | --- | --- | --- |
-| HA | 가전 상태 이력 → 특징·판정·MQTT | Pi 5 / Python·Docker | [`ha`](ha) |
-| mmWave | 이동 경로 → 형태·개인 변화·판단 근거 | Pi 5 / Python, 연구 도구 | [`mmwave`](mmwave) |
-| Voice | 동의한 녹음·대본 → Piper ONNX | GPU Worker / Docker | [`voice`](voice) |
+| HA | 가전 상태 이력 → 특징·판정·MQTT | Pi 5 / Python·Docker | [HA 안내](ha/README.md) |
+| mmWave | 이동 경로 → 형태·개인 변화·판단 근거 | Pi 5 / Python, 연구 도구 | [mmWave 안내](mmwave/README.md) |
+| Voice | 동의한 녹음·대본 → Piper ONNX | GPU Worker / Docker | [Voice 안내](voice/README.md) |
 
 ## HA 데이터 수집과 특징 생성
 
-HA의 `state_changed` 이벤트를 WebSocket으로 구독해 상태 변경을 기록합니다. 저장된 이력으로 **1분마다 최근 10분·30분·1시간·2시간의 특징**을 생성합니다. 짧은 구간에서는 연속 조작을, 긴 구간에서는 일정 간격의 반복과 재시작을 확인합니다.
+HA의 `state_changed` 이벤트를 WebSocket으로 구독해 상태 변경을 기록합니다. 분석할 때는 **1분 간격의 기준 시각별로 최근 10분·30분·1시간·2시간의 특징**을 생성합니다. 짧은 구간에서는 연속 조작을, 긴 구간에서는 일정 간격의 반복과 재시작을 확인합니다.
+
+지속 수집 서비스의 분석 회차는 이 Feature 간격과 별개입니다. `run_ha_full_service.py`는 이전 분석 종료 후 기본 600초를 기다리며, 그동안 Collector는 계속 수집합니다. [세 가지 주기 구분](ha/README.md#수집특징실행-주기)
 
 아래 HA 그래프는 동일한 합성 평가 자료를 사용했습니다. 실제 환자의 가전 사용 기록은 아닙니다. [평가 데이터](../Pauseable.docs/evaluation/ha/visual_data.json)와 [그림별 수치·출처](../Pauseable.docs/assets/readme/evaluation_figure_manifest.json)를 함께 제공합니다.
 
@@ -33,6 +37,8 @@ HA의 `state_changed` 이벤트를 WebSocket으로 구독해 상태 변경을 �
 ### Baseline
 
 [`build_baseline.py`](ha/src/build_baseline.py)는 정상 참조 특징에서 분위수와 IQR을 계산해 기준값을 생성합니다. [`infer_ha_baseline.py`](ha/src/infer_ha_baseline.py)는 이 기준값에 최소 조작 횟수, 가전별 반복 규칙과 야간 정보를 적용해 점수와 판단 근거를 산출합니다. 기준을 실제 사용자 이력으로 만들기 전에는 개인화된 기준으로 해석하지 않습니다.
+
+`MinCount`는 해당 특징을 점수 계산에 포함할 최소 횟수입니다. 기준 미만이면 0점이며, 통계 상한을 넘는 정도에 따라 5·9·14점을 더합니다. 반복 패턴·야간 등 Context 점수를 함께 적용하며 기본 Baseline 경계는 Attention 35, Risk 70입니다. [점수 계산 구현](ha/README.md#baseline과-개인화-모델)
 
 특징에는 냉장고 열림, 도어락 해제, 전자레인지 시작, 세탁기·건조기·식기세척기 재시작, 공기청정기·에어컨의 반복 조작 등이 포함됩니다. 분석 대상은 HA 엔티티 선택과 상태 매핑으로 설정합니다. 동일한 외형의 반복이라도 정상적인 사용 목적이 있을 수 있으므로, 관측 품질과 확인된 개인 생활패턴을 함께 반영합니다.
 
@@ -110,6 +116,8 @@ Guardian 녹음과 대본을 API/R2에 등록하면 GPU Worker가 WAV·metadata 
 
 실제 HA 연결에는 HA 주소·Token, MQTT 설정, 분석할 엔티티와 Baseline JSON이 필요합니다. 개인별 이력과 학습 모델은 별도 저장 경로에 준비합니다. 저장소의 연구용 데이터와 실제 가구의 이력·모델은 분리해 운용합니다.
 
+환경 버전은 [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md), 수집·Baseline·학습·Publisher의 파일 연결은 [기능별 코드 위치](../Pauseable.docs/SOURCE_MAP_KO.md)에서 확인합니다.
+
 <details>
 <summary><strong>HA 코드 진입점과 로컬 검사</strong></summary>
 
@@ -131,7 +139,7 @@ python -m unittest discover -s Pauseable.docs/evaluation/ha/checks -v
 
 Docker 연구 환경: [`Dockerfile.research`](ha/Dockerfile.research), [`compose.research.yaml`](ha/compose.research.yaml). 실제 가구 이력·모델 경로와 연구 출력을 분리합니다.
 
-[실시간 수집](../Pauseable.docs/ha/ha_realtime_collection_guide.md) · [개인화·이상 탐지](../Pauseable.docs/ha/ha_anomaly_shadow_guide.md) · [시연 절차](../Pauseable.docs/ha/DEMO_RUNBOOK_KO.md)
+[실시간 수집](../Pauseable.docs/ha/ha_realtime_collection_guide.md) · [현재 모델 운용](ha/README.md#baseline과-개인화-모델) · [시연 절차](../Pauseable.docs/ha/DEMO_RUNBOOK_KO.md)
 
 </details>
 

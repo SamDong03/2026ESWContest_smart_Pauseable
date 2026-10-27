@@ -1,8 +1,10 @@
-# Memolink / Deploy
+# Memolink 빌드와 장치 배포
 
 Pi 3·Pi 4·Pi 5의 배포 소스, systemd 설정과 기존 설치의 이름 변경 정보를 관리합니다. 장치별 소스 묶음을 생성한 뒤, 대상 환경에서 빌드·설정·설치·실기 시험을 진행합니다.
 
 [전체 프로젝트](../README.md) · [Edge 구성](../Pauseable.edge/README.md) · [전체 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
+
+[개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md) · [배포 준비 상태](#배포-준비-상태) · [소스 묶음](#기기별-소스-묶음) · [장치별 준비](#장치별-준비)
 
 ![공통 소스에서 Pi 3·Pi 4·Pi 5의 역할별 소스 묶음으로 나누는 배포 구조](../Pauseable.docs/assets/readme/device-bundles.svg)
 

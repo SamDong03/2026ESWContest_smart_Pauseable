@@ -1,14 +1,16 @@
-# Memolink / Edge
+# Memolink 장치 실행과 Central
 
 Raspberry Pi에서 실행하는 Central, 센서 중계, 카메라와 출력 모듈입니다. Central은 AI 메시지를 검증하고 실행 정책을 적용합니다. 각 장치 모듈은 승인된 음성·가전·음악 출력과 출입 사진 처리를 담당합니다.
 
 [전체 프로젝트](../README.md) · [AI 판단](../Pauseable.ai/README.md) · [배포 안내](../Pauseable.deploy/README.md)
 
+[Central 상세](central/README.md) · [기능별 코드](../Pauseable.docs/SOURCE_MAP_KO.md#central-수신과-실행) · [개발환경](../Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)
+
 ## 구성
 
 | 경로 | 장치 | 역할 |
 | --- | --- | --- |
-| [`central`](central) | Pi 5 / Atlas | MQTT 수신, 계약 검증, Action Router, API Gateway |
+| [Central App](central/README.md) | Pi 5 / Atlas | MQTT 수신, 계약 검증, Action Router, API Gateway |
 | [`mmwave-relay`](mmwave-relay) | Pi 3 | serial 입력 검증·중계·프로세스 관리 |
 | [`camera`](camera) | Pi 4 | 카메라 버퍼·출입 이벤트 대표 사진·업로드 |
 | [`voice-model`](voice-model) | Pi 5 | ONNX 다운로드·검증·교체 |

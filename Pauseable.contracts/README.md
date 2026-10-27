@@ -1,8 +1,10 @@
-# Memolink / Contracts
+# Memolink 공통 통신 규격
 
 AI·Central·API·보호자 앱 사이의 메시지 형식을 정의합니다. JSON Schema에는 필수 필드, 자료형과 허용값을 명시했습니다. AI 추론, Central의 최종 결정과 앱 알림을 서로 다른 메시지로 구분하고, 각 서비스가 수신 시 형식과 처리 조건을 검사합니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Central](../Pauseable.edge/README.md) · [API·앱](../Pauseable.apps/README.md)
+
+[Schema 구성](#메시지-구성) · [수신 검증](#수신-메시지-검증) · [AI 입력](#ai--central-추론-전달) · [API 전달](#central--api-실행-결정-전달) · [검증 코드](#검증-구현)
 
 ## 메시지 구성
 
