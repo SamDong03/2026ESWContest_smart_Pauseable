@@ -20,6 +20,7 @@ for directory in "$HA/config" "$WANDERING" "$YOUTUBE" /etc/systemd/system /run/s
 done
 for file in "$SOURCE/player.py" "$SOURCE/play.sh" "$SOURCE/request.sh" \
     "$SOURCE/youtube-control.sh" "$SOURCE/$UNIT" \
+    "$REPO/Pauseable.ai/ha/src/play_lg_tv_youtube.py" \
     "$REPO/Pauseable.ai/ha/deploy/repetitive-central-output-watch.sh" \
     "$REPO/Pauseable.ai/ha/deploy/pauseable-washer-youtube-tts.service" \
     "$REPO/Pauseable.edge/central/deploy/wandering-voice/watch.sh" \
@@ -52,6 +53,7 @@ if [ -f "$BASE/player.env" ]; then cp -p "$BASE/player.env" "$BACKUP/player.env"
 for file in player.py play.sh request.sh youtube-control.sh "$UNIT"; do
     install -m 0644 "$SOURCE/$file" "$BASE/$file"
 done
+install -m 0644 "$REPO/Pauseable.ai/ha/src/play_lg_tv_youtube.py" "$BASE/play_lg_tv_youtube.py"
 if [ ! -f "$BASE/player.env" ]; then
     install -m 0600 "$SOURCE/player.env.example" "$BASE/player.env"
 fi

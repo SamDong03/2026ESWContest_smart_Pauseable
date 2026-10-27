@@ -162,7 +162,9 @@ watcher는 `CENTRAL_DECISION_ACCEPTED`와 `CENTRAL_ACTION_ROUTED` 로그를 연�
 2. Central이 허용한 반복행동·배회 안내를 처리합니다.
 3. 출력 watcher가 별도 favorite-music 작업을 요청합니다.
 4. Device API가 현재 등록 목록에서 곡을 무작위 선택합니다.
-5. 검증한 `video_id`를 Pi FIFO로 보내 기존 ATLAS Chromium 화면·스피커에 재생을 요청합니다.
+5. 기본 `atlas` 모드에서는 검증한 `video_id`를 Pi FIFO로 보내 기존 ATLAS Chromium 화면·스피커에 재생을 요청합니다. `PAUSEABLE_MUSIC_BACKEND=lg_tv`이면 같은 ID를 HA/webOS TV 실행기에 전달합니다.
+
+LG TV 경로의 설치·환경변수·검증 범위는 [LG_TV_SETUP_KO.md](actions/favorite-music/LG_TV_SETUP_KO.md)를 참고합니다. 설치기는 기존 TV 실행기를 함께 배치하며, 실제 TV 재생은 별도 실기 확인이 필요합니다.
 
 모듈은 [actions/favorite-music](actions/favorite-music)에 있습니다. 기본 재요청 간격은 300초이며 동시에 들어온 요청도 합칩니다. 빈 목록·인증·네트워크·플레이어 오류이면 음악만 건너뜁니다. 보호자 알림·사진 경로와 다른 작업입니다.
 

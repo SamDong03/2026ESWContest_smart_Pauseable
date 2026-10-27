@@ -8,6 +8,8 @@ import math
 import os
 import re
 import stat
+import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -81,12 +83,31 @@ def cooldown_seconds(environment):
     return seconds
 
 
-def request_playback(environment, state_dir, *, now=None, fetch=None, atlas=None):
+def play_lg_tv(video_id, environment):
+    """Pass the validated Render selection to the bundled HA/webOS launcher."""
+    if not isinstance(video_id, str) or not VIDEO_ID.fullmatch(video_id):
+        raise ValueError("invalid_video_id")
+    if not environment.get("HA_URL", "").strip() or not environment.get("HA_TOKEN", "").strip():
+        raise ValueError("missing_ha_configuration")
+    launcher = Path(__file__).with_name("play_lg_tv_youtube.py")
+    if not launcher.is_file():
+        launcher = Path(__file__).resolve().parents[3] / "Pauseable.ai/ha/src/play_lg_tv_youtube.py"
+    # Credentials travel only through the environment, never CLI arguments/logs.
+    subprocess.run(
+        [sys.executable, str(launcher), "--video-id", video_id],
+        env={**os.environ, **environment}, check=True, timeout=150,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+
+
+def request_playback(environment, state_dir, *, now=None, fetch=None, atlas=None, lg_tv=None):
     """Called under the service lock. A music failure never fails alert delivery."""
     if environment.get("PAUSEABLE_FAVORITE_MUSIC_ENABLED", "1") != "1":
         print("FAVORITE_MUSIC_SKIPPED reason=disabled", flush=True)
         return
-    backend = "atlas"
+    backend = environment.get("PAUSEABLE_MUSIC_BACKEND", "atlas")
+    if backend not in ("atlas", "lg_tv"):
+        raise ValueError("invalid_music_backend")
     patient = environment.get("PATIENT_ID", "byunwoojin")
     timestamp = time.time() if now is None else now
     marker = Path(state_dir) / "last-request.json"
@@ -111,7 +132,10 @@ def request_playback(environment, state_dir, *, now=None, fetch=None, atlas=None
         return
     if not isinstance(video_id, str) or not VIDEO_ID.fullmatch(video_id):
         raise ValueError("invalid_video_id")
-    (atlas or play_atlas)(video_id, environment.get("PAUSEABLE_YOUTUBE_FIFO", DEFAULT_FIFO))
+    if backend == "lg_tv":
+        (lg_tv or play_lg_tv)(video_id, environment)
+    else:
+        (atlas or play_atlas)(video_id, environment.get("PAUSEABLE_YOUTUBE_FIFO", DEFAULT_FIFO))
     # Only successful player requests consume the cooldown. This is NOT a claim
     # that YouTube displayed/played the video (ads, login and network still apply).
     payload = {"patient_id": patient, "backend": backend, "requested_at": timestamp}
