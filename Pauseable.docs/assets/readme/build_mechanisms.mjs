@@ -46,7 +46,7 @@ export async function buildMechanisms() {
 
   let b = group(32, 126, 414, 372, '01  이력과 학습 자격', 'green', 'homeassistant') +
     box(52, 206, 374, 112, '정상 후보 선별', ['같은 가구 · 출처 · 특징 규격', 'reviewed / screened 구분']) +
-    box(52, 348, 374, 112, '유효 관측 조건', ['30일 · 하루 12개 이상 시간대', '총 360시간 이상']);
+    box(52, 348, 374, 112, '유효 관측 조건', ['30일 · 하루 12개 이상 시간대', '전체 유효 시간대 360개 이상']);
   b += arrow('M239 318V348') + arrow('M426 404H466V262H506');
   b += group(486, 126, 426, 372, '02  학습과 독립 평가', 'blue', 'python') +
     box(506, 206, 386, 112, '시간순 분할 · 학습', ['Train / Calibration / Holdout', '경계 제외 · scaler는 Train만'], 'blue') +
