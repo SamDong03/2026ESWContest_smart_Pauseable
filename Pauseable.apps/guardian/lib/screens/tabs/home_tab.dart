@@ -73,7 +73,12 @@ extension _GuardianHomeView on _GuardianHomePageState {
                       ),
                     ],
                     if (snapshot.demoScenario ==
-                        DemoScenario.repetitiveBehavior) ...[
+                            DemoScenario.repetitiveBehavior ||
+                        snapshot.repetitiveAlertsPaused ||
+                        snapshot.alerts.any(
+                          (alert) =>
+                              alert.isRepetitiveBehavior && alert.isServerAlert,
+                        )) ...[
                       const SizedBox(height: 26),
                       _buildBehaviorAlertCard(
                         context,
@@ -377,30 +382,13 @@ extension _GuardianHomeView on _GuardianHomePageState {
   }
 
   Widget _buildStatusGrid(PatientStatus patient) {
-    return Row(
-      children: [
-        Expanded(
-          child: _StatusCard(
-            icon: Icons.chair_alt_rounded,
-            iconColor: const Color(0xFF356B5A),
-            iconBackground: const Color(0xFFE5F1EC),
-            label: '현재 위치',
-            value: patient.location,
-            detail: '3분 전 이동',
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _StatusCard(
-            icon: Icons.directions_walk_rounded,
-            iconColor: const Color(0xFFB56A24),
-            iconBackground: const Color(0xFFFFEEDB),
-            label: '활동 상태',
-            value: patient.activity,
-            detail: '움직임 정상',
-          ),
-        ),
-      ],
+    return _StatusCard(
+      icon: Icons.directions_walk_rounded,
+      iconColor: const Color(0xFFB56A24),
+      iconBackground: const Color(0xFFFFEEDB),
+      label: '활동 상태',
+      value: patient.activity,
+      detail: '움직임 정상',
     );
   }
 
@@ -657,7 +645,7 @@ extension _GuardianHomeView on _GuardianHomePageState {
                       const SizedBox(height: 6),
                       Text(
                         isPaused
-                            ? '현관문 알림을 $_pausedAnomalyDuration 동안 보내지 않아요.'
+                            ? '반복행동 알림을 $_pausedAnomalyDuration 보내지 않아요.'
                             : alert.description,
                         style: TextStyle(
                           color: _secondaryText(context),
@@ -686,7 +674,7 @@ extension _GuardianHomeView on _GuardianHomePageState {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '낙상·화재·가스·SOS 등 긴급 알림은 계속 작동합니다.',
+                        '배회 알림·출입 사진 수신과 감지 기록은 유지됩니다. 감지·TTS·가전 동작은 중단하지 않습니다.',
                         style: TextStyle(
                           color: _secondaryText(context),
                           fontSize: 12,
@@ -700,12 +688,19 @@ extension _GuardianHomeView on _GuardianHomePageState {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
-                  onPressed: _resumeAnomalyAlerts,
+                  onPressed: _updatingAnomalyPause
+                      ? null
+                      : _resumeAnomalyAlerts,
                   icon: const Icon(Icons.notifications_active_outlined),
                   label: const Text('알림 다시 켜기'),
                 ),
               ),
             ] else ...[
+              if (!(_snapshot?.repetitiveAlertPauseAvailable ?? false))
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: Text('알림 중지 상태를 확인하지 못했습니다. 서버 연결 후 새로고침해 주세요.'),
+                ),
               if (hasCount) ...[
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -752,7 +747,11 @@ extension _GuardianHomeView on _GuardianHomePageState {
                   const SizedBox(width: 10),
                   Expanded(
                     child: FilledButton.icon(
-                      onPressed: () => _showAnomalyPauseSheet(context),
+                      onPressed:
+                          _updatingAnomalyPause ||
+                              _snapshot?.repetitiveAlertPauseAvailable != true
+                          ? null
+                          : () => _showAnomalyPauseSheet(context),
                       icon: const Icon(Icons.check_circle_outline_rounded),
                       label: const Text('정상으로 확인'),
                     ),

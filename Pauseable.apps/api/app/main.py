@@ -30,6 +30,7 @@ from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel, Field, SecretStr, StrictBool, field_validator
 
 from app.alert_history_store import AlertHistoryConflict, AlertHistoryStore
+from app.alert_pauses import RepetitiveAlertPauseStore
 from app.push_subscription_store import PushSubscriptionStore
 from app.native_push_store import NativePushStore, validate_device_token
 from app.notification_preferences import DEFAULT_PREFERENCES, NotificationPreferenceStore
@@ -156,6 +157,30 @@ def _notification_preferences_store() -> NotificationPreferenceStore:
     )
 
 
+@lru_cache(maxsize=1)
+def _repetitive_alert_pause_store() -> RepetitiveAlertPauseStore:
+    return RepetitiveAlertPauseStore(
+        local_dir=NOTIFICATION_PREFERENCES_DIR.parent / "alert-pauses",
+        r2_storage=R2Storage.from_environment() if STORAGE_BACKEND == "r2" else None,
+    )
+
+
+def _repetitive_pause_state(patient_id: str) -> dict[str, Any]:
+    try:
+        return _repetitive_alert_pause_store().load(patient_id)
+    except Exception:
+        logging.getLogger(__name__).warning("Pause status unavailable; safety alerts remain enabled")
+        return {"scope": "repetitive_behavior", "available": False,
+                "is_paused": False, "paused_until": None}
+
+
+async def _repetitive_notification_paused(patient_id: str, alert: dict[str, Any]) -> bool:
+    if alert.get("alert_type") != "repetitive_behavior":
+        return False
+    state = await asyncio.to_thread(_repetitive_pause_state, patient_id)
+    return bool(state["is_paused"])
+
+
 async def _delivery_preferences(patient_id: str) -> dict[str, bool]:
     try:
         return await asyncio.to_thread(_notification_preferences_store().for_delivery, patient_id)
@@ -188,6 +213,8 @@ class VoiceConsentRequest(BaseModel):
 
 async def _deliver_alert_notifications(patient_id: str, alert: dict[str, Any]) -> None:
     pass
+    if await _repetitive_notification_paused(patient_id, alert):
+        return
     behavior = alert["alert_type"] in {"repetitive_behavior", "wandering"}
     web_enabled = behavior and web_push_is_configured()
     native_enabled = (behavior or alert["alert_type"] == "door_event") and native_push_is_configured()
@@ -357,7 +384,9 @@ async def private_door_photo_responses(request: Request, call_next):
 
     path = request.url.path
     if path == "/api/door-events" or path.startswith("/api/door-events/") or (
-        path.startswith("/api/patients/") and path.endswith("/dashboard")
+        path.startswith("/api/patients/") and (
+            path.endswith("/dashboard") or path.endswith("/repetitive-alert-pause")
+        )
     ):
         response.headers["Cache-Control"] = "private, no-store"
         response.headers["Referrer-Policy"] = "no-referrer"
@@ -369,7 +398,7 @@ async def private_door_photo_responses(request: Request, call_next):
 
 
 class PauseAlertRequest(BaseModel):
-    duration_minutes: int = Field(gt=0, le=24 * 60)
+    duration_minutes: int = Field(gt=0, le=24 * 60, strict=True)
 
 
 class GuardianProfileRequest(BaseModel):
@@ -606,7 +635,6 @@ class AlertWebSocketManager:
             self.disconnect(websocket)
 
 
-_paused_alerts: dict[str, datetime] = {}
 _confirmed_door_events: set[str] = set()
 _demo_state = {"active_scenario_id": "repetitive_behavior"}
 _guardian_profile = {
@@ -960,14 +988,6 @@ def _alert_exists(alert_id: str) -> bool:
     return any(alert["id"] == alert_id for alert in snapshot["alerts"])
 
 
-def _active_pause_until(alert_id: str) -> datetime | None:
-    pause_until = _paused_alerts.get(alert_id)
-    if pause_until is not None and pause_until <= datetime.now(timezone.utc):
-        _paused_alerts.pop(alert_id, None)
-        return None
-    return pause_until
-
-
 def _voice_message_path(message_id: str) -> Path:
     if not VOICE_MESSAGE_ID_PATTERN.fullmatch(message_id):
         raise HTTPException(status_code=404, detail="Voice message not found")
@@ -1192,10 +1212,11 @@ async def receive_ha_event(event: HaEntityEventRequest) -> dict[str, Any]:
         raise HTTPException(status_code=409, detail="Alert id already exists with different contents") from error
     if not created:
         return {"status": "duplicate", "alert": alert, "voice": {"status": "skipped"}}
-    await _alert_websockets.broadcast(
-        event.patient_id,
-        {"type": "app_alert", "data": alert},
-    )
+    if not await _repetitive_notification_paused(event.patient_id, alert):
+        await _alert_websockets.broadcast(
+            event.patient_id,
+            {"type": "app_alert", "data": alert},
+        )
     voice_result = await _request_tts(event, alert)
     return {
         "status": "accepted",
@@ -1244,9 +1265,10 @@ async def receive_decision_event(
     if not created:
         response.status_code = 200
     else:
-        await _alert_websockets.broadcast(
-            event.patient_id, {"type": "app_alert", "data": alert},
-        )
+        if not await _repetitive_notification_paused(event.patient_id, alert):
+            await _alert_websockets.broadcast(
+                event.patient_id, {"type": "app_alert", "data": alert},
+            )
         background_tasks.add_task(_deliver_alert_notifications, event.patient_id, alert)
     return {
         "status": "accepted" if created else "duplicate",
@@ -1492,10 +1514,11 @@ def get_dashboard(patient_id: str, request: Request) -> dict[str, Any]:
 
     _apply_demo_scenario(snapshot)
 
+    pause = _repetitive_pause_state(patient_id)
+    snapshot["repetitive_alert_pause"] = pause
     for alert in snapshot["alerts"]:
-        pause_until = _active_pause_until(alert["id"])
-        alert["is_paused"] = pause_until is not None
-        alert["paused_until"] = pause_until.isoformat() if pause_until else None
+        alert["is_paused"] = alert["type"] == "repetitive_behavior" and pause["is_paused"]
+        alert["paused_until"] = pause["paused_until"] if alert["is_paused"] else None
 
     snapshot["door_events"] = [
         _serialize_door_event(event, request)
@@ -1522,7 +1545,6 @@ def activate_demo_scenario(scenario_id: str) -> dict[str, str]:
         raise HTTPException(status_code=404, detail="Demo scenario not found")
 
     _demo_state["active_scenario_id"] = scenario_id
-    _paused_alerts.clear()
     _confirmed_door_events.clear()
     return {
         "status": "activated",
@@ -1722,30 +1744,58 @@ def confirm_door_event(event_id: str) -> dict[str, Any]:
     return {"status": "confirmed", "event_id": event_id, "is_confirmed": True}
 
 
-@app.post("/api/alerts/{alert_id}/pause")
+def _save_repetitive_pause(patient_id: str, duration_minutes: int | None) -> dict[str, Any]:
+    _ensure_patient(patient_id)
+    try:
+        state = _repetitive_alert_pause_store().save(patient_id, duration_minutes=duration_minutes)
+    except Exception:
+        raise HTTPException(503, "Could not save alert pause; retry before relying on it") from None
+    return {**state, "status": "paused" if state["is_paused"] else "active",
+            "pause_until": state["paused_until"]}
+
+
+@app.get("/api/patients/{patient_id}/repetitive-alert-pause", dependencies=[Depends(require_app_token)])
+def get_repetitive_alert_pause(patient_id: str) -> dict[str, Any]:
+    _ensure_patient(patient_id)
+    state = _repetitive_pause_state(patient_id)
+    if not state["available"]:
+        raise HTTPException(503, "Could not load alert pause")
+    return state
+
+
+@app.post("/api/patients/{patient_id}/repetitive-alert-pause", dependencies=[Depends(require_app_token)])
+def pause_repetitive_alerts(patient_id: str, request: PauseAlertRequest) -> dict[str, Any]:
+    return _save_repetitive_pause(patient_id, request.duration_minutes)
+
+
+@app.delete("/api/patients/{patient_id}/repetitive-alert-pause", dependencies=[Depends(require_app_token)])
+def resume_repetitive_alerts(patient_id: str) -> dict[str, Any]:
+    return _save_repetitive_pause(patient_id, None)
+
+
+def _legacy_pause_patient(alert_id: str) -> str:
+    patient_id = _load_snapshot()["patient"]["id"]
+    alert = _alert_history_store().get(patient_id, alert_id)
+    if alert is not None:
+        repetitive = alert.get("alert_type") == "repetitive_behavior"
+    else:
+        sample = next((item for item in _load_snapshot()["alerts"] if item["id"] == alert_id), None)
+        if sample is None:
+            raise HTTPException(404, "Alert not found")
+        repetitive = sample["type"] == "repetitive_behavior"
+    if not repetitive:
+        raise HTTPException(422, "Only repetitive behavior notifications can be paused")
+    return patient_id
+
+
+@app.post("/api/alerts/{alert_id}/pause", dependencies=[Depends(require_app_token)])
 def pause_alert(alert_id: str, request: PauseAlertRequest) -> dict[str, Any]:
-    if not _alert_exists(alert_id):
-        raise HTTPException(status_code=404, detail="Alert not found")
-
-    pause_until = datetime.now(timezone.utc) + timedelta(
-        minutes=request.duration_minutes,
-    )
-    _paused_alerts[alert_id] = pause_until
-
-    return {
-        "status": "paused",
-        "alert_id": alert_id,
-        "pause_until": pause_until.isoformat(),
-    }
+    return {**_save_repetitive_pause(_legacy_pause_patient(alert_id), request.duration_minutes), "alert_id": alert_id}
 
 
-@app.post("/api/alerts/{alert_id}/resume")
-def resume_alert(alert_id: str) -> dict[str, str]:
-    if not _alert_exists(alert_id):
-        raise HTTPException(status_code=404, detail="Alert not found")
-
-    _paused_alerts.pop(alert_id, None)
-    return {"status": "active", "alert_id": alert_id}
+@app.post("/api/alerts/{alert_id}/resume", dependencies=[Depends(require_app_token)])
+def resume_alert(alert_id: str) -> dict[str, Any]:
+    return {**_save_repetitive_pause(_legacy_pause_patient(alert_id), None), "alert_id": alert_id}
 
 
 @app.post("/api/voice-messages", status_code=201)

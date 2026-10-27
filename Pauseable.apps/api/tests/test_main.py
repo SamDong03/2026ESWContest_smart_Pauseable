@@ -13,12 +13,12 @@ from app.alert_history_store import AlertHistoryStore
 from app.door_event_store import DoorEventStore
 from app.push_subscription_store import PushSubscriptionStore
 from app.notification_preferences import NotificationPreferenceStore
+from app.alert_pauses import RepetitiveAlertPauseStore
 from app.main import (
     _alert_websocket_tickets,
     _confirmed_door_events,
     _demo_state,
     _guardian_profile,
-    _paused_alerts,
     app,
 )
 
@@ -34,7 +34,10 @@ class GuardianApiTest(unittest.TestCase):
         alert_store_patch.start()
         self.addCleanup(alert_store_patch.stop)
         _alert_websocket_tickets.clear()
-        _paused_alerts.clear()
+        pause_store_patch = patch("app.main._repetitive_alert_pause_store", return_value=
+                                  RepetitiveAlertPauseStore(local_dir=Path(self.alert_directory.name) / "pauses"))
+        pause_store_patch.start()
+        self.addCleanup(pause_store_patch.stop)
         _confirmed_door_events.clear()
         _demo_state["active_scenario_id"] = "repetitive_behavior"
         _guardian_profile.update(

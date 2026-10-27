@@ -323,7 +323,7 @@ class _NotificationCard extends StatelessWidget {
                         ),
                         Text(
                           acknowledged
-                              ? '확인됨'
+                              ? '알림 중지 중'
                               : alert.isServerAlert && !alert.isRead
                               ? '미확인'
                               : alert.category,
@@ -340,7 +340,7 @@ class _NotificationCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       acknowledged
-                          ? '$pausedDuration 동안 이 반복 행동 알림을 보내지 않아요.'
+                          ? '$pausedDuration 반복행동 알림을 보내지 않아요. 기록은 유지됩니다.'
                           : alert.description,
                       style: TextStyle(
                         color: _secondaryText(context),

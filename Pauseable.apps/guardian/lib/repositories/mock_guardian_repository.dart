@@ -14,6 +14,7 @@ import 'guardian_repository.dart';
 
 class MockGuardianRepository implements GuardianRepository {
   MockGuardianRepository();
+  DateTime? _pauseUntil;
 
   @override
   Future<VoiceConsentReceipt> saveVoiceConsent({
@@ -64,6 +65,12 @@ class MockGuardianRepository implements GuardianRepository {
       'assets/mock/guardian_snapshot.json',
     );
     final json = jsonDecode(source) as Map<String, dynamic>;
+    json['repetitive_alert_pause'] = {
+      'scope': 'repetitive_behavior',
+      'available': true,
+      'is_paused': _pauseUntil?.isAfter(DateTime.now()) ?? false,
+      'paused_until': _pauseUntil?.toUtc().toIso8601String(),
+    };
 
     return GuardianSnapshot.fromJson(json);
   }
@@ -78,10 +85,14 @@ class MockGuardianRepository implements GuardianRepository {
   Future<void> pauseAlert({
     required String alertId,
     required Duration duration,
-  }) async {}
+  }) async {
+    _pauseUntil = DateTime.now().add(duration);
+  }
 
   @override
-  Future<void> resumeAlert({required String alertId}) async {}
+  Future<void> resumeAlert({required String alertId}) async {
+    _pauseUntil = null;
+  }
 
   @override
   Future<void> confirmDoorEvent({required String eventId}) async {}
