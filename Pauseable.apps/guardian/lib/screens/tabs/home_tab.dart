@@ -83,19 +83,6 @@ extension _GuardianHomeView on _GuardianHomePageState {
                     ),
                     const SizedBox(height: 12),
                     _buildAlertCard(snapshot.alerts),
-                    const SizedBox(height: 26),
-                    Text(
-                      '빠른 실행',
-                      style: TextStyle(
-                        color: _primaryText(context),
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    _buildQuickActions(context),
-                    const SizedBox(height: 14),
-                    _buildEmergencyButton(context),
                   ],
                 ),
               ),
@@ -882,7 +869,9 @@ extension _GuardianHomeView on _GuardianHomePageState {
               style: TextStyle(color: _muted, height: 1.45),
             ),
             const SizedBox(height: 16),
-            Row(
+            Wrap(
+              spacing: 12,
+              runSpacing: 4,
               children: [
                 Text(
                   '${progress.recordedSeconds} / ${progress.targetSeconds}초 권장',
@@ -892,7 +881,6 @@ extension _GuardianHomeView on _GuardianHomePageState {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                const Spacer(),
                 Text(
                   '클립 ${progress.clipCount}개 · 권장까지 ${_trainingDurationLabel(progress.remainingSeconds)} 남음',
                   style: const TextStyle(color: _muted, fontSize: 12),
@@ -944,35 +932,5 @@ extension _GuardianHomeView on _GuardianHomePageState {
     if (minutes == 0) return '$remainingSeconds초';
     if (remainingSeconds == 0) return '$minutes분';
     return '$minutes분 $remainingSeconds초';
-  }
-
-  Widget _buildQuickActions(BuildContext context) {
-    return _QuickAction(
-      icon: Icons.phone_outlined,
-      label: '전화 걸기',
-      onTap: _requestCareCall,
-    );
-  }
-
-  Widget _buildEmergencyButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 54,
-      child: FilledButton.icon(
-        onPressed: _requestEmergencyContact,
-        style: FilledButton.styleFrom(
-          backgroundColor: const Color(0xFFB53E3E),
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        icon: const Icon(Icons.sos_rounded),
-        label: const Text(
-          '긴급 연락',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-        ),
-      ),
-    );
   }
 }

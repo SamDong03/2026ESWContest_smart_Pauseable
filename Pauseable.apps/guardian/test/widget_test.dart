@@ -387,13 +387,9 @@ void main() {
     expect(find.text('최근 알림'), findsOneWidget);
     expect(find.text('저녁 복약 시간 예정'), findsNothing);
 
-    await tester.scrollUntilVisible(
-      find.text('긴급 연락'),
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-
-    expect(find.text('긴급 연락'), findsOneWidget);
+    expect(find.text('전화 걸기'), findsNothing);
+    expect(find.text('긴급 연락'), findsNothing);
+    expect(find.text('빠른 실행'), findsNothing);
     expect(find.text('위치 확인'), findsNothing);
   });
 
@@ -1354,44 +1350,56 @@ void main() {
     expect(repository.newTrainingCount, 0);
   });
 
-  testWidgets('home navigation and virtual contact buttons are active', (
-    WidgetTester tester,
-  ) async {
-    final repository = _MemoryGuardianRepository(snapshot);
-    await tester.pumpWidget(PauseableApp(repository: repository));
-    await tester.pumpAndSettle();
+  for (final size in [const Size(390, 844), const Size(800, 1400)]) {
+    testWidgets(
+      'home hides placeholder contact actions and keeps alerts and photos ($size)',
+      (tester) async {
+        tester.view.physicalSize = size;
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        final repository = _MemoryGuardianRepository(snapshot);
+        await tester.pumpWidget(PauseableApp(repository: repository));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: 'initial home');
 
-    await tester.tap(
-      find.widgetWithIcon(IconButton, Icons.notifications_none_rounded),
+        await tester.tap(
+          find.widgetWithIcon(IconButton, Icons.notifications_none_rounded),
+        );
+        await tester.pumpAndSettle();
+        expect(find.text('알림 센터'), findsOneWidget);
+        expect(tester.takeException(), isNull, reason: 'alerts tab');
+
+        await tester.tap(find.text('홈'));
+        await tester.pumpAndSettle();
+        await tester.scrollUntilVisible(
+          find.text('최근 알림'),
+          400,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.fling(
+          find.byType(CustomScrollView).first,
+          const Offset(0, -1600),
+          1800,
+        );
+        await tester.pumpAndSettle();
+        expect(find.text('전화 걸기'), findsNothing);
+        expect(tester.takeException(), isNull, reason: 'scrolled home');
+        expect(find.text('긴급 연락'), findsNothing);
+        expect(find.text('빠른 실행'), findsNothing);
+        expect(find.byIcon(Icons.phone_outlined), findsNothing);
+        expect(find.byIcon(Icons.sos_rounded), findsNothing);
+        expect(repository.careCallCount, 0);
+        expect(repository.emergencyContactCount, 0);
+
+        await tester.tap(find.text('기록'));
+        await tester.pumpAndSettle();
+        expect(find.text('현관 출입 기록'), findsOneWidget);
+        expect(repository.snapshot.doorEvents, snapshot.doorEvents);
+        expect(repository.snapshot.alerts, snapshot.alerts);
+      },
     );
-    await tester.pumpAndSettle();
-    expect(find.text('알림 센터'), findsOneWidget);
-
-    await tester.tap(find.text('홈'));
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('전화 걸기'),
-      500,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.tap(find.text('전화 걸기'));
-    await tester.pumpAndSettle();
-    expect(find.text('보호 전화를 연결할까요?'), findsOneWidget);
-    await tester.tap(find.text('전화 요청'));
-    await tester.pumpAndSettle();
-    expect(repository.careCallCount, 1);
-    expect(find.text('보호 전화 요청 완료'), findsOneWidget);
-    await tester.tap(find.text('확인'));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text('긴급 연락'));
-    await tester.pumpAndSettle();
-    expect(find.text('긴급 연락을 요청할까요?'), findsOneWidget);
-    await tester.tap(find.text('긴급 요청'));
-    await tester.pumpAndSettle();
-    expect(repository.emergencyContactCount, 1);
-    expect(find.text('긴급 연락 요청 완료'), findsOneWidget);
-  });
+  }
 
   testWidgets('saved names update home and alerts and survive reopening', (
     tester,
