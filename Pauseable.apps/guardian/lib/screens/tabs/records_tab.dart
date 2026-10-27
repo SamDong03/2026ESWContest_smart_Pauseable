@@ -2,26 +2,22 @@ part of '../guardian_home_page.dart';
 
 class _RecordsTab extends StatelessWidget {
   const _RecordsTab({
-    required this.activity,
     required this.doorEvents,
     required this.loadPhoto,
     required this.isConfirmed,
     required this.onDoorEventTap,
-    required this.onActivityEventTap,
   });
 
-  final ActivitySummary activity;
   final List<DoorEvent> doorEvents;
   final Future<Uint8List> Function(DoorEvent) loadPhoto;
   final bool Function(DoorEvent event) isConfirmed;
   final ValueChanged<DoorEvent> onDoorEventTap;
-  final ValueChanged<ActivityEvent> onActivityEventTap;
 
   @override
   Widget build(BuildContext context) {
     return _TabFrame(
       title: '생활 이벤트 기록',
-      subtitle: '가전·현관 센서에서 수집된 이벤트를 확인하세요.',
+      subtitle: '서버에 저장된 출입 장면과 촬영 시각을 확인하세요.',
       children: [
         if (doorEvents.isNotEmpty) ...[
           Text(
@@ -48,39 +44,14 @@ class _RecordsTab extends StatelessWidget {
             const SizedBox(height: 10),
           ],
         ],
-        const SizedBox(height: 24),
-        Text(
-          '오늘의 센서 이벤트',
-          style: TextStyle(
-            color: _primaryText(context),
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
+        if (doorEvents.isEmpty)
+          const Card(
+            child: ListTile(
+              leading: Icon(Icons.photo_camera_outlined),
+              title: Text('아직 저장된 출입 장면이 없어요'),
+              subtitle: Text('새 출입 사진이 전송되면 이곳에서 확인할 수 있어요.'),
+            ),
           ),
-        ),
-        const SizedBox(height: 12),
-        Card(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              for (var index = 0; index < activity.events.length; index++) ...[
-                _TimelineTile(
-                  time: activity.events[index].timeLabel,
-                  title: activity.events[index].title,
-                  icon: _activityIcon(activity.events[index].type),
-                  onTap: () => onActivityEventTap(activity.events[index]),
-                ),
-                if (index < activity.events.length - 1)
-                  const Divider(
-                    height: 1,
-                    indent: 68,
-                    color: Color(0xFFE8ECEA),
-                  ),
-              ],
-            ],
-          ),
-        ),
       ],
     );
   }

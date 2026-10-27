@@ -423,7 +423,9 @@ extension _GuardianHomeView on _GuardianHomePageState {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            '현관 카메라 샘플 촬영',
+                            event.isSample
+                                ? '현관 카메라 샘플 촬영'
+                                : '현관 카메라 촬영',
                             style: TextStyle(
                               color: _secondaryText(context),
                               fontSize: 12,

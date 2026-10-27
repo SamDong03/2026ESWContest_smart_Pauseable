@@ -500,15 +500,12 @@ void main() {
     expect(find.text('감지된 걸음'), findsNothing);
     expect(find.text('수면 시간'), findsNothing);
     expect(find.text('실내 이동'), findsNothing);
-    expect(find.text('오늘의 센서 이벤트'), findsOneWidget);
-    expect(find.text('냉장고 문 열림'), findsOneWidget);
-    expect(find.text('냉장고 문 닫힘'), findsOneWidget);
-    expect(find.text('오전 8:10:04'), findsOneWidget);
-    expect(find.text('오전 8:10:19'), findsOneWidget);
-    expect(find.text('현관문 열림'), findsOneWidget);
-    expect(find.text('현관문 닫힘'), findsOneWidget);
-    expect(find.text('오후 2:42:08'), findsOneWidget);
-    expect(find.text('오후 2:42:17'), findsOneWidget);
+    expect(find.text('현관 출입 기록'), findsOneWidget);
+    expect(find.text('오늘의 센서 이벤트'), findsNothing);
+    for (final event in snapshot.activity.events) {
+      expect(find.text(event.title), findsNothing);
+      expect(find.text(event.timeLabel), findsNothing);
+    }
 
     await tester.tap(find.text('설정'));
     await tester.pumpAndSettle();
@@ -777,6 +774,107 @@ void main() {
         expect(find.text('${metrics.count}회'), findsWidgets);
         expect(find.textContaining('평소 '), findsNothing);
       }
+    });
+  }
+
+  testWidgets('records hide seeded sensor history and show an honest empty state', (
+    tester,
+  ) async {
+    final repository = _MemoryGuardianRepository(
+      GuardianSnapshot(
+        patient: snapshot.patient,
+        alerts: snapshot.alerts,
+        activity: snapshot.activity,
+        doorEvents: const [],
+        demoScenario: DemoScenario.normal,
+      ),
+    );
+    await tester.pumpWidget(PauseableApp(repository: repository));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('기록'));
+    await tester.pumpAndSettle();
+    expect(find.text('아직 저장된 출입 장면이 없어요'), findsOneWidget);
+    expect(find.text('현관 출입 기록'), findsNothing);
+    expect(find.text('오늘의 센서 이벤트'), findsNothing);
+    for (final event in snapshot.activity.events) {
+      expect(find.text(event.title), findsNothing);
+    }
+    expect(repository.photoLoadCount, 0);
+    expect(repository.snapshot.alerts, snapshot.alerts);
+  });
+
+  for (final photoCase in [
+    (
+      name: 'actual-camera',
+      source: 'pi4_camera',
+      imageUrl: 'https://api.example/api/door-events/actual-camera/image',
+      isSample: false,
+    ),
+    (
+      name: 'server-sample',
+      source: 'mock_camera',
+      imageUrl: 'https://api.example/api/door-events/server-sample/image',
+      isSample: true,
+    ),
+    (
+      name: 'bundled-sample',
+      source: '',
+      imageUrl: 'asset://assets/images/front-door-exit-sample.png',
+      isSample: true,
+    ),
+  ]) {
+    testWidgets('photo captions preserve actual and sample provenance (${photoCase.name})', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(800, 1400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final original = snapshot.doorEvents.first;
+      final event = DoorEvent(
+        id: photoCase.name,
+        occurredAt: original.occurredAt,
+        timeLabel: original.timeLabel,
+        direction: original.direction,
+        title: original.title,
+        description: original.description,
+        imageUrl: photoCase.imageUrl,
+        isConfirmed: false,
+        source: photoCase.source,
+      );
+      final repository = _MemoryGuardianRepository(
+        GuardianSnapshot(
+          patient: snapshot.patient,
+          alerts: snapshot.alerts,
+          activity: snapshot.activity,
+          doorEvents: [event],
+          demoScenario: snapshot.demoScenario,
+        ),
+      )..photoBytes = doorPhotoBytes;
+      await tester.pumpWidget(PauseableApp(repository: repository));
+      await tester.pumpAndSettle();
+      final caption = photoCase.isSample
+          ? '현관 카메라 샘플 촬영'
+          : '현관 카메라 촬영';
+      await tester.scrollUntilVisible(
+        find.text(caption),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text(caption), findsOneWidget);
+      if (!photoCase.isSample) {
+        expect(find.text('현관 카메라 샘플 촬영'), findsNothing);
+      }
+      await tester.ensureVisible(find.text(event.title));
+      await tester.tap(find.text(event.title));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('샘플 사진입니다.'),
+        photoCase.isSample ? findsOneWidget : findsNothing,
+      );
+      expect(find.text('사진 크게 보기 · 확대'), findsOneWidget);
+      expect(repository.snapshot.doorEvents.single.id, photoCase.name);
+      expect(repository.snapshot.alerts, snapshot.alerts);
     });
   }
 
@@ -1570,7 +1668,7 @@ void main() {
     expect(repository.guardianProfile.patientCallName, '할머니');
   });
 
-  testWidgets('settings cards and device connection check are active', (
+  testWidgets('settings hide fake device status without fetching it', (
     WidgetTester tester,
   ) async {
     final repository = _MemoryGuardianRepository(snapshot);
@@ -1587,22 +1685,6 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
-      find.text('연결된 기기'),
-      500,
-      scrollable: find.byType(Scrollable).first,
-    );
-    final connectedDevices = find.widgetWithText(ListTile, '연결된 기기');
-    await tester.drag(find.byType(Scrollable).first, const Offset(0, -220));
-    await tester.pumpAndSettle();
-    await tester.tap(connectedDevices);
-    await tester.pumpAndSettle();
-    expect(find.text('Home Assistant'), findsOneWidget);
-    expect(find.text('현관 센서·카메라'), findsOneWidget);
-    await tester.tap(find.text('연결 다시 확인'));
-    await tester.pumpAndSettle();
-    expect(repository.deviceCheckCount, 1);
-
-    await tester.scrollUntilVisible(
       find.text('앱 정보'),
       300,
       scrollable: find.byType(Scrollable).first,
@@ -1610,6 +1692,11 @@ void main() {
     final appInfo = find.widgetWithText(ListTile, '앱 정보');
     await tester.drag(find.byType(Scrollable).first, const Offset(0, -150));
     await tester.pumpAndSettle();
+    expect(find.text('연결된 기기'), findsNothing);
+    expect(find.textContaining('정상 연결'), findsNothing);
+    expect(find.text('연결 다시 확인'), findsNothing);
+    expect(repository.deviceLoadCount, 0);
+    expect(repository.deviceCheckCount, 0);
     await tester.tap(appInfo);
     await tester.pumpAndSettle();
     expect(find.text('PAUSEABLE 보호자'), findsOneWidget);
@@ -1805,6 +1892,7 @@ class _MemoryGuardianRepository implements GuardianRepository {
   int careCallCount = 0;
   int emergencyContactCount = 0;
   int deviceCheckCount = 0;
+  int deviceLoadCount = 0;
   GuardianProfile guardianProfile = const GuardianProfile(
     name: '김보호',
     patientName: '김영희',
@@ -1904,8 +1992,10 @@ class _MemoryGuardianRepository implements GuardianRepository {
   }
 
   @override
-  Future<DeviceConnectionStatus> loadDeviceConnection() async =>
-      _memoryDeviceConnection;
+  Future<DeviceConnectionStatus> loadDeviceConnection() async {
+    deviceLoadCount++;
+    return _memoryDeviceConnection;
+  }
 
   @override
   Future<DeviceConnectionStatus> checkDeviceConnection() async {

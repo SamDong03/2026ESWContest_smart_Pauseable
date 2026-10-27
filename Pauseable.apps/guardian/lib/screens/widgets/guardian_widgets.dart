@@ -389,35 +389,6 @@ class _NotificationCard extends StatelessWidget {
   }
 }
 
-class _TimelineTile extends StatelessWidget {
-  const _TimelineTile({
-    required this.time,
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String time;
-  final String title;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      leading: CircleAvatar(
-        backgroundColor: const Color(0xFFE5F1EC),
-        foregroundColor: const Color(0xFF356B5A),
-        child: Icon(icon, size: 20),
-      ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
-      subtitle: Text(time),
-    );
-  }
-}
-
 class _AlertTile extends StatelessWidget {
   const _AlertTile({
     required this.icon,

@@ -10,6 +10,7 @@ class DoorEvent {
     required this.description,
     required this.imageUrl,
     required this.isConfirmed,
+    this.source = '',
   });
 
   final String id;
@@ -20,6 +21,10 @@ class DoorEvent {
   final String description;
   final String imageUrl;
   final bool isConfirmed;
+  final String source;
+
+  bool get isSample =>
+      source == 'mock_camera' || imageUrl.startsWith('asset://');
 
   String get directionLabel => switch (direction) {
     DoorEventDirection.exit => '외출',
@@ -37,6 +42,7 @@ class DoorEvent {
       description: json['description'] as String,
       imageUrl: json['image_url'] as String,
       isConfirmed: json['is_confirmed'] as bool? ?? false,
+      source: json['source'] as String? ?? '',
     );
   }
 }

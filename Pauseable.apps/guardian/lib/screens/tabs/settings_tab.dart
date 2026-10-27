@@ -302,7 +302,6 @@ class _SettingsTabState extends State<_SettingsTab> {
   bool _loadingSettings = true;
   bool _preferencesLoadFailed = false;
   bool _savingPreferences = false;
-  DeviceConnectionStatus? _deviceConnection;
 
   @override
   void initState() {
@@ -333,7 +332,7 @@ class _SettingsTabState extends State<_SettingsTab> {
       _preferencesLoadFailed = false;
     });
 
-    await Future.wait([_loadPreferences(), _loadDeviceSettings()]);
+    await _loadPreferences();
     if (mounted) setState(() => _loadingSettings = false);
   }
 
@@ -349,17 +348,6 @@ class _SettingsTabState extends State<_SettingsTab> {
     } catch (_) {
       if (!mounted) return;
       setState(() => _preferencesLoadFailed = true);
-    }
-  }
-
-  Future<void> _loadDeviceSettings() async {
-    try {
-      final device = await widget.repository.loadDeviceConnection();
-      if (mounted) setState(() => _deviceConnection = device);
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('기기 연결 상태를 불러오지 못했습니다.')));
     }
   }
 
@@ -406,81 +394,6 @@ class _SettingsTabState extends State<_SettingsTab> {
     }
   }
 
-  Future<void> _showDeviceConnection() async {
-    final device = _deviceConnection;
-    if (device == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('기기 연결 정보를 불러오는 중입니다.')));
-      return;
-    }
-
-    final shouldCheck = await showModalBottomSheet<bool>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      builder: (sheetContext) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                device.deviceName,
-                style: TextStyle(
-                  color: _primaryText(sheetContext),
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                '${device.isOnline ? '정상 연결' : '연결 확인 필요'} · ${device.lastCheckedLabel} 확인',
-                style: TextStyle(color: _secondaryText(sheetContext)),
-              ),
-              const SizedBox(height: 16),
-              for (final service in device.services)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    service.isConnected
-                        ? Icons.check_circle_rounded
-                        : Icons.error_outline_rounded,
-                    color: service.isConnected ? _green : Colors.redAccent,
-                  ),
-                  title: Text(service.name),
-                  subtitle: Text(service.detail),
-                ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: () => Navigator.pop(sheetContext, true),
-                  icon: const Icon(Icons.sync_rounded),
-                  label: const Text('연결 다시 확인'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    if (shouldCheck != true || !mounted) return;
-
-    try {
-      final checked = await widget.repository.checkDeviceConnection();
-      if (!mounted) return;
-      setState(() => _deviceConnection = checked);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('가상 기기 3개의 연결 상태를 확인했습니다.')));
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('연결 상태를 확인하지 못했습니다.')));
-    }
-  }
-
   Future<void> _showAppInfo() async {
     showAboutDialog(
       context: context,
@@ -491,7 +404,9 @@ class _SettingsTabState extends State<_SettingsTab> {
         foregroundColor: Colors.white,
         child: Text('P', style: TextStyle(fontWeight: FontWeight.w900)),
       ),
-      children: const [Text('가상 데이터를 이용해 전체 보호자 케어 흐름을 검증하는 버전입니다.')],
+      children: const [
+        Text('알림·출입 사진 확인과 돌봄 설정을 지원하는 대회 시연 버전입니다. 데모 상황 시뮬레이터는 실제 감지와 별개입니다.'),
+      ],
     );
   }
 
@@ -902,21 +817,10 @@ class _SettingsTabState extends State<_SettingsTab> {
           child: Column(
             children: [
               ListTile(
-                onTap: _showDeviceConnection,
-                leading: const Icon(Icons.router_outlined),
-                title: const Text('연결된 기기'),
-                subtitle: Text(
-                  '${_deviceConnection?.deviceName ?? 'PAUSEABLE Home'} · '
-                  '${(_deviceConnection?.isOnline ?? true) ? '정상 연결' : '확인 필요'}',
-                ),
-                trailing: const Icon(Icons.chevron_right_rounded),
-              ),
-              const Divider(height: 1, indent: 56),
-              ListTile(
                 onTap: _showAppInfo,
                 leading: const Icon(Icons.info_outline_rounded),
                 title: const Text('앱 정보'),
-                subtitle: const Text('버전 1.0.0 · 데모 데이터'),
+                subtitle: const Text('버전 1.0.0 · 대회 시연 버전'),
                 trailing: const Icon(Icons.chevron_right_rounded),
               ),
             ],

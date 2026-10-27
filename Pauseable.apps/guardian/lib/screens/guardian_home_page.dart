@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../models/activity_summary.dart';
 import '../models/demo_scenario.dart';
 import '../models/door_event.dart';
 import '../models/guardian_alert.dart';
@@ -77,13 +76,6 @@ Color _alertBackground(GuardianAlertType type) => switch (type) {
   GuardianAlertType.nightMovement => const Color(0xFFF0EBFA),
   GuardianAlertType.appliance => const Color(0xFFE5F2ED),
   GuardianAlertType.doorEvent => const Color(0xFFE5F2ED),
-};
-
-IconData _activityIcon(ActivityEventType type) => switch (type) {
-  ActivityEventType.light => Icons.lightbulb_outline_rounded,
-  ActivityEventType.refrigerator => Icons.kitchen_outlined,
-  ActivityEventType.television => Icons.tv_outlined,
-  ActivityEventType.doorway => Icons.door_front_door_outlined,
 };
 
 class GuardianHomePage extends StatefulWidget {
@@ -582,54 +574,6 @@ class _GuardianHomePageState extends State<GuardianHomePage>
     );
   }
 
-  Future<void> _showActivityEventDetail(ActivityEvent event) async {
-    await showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      builder: (sheetContext) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundColor: const Color(0xFFE5F1EC),
-                foregroundColor: _green,
-                child: Icon(_activityIcon(event.type)),
-              ),
-              const SizedBox(height: 14),
-              Text(
-                event.title,
-                style: TextStyle(
-                  color: _primaryText(sheetContext),
-                  fontSize: 21,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 16),
-              _detailRow(sheetContext, '발생 시각', event.timeLabel),
-              _detailRow(sheetContext, '센서 상태', event.state.name),
-              _detailRow(
-                sheetContext,
-                '원본 시각',
-                event.occurredAt.toIso8601String(),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () => Navigator.pop(sheetContext),
-                  child: const Text('확인'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> _showVoiceRecordingSheet(BuildContext context) async {
     final receipt = await showModalBottomSheet<VoiceConsentReceipt>(
       context: context,
@@ -907,7 +851,7 @@ class _GuardianHomePageState extends State<GuardianHomePage>
                         label: const Text('이 장면 확인 완료'),
                       ),
               ),
-              if (event.imageUrl.startsWith('asset://')) ...[
+              if (event.isSample) ...[
                 const SizedBox(height: 10),
                 const Text(
                   '샘플 사진입니다.',
@@ -961,12 +905,10 @@ class _GuardianHomePageState extends State<GuardianHomePage>
             onAlertTap: _showAlertDetail,
           ),
           _RecordsTab(
-            activity: snapshot.activity,
             doorEvents: snapshot.doorEvents,
             loadPhoto: _loadDoorPhoto,
             isConfirmed: _isDoorEventConfirmed,
             onDoorEventTap: _showDoorEventDetail,
-            onActivityEventTap: _showActivityEventDetail,
           ),
           _SettingsTab(
             repository: widget.repository,

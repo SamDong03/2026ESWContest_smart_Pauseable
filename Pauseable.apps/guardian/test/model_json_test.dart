@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pauseable_guardian/models/activity_summary.dart';
 import 'package:pauseable_guardian/models/demo_scenario.dart';
+import 'package:pauseable_guardian/models/door_event.dart';
 import 'package:pauseable_guardian/models/guardian_alert.dart';
 import 'package:pauseable_guardian/models/guardian_support.dart';
 import 'package:pauseable_guardian/models/live_app_alert.dart';
@@ -12,6 +13,34 @@ import 'package:pauseable_guardian/repositories/mock_guardian_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  test('photo sample labels use explicit source or bundled assets only', () {
+    final base = <String, dynamic>{
+      'id': 'photo-source-test',
+      'occurred_at': '2026-10-28T00:00:00Z',
+      'time_label': '10월 28일 09:00',
+      'direction': 'exit',
+      'title': '외출 장면',
+      'description': '현관 촬영',
+      'image_url': 'https://api.example/api/door-events/photo-source-test/image',
+      'is_confirmed': false,
+    };
+    final actual = DoorEvent.fromJson({...base, 'source': 'pi4_camera'});
+    final serverSample = DoorEvent.fromJson({...base, 'source': 'mock_camera'});
+    final bundledSample = DoorEvent.fromJson({
+      ...base,
+      'image_url': 'asset://assets/images/front-door-exit-sample.png',
+    });
+    final legacy = DoorEvent.fromJson(base);
+    expect(actual.isSample, isFalse);
+    expect(serverSample.isSample, isTrue);
+    expect(bundledSample.isSample, isTrue);
+    expect(legacy.isSample, isFalse);
+    expect(legacy.source, isEmpty);
+    expect(actual.imageUrl, base['image_url']);
+    expect(serverSample.imageUrl, base['image_url']);
+    expect(actual.id, base['id']);
+  });
 
   test('old and new care profiles keep the optional spoken name separate', () {
     final legacy = {
