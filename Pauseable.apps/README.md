@@ -1,12 +1,12 @@
-# PAUSEABLE / Apps
+# Memolink / Apps
 
-**장치에서 감지한 상황을 보호자가 확인하고, 보호자의 설정을 다시 장치로 전달합니다.** Flutter 앱은 알림·사진·녹음·설정을 담당하고, FastAPI는 장치와 앱의 인증·저장·전달을 담당합니다.
+Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행동 판단 알림과 출입 사진을 보여주고, 보호자 음성·호칭·거주지역·선호 음악을 등록합니다. API는 장치와 앱의 인증, 사건 이력 저장, 실시간 알림과 음성 학습 작업을 처리합니다.
 
 [전체 프로젝트](../README.md) · [통신 계약](../Pauseable.contracts/README.md) · [장치 실행](../Pauseable.edge/README.md)
 
 ![Pi·API·Guardian·GPU Worker 및 비공개 모델 저장소의 연결](../Pauseable.docs/assets/readme/apps-connections.svg)
 
-## 무엇을 담당하는가
+## 구성
 
 | 폴더 | 역할 | 주요 기술 |
 | --- | --- | --- |
@@ -17,13 +17,13 @@
 
 ![Central 결정부터 API 저장·WebSocket·Push·보호자 확인까지의 순서](../Pauseable.docs/assets/readme/notification-sequence.svg)
 
-| 확인 지점 | 확인할 내용 | 이것만으로 알 수 없는 것 |
+| 단계 | 처리 내용 | 완료 기준 |
 | --- | --- | --- |
-| API 접수 | 인증·계약·`event_id`가 허용되었는가 | 휴대폰에 표시되었는가 |
-| 이력 저장·재전송 | 같은 ID의 재전송이 새 알림을 중복 생성하지 않는가 | 모든 출력 장치의 실행 성공 |
-| 휴대폰 표시·읽음 | 실제 표시와 보호자 확인이 기록되는가 | 보호자가 현장에서 조치했는가 |
+| API 접수 | Device 인증·계약·`event_id` 검사 | 서버 접수 응답 |
+| 이력 저장·전달 | 중복 처리, 이력 저장, WebSocket·Push 전송 | 저장된 사건과 전송 결과 확인 |
+| 앱 표시·읽음 | 실제 알림 표시와 읽음 상태 처리 | 휴대폰 표시·선택·앱 이동 확인 |
 
-AI 추론과 Pi의 가전 실행은 이 폴더가 대신하지 않습니다. WebSocket의 실시간 전달과 앱이 background 상태일 때의 Push 경로도 별도로 확인합니다.
+열린 앱에는 WebSocket으로 새 사건을 전달하고, 앱이 화면에 없을 때는 Web Push·FCM을 사용합니다. AI 판단과 가전 실행은 Pi가 담당합니다. 알림의 읽음 상태는 보호자의 실제 현장 조치 여부와는 별개입니다.
 
 ## API 기능
 
@@ -38,7 +38,7 @@ AI 추론과 Pi의 가전 실행은 이 폴더가 대신하지 않습니다. Web
 | 개인 설정 | 돌봄 프로필, 지역, 선호 음악 |
 | 음성 | 동의·녹음·학습 Job·Worker 임대·모델 게시와 설치 확인 |
 
-`202 Accepted`나 Push 제공자의 접수 응답만으로 실제 휴대폰 표시까지 성공했다고 판단하지 않습니다. 같은 `event_id`를 재전송했을 때 새로운 알림이 중복 생성되는지도 구분합니다.
+같은 `event_id`의 재전송은 중복으로 처리하며, 같은 ID에 다른 내용이 들어오면 충돌로 구분합니다. API와 Push 서비스의 접수 응답 이후 실제 휴대폰 표시까지 확인하는 절차는 [실기 알림 점검](guardian/docs/REAL_DEVICE_ALERT_VERIFICATION.md)에 정리했습니다.
 
 <details>
 <summary><strong>API 개발 환경과 실행 명령</strong></summary>
@@ -55,11 +55,17 @@ python -m venv .venv
 ```sh
 # Linux / macOS
 . .venv/bin/activate
+export PAUSEABLE_ENV=development
+export STORAGE_BACKEND=local
+export PAUSEABLE_APP_TOKEN=LOCAL_DEVELOPMENT_ONLY
 ```
 
 ```powershell
 # Windows PowerShell
 .\.venv\Scripts\Activate.ps1
+$env:PAUSEABLE_ENV = "development"
+$env:STORAGE_BACKEND = "local"
+$env:PAUSEABLE_APP_TOKEN = "LOCAL_DEVELOPMENT_ONLY"
 ```
 
 ```sh
@@ -68,7 +74,7 @@ python -m unittest discover -s tests -t . -p "test_*.py"
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-API 문서: `http://127.0.0.1:8000/docs`. 기본 local storage는 실행 PC에 기록합니다. 이 개발 명령은 Render 운영 배포를 변경하지 않습니다.
+API 문서는 `http://127.0.0.1:8000/docs`에서 확인합니다. 위 설정은 로컬 개발 전용이며, 데이터는 실행 PC에 저장합니다. 실제 서버 토큰을 예시 토큰으로 교체하지 않습니다.
 
 </details>
 
@@ -83,7 +89,7 @@ API 문서: `http://127.0.0.1:8000/docs`. 기본 local storage는 실행 PC에 �
 | `PAUSEABLE_ENV=production` | 운영 모드에서 미설정 토큰 요청 차단 |
 | `STORAGE_BACKEND` | `local` 또는 `r2` 저장 경로 선택 |
 
-토큰이 없는 development 모드를 외부에 노출하지 않습니다. 운영에서는 HTTPS, 서버 비밀 설정, 영속 저장소와 역할별 토큰이 필요합니다. App Token과 Device/Worker Token을 혼용하지 않습니다.
+운영 환경은 HTTPS와 영속 저장소를 사용하며 App·Device·Worker Token을 역할별로 분리합니다. development 서버는 로컬 인터페이스에서만 실행합니다.
 
 </details>
 
@@ -107,10 +113,10 @@ cd Pauseable.apps/guardian
 flutter pub get
 flutter analyze
 flutter test
-flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000
+flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000 --dart-define=APP_TOKEN=LOCAL_DEVELOPMENT_ONLY
 ```
 
-이 명령은 같은 PC의 로컬 API를 사용합니다. 실제 Render를 확인할 때는 공유 App Token을 웹 파일에 직접 넣는 대신 [로컬 Render 중계 안내](guardian/docs/RENDER_WEB_PREVIEW_KO.md)를 따릅니다.
+위 API 실행 예시와 같은 PC·로컬 토큰을 사용합니다. 앱은 Token이 비어 있으면 요청을 차단합니다. 실제 Render 연결은 비공개 Token을 로컬 중계에서 사용하는 [웹 미리보기 절차](guardian/docs/RENDER_WEB_PREVIEW_KO.md)를 따릅니다.
 
 </details>
 
@@ -121,7 +127,13 @@ flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000
 3. 앱의 시험 알림으로 foreground·background·잠금 상태를 각각 확인합니다.
 4. Central 결정 → API 이력 → FCM 접수 → 실제 표시 순서로 확인합니다.
 
-현재 공유 App Token과 시험용 서명 구조는 공개 서비스용 사용자별 로그인·권한 분리를 대신하지 않습니다. 서버용 비밀 키·Device/Worker Token·R2 키는 APK나 웹 빌드에 넣지 않습니다.
+현재 앱은 팀 시험용 공유 App Token과 시험용 서명을 사용합니다. 공개 서비스에 필요한 사용자별 로그인·대상자 접근권한 분리는 별도 적용 대상입니다. 서버 비밀 키·Device/Worker Token·R2 키는 앱 빌드에서 제외합니다.
+
+## 구현 및 검증 범위
+
+[보호자 앱 상세 README](guardian/README.md)에는 화면별 기능, API 연결, 녹음 형식, 자동 검사와 팀 실기 시험 기록을 정리했습니다. 일부 대시보드·기기 연결 상태·긴급 연락 요청에는 데모 동작이 포함되어 있습니다. 실제 전화·긴급기관 연결 기능으로 사용하지 않습니다.
+
+음성 녹음은 앱에서 16 kHz·mono·PCM 16-bit로 수집하고, Voice 전처리에서 학습용 22,050 Hz로 변환합니다. 지역·음악 설정의 서버 저장과 실제 조명·음악 출력은 각 장치 모듈에서 확인합니다.
 
 ## 함께 볼 문서
 
@@ -134,4 +146,4 @@ flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000
 | 선호 음악 → Pi 재생 | [Favorite Music](../Pauseable.edge/actions/favorite-music/README.md) |
 | 자동 검사·APK 산출물 | [CI README](../.github/CI_README.md) |
 
-앱·API 코드 반영, 서버 배포, 새 APK 설치, 실제 알림 수신은 각각 별도의 완료 단계로 기록합니다.
+서버 배포 버전, 설치한 APK와 Pi 런타임 버전은 별도로 관리합니다.

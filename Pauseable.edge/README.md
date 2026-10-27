@@ -1,6 +1,6 @@
-# PAUSEABLE / Edge
+# Memolink / Edge
 
-**AI가 판단을 보내면 Central이 실행 여부를 정하고, 장치별 모듈이 실제 출력을 맡습니다.** Raspberry Pi의 센서 중계·판단 수신·음성·가전·사진을 연결하는 런타임 영역입니다.
+Raspberry Pi에서 실행하는 Central, 센서 중계, 카메라와 출력 모듈입니다. Central은 AI 메시지를 검증하고 실행 정책을 적용합니다. 각 장치 모듈은 승인된 음성·가전·음악 출력과 출입 사진 처리를 담당합니다.
 
 [전체 프로젝트](../README.md) · [AI 판단](../Pauseable.ai/README.md) · [배포 안내](../Pauseable.deploy/README.md)
 
@@ -42,7 +42,7 @@
 
 </details>
 
-### 입력과 실행의 경계
+### 실행 정책과 재전송
 
 - 반복행동과 배회를 서로 다른 MQTT Topic에서 받고 `source` 일치 여부를 확인합니다.
 - 기본적으로 300초보다 오래된 이벤트, 30초를 초과한 미래 이벤트는 거부합니다.
@@ -89,7 +89,7 @@ ctest --test-dir build/mmwave-tools -C Release --output-on-failure
 
 ![Central 승인 이후 선호 음악 작업·Device API 조회·Pi Player 실행으로 이어지는 경로](../Pauseable.docs/assets/readme/favorite-music.svg)
 
-최근 변경은 **기존 반복행동의 고정 LG TV 영상 호출을 Pi의 선호 음악 경로로 통일**한 것입니다. 빈 목록·인증·네트워크·플레이어 오류는 음악 경로만 건너뜁니다. 기본 음악 cooldown은 300초이며 판단 알림 cooldown과 별도입니다.
+Central이 안내를 승인하면 기존 TTS·가전 처리 후 선호 음악 작업을 별도로 요청합니다. API가 현재 등록 목록에서 선택한 영상을 Pi 화면·스피커로 재생합니다. 빈 목록·인증·네트워크·Player 오류가 발생하면 음악만 건너뛰며, 기본 재요청 제한 시간은 300초입니다. 행동 알림의 cooldown과는 별도 설정입니다.
 
 | 상태 | 의미 |
 | --- | --- |
@@ -98,7 +98,7 @@ ctest --test-dir build/mmwave-tools -C Release --output-on-failure
 | Player 요청 | 재생 요청 단계. 실제 화면·소리는 별도 확인 |
 | 음악 조회·재생 실패 | 음악만 건너뛰고 기존 안내 경로와 분리해 기록 |
 
-설치·수동 시험·로그·되돌리기는 [Favorite Music README](actions/favorite-music/README.md)에 있습니다. 재생 요청 로그만으로 실제 영상과 소리가 나왔다고 기록하지 않습니다.
+설치·수동 시험·로그·복구 절차는 [선호 음악 안내](actions/favorite-music/README.md)에 정리했습니다. Player 요청 후 실제 영상·음성 출력까지 확인합니다.
 
 ## 실기 점검 순서
 
@@ -108,4 +108,4 @@ ctest --test-dir build/mmwave-tools -C Release --output-on-failure
 4. TTS·가전·음악 출력을 각각 실제 장치에서 확인합니다.
 5. 같은 `event_id`로 Outbox·API 이력·휴대폰 표시를 대조합니다.
 
-실행 허용이나 systemd 시작은 실제 장치에 영향을 줄 수 있습니다. [장치별 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)와 [HA 시연 절차](../Pauseable.docs/ha/DEMO_RUNBOOK_KO.md)를 확인한 뒤 진행합니다.
+장치 환경과 서비스별 실행 순서는 [배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt), 시험 입력과 확인 항목은 [HA 시연 절차](../Pauseable.docs/ha/DEMO_RUNBOOK_KO.md)에 정리했습니다.

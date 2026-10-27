@@ -1,6 +1,6 @@
-# PAUSEABLE / Deploy
+# Memolink / Deploy
 
-**같은 저장소의 코드를 실행할 장치별로 나누어 준비합니다.** 소스 묶음, systemd 설정, 이름 이전 대응표를 관리하며, 소스 준비·빌드·설치·실기 확인을 별도의 완료 단계로 구분합니다.
+Pi 3·Pi 4·Pi 5의 배포 소스, systemd 설정과 기존 설치의 이름 변경 정보를 관리합니다. 장치별 소스 묶음을 생성한 뒤, 대상 환경에서 빌드·설정·설치·실기 시험을 진행합니다.
 
 [전체 프로젝트](../README.md) · [Edge 구성](../Pauseable.edge/README.md) · [전체 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
 
@@ -17,24 +17,24 @@
 | [`gpu/voice-worker`](gpu/voice-worker) | GPU Worker | 음성 학습 Worker 서비스 |
 | [`migration`](migration) | 기존 설치 | 이전 이름·경로·서비스·설정 대응표 |
 
-HA 전용 서비스는 [`Pauseable.ai/ha/deploy`](../Pauseable.ai/ha/deploy), 개별 출력·음성 교체 서비스는 [`Pauseable.edge`](../Pauseable.edge/README.md)에도 있습니다. 이 폴더만 복사한다고 전체 구성이 설치되지는 않습니다.
+HA 서비스는 [`Pauseable.ai/ha/deploy`](../Pauseable.ai/ha/deploy), 개별 출력·음성 모델 교체 서비스는 [`Pauseable.edge`](../Pauseable.edge/README.md)에 있습니다. 각 장치에 필요한 설정과 산출물을 함께 준비합니다.
 
 ## 배포 순서
 
 ![백업부터 소스 검증·빌드·환경 설정·설치·E2E 확인까지의 배포 단계](../Pauseable.docs/assets/readme/deployment-stages.svg)
 
-`tar.gz`는 소스 전달 단위, `.ipk`는 대상 플랫폼의 앱 설치 단위, APK는 Android 앱 설치 단위입니다. 소스 묶음을 만들었다고 Central 앱이나 개인화 모델이 장치에 설치되는 것은 아닙니다.
+`tar.gz`는 소스와 설정을 전달하는 압축 파일입니다. Central 앱의 `.ipk`, Android APK와 개인화 ONNX는 각 빌드·학습 절차에서 별도로 생성합니다.
 
-## 먼저 확인할 배포 점검 항목
+## 배포 준비 상태
 
-`main`의 문서 정리 시작점 `1c2410b`에서 `--verify-source-manifest`를 실행했을 때 다음 입력의 체크섬 불일치로 검사가 중단되었습니다.
+2026-10-28 소스 Manifest 검사에서 다음 파일의 체크섬 불일치로 검사가 중단됐습니다.
 
 ```text
 Source checksum mismatch:
 Pauseable.ai/ha/deploy/pauseable-washer-youtube-tts.service
 ```
 
-최근 출력 코드 변경과 [`FILES.sha256`](mmwave-autostart/FILES.sha256)을 배포 담당자가 대조해야 합니다. 현재 문서 수정에서는 서비스나 manifest를 임의로 변경하지 않았습니다. **검사를 우회하거나 해시만 맞춰 통과시키지 말고, 새 파일의 포함 여부와 변경 내용을 검토한 뒤 목록을 갱신**해야 합니다. 아래 패키지 명령은 소스 검증이 통과한 뒤 사용합니다.
+현재 서비스 파일과 [`FILES.sha256`](mmwave-autostart/FILES.sha256)의 배포 목록을 대조하고, 변경 파일의 포함 여부와 내용을 확인한 뒤 Manifest를 갱신해야 합니다. 소스 검증이 완료되기 전까지 장치별 묶음은 배포 승인된 산출물로 취급하지 않습니다.
 
 ## 기기별 소스 묶음
 
@@ -62,7 +62,7 @@ sha256sum -c BUNDLE.sha256
 
 </details>
 
-이 파일은 **소스·설정 압축**입니다. Central 바이너리·`.ipk`·APK·개인화 ONNX·원본 녹음·실제 토큰은 포함되지 않습니다. 체크섬 통과는 장치 실행 완료나 기능 검증을 뜻하지 않습니다.
+묶음에는 Manifest에 선언된 소스·설정과 `BUNDLE.sha256`이 들어갑니다. Central 바이너리·`.ipk`·APK·개인화 ONNX·원본 녹음·실제 Token은 포함하지 않습니다. 설치 후에는 각 서비스의 입력과 출력을 확인합니다.
 
 ## 장치별 준비
 
@@ -95,4 +95,4 @@ Pi 3 설치기의 `--check`는 파일 구성을 확인하고, `--apply`는 실�
 4. 같은 사건 ID로 API 저장·TTS·가전·사진·앱 표시를 대조합니다.
 5. 중복·재연결·재시작·실패 시 기존 모델 유지와 복구를 시험합니다.
 
-운영 로그를 공유할 때 토큰·presigned URL·개인 이력·사진을 제외합니다. GitHub 반영만으로 기존 Pi나 Render에 새 코드가 설치된 것으로 기록하지 않습니다.
+배포 기록에는 소스·모델 버전, 대상 장치와 시험 결과를 남깁니다. Token·presigned URL·개인 이력·사진은 공유 로그에서 제외합니다.

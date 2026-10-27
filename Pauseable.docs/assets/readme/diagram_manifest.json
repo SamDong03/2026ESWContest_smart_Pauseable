@@ -3,91 +3,91 @@
   "diagrams": [
     {
       "file": "ai-pipelines.svg",
-      "title": "PAUSEABLE AI 분석과 음성 학습 구조",
+      "title": "Memolink AI 분석과 음성 학습 구조 · 개발팀 PAUSEABLE",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "learning-lifecycle.svg",
-      "title": "From observation to a versioned model",
+      "title": "이력 수집부터 모델 적용까지",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "apps-connections.svg",
-      "title": "The app and API connect people, devices and jobs",
+      "title": "장치 · API · 보호자 앱 연결",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "notification-sequence.svg",
-      "title": "One event, several acknowledgements",
+      "title": "상황 판단에서 보호자 알림까지",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "contract-map.svg",
-      "title": "A shared meaning, not just valid JSON",
+      "title": "AI 추론 · 실행 결정 · 앱 알림의 통신 규격",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "validation-gates.svg",
-      "title": "Validate first, route second",
+      "title": "Central 입력 검증과 실행 조건",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "device-bundles.svg",
-      "title": "One source tree, three device bundles",
+      "title": "장치별 배포 소스 구성",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "deployment-stages.svg",
-      "title": "Deployment is a sequence of explicit steps",
+      "title": "빌드 · 설치 · 실기 확인 절차",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "evidence-map.svg",
-      "title": "Read evidence in layers",
+      "title": "구현과 검증 자료의 구성",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "central-routing.svg",
-      "title": "Central is the execution boundary",
+      "title": "Central의 메시지 수신과 출력 제어",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "model-release.svg",
-      "title": "A downloaded model is not yet an active model",
+      "title": "Pi 음성 모델 검증과 교체",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "favorite-music.svg",
-      "title": "Favorite music is an additional output path",
+      "title": "행동 안내 후 선호 음악 재생",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "weather-light.svg",
-      "title": "Region settings connect the app to lighting",
+      "title": "거주지역 · 날씨 · 태양 고도 기반 조명",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "ci-map.svg",
-      "title": "Checks are scoped to the component that changed",
+      "title": "파트별 자동 검사와 앱 빌드",
       "kind": "architecture",
       "liveStatus": false
     },
     {
       "file": "apk-build.svg",
-      "title": "Build the test app, then verify it on the phone",
+      "title": "Android 시험 APK 생성과 실기 확인",
       "kind": "architecture",
       "liveStatus": false
     }

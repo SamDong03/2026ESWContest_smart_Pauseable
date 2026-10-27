@@ -1,6 +1,6 @@
-# README Visual Assets
+# 구조도와 평가 그래프
 
-각 영역의 README에 쓰는 구조도와 평가 그래프입니다. **현재 코드의 처리 구조**와 **저장된 평가 자료**를 설명하며, 실시간 서비스 상태나 이번 작업에서 새로 측정한 성능을 표시하지 않습니다.
+README와 보고서에서 사용하는 구조도·평가 그래프의 출처와 생성 방법을 정리했습니다. 구조도는 모듈 간 연결을, 그래프는 저장된 평가 자료를 나타냅니다.
 
 ## 구조도
 
@@ -22,7 +22,7 @@
 | CI | [`ci-map.svg`](ci-map.svg) | Workflow별 검사 범위와 실행 조건 |
 | CI | [`apk-build.svg`](apk-build.svg) | 수동 Android 시험 빌드와 휴대폰 확인 |
 
-SVG는 이 저장소의 설명을 위해 새로 작성했습니다. 외부 폰트·스크립트·이미지를 불러오지 않으며 GitHub Markdown의 일반 이미지로 표시됩니다. 세부 조건과 기본값은 연결된 README 및 실행 코드를 기준으로 확인합니다.
+SVG는 외부 폰트·스크립트·이미지 없이 GitHub Markdown에서 표시됩니다. 모듈별 세부 조건과 기본값은 각 README 및 실행 코드에 정의되어 있습니다.
 
 전체 시스템과 AI 구조도는 한글 설명과 영역별 색상으로 장치·Pi 5·클라우드의 책임을 구분합니다. Home Assistant는 Pi 5 안에 표시하며, 반복행동·배회 판단과 별도 음성 모델 학습 경로를 구분합니다. 한글은 시스템의 맑은 고딕·Apple SD Gothic Neo·Noto Sans KR 계열 폰트로 표시됩니다.
 
@@ -34,13 +34,13 @@ SVG는 이 저장소의 설명을 위해 새로 작성했습니다. 외부 폰�
 | [`ha-model-scores.png`](ha-model-scores.png) | 같은 원본의 정상 후보 Holdout 144개, IF/AE 점수와 각 임계값 | 학습 Loss나 환자 탐지 성능이 아님 |
 | [`ha-component-comparison.png`](ha-component-comparison.png) | [`baseline_comparison.json`](../../evaluation/ha/baseline_comparison.json), 반복 가설 24개·정상 맥락 48개 | 경보 건수와 분모를 그대로 표시. 임상 정확도가 아님 |
 
-세 그래프의 원본은 **합성 검증 fixture**입니다. 정상 맥락의 경보 증가도 숨기지 않고 표시합니다. 원본 SHA-256·사용 수치·해석 범위는 [`evaluation_figure_manifest.json`](evaluation_figure_manifest.json)에 있습니다. 원본을 수정하거나 모델을 재학습하지 않았고, 저장된 scaler 결과를 다시 fit하지 않았습니다.
+세 그래프는 합성 평가 자료를 사용합니다. [`evaluation_figure_manifest.json`](evaluation_figure_manifest.json)에 원본 SHA-256, 사용 수치와 해석 범위를 기록했습니다. 생성기는 원본 JSON을 읽고 저장된 scaler 결과를 사용하며 모델 학습은 수행하지 않습니다.
 
-AI README에 함께 표시한 [`inspect_paths.png`](../../../Pauseable.ai/mmwave/src/shape_v2/artifacts/inspect_paths.png)는 기존 연구 산출물을 그대로 연결했습니다. arbitrary units의 합성 경로이며 이번에 생성한 그림에 포함하지 않습니다.
+[`inspect_paths.png`](../../../Pauseable.ai/mmwave/src/shape_v2/artifacts/inspect_paths.png)는 `shape_v2/train.py`가 생성한 합성 경로 분류 결과입니다. 좌표는 실제 미터 단위가 아니며, 해당 연구의 경로 생성 규칙과 모델 점수를 나타냅니다.
 
 ## 재생성
 
-저장소 루트에서 실행합니다. Python은 앱 런타임과 분리된 문서용 가상환경을 권장합니다. 이번 생성 환경은 Matplotlib 3.10.8·NumPy 2.3.5입니다.
+저장소 루트에서 실행합니다. Python은 문서용 가상환경으로 분리합니다. 기준 환경은 Matplotlib 3.10.8·NumPy 2.3.5입니다.
 
 ```sh
 node Pauseable.docs/assets/readme/build_diagrams.mjs
@@ -52,6 +52,6 @@ python Pauseable.docs/assets/readme/plot_evaluation.py
 - [`build_architectures.mjs`](build_architectures.mjs): 전체 시스템 및 AI 구조도 2개 생성. 위 전체 생성 명령에서도 호출하며 별도 실행도 가능.
 - [`plot_evaluation.py`](plot_evaluation.py): 저장된 JSON을 읽어 PNG 3개와 출처 Manifest 생성. 임시 Matplotlib cache는 종료 시 정리.
 - 별도 모델·서비스 실행, 네트워크 호출, 개인정보·인증값 접근은 하지 않음.
-- 학습 iteration별 Loss 시계열은 선택한 원본에 없어 새 곡선을 만들지 않음.
+- 학습 iteration별 Loss 시계열은 선택한 원본에 포함되지 않음.
 
 [Docs 인덱스로 돌아가기](../../README.md) · [AI README](../../../Pauseable.ai/README.md)

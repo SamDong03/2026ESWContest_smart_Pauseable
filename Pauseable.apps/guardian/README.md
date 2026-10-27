@@ -1,14 +1,19 @@
-# PAUSEABLE 보호자 앱 · Flutter
+# Memolink 보호자 앱 · Flutter
 
-환자의 반복행동·배회 감지 결과와 현관 출입 사진을 보호자가 확인하고, 보호자 음성·호칭·거주지역·선호 음악을 등록하는 앱입니다. **앱은 감지 결과의 수신과 정보 등록을 담당하며, AI 판단·음성 모델 학습·가전 제어는 서버 및 장비 모듈이 담당합니다.**
+반복행동·배회 판단 알림과 현관 출입 사진을 확인하고, 보호자 음성·호칭·거주지역·선호 음악을 등록하는 Flutter 앱입니다. 판단 결과는 Central과 API를 거쳐 수신합니다. AI 분석, 음성 모델 학습과 가전 출력은 각 서버·장치 모듈에서 처리합니다.
 
 [전체 프로젝트](../../README.md) · [앱/API 구성](../README.md) · [API 코드](../api/app/main.py) · [Pi 음악 적용 안내](../../Pauseable.edge/actions/favorite-music/README.md)
 
-- 담당: **권태준 ([ktj-oss](https://github.com/ktj-oss))** — Flutter 화면·상태 처리, API·실시간 알림·녹음 및 설정 연동
+- 담당: **권태준 ([ktj-oss](https://github.com/ktj-oss))**: Flutter 화면·상태 처리, API·실시간 알림·녹음 및 설정 연동
 - 주요 기술: Flutter/Dart, REST API, WebSocket, Web Push, Android FCM
 - 주 실행·시험 환경: 노트북 웹앱 및 Android 앱. iOS 폴더는 있으나 iOS 실기 빌드·푸시 수신을 검증한 상태는 아닙니다.
 
 ## 1. 앱의 역할과 연결 구조
+
+![보호자 앱·API·Pi·음성 학습 Worker의 연결](../../Pauseable.docs/assets/readme/apps-connections.svg)
+
+<details>
+<summary>사건 수신과 설정 전달 경로</summary>
 
 ```text
 센서/AI → Pi Central 승인 → Render API → WebSocket / Push → 보호자 앱
@@ -21,11 +26,13 @@
   └─ 유튜브 등록곡 → Pi가 무작위 선택 API 조회 → 화면·스피커 재생
 ```
 
-보호자 앱이 Pi의 D-Bus를 직접 호출하거나 Home Assistant를 직접 제어하는 구조는 아닙니다. 보호자용 앱과 환자 측 ATLAS 앱은 서로 다른 프로그램입니다. Render API 주소는 웹앱 공개 배포 주소가 아니며, `127.0.0.1` 미리보기는 해당 노트북에서만 사용할 수 있습니다.
+</details>
+
+보호자 앱은 REST API로 설정을 저장하고 WebSocket·Push로 알림을 받습니다. Pi의 D-Bus와 Home Assistant 제어는 Central 및 장치 모듈이 담당합니다. 보호자 앱과 환자 측 ATLAS 앱은 서로 다른 프로그램입니다.
 
 ## 2. 구현된 기능과 범위
 
-| 기능 | 현재 앱 구현 | 구분해야 할 사항 |
+| 기능 | 구현 내용 | 적용 범위 |
 | --- | --- | --- |
 | 홈·알림·기록·설정 | 하단 메뉴 전환, 상태·이력 표시, 서버 오류 안내 및 재시도 | API에 기본 데모 데이터가 남아 있으므로 화면의 모든 값이 실측값이라는 뜻은 아님 |
 | 반복행동·배회 알림 | 인증된 WebSocket 연결, 연결 상태·재연결, 이력 조회·읽음 처리 | 판단 알고리즘은 앱에 없으며, Pi의 승인·서버 전송이 선행되어야 함 |
@@ -55,7 +62,7 @@
 - 로컬 중계/API: Python 3.12 기준, [`../api/requirements.txt`](../api/requirements.txt).
 - Android 빌드: JDK 17, Android SDK 36. FCM 실기 시험은 Firebase Android 설정 및 서버 전송 설정이 추가로 필요합니다.
 
-### 권장: 팀 노트북에서 실제 Render 연결
+### Render 연결 미리보기
 
 저장소 루트에서 앱 폴더로 이동합니다. 아래는 **Windows PowerShell 예시**이며, Python 가상환경을 이미 준비했다면 재사용할 수 있습니다.
 
@@ -66,12 +73,12 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r ../api/requirements.txt
 ```
 
-앱 폴더에 `render-web.secrets.json`을 만들고 실제 앱용 토큰은 로컬 에디터에서만 입력합니다. 아래 값은 형식 예시입니다.
+앱 폴더의 `render-web.secrets.json`에 앱용 Token과 서버에 등록된 대상자 ID를 입력합니다. 다음은 형식 예시이며 두 placeholder를 실제 설정으로 바꿉니다.
 
 ```json
 {
   "API_BASE_URL": "https://pauseable-api.onrender.com",
-  "PATIENT_ID": "byunwoojin",
+  "PATIENT_ID": "SET_PATIENT_ID_FROM_CONFIG",
   "APP_TOKEN": "REPLACE_WITH_APP_TOKEN_LOCALLY"
 }
 ```
@@ -106,10 +113,10 @@ $env:PAUSEABLE_APP_TOKEN = "LOCAL_DEVELOPMENT_ONLY"
 ```powershell
 cd Pauseable.apps/guardian
 flutter pub get
-flutter run -d chrome --web-port=18109 --dart-define=API_BASE_URL=http://127.0.0.1:8000 --dart-define=PATIENT_ID=byunwoojin --dart-define=APP_TOKEN=LOCAL_DEVELOPMENT_ONLY
+flutter run -d chrome --web-port=18109 --dart-define=API_BASE_URL=http://127.0.0.1:8000 --dart-define=APP_TOKEN=LOCAL_DEVELOPMENT_ONLY
 ```
 
-기본 `main.dart`는 실제 API Repository를 사용합니다. `MockGuardianRepository`는 테스트·시연 코드에서 명시적으로 주입하는 구현이며, 인증 실패 시 자동으로 가상 데이터로 전환하는 기능은 아닙니다. App Token이 비어 있으면 클라이언트가 요청을 차단하므로 주소만 지정해서는 실행 준비가 끝나지 않습니다.
+위 명령은 `api_config.dart`의 기본 시연 대상자를 사용합니다. 다른 대상자는 서버 설정과 같은 `PATIENT_ID`를 추가로 지정합니다. 기본 `main.dart`는 실제 API Repository를 사용하며, 테스트용 `MockGuardianRepository`는 명시적으로 주입합니다. 인증 실패 시 가상 데이터로 전환하지 않고, App Token이 비어 있으면 요청을 차단합니다.
 
 </details>
 
@@ -152,7 +159,7 @@ tools/                          로컬 Render 중계·Android 빌드/연결 점�
 web/                            Flutter 웹 진입점·웹 푸시 서비스워커
 ```
 
-`GuardianRepository`를 통해 화면과 데이터 출처를 분리합니다. 서버 연동 변경은 주로 `api_guardian_repository.dart`와 `services/`에서 처리하며, 화면 전체를 다시 구현하는 방식이 아닙니다.
+`GuardianRepository`는 화면과 데이터 접근을 분리합니다. REST·업로드·사진 조회는 `api_guardian_repository.dart`, 인증·알림·녹음 처리는 `services/`에 구현했습니다.
 
 ## 5. 대표 API와 통신 방식
 
@@ -171,12 +178,12 @@ web/                            Flutter 웹 진입점·웹 푸시 서비스워�
 - REST 인증은 `AppAuthenticatedClient`에서 App Bearer를 붙입니다. 설정된 API 출처를 벗어나거나 인증을 동반한 리다이렉트는 허용하지 않습니다.
 - WebSocket은 `ready`/`app_alert` 메시지를 처리하며 연결 종료 시 재접속을 시도합니다. 앱을 닫았을 때의 시스템 알림은 별도의 Web Push/FCM 경로입니다.
 - Pi의 `GET /api/device/patients/{patient_id}/favorite-songs/random`은 **Device Token을 사용하는 장비 API**이며 보호자 앱이 직접 호출하지 않습니다.
-- `API_BASE_URL`, `PATIENT_ID`, `APP_TOKEN`은 [`api_config.dart`](lib/config/api_config.dart)의 빌드 설정입니다. 기본 웹 주소는 로컬 API, 기본 Android 주소는 Render이며 기본 대상자는 `byunwoojin`입니다. 기본 App Token은 비어 있습니다.
+- `API_BASE_URL`, `PATIENT_ID`, `APP_TOKEN`은 [`api_config.dart`](lib/config/api_config.dart)의 빌드 설정입니다. 웹은 로컬 API, Android는 Render 주소가 기본값입니다. 대상자 ID는 시연 설정을 사용하고, App Token은 별도로 입력합니다.
 
 ## 6. 녹음·개인정보·인증 주의사항
 
 - 현재 앱에 포함된 고정 대본은 **160문장**입니다. 총 **800초는 권장 분량**이지 총 녹음 시간을 자르는 상한이 아닙니다. 수집 가능한 세트 상태·대본 범위 안에서 추가 녹음하며, 문장당 녹음 제한은 45초입니다.
-- 학습용 WAV는 PCM 16-bit, 16 kHz, mono로 생성하고 문장 종료 후 자동 전송합니다. 실패한 녹음은 열린 화면에서 재전송할 수 있으나, 앱 종료 후에도 영구 복구된다고 보장하는 기능은 아닙니다.
+- 녹음 원본은 PCM 16-bit·16 kHz·mono WAV로 생성해 문장 종료 후 전송합니다. Voice 전처리에서 학습용 22,050 Hz로 변환합니다. 실패한 녹음은 열린 화면에서 재전송할 수 있으며, 앱 종료 후 영구 복구 기능은 제공하지 않습니다.
 - [`VoiceRecordingConsentSheet`](lib/screens/voice_recording_consent_sheet.dart)의 동의 여부·버전·서버 영수증 확인 후 녹음 화면을 엽니다. 동의 거부·저장 실패 시 녹음/업로드는 막되 기존 알림·사진 확인은 유지합니다.
 - 보관·삭제 정책은 동의 화면에 안내합니다. 실제 녹음·모델 삭제는 서버/Worker의 역할이며 **동의 화면 표시만으로 삭제 실행을 증명하지 않습니다.** 앱에는 전체 데이터 즉시 삭제·동의 철회 UI가 구현된 상태가 아닙니다.
 - `*.secrets.json`, `.env`, `android/app/google-services.json`은 Git 제외 대상입니다. 실제 토큰, 녹음, 사용자 사진·주소, 서비스 계정 키를 README·스크린샷·커밋에 넣지 않습니다.
@@ -185,7 +192,7 @@ web/                            Flutter 웹 진입점·웹 푸시 서비스워�
 
 ## 7. 검증 결과와 남은 확인
 
-다음 자동 검사 결과는 음악 연동 기능 커밋 [`d2b49a8`](https://github.com/RACOS-Team/Pauseable/commit/d2b49a8a32beeb5fca4e61e0be0a20a7f60fc27b) 및 [PR #1](https://github.com/RACOS-Team/Pauseable/pull/1)의 확인 기록을 기준으로 정리했습니다(2026-10-28). 테스트 수는 이후 변경에 따라 달라질 수 있습니다.
+다음은 2026-10-28 정리한 음악 연동 기능 commit [`d2b49a8`](https://github.com/RACOS-Team/Pauseable/commit/d2b49a8a32beeb5fca4e61e0be0a20a7f60fc27b) 및 [PR #1](https://github.com/RACOS-Team/Pauseable/pull/1)의 검사 기록입니다. 테스트 수와 결과는 해당 코드 버전을 기준으로 합니다.
 
 | 확인 종류 | 확인한 범위 |
 | --- | --- |

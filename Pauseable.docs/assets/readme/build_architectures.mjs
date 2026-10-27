@@ -43,7 +43,8 @@ function svg(w, h, title, description, content) {
 }
 
 export function aiArchitecture() {
-  let body = label(32, 47, 'AI 분석 · 음성 학습 구조', 32, colors.ink, 700) +
+  let body = label(32, 47, 'Memolink AI 분석 · 음성 학습 구조', 32, colors.ink, 700) +
+    label(1408, 47, '개발팀 PAUSEABLE', 19, colors.muted, 700, 'end') +
     label(32, 79, '반복행동·배회 판단과 개인화 음성 학습을 서로 독립된 파이프라인으로 구성합니다.', 19, colors.muted);
   const pipelines = [
     { x: 32, tone: 'green', title: '가전 반복행동', detail: 'Home Assistant · Pi 5 / Python', steps: [
@@ -85,12 +86,13 @@ export function aiArchitecture() {
     rect(968, 796, 440, 88, colors.violetBg, colors.violetLine, 10) +
     label(992, 831, 'Pi 5 · Piper TTS', 25, colors.violet, 700) +
     label(992, 862, '검증한 음성 모델로 로컬 합성', 18, colors.muted);
-  return svg(1440, 916, 'PAUSEABLE AI 분석과 음성 학습 구조',
+  return svg(1440, 916, 'Memolink AI 분석과 음성 학습 구조 · 개발팀 PAUSEABLE',
     '가전 반복행동과 배회 판단은 각 MQTT 메시지로 Central에 전달됩니다. 개인화 음성은 GPU에서 학습한 모델을 Pi 5에서 검증 후 사용합니다.', body);
 }
 
 export function systemArchitecture() {
-  let body = label(32, 47, 'PAUSEABLE 시스템 아키텍처', 32, colors.ink, 700) +
+  let body = label(32, 47, 'Memolink 시스템 아키텍처', 32, colors.ink, 700) +
+    label(1448, 47, '개발팀 PAUSEABLE', 19, colors.muted, 700, 'end') +
     label(32, 79, '가전·이동 정보를 Pi 5에서 분석하고, 검증한 결정을 로컬 출력과 보호자 앱으로 연결합니다.', 19, colors.muted);
   body += group(32, 112, 244, 692, '생활 데이터 입력', '가전 · 실내 이동', 'green');
   body += group(316, 112, 740, 692, '로컬 분석 · 중앙 제어', 'Raspberry Pi 5 / Atlas · Home Assistant · Python / Docker · C++', 'blue');
@@ -156,7 +158,7 @@ export function systemArchitecture() {
     body += box(x, 980, w, 82, title, [detail], 'violet', { titleSize: 20, bodySize: 16, bodyTop: 60 });
     if (i < voice.length - 1) body += arrow(`M${x + w} 1021H${voice[i + 1][0]}`, 'violet');
   });
-  return svg(1480, 1100, 'PAUSEABLE 시스템 아키텍처',
+  return svg(1480, 1100, 'Memolink 시스템 아키텍처 · 개발팀 PAUSEABLE',
     'Pi 5 안의 Home Assistant와 두 AI 파이프라인, C++ Central, 로컬 출력, 클라우드 API와 보호자 앱을 구분합니다. 카메라와 개인화 음성의 별도 연결도 함께 표시합니다.', body);
 }
 

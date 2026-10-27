@@ -1,14 +1,14 @@
-# PAUSEABLE / Contracts
+# Memolink / Contracts
 
-**AI의 추론, Central의 실행 결정, 앱의 알림을 서로 구분하는 공통 약속입니다.** JSON Schema는 필드·형식·허용값을 정의하고, 각 서비스는 그 계약과 실행 정책을 검증합니다. 이 폴더 자체가 메시지를 구독하거나 변환하는 서비스는 아닙니다.
+AI·Central·API·보호자 앱 사이의 메시지 형식을 정의합니다. JSON Schema에는 필수 필드, 자료형과 허용값을 명시했습니다. AI 추론, Central의 최종 결정과 앱 알림을 서로 다른 메시지로 구분하고, 각 서비스가 수신 시 형식과 처리 조건을 검사합니다.
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Central](../Pauseable.edge/README.md) · [API·앱](../Pauseable.apps/README.md)
 
-## 계약 지도
+## 메시지 구성
 
 ![AI Inference, Central Decision, App Alert가 역할에 따라 구분되는 메시지 지도](../Pauseable.docs/assets/readme/contract-map.svg)
 
-같은 사건을 이어받더라도 세 메시지의 책임은 다릅니다. AI가 `risk`를 보냈다는 사실과 Central이 가전 동작을 허용했다는 사실을 하나로 취급하지 않습니다.
+AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과에 실행 정책을 적용해 최종 Decision Event를 만들고, API는 보호자가 확인할 알림으로 제공합니다. AI의 `risk` 판정만으로 가전 동작이 실행되지는 않습니다.
 
 <details>
 <summary><strong>연결별 Schema 파일 전체 보기</strong></summary>
@@ -26,9 +26,9 @@
 
 </details>
 
-스키마 파일이 있다는 사실만으로 해당 생산자·소비자의 배포와 실기 연결이 완료된 것은 아닙니다. 실행 중인 구현도 함께 확인합니다.
+기본 AI·Central 통신은 `communication-v1`을 기준으로 합니다. 그 외 Schema의 적용 범위는 각 모듈의 구현과 배포 설정에 따릅니다.
 
-## 검증을 통과하는 순서
+## 수신 메시지 검증
 
 ![JSON 해석, 계약, 출처·시각, 사건 ID, 실행 정책의 단계별 검증](../Pauseable.docs/assets/readme/validation-gates.svg)
 
@@ -63,7 +63,7 @@
 
 `inference_status=ok`이면 행동·위험도·정수 점수가 해당 계약을 따라야 합니다. 관측 부족이나 오류이면 행동과 위험도는 `unknown`, 점수는 `null`로 표현합니다. `risk_score`는 0~100의 시스템 점수이지 치매 확률이나 정확도가 아닙니다.
 
-현재 v1 스키마에는 **시연 대상자·장치 ID를 고정한 제약**이 있습니다. 다른 가구로 배포할 때 producer·Central 설정·스키마·API의 식별 규칙을 함께 검토해야 하며, README의 예시 ID만 바꾸면 다중 사용자 지원이 완성되는 것은 아닙니다.
+현재 v1은 시연 대상자·장치 ID를 고정해 검사합니다. 다른 가구나 다중 사용자에게 적용하려면 생산자·Central·Schema·API의 식별 규칙과 접근권한을 함께 변경해야 합니다.
 
 </details>
 
@@ -78,7 +78,7 @@ Central은 AI 메시지를 그대로 전달하지 않고 내부 Decision과 실�
 - API의 `Idempotency-Key`와 본문의 `event_id`가 다르면 거절합니다.
 - 동일 ID에 다른 내용이 들어오는 충돌과 동일 메시지 재전송을 구분합니다.
 
-## 어디서 검증하는가
+## 검증 구현
 
 | 단계 | 구현 | 검증 범위 |
 | --- | --- | --- |
@@ -86,11 +86,11 @@ Central은 AI 메시지를 그대로 전달하지 않고 내부 Decision과 실�
 | Central 실행 | [`ActionRouter.cpp`](../Pauseable.edge/central/core/src/ActionRouter.cpp) | 행동별 활성화·위험도·cooldown·실행 허용 |
 | API 수신 | [`main.py`](../Pauseable.apps/api/app/main.py) | 인증·요청 모델·UTC·actions·이벤트 충돌 |
 
-JSON 문법 검사, JSON Schema 적합성 검사, 서비스의 실행 정책 검사는 서로 다른 단계입니다. JSON이 아닌 입력을 임의로 정상 메시지로 바꾸어 실행하는 계약은 아닙니다.
+형식이 올바른 JSON도 출처·시각·ID·실행 조건을 통과해야 처리합니다. JSON이 아닌 입력이나 잘못된 메시지는 거절 사유를 기록하며, 정상 메시지로 자동 변환하지 않습니다.
 
-## 버전과 변경 시 주의
+## 버전 관리
 
-최상위의 [`decision-event.schema.json`](decision-event.schema.json) 같은 간략 계약과 `communication-v1` 계약은 필드와 허용값이 다릅니다. **파일 이름만 보고 서로 교체하지 않습니다.** HA 배포 폴더의 계약 사본도 공유 계약과 일치하는지 확인합니다.
+최상위의 [`decision-event.schema.json`](decision-event.schema.json)은 간략 형식이며 `communication-v1`과 필드·허용값이 다릅니다. 통신 규격을 변경할 때는 사용하는 버전과 배포 사본을 함께 갱신합니다.
 
 1. 생산자·소비자·Topic·인증·버전을 먼저 정합니다.
 2. 정상·unknown·누락 필드·범위 초과·동일 ID 충돌 사례를 함께 확인합니다.
@@ -103,4 +103,4 @@ JSON 문법 검사, JSON Schema 적합성 검사, 서비스의 실행 정책 검
 python -m json.tool Pauseable.contracts/communication-v1/schemas/behavior-inference.schema.json
 ```
 
-[`ALIGNMENT_REVIEW.md`](communication-v1/ALIGNMENT_REVIEW.md)는 과거 대조 기록입니다. 미구현 여부는 당시 문장만 복사하지 말고 현재 실행 코드와 대조합니다.
+규격의 초기 대조 내용은 [`ALIGNMENT_REVIEW.md`](communication-v1/ALIGNMENT_REVIEW.md)에 보관했습니다. 현재 동작은 위 검증 코드와 해당 버전의 테스트를 기준으로 확인합니다.

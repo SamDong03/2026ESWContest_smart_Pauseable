@@ -2,9 +2,9 @@
 
 ## 1. 입력 데이터 계약
 
-학습 입력은 160~240개의 WAV와 대응하는 `recording_script.csv`입니다.
+학습 세트는 160~240개의 WAV와 대응하는 `recording_script.csv`로 구성합니다. 앱은 16 kHz·mono·PCM 16-bit WAV를 수집하고, 전처리에서 아래 학습용 형식으로 변환합니다.
 
-| 항목 | 기준 |
+| 항목 | 학습용 전처리 결과 |
 |---|---|
 | 파일명 | `S001.wav`부터 연속된 번호 |
 | 채널 | mono |
@@ -13,13 +13,14 @@
 | metadata 구분자 | `|` |
 | metadata 행 | WAV와 1:1 대응 |
 
-기본 설정은 [`../configs/guardian-medium-v1.json`](../../Pauseable.ai/voice/configs/guardian-medium-v1.json)에 있으며, 현재 고정 대본은 160개를 기준으로 합니다.
+기본값은 [학습 설정](../../Pauseable.ai/voice/configs/guardian-medium-v1.json)에 정의되어 있으며, 현재 앱 고정 대본은 160문장입니다. [전처리 코드](../../Pauseable.ai/voice/scripts/preprocess.py)는 원본의 sample rate·채널·길이와 변환 결과를 기록합니다.
 
 ## 2. 처리 단계
 
 ```text
 원본 WAV
   -> 무결성·파일명·metadata 검사
+  -> mono·22,050 Hz·PCM 16-bit 변환
   -> Piper용 dataset 생성
   -> base checkpoint fine-tuning
   -> latest last.ckpt 선택
