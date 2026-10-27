@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildArchitectures } from './build_architectures.mjs';
+import { buildOverview } from './build_overview.mjs';
 
 const out = path.dirname(fileURLToPath(import.meta.url));
 const C = { ink: '#203b30', muted: '#65786e', line: '#b4c8bd', green: '#245c45', teal: '#147f82', blue: '#315f92', amber: '#a46a1e', red: '#a54545', paper: '#f5f8f6' };
@@ -25,6 +26,8 @@ async function save(file, title, subtitle, height, content, note = '') {
 }
 
 await buildArchitectures();
+await buildOverview();
+diagrams.push({ file: 'memolink-overview.svg', title: 'Memolink 동작 개요 · 개발팀 PAUSEABLE', kind: 'architecture', liveStatus: false });
 diagrams.push({ file: 'ai-pipelines.svg', title: 'Memolink AI 분석과 음성 학습 구조 · 개발팀 PAUSEABLE', kind: 'architecture', liveStatus: false });
 let b = '';
 

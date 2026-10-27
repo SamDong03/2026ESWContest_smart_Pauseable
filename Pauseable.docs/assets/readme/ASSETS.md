@@ -6,6 +6,7 @@ README와 보고서에서 사용하는 구조도·평가 그래프의 출처와 
 
 | 영역 | 그림 | 설명 |
 | --- | --- | --- |
+| 전체 | [`memolink-overview.svg`](memolink-overview.svg) | 처음 읽는 사람을 위한 수집·분석·Central·출력 개요와 별도 연결 기능 |
 | AI | [`ai-pipelines.svg`](ai-pipelines.svg) | HA·mmWave·Voice의 입력과 출력, 실행 책임 |
 | AI | [`learning-lifecycle.svg`](learning-lifecycle.svg) | 유효 이력·학습·검증·활성화·fallback |
 | Apps | [`apps-connections.svg`](apps-connections.svg) | Pi·API·앱·Worker·저장소 연결 |
@@ -48,7 +49,8 @@ python -m pip install matplotlib==3.10.8 numpy==2.3.5
 python Pauseable.docs/assets/readme/plot_evaluation.py
 ```
 
-- [`build_diagrams.mjs`](build_diagrams.mjs): Node.js 표준 모듈로 SVG 15개와 [`diagram_manifest.json`](diagram_manifest.json) 생성.
+- [`build_diagrams.mjs`](build_diagrams.mjs): Node.js 표준 모듈로 SVG 16개와 [`diagram_manifest.json`](diagram_manifest.json) 생성.
+- [`build_overview.mjs`](build_overview.mjs): 동작 개요 1개 생성. 외부 이미지 없이 직접 그린 선형 아이콘을 사용하며 위 전체 생성 명령에 포함.
 - [`build_architectures.mjs`](build_architectures.mjs): 전체 시스템 및 AI 구조도 2개 생성. 위 전체 생성 명령에서도 호출하며 별도 실행도 가능.
 - [`plot_evaluation.py`](plot_evaluation.py): 저장된 JSON을 읽어 PNG 3개와 출처 Manifest 생성. 임시 Matplotlib cache는 종료 시 정리.
 - 별도 모델·서비스 실행, 네트워크 호출, 개인정보·인증값 접근은 하지 않음.

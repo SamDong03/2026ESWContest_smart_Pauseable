@@ -19,7 +19,7 @@
 | 서비스 관리 | [run_ha_full_service.py](../Pauseable.ai/ha/src/run_ha_full_service.py) | 지속 수집·분석 회차·판정 이력 관리 |
 | 현재 결정 전송 | [ha_decision_delivery.py](../Pauseable.ai/ha/src/ha_decision_delivery.py) | 현재 결정 검사와 MQTT 전달 |
 
-[HA 모듈 안내](../Pauseable.ai/ha/README.md) · [평가 원본](evaluation/ha)
+[HA 모듈 안내](../Pauseable.ai/README.md#ha-구현과-실행-상세) · [평가 원본](evaluation/ha)
 
 ## mmWave 이동 분석
 
@@ -31,7 +31,7 @@
 | 개인 이력 | [personal_baseline.py](../Pauseable.ai/mmwave/src/personal_baseline.py) | 과거 관측 분포와 변화 비교 |
 | 판단 전달 | [wandering_publisher.py](../Pauseable.ai/mmwave/src/wandering_publisher.py) | 계약에 맞는 MQTT 메시지 |
 
-[mmWave 모듈 안내](../Pauseable.ai/mmwave/README.md) · [Runtime 정책](mmwave/RUNTIME.md)
+[mmWave 모듈 안내](../Pauseable.ai/README.md#mmwave-구현과-설치-상세) · [Runtime 정책](mmwave/RUNTIME.md)
 
 ## Central 수신과 실행
 
@@ -46,7 +46,7 @@
 | Gateway | [DecisionGatewayClient.cpp](../Pauseable.edge/central/integration/src/DecisionGatewayClient.cpp) | 최종 Event의 API 전달 |
 | 로컬 TTS | [PiperTtsEngine.cpp](../Pauseable.edge/central/integration/src/PiperTtsEngine.cpp) | Piper 음성 합성 연결 |
 
-[Central 안내](../Pauseable.edge/central/README.md) · [입력 시험 스크립트](../Pauseable.edge/central/scripts/test_mqtt_intake.sh)
+[Central 안내](../Pauseable.edge/README.md#central-구현과-설치-상세) · [입력 시험 스크립트](../Pauseable.edge/central/scripts/test_mqtt_intake.sh)
 
 ## 앱과 출력
 
@@ -56,9 +56,9 @@
 | 보호자 앱 | [guardian/lib](../Pauseable.apps/guardian/lib) | 알림·사진·설정·녹음·모델 상태 |
 | 출입 사진 | [camera_buffer.py](../Pauseable.edge/camera/camera_buffer.py) | 카메라 버퍼·대표 사진·업로드 |
 | 지역·조명 | [weather_api.py](../Pauseable.integrations/home-assistant/weather-light-control/weather_api.py), [weather_location.py](../Pauseable.integrations/home-assistant/weather-light-control/weather_location.py) | 앱 지역·기상청·HA 조명 연결 |
-| 선호 음악 | [favorite-music](../Pauseable.edge/actions/favorite-music/README.md), [youtube](../Pauseable.edge/actions/youtube) | 현재 등록 곡 조회·Pi Player 요청 |
+| 선호 음악 | [favorite-music](../Pauseable.edge/README.md#선호-음악-설치와-시험), [youtube](../Pauseable.edge/actions/youtube) | 현재 등록 곡 조회·Pi Player 요청 |
 
-[API 안내](../Pauseable.apps/api/README.md) · [보호자 앱 상세](../Pauseable.apps/guardian/README.md)
+[API 안내](../Pauseable.apps/README.md#api-구현-상세) · [보호자 앱 상세](../Pauseable.apps/README.md#보호자-앱-상세)
 
 ## 개인화 음성
 
@@ -69,7 +69,7 @@
 | WAV 전처리 | [preprocess.py](../Pauseable.ai/voice/scripts/preprocess.py) | mono·22,050 Hz·PCM16 변환 |
 | Pi 모델 교체 | [voice_model_updater.py](../Pauseable.edge/voice-model/voice_model_updater.py) | 다운로드·해시·설정·합성 검사 후 적용 |
 
-[Voice 모듈 안내](../Pauseable.ai/voice/README.md) · [데이터 정책](voice/DATA_AND_ARTIFACTS_KO.md)
+[Voice 모듈 안내](../Pauseable.ai/README.md#voice-학습과-운영-상세) · [데이터 정책](voice/DATA_AND_ARTIFACTS_KO.md)
 
 ## 설치와 검증
 

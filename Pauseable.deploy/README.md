@@ -1,6 +1,15 @@
-# Memolink 빌드와 장치 배포
+# 📦 Memolink 빌드와 장치 배포
 
 Pi 3·Pi 4·Pi 5의 배포 소스, systemd 설정과 기존 설치의 이름 변경 정보를 관리합니다. 장치별 소스 묶음을 생성한 뒤, 대상 환경에서 빌드·설정·설치·실기 시험을 진행합니다.
+
+**GitHub에 코드를 올리는 것과 Pi에 프로그램을 설치하는 것은 다른 단계**입니다. 이 영역은 장치별로 필요한 소스와 설정을 전달하기 위한 것이며, Central 앱·휴대폰 앱·음성 모델의 실행 산출물은 아래처럼 별도로 준비합니다.
+
+| 산출물 | 용도 |
+| --- | --- |
+| 📁 `tar.gz` | 장치별 소스·설정 묶음 |
+| ⚙️ `.ipk` | SDK로 빌드한 Atlas Central 앱 설치 패키지 |
+| 📱 `.apk` | Flutter Android 앱 설치 파일 |
+| 🔊 `.onnx`와 설정 | Pi의 Piper가 사용하는 검증된 음성 모델 |
 
 [전체 프로젝트](../README.md) · [Edge 구성](../Pauseable.edge/README.md) · [전체 배포 인계](../Pauseable.docs/DEPLOYMENT_HANDOFF.txt)
 
