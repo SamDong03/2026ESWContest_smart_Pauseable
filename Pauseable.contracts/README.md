@@ -1,4 +1,4 @@
-# 🔗 Memolink 공통 통신 규격
+# Memolink 공통 통신 규격
 
 AI·Central·API·보호자 앱 사이의 메시지 형식을 정의합니다. JSON Schema에는 필수 필드, 자료형과 허용값을 명시했습니다. AI 추론, Central의 최종 결정과 앱 알림을 서로 다른 메시지로 구분하고, 각 서비스가 수신 시 형식과 처리 조건을 검사합니다.
 
@@ -16,9 +16,9 @@ AI는 관측 근거와 위험 상태를 전달합니다. Central은 이 결과�
 
 | 단계 | 메시지가 답하는 질문 |
 | --- | --- |
-| 🧠 AI Inference | 어떤 행동을 관측했고 어떤 상태로 판단했는가? |
-| 🧭 Central Decision | 메시지를 승인했으며 어떤 동작을 허용했는가? |
-| 📱 App Alert | 보호자가 어떤 사건과 안내를 확인해야 하는가? |
+|  AI Inference | 어떤 행동을 관측했고 어떤 상태로 판단했는가? |
+|  Central Decision | 메시지를 승인했으며 어떤 동작을 허용했는가? |
+|  App Alert | 보호자가 어떤 사건과 안내를 확인해야 하는가? |
 
 <details>
 <summary><strong>연결별 Schema 파일 전체 보기</strong></summary>

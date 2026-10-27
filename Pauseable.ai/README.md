@@ -1,4 +1,4 @@
-# 🧠 Memolink AI 분석과 음성 학습
+# Memolink AI 분석과 음성 학습
 
 가전 사용과 이동 경로에서 주의할 상황을 찾고, 안내에 사용할 보호자 음성을 학습하는 영역입니다. **하나의 AI가 모든 일을 하는 것이 아니라 세 파이프라인이 서로 다른 입력을 처리**합니다. HA·mmWave는 판단 메시지를, Voice는 Pi에 설치할 음성 모델을 만듭니다. 판단에 따른 실행 여부는 [Central](../Pauseable.edge/README.md)이 결정합니다.
 
@@ -10,9 +10,9 @@
 
 | 파트·소스 | 입력 → 출력 | 실행 환경 | 상세 안내 |
 | --- | --- | --- | --- |
-| 🧊 HA · `ha/` | 가전 상태 이력 → 특징·판정·MQTT | Pi 5 / Python·Docker | [HA 안내](#ha-구현과-실행-상세) |
-| 📡 mmWave · `mmwave/` | 이동 경로 → 형태·개인 변화·판단 근거 | Pi 5 / Python, 연구 도구 | [mmWave 안내](#mmwave-구현과-설치-상세) |
-| 🎙️ Voice · `voice/` | 동의한 녹음·대본 → Piper ONNX | GPU Worker / Docker | [Voice 안내](#voice-학습과-운영-상세) |
+|  HA · `ha/` | 가전 상태 이력 → 특징·판정·MQTT | Pi 5 / Python·Docker | [HA 안내](#ha-구현과-실행-상세) |
+|  mmWave · `mmwave/` | 이동 경로 → 형태·개인 변화·판단 근거 | Pi 5 / Python, 연구 도구 | [mmWave 안내](#mmwave-구현과-설치-상세) |
+|  Voice · `voice/` | 동의한 녹음·대본 → Piper ONNX | GPU Worker / Docker | [Voice 안내](#voice-학습과-운영-상세) |
 
 **읽는 순서:** 이벤트·특징 생성 → 초기 Baseline → IF·AE와 개인화 → 평가 결과 순으로 HA를 설명합니다. 이동 분석과 음성 학습은 뒤에서 별도로 다룹니다. `Feature`는 횟수·전환·시간대 등을 숫자로 정리한 모델 입력이고, `Calibration`은 학습과 분리한 구간으로 임계값을 정하는 과정입니다.
 
@@ -176,10 +176,10 @@ Home Assistant가 전달하는 가전 상태 변경을 기록하고, 시간 구�
 
 | 처리 순서 | 냉장고 개폐를 예로 들면 |
 | --- | --- |
-| 📥 기록 | HA가 보낸 열림·닫힘 이벤트와 시각 저장 |
-| 🔢 특징 생성 | 최근 시간 구간의 열림 횟수·전환 등 숫자 특징 계산 |
-| 🧠 판단 | Baseline과 사용 가능한 IF·AE, Routine 조건 적용 |
-| 📤 전달 | 상태·점수·근거를 공통 JSON으로 만들어 Central에 전달 |
+|  기록 | HA가 보낸 열림·닫힘 이벤트와 시각 저장 |
+|  특징 생성 | 최근 시간 구간의 열림 횟수·전환 등 숫자 특징 계산 |
+|  판단 | Baseline과 사용 가능한 IF·AE, Routine 조건 적용 |
+|  전달 | 상태·점수·근거를 공통 JSON으로 만들어 Central에 전달 |
 
 ### 입력과 출력
 
@@ -225,7 +225,7 @@ Baseline 생성기는 시간대별 통계도 저장하지만, 현재 기본 점�
 최초 학습은 같은 가구·출처·특징 규격에서 하루 12개 이상 서로 다른 시간대의 유효 정상 후보가 있는 날 30일 이상을 기본 조건으로 합니다. `reviewed_normal`과 Baseline으로 선별한 후보는 구분합니다. `shadow`는 점수 관찰, `hybrid`는 모델 신호 결합이며, 주기 재학습은 `retrain_days=0`에서 꺼져 있습니다.
 
 <details>
-<summary><strong>📖 정상 데이터로 학습하는 이유와 공개 데이터의 역할</strong></summary>
+<summary><strong>정상 데이터로 학습하는 이유와 공개 데이터의 역할</strong></summary>
 
 IF·AE는 '치매 행동의 정답'을 직접 분류하도록 학습하는 구성이 아닙니다. 해당 사용자의 정상 후보 분포를 학습하고, 현재 입력이 그 분포와 얼마나 다른지 점수화합니다. 따라서 데이터가 충분히 있어도 정상 후보에 반복 이상이나 관측 오류가 섞이면 기준이 흐려질 수 있습니다.
 
@@ -269,7 +269,7 @@ python -m unittest discover -s Pauseable.docs/evaluation/ha/checks -v
 
 | 입력 | 분석 | 출력 |
 | --- | --- | --- |
-| 📍 대상·좌표·시각·추적 정보 | 경로 형태, 개인 과거 분포, 연속성과 관측 품질 | 📨 Central에 전달할 상태·근거·위험 정보 |
+|  대상·좌표·시각·추적 정보 | 경로 형태, 개인 과거 분포, 연속성과 관측 품질 |  Central에 전달할 상태·근거·위험 정보 |
 
 ### 구성
 
@@ -300,7 +300,7 @@ python -m unittest discover -s Pauseable.docs/evaluation/ha/checks -v
 [실험 설계](mmwave/src/shape_v2/PROTOCOL.md) · [평가 원본](mmwave/src/shape_v2/artifacts/metrics.json) · [경로 그림](mmwave/src/shape_v2/artifacts/inspect_paths.png)
 
 <details>
-<summary><strong>📊 합성 경로 연구 그림과 읽는 방법</strong></summary>
+<summary><strong>합성 경로 연구 그림과 읽는 방법</strong></summary>
 
 ![합성 경로의 반복 이동 후 전환 사례와 Random Forest 분류 결과](mmwave/src/shape_v2/artifacts/inspect_paths.png)
 

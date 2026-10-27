@@ -1,14 +1,14 @@
-# 📚 Memolink 설계·검증 자료
+# Memolink 설계·검증 자료
 
 시스템 설계, AI 평가, 보고서와 장치 운영 자료를 모았습니다. 구현 설명은 영역별 README에서, 실험의 입력·조건·결과는 아래 평가 파일에서 확인할 수 있습니다.
 
 | 확인하려는 내용 | 시작할 곳 |
 | --- | --- |
-| 🏠 어떤 시스템인가? | [프로젝트 소개와 동작 사례](../README.md#-프로젝트-소개) |
-| 🛠️ 어떤 환경에서 만드는가? | [개발환경](DEVELOPMENT_ENVIRONMENT_KO.md) |
-| 🔎 기능이 어느 파일에 있는가? | [기능별 코드 위치](SOURCE_MAP_KO.md) |
-| 📊 무엇을 시험했고 결과가 어떤가? | [평가 자료](#평가-자료-읽기) |
-| 📦 어떻게 설치하고 확인하는가? | [배포 안내](../Pauseable.deploy/README.md), [실기 기록](#실기-시험과-운영-기록) |
+|  어떤 시스템인가? | [프로젝트 소개와 동작 사례](../README.md#프로젝트-소개) |
+|  어떤 환경에서 만드는가? | [개발환경](DEVELOPMENT_ENVIRONMENT_KO.md) |
+|  기능이 어느 파일에 있는가? | [기능별 코드 위치](SOURCE_MAP_KO.md) |
+|  무엇을 시험했고 결과가 어떤가? | [평가 자료](#평가-자료-읽기) |
+|  어떻게 설치하고 확인하는가? | [배포 안내](../Pauseable.deploy/README.md), [실기 기록](#실기-시험과-운영-기록) |
 
 [전체 프로젝트](../README.md) · [AI](../Pauseable.ai/README.md) · [Apps](../Pauseable.apps/README.md) · [Edge](../Pauseable.edge/README.md) · [Deploy](../Pauseable.deploy/README.md)
 

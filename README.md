@@ -8,18 +8,17 @@
 
 **개발팀 PAUSEABLE**
 
-🏠 Home Assistant · 📡 mmWave · 🧠 개인화 행동 분석 · 🔊 Piper TTS · 📱 보호자 앱
+Home Assistant ·  mmWave ·  개인화 행동 분석 ·  Piper TTS ·  보호자 앱
 
-[프로젝트 소개](#-프로젝트-소개) · [시스템 구조](#-시스템-아키텍처) · [주요 기능](#-주요-기능) · [설치와 실행](#-실행과-검토) · [검증 결과](#-검증과-적용-범위)
+[프로젝트 소개](#프로젝트-소개) · [시스템 구조](#시스템-아키텍처) · [주요 기능](#주요-기능) · [설치와 실행](#실행과-검토) · [검증 결과](#검증과-적용-범위)
 
 </div>
 
 ---
 
-<a id="프로젝트-소개"></a>
 <a id="개발-목표"></a>
 
-## 🏠 프로젝트 소개
+## 프로젝트 소개
 
 Memolink는 **치매 환자를 위한 스마트 가전 AIoT 시스템**입니다. 가전 사용 이력과 실내 이동 경로를 AI로 분석해 반복행동·배회 의심 상황에 대응합니다. PAUSEABLE 팀은 보호자가 곁에 없을 때도 일상 속 변화를 확인하고 안내할 수 있도록, 가전·센서·음성·보호자 앱을 연결했습니다.
 
@@ -29,16 +28,14 @@ Memolink는 **치매 환자를 위한 스마트 가전 AIoT 시스템**입니다
 
 | 살펴보는 상황 | 입력과 판단 | 연결되는 기능 |
 | --- | --- | --- |
-| 🧊 가전을 반복 조작하는 상황 | HA의 열림·닫힘·시작·정지 이력에서 반복 횟수와 패턴 확인 | 반복행동 판단 → Central → 설정된 안내·가전·알림 |
-| 🚶 비슷한 동선을 반복하는 상황 | mmWave 위치·추적 정보에서 경로 형태와 지속성, 개인 이력 확인 | 배회 의심 판단 → Central → 설정된 안내·알림 |
-| 🚪 현관 출입 상황 | 도어락·HA 출입 트리거와 카메라 버퍼 연결 | Pi 4 대표 사진 → API → 보호자 앱 |
-| ☀️ 생활 환경 변화 | 앱 거주지역·기상청 날씨·HA 태양 고도 확인 | 별도 조명 규칙으로 밝기·색온도 조절 |
+|  가전을 반복 조작하는 상황 | HA의 열림·닫힘·시작·정지 이력에서 반복 횟수와 패턴 확인 | 반복행동 판단 → Central → 설정된 안내·가전·알림 |
+|  비슷한 동선을 반복하는 상황 | mmWave 위치·추적 정보에서 경로 형태와 지속성, 개인 이력 확인 | 배회 의심 판단 → Central → 설정된 안내·알림 |
+|  현관 출입 상황 | 도어락·HA 출입 트리거와 카메라 버퍼 연결 | Pi 4 대표 사진 → API → 보호자 앱 |
+|  생활 환경 변화 | 앱 거주지역·기상청 날씨·HA 태양 고도 확인 | 별도 조명 규칙으로 밝기·색온도 조절 |
 
-위 표는 기능 연결을 설명한 것입니다. 반복 조작의 원인을 '잊어버림'으로 확정하거나 이동만으로 임상적 배회를 진단하지는 않습니다. 현재 구현과 검증 범위는 [검증 결과](#-검증과-적용-범위)에 구분했습니다.
+위 표는 기능 연결을 설명한 것입니다. 반복 조작의 원인을 '잊어버림'으로 확정하거나 이동만으로 임상적 배회를 진단하지는 않습니다. 현재 구현과 검증 범위는 [검증 결과](#검증과-적용-범위)에 구분했습니다.
 
-<a id="시스템-아키텍처"></a>
-
-## 🧩 시스템 아키텍처
+## 시스템 아키텍처
 
 ![Memolink 시스템 구조 · 개발팀 PAUSEABLE](Pauseable.docs/assets/pauseable-system.svg)
 
@@ -48,18 +45,18 @@ Memolink는 **치매 환자를 위한 스마트 가전 AIoT 시스템**입니다
 
 API 서버는 보호자 앱과 집 안 장치를 연결합니다. 별도의 GPU Worker는 보호자 음성 모델을 학습하고, R2는 사진·녹음·모델 파일을 비공개로 보관합니다. **행동 분석용 IF·AE 학습과 보호자 음성 학습은 다른 과정**입니다.
 
+구조도에서 센서 분석 입력은 **Pi 3 → SSH/FIFO → Pi 5**로, 최종 행동 판단은 **AI → MQTT Broker → Central**로 구분했습니다. 점선 UDP는 Central의 선택적 원시 관측 경로이며 자동 실행 판단과 분리됩니다. 출입 사진·음성 모델·환경 조명은 하단의 별도 연결입니다. [원본 SVG](Pauseable.docs/assets/pauseable-system.svg) · [연결별 구현 근거](Pauseable.docs/assets/readme/ASSETS.md#시스템-구조도-연결-기준)
+
 | 실행 위치 | 하는 일 | 관련 문서 |
 | --- | --- | --- |
-| 📡 ESP32·mmWave / Pi 3 | 센서의 위치·추적 정보를 검증해 Pi 5로 중계 | [센서 릴레이](Pauseable.edge/README.md#센서-릴레이와-카메라) |
-| 📷 Pi 4 | 카메라 버퍼에서 출입 시점의 대표 사진을 선택하고 업로드 | [카메라 모듈](Pauseable.edge/camera) |
-| 🧠 Pi 5 / Atlas | HA 수집·행동 분석·Central·로컬 음성 합성·가전 연동 | [AI](Pauseable.ai/README.md), [Central](Pauseable.edge/README.md#central-구현과-설치-상세) |
-| 🌐 FastAPI / Render | 인증, 사건 이력, 앱 실시간 연결, 설정과 학습 작업 관리 | [앱·API](Pauseable.apps/README.md) |
-| 🎙️ GPU Worker / R2 | Piper 음성 학습과 ONNX 게시, 파일 저장 | [Voice](Pauseable.ai/README.md#voice-학습과-운영-상세) |
-| 📱 Flutter 보호자 앱 | 알림·사진 확인, 음성·호칭·지역·선호 음악 등록 | [앱 상세](Pauseable.apps/README.md#보호자-앱-상세) |
+|  ESP32·mmWave / Pi 3 | 센서의 위치·추적 정보를 검증해 Pi 5로 중계 | [센서 릴레이](Pauseable.edge/README.md#센서-릴레이와-카메라) |
+|  Pi 4 | 카메라 버퍼에서 출입 시점의 대표 사진을 선택하고 업로드 | [카메라 모듈](Pauseable.edge/camera) |
+|  Pi 5 / Atlas | HA 수집·행동 분석·Central·로컬 음성 합성·가전 연동 | [AI](Pauseable.ai/README.md), [Central](Pauseable.edge/README.md#central-구현과-설치-상세) |
+|  FastAPI / Render | 인증, 사건 이력, 앱 실시간 연결, 설정과 학습 작업 관리 | [앱·API](Pauseable.apps/README.md) |
+|  GPU Worker / R2 | Piper 음성 학습과 ONNX 게시, 파일 저장 | [Voice](Pauseable.ai/README.md#voice-학습과-운영-상세) |
+|  Flutter 보호자 앱 | 알림·사진 확인, 음성·호칭·지역·선호 음악 등록 | [앱 상세](Pauseable.apps/README.md#보호자-앱-상세) |
 
-<a id="주요-기능"></a>
-
-## 🔍 주요 기능
+## 주요 기능
 
 ### 1. 가전 사용 이력으로 반복행동 분석
 
@@ -107,18 +104,18 @@ Outbox는 전송하지 못한 API 사건을 보관하고 다시 보내는 **영�
 
 | 출력·화면 | 동작 방식 |
 | --- | --- |
-| 🔊 음성 안내 | Piper가 문장을 음성으로 합성해 Pi 스피커로 출력. 검증된 보호자 음성 모델 적용 가능 |
-| 🏠 가전 동작 | Central이 허용한 요청을 설정된 연동 경로로 전달. 실제 장치 지원 상태와 인증 필요 |
-| 🎵 선호 음악 | 앱에 등록한 현재 목록에서 API가 영상을 선택하고 Pi 화면·스피커 재생 요청 |
-| 📲 보호자 알림 | 최종 사건을 API에 저장한 뒤 WebSocket·FCM/Web Push로 전달 |
-| 📷 출입 사진 | Pi 4가 업로드한 대표 사진을 보호자가 인증 후 조회 |
-| ☀️ 조명 제어 | 행동 판단과 별개로 지역·날씨·태양 고도에 따른 밝기·색온도 규칙 적용 |
+|  음성 안내 | Piper가 문장을 음성으로 합성해 Pi 스피커로 출력. 검증된 보호자 음성 모델 적용 가능 |
+|  가전 동작 | Central이 허용한 요청을 설정된 연동 경로로 전달. 실제 장치 지원 상태와 인증 필요 |
+|  선호 음악 | 앱에 등록한 현재 목록에서 API가 영상을 선택하고 Pi 화면·스피커 재생 요청 |
+|  보호자 알림 | 최종 사건을 API에 저장한 뒤 WebSocket·FCM/Web Push로 전달 |
+|  출입 사진 | Pi 4가 업로드한 대표 사진을 보호자가 인증 후 조회 |
+|  조명 제어 | 행동 판단과 별개로 지역·날씨·태양 고도에 따른 밝기·색온도 규칙 적용 |
 
 앱이 열려 있을 때의 실시간 갱신은 WebSocket, 화면에 없을 때의 알림은 FCM/Web Push가 담당합니다. 휴대폰 알림 권한과 서비스 연결이 필요합니다.
 
 [보호자 앱 기능](Pauseable.apps/README.md#보호자-앱-상세) · [음악 재생](Pauseable.edge/README.md#선호-음악-설치와-시험) · [지역·조명 연동](Pauseable.integrations/README.md)
 
-## 🌱 개인화가 적용되는 과정
+## 개인화가 적용되는 과정
 
 새 사용자의 실제 이력이 없을 때는 공통 참조 Baseline으로 시작합니다. 개인 이력이 쌓이면 정상 후보를 선별하고 IF·AE를 학습·검증합니다. **30일은 달력만 세는 고정 대기시간이 아니라, 유효 관측과 정상 후보 조건을 충족한 날짜 수의 기본 기준**입니다.
 
@@ -138,9 +135,7 @@ Outbox는 전송하지 못한 API 사건을 보관하고 다시 보내는 **영�
 
 [행동 모델 운용](Pauseable.ai/README.md#baseline과-개인화-모델) · [보호자 음성 학습](Pauseable.ai/README.md#voice-학습과-운영-상세)
 
-<a id="동작-흐름"></a>
-
-## 🔗 동작 흐름
+## 동작 흐름
 
 가전·이동 분석은 입력부터 독립적으로 진행되며, 결과만 공통 계약으로 Central에 모입니다. 카메라 사진·음성 학습·지역 조명은 각각의 별도 경로로 연결됩니다.
 
@@ -156,28 +151,24 @@ Outbox는 전송하지 못한 API 사건을 보관하고 다시 보내는 **영�
 
 메시지에는 사건 ID·시각·출처·대상자·판단 상태·근거를 담습니다. 관측 부족이나 오류는 `unknown`으로 보내며, 잘못된 JSON을 정상 판단으로 자동 변환하지 않습니다. [공통 통신 규격](Pauseable.contracts/README.md)
 
-<a id="소스-구성"></a>
-
-## 📂 소스 구성
+## 소스 구성
 
 작품명은 **Memolink**, 팀명은 **PAUSEABLE**입니다. 기존 설치와의 호환성을 위해 저장소·폴더·서비스·Topic의 `Pauseable`·`pauseable` 식별자는 유지합니다.
 
 | 영역 | 담당 범위 | 읽기 |
 | --- | --- | --- |
-| 🧠 `Pauseable.ai` | HA 반복행동·mmWave 이동 분석·보호자 음성 학습 | [AI README](Pauseable.ai/README.md) |
-| 📱 `Pauseable.apps` | Flutter 보호자 앱·FastAPI 서버 | [Apps README](Pauseable.apps/README.md) |
-| ⚙️ `Pauseable.edge` | Central·센서 릴레이·카메라·음성 교체·음악 출력 | [Edge README](Pauseable.edge/README.md) |
-| 🔗 `Pauseable.contracts` | 모듈 간 JSON Schema·이벤트 계약 | [Contracts README](Pauseable.contracts/README.md) |
-| 📦 `Pauseable.deploy` | 장치별 소스 묶음·서비스·설치 설정 | [Deploy README](Pauseable.deploy/README.md) |
-| ☀️ `Pauseable.integrations` | Home Assistant 지역·날씨·조명 연결 | [Integrations README](Pauseable.integrations/README.md) |
-| 📚 `Pauseable.docs` | 설계·평가·보고서·운영 기록 | [문서 및 검증 자료](Pauseable.docs/README.md) |
-| 🧪 `.github` | 자동 검사와 Android 시험 APK 빌드 | [CI README](.github/CI_README.md) |
+|  `Pauseable.ai` | HA 반복행동·mmWave 이동 분석·보호자 음성 학습 | [AI README](Pauseable.ai/README.md) |
+|  `Pauseable.apps` | Flutter 보호자 앱·FastAPI 서버 | [Apps README](Pauseable.apps/README.md) |
+|  `Pauseable.edge` | Central·센서 릴레이·카메라·음성 교체·음악 출력 | [Edge README](Pauseable.edge/README.md) |
+|  `Pauseable.contracts` | 모듈 간 JSON Schema·이벤트 계약 | [Contracts README](Pauseable.contracts/README.md) |
+|  `Pauseable.deploy` | 장치별 소스 묶음·서비스·설치 설정 | [Deploy README](Pauseable.deploy/README.md) |
+|  `Pauseable.integrations` | Home Assistant 지역·날씨·조명 연결 | [Integrations README](Pauseable.integrations/README.md) |
+|  `Pauseable.docs` | 설계·평가·보고서·운영 기록 | [문서 및 검증 자료](Pauseable.docs/README.md) |
+|  `.github` | 자동 검사와 Android 시험 APK 빌드 | [CI README](.github/CI_README.md) |
 
 외부 소스와 저작권 고지는 `Pauseable.third_party`에 보존합니다. 기능을 구현한 파일부터 찾으려면 [기능별 코드 위치](Pauseable.docs/SOURCE_MAP_KO.md)를 확인합니다.
 
-<a id="개발-환경"></a>
-
-## 🛠️ 개발 환경
+## 개발 환경
 
 | 영역 | 주요 기술 | 용도 |
 | --- | --- | --- |
@@ -190,9 +181,7 @@ Outbox는 전송하지 못한 API 사건을 보관하고 다시 보내는 **영�
 
 HA/API의 기준 환경은 Python 3.12, Voice는 Python 3.11, Flutter CI는 Flutter 3.47.6입니다. Python 환경은 파트별로 분리합니다. Central 정식 앱 빌드에는 Atlas SDK와 전용 라이브러리가 필요합니다. [장치·버전·환경 준비](Pauseable.docs/DEVELOPMENT_ENVIRONMENT_KO.md)
 
-<a id="실행과-검토"></a>
-
-## 🚀 실행과 검토
+## 실행과 검토
 
 이 저장소는 여러 장치와 서비스를 포함합니다. 아래 순서로 필요한 파트를 준비하고, 각 문서의 실행 명령을 따릅니다. 소스 압축 파일·Central `.ipk`·Android APK·개인화 ONNX는 서로 다른 산출물입니다.
 
@@ -207,9 +196,7 @@ HA/API의 기준 환경은 Python 3.12, Voice는 Python 3.11, Flutter CI는 Flut
 
 파트별 자동 검사는 [CI README](.github/CI_README.md), 시연 입력과 확인 순서는 [HA 시연 절차](Pauseable.docs/ha/DEMO_RUNBOOK_KO.md)에 있습니다. 설치 전 [배포 준비 상태](Pauseable.deploy/README.md#배포-준비-상태)도 확인합니다.
 
-<a id="검증과-적용-범위"></a>
-
-## 📊 검증과 적용 범위
+## 검증과 적용 범위
 
 저장된 실험은 **데이터 출처·조건·분모와 함께** 읽습니다. 아래 HA 비교는 합성 평가에서 Baseline과 모델 추가의 차이를 확인한 결과입니다.
 
@@ -226,7 +213,7 @@ HA/API의 기준 환경은 Python 3.12, Voice는 Python 3.11, Flutter CI는 Flut
 
 표의 경보 수는 Attention 또는 Risk가 한 번 이상 나온 시나리오 수입니다. 실제 환자의 탐지 정확도나 전체 오탐 해결률이 아닙니다. [AI 결과와 그래프 해석](Pauseable.ai/README.md#ha-평가-결과) · [평가 원본·검증 기록](Pauseable.docs/README.md#평가-자료-읽기) · [앱 검증 기록](Pauseable.apps/README.md#7-검증-결과와-남은-확인)
 
-## ❓ 자주 묻는 질문
+## 자주 묻는 질문
 
 <details>
 <summary><strong>PC를 계속 켜 두어야 하나요? 인터넷이 끊겨도 되나요?</strong></summary>
@@ -265,16 +252,12 @@ Pi에 설치한 HA·MQTT Broker·행동 분석·Central·로컬 TTS는 개발 PC
 
 </details>
 
-<a id="적용-범위와-개인정보"></a>
-
-## 🔒 적용 범위와 개인정보
+## 적용 범위와 개인정보
 
 Memolink는 생활 안전을 돕는 연구·시연용 구현이며 의료 진단이나 안전을 보장하는 시스템은 아닙니다. 원본 녹음·출입 사진·개인 이력·개인화 모델·인증값은 저장소에 포함하지 않습니다. 음성 수집에는 동의 기록을 사용하고, API의 App·Device·Worker 인증을 분리합니다. 현재 팀 시험용 공유 App Token 구조는 사용자별 로그인·대상자 접근권한 분리를 대신하지 않습니다.
 
 [음성 데이터·보관 정책](Pauseable.docs/voice/DATA_AND_ARTIFACTS_KO.md) · [보호자 앱 적용 범위](Pauseable.apps/README.md#구현-및-검증-범위)
 
-<a id="외부-소스"></a>
-
-## 📜 외부 소스
+## 외부 소스
 
 [Piper 원본 정보](Pauseable.ai/voice/provenance), [외부 저작권 고지](Pauseable.third_party/NOTICE.txt), [nlohmann/json 라이선스](Pauseable.third_party/nlohmann/LICENSE.MIT)를 포함합니다. 외부 코드·데이터·모델은 각 원본의 이용 조건을 따릅니다. 프로젝트 전체의 재사용 라이선스는 별도로 정의하지 않았습니다.

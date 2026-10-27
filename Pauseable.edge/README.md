@@ -1,4 +1,4 @@
-# ⚙️ Memolink 장치 실행과 Central
+# Memolink 장치 실행과 Central
 
 Raspberry Pi에서 실행하는 Central, 센서 중계, 카메라와 출력 모듈입니다. Central은 AI 메시지를 검증하고 실행 정책을 적용합니다. 각 장치 모듈은 승인된 음성·가전·음악 출력과 출입 사진 처리를 담당합니다.
 
@@ -12,12 +12,12 @@ Raspberry Pi에서 실행하는 Central, 센서 중계, 카메라와 출력 모�
 
 | 경로 | 장치 | 역할 |
 | --- | --- | --- |
-| 🧭 [Central App](#central-구현과-설치-상세) | Pi 5 / Atlas | MQTT 수신, 계약 검증, Action Router, API Gateway |
-| 📡 [`mmwave-relay`](mmwave-relay) | Pi 3 | serial 입력 검증·중계·프로세스 관리 |
-| 📷 [`camera`](camera) | Pi 4 | 카메라 버퍼·출입 이벤트 대표 사진·업로드 |
-| 🔊 [`voice-model`](voice-model) | Pi 5 | ONNX 다운로드·검증·교체 |
-| 📺 [`actions/youtube`](actions/youtube) | Pi 5 | Chromium·화면·오디오 재생 브리지 |
-| 🎵 [`actions/favorite-music`](actions/favorite-music) | Pi 5 | 앱의 선호 음악 조회·검증·재생 요청 |
+|  [Central App](#central-구현과-설치-상세) | Pi 5 / Atlas | MQTT 수신, 계약 검증, Action Router, API Gateway |
+|  [`mmwave-relay`](mmwave-relay) | Pi 3 | serial 입력 검증·중계·프로세스 관리 |
+|  [`camera`](camera) | Pi 4 | 카메라 버퍼·출입 이벤트 대표 사진·업로드 |
+|  [`voice-model`](voice-model) | Pi 5 | ONNX 다운로드·검증·교체 |
+|  [`actions/youtube`](actions/youtube) | Pi 5 | Chromium·화면·오디오 재생 브리지 |
+|  [`actions/favorite-music`](actions/favorite-music) | Pi 5 | 앱의 선호 음악 조회·검증·재생 요청 |
 
 ## Central App
 
@@ -144,10 +144,10 @@ AI가 전송한 반복행동·배회 메시지를 받아 실행 여부를 결정
 
 | 용어 | 역할 |
 | --- | --- |
-| 📥 Subscriber | 두 AI Topic을 구독해 메시지 수신 |
-| 🛂 Validator | 메시지의 필드·출처·시각·중복 확인 |
-| 🧭 Action Router | 활성화·위험도·cooldown에 따라 출력 허용 또는 억제 |
-| 📤 Outbox / Gateway | API 사건을 보관·전송·재시도 |
+|  Subscriber | 두 AI Topic을 구독해 메시지 수신 |
+|  Validator | 메시지의 필드·출처·시각·중복 확인 |
+|  Action Router | 활성화·위험도·cooldown에 따라 출력 허용 또는 억제 |
+|  Outbox / Gateway | API 사건을 보관·전송·재시도 |
 
 형식 검사 통과는 입력을 해석할 수 있다는 뜻이고, 실행 승인은 해당 출력이 정책상 허용됐다는 뜻입니다. 실제 장치 동작 성공은 그다음 확인 단계입니다.
 

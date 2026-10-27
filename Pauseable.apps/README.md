@@ -1,4 +1,4 @@
-# 📱 Memolink 보호자 앱과 API
+# Memolink 보호자 앱과 API
 
 Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행동 판단 알림과 출입 사진을 보여주고, 보호자 음성·호칭·거주지역·선호 음악을 등록합니다. API는 장치와 앱의 인증, 사건 이력 저장, 실시간 알림과 음성 학습 작업을 처리합니다.
 
@@ -14,8 +14,8 @@ Flutter 보호자 앱과 FastAPI 서버를 구현한 영역입니다. 앱은 행
 
 | 파트·소스 | 역할 | 주요 기술 |
 | --- | --- | --- |
-| 🌐 [API 서버](#api-구현-상세) · `api/` | 인증·알림 이력·출입 사진·설정·음성 학습/모델 API | Python, FastAPI, R2, Firebase |
-| 📱 [보호자 앱](#보호자-앱-상세) · `guardian/` | 알림·사진 확인, 녹음·지역·선호 음악 설정 | Flutter, Dart, WebSocket, FCM |
+|  [API 서버](#api-구현-상세) · `api/` | 인증·알림 이력·출입 사진·설정·음성 학습/모델 API | Python, FastAPI, R2, Firebase |
+|  [보호자 앱](#보호자-앱-상세) · `guardian/` | 알림·사진 확인, 녹음·지역·선호 음악 설정 | Flutter, Dart, WebSocket, FCM |
 
 ## 알림 한 건이 전달되는 과정
 
@@ -209,8 +209,6 @@ App·Device·Worker Token은 각각의 요청 역할을 확인하는 인증값�
 반복행동·배회 판단 알림과 현관 출입 사진을 확인하고, 보호자 음성·호칭·거주지역·선호 음악을 등록하는 Flutter 앱입니다. 판단 결과는 Central과 API를 거쳐 수신합니다. AI 분석, 음성 모델 학습과 가전 출력은 각 서버·장치 모듈에서 처리합니다.
 
 **보호자는 이 앱에서 상황을 확인하고 안내에 사용할 정보를 등록**합니다. 알림·사진을 보는 경로와 음성·지역·음악을 설정하는 경로를 아래 기능 표에서 구분했습니다. 데모가 포함된 기능과 실제 장치 연동 범위도 함께 설명합니다.
-
-
 
 - 담당: **권태준 ([ktj-oss](https://github.com/ktj-oss))**: Flutter 화면·상태 처리, API·실시간 알림·녹음 및 설정 연동
 - 주요 기술: Flutter/Dart, REST API, WebSocket, Web Push, Android FCM

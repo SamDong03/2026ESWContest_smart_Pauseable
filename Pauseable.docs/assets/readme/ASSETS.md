@@ -27,6 +27,30 @@ SVG는 외부 폰트·스크립트·이미지 없이 GitHub Markdown에서 표�
 
 전체 시스템과 AI 구조도는 한글 설명과 영역별 색상으로 장치·Pi 5·클라우드의 책임을 구분합니다. Home Assistant는 Pi 5 안에 표시하며, 반복행동·배회 판단과 별도 음성 모델 학습 경로를 구분합니다. 한글은 시스템의 맑은 고딕·Apple SD Gothic Neo·Noto Sans KR 계열 폰트로 표시됩니다.
 
+## 시스템 구조도 연결 기준
+
+전체 구조도는 가전·센서, Pi 5, API·학습·저장, 보호자 앱을 실행 책임에 따라 구분합니다. 그림의 하단은 같은 API·장치에 연결되는 별도 기능 경로이지 추가 서버를 뜻하지 않습니다.
+
+| 연결 | 그림에 표시한 경로 | 구현 근거 |
+| --- | --- | --- |
+| HA 상태 → 반복행동 분석 | WebSocket `state_changed` | [`collect_ha_events_ws.py`](../../../Pauseable.ai/ha/src/collect_ha_events_ws.py) |
+| 센서 → Pi 3 → 분석 | UART/USB Serial → SSH → Pi 5 FIFO | [`relay_supervisor.py`](../../../Pauseable.edge/mmwave-relay/relay_supervisor.py), [`relay_serial.py`](../../../Pauseable.edge/mmwave-relay/relay_serial.py) |
+| 센서 원시 관측 | UDP 복사 → Central 관측·Archive, 선택 경로 | [`main.cpp`](../../../Pauseable.edge/central/src/main.cpp)의 `MMWAVE_ENABLED`와 관측 전용 수신기. Action Router와 분리 |
+| 두 AI → Broker → Central | 서로 다른 MQTT Topic의 공통 JSON | [`ha_decision_delivery.py`](../../../Pauseable.ai/ha/src/ha_decision_delivery.py), [`wandering_publisher.py`](../../../Pauseable.ai/mmwave/src/wandering_publisher.py), [`MqttDecisionSubscriber.cpp`](../../../Pauseable.edge/central/integration/src/MqttDecisionSubscriber.cpp) |
+| Central → API | 최종 사건 HTTPS 전송·Outbox 재시도 | [`DecisionGatewayClient.cpp`](../../../Pauseable.edge/central/integration/src/DecisionGatewayClient.cpp), [`DecisionOutbox.cpp`](../../../Pauseable.edge/central/integration/src/DecisionOutbox.cpp) |
+| API ↔ 앱 | REST·WebSocket·FCM/Web Push | [앱/API 처리와 시험](../../../Pauseable.apps/README.md) |
+| 출입 사진 | HA HTTP POST 트리거 → Pi 4 → API/R2 → 앱 | [HA 트리거 설정](../../../Pauseable.edge/camera/home-assistant/pauseable_door_camera.yaml), [`camera_buffer.py`](../../../Pauseable.edge/camera/camera_buffer.py) |
+| 음성 모델 | 앱 동의·녹음 → API/R2 → GPU Worker → 모델 게시 → Pi 검증·교체 | [`r2_worker.py`](../../../Pauseable.ai/voice/pipeline/r2_worker.py), [`voice_model_updater.py`](../../../Pauseable.edge/voice-model/voice_model_updater.py) |
+| 환경 조명 | 앱 지역·기상청·태양 고도 → 별도 타이머 → HA 조명 | [`weather_api.py`](../../../Pauseable.integrations/home-assistant/weather-light-control/weather_api.py) |
+
+`MMWAVE_ENABLED`의 코드 기본값은 `0`이며, UDP 복사를 보내는 것과 Central 관측기를 켜는 것은 다른 설정입니다. 구조도는 코드의 구성과 통신 역할을 설명하며 현재 장치의 설치 상태를 표시하지 않습니다.
+
+## 브랜드 로고 출처
+
+Home Assistant, Raspberry Pi, Python, Docker, C++, MQTT, FastAPI, Render, Cloudflare, Flutter, Firebase 로고는 **Simple Icons 16.36.0**의 단색 SVG 경로를 사용했습니다. [`brand-icons.json`](brand-icons.json)에 원본 출처·색상·브랜드 안내 주소와 패키지 SHA-512를 기록했습니다. 아이콘 경로는 구조도에 직접 포함하므로 GitHub 표시나 그림 재생성 때 외부 서버를 호출하지 않습니다.
+
+배포 패키지의 CC0-1.0 원문은 [`SimpleIcons.LICENSE.txt`](SimpleIcons.LICENSE.txt)에 보존했습니다. 각 브랜드의 상표 권리는 별개이며, 로고는 사용 기술을 식별하기 위한 것입니다. 후원·인증 관계를 나타내지 않습니다. README 제목과 표에는 이모티콘을 사용하지 않습니다.
+
 ## 평가 그래프
 
 | 그림 | 원본·범위 | 주의 |
@@ -52,6 +76,7 @@ python Pauseable.docs/assets/readme/plot_evaluation.py
 - [`build_diagrams.mjs`](build_diagrams.mjs): Node.js 표준 모듈로 SVG 16개와 [`diagram_manifest.json`](diagram_manifest.json) 생성.
 - [`build_overview.mjs`](build_overview.mjs): 동작 개요 1개 생성. 외부 이미지 없이 직접 그린 선형 아이콘을 사용하며 위 전체 생성 명령에 포함.
 - [`build_architectures.mjs`](build_architectures.mjs): 전체 시스템 및 AI 구조도 2개 생성. 위 전체 생성 명령에서도 호출하며 별도 실행도 가능.
+- [`build_system_architecture.mjs`](build_system_architecture.mjs): 전체 시스템 구조도의 장치·서비스·프로토콜과 브랜드 로고 배치. 위 구조도 생성기에서 호출.
 - [`plot_evaluation.py`](plot_evaluation.py): 저장된 JSON을 읽어 PNG 3개와 출처 Manifest 생성. 임시 Matplotlib cache는 종료 시 정리.
 - 별도 모델·서비스 실행, 네트워크 호출, 개인정보·인증값 접근은 하지 않음.
 - 학습 iteration별 Loss 시계열은 선택한 원본에 포함되지 않음.
