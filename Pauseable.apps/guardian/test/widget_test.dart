@@ -11,6 +11,8 @@ import 'package:http/testing.dart';
 import 'package:pauseable_guardian/app.dart';
 import 'package:pauseable_guardian/services/live_alert_client.dart';
 import 'package:pauseable_guardian/models/guardian_snapshot.dart';
+import 'package:pauseable_guardian/models/patient_status.dart';
+import 'package:pauseable_guardian/models/demo_scenario.dart';
 import 'package:pauseable_guardian/models/guardian_alert.dart';
 import 'package:pauseable_guardian/models/guardian_support.dart';
 import 'package:pauseable_guardian/models/voice_training_progress.dart';
@@ -368,13 +370,11 @@ void main() {
 
     expect(find.text('PAUSEABLE'), findsOneWidget);
     expect(find.text('김영희님'), findsOneWidget);
-    expect(find.text('안전'), findsOneWidget);
-
-    await tester.scrollUntilVisible(
-      find.text('활동 상태'),
-      300,
-      scrollable: find.byType(Scrollable).first,
-    );
+    expect(find.byKey(const ValueKey('care-patient-identity')), findsOneWidget);
+    expect(find.text('안전'), findsNothing);
+    expect(find.text('활동 상태'), findsNothing);
+    expect(find.text('마지막 연결'), findsNothing);
+    expect(find.text('오늘 상태'), findsNothing);
     expect(find.text('현재 위치'), findsNothing);
     expect(find.text('3분 전 이동'), findsNothing);
 
@@ -396,6 +396,95 @@ void main() {
     expect(find.text('긴급 연락'), findsOneWidget);
     expect(find.text('위치 확인'), findsNothing);
   });
+
+  for (final scenario in [
+    DemoScenario.normal,
+    DemoScenario.repetitiveBehavior,
+  ]) {
+    testWidgets(
+      'home never renders unverified patient measurements ($scenario)',
+      (tester) async {
+        final repository = _MemoryGuardianRepository(
+          GuardianSnapshot(
+            patient: PatientStatus(
+              id: snapshot.patient.id,
+              name: snapshot.patient.name,
+              location: 'UNVERIFIED_LOCATION',
+              activity: 'UNVERIFIED_ACTIVITY',
+              isDeviceConnected: true,
+              lastConnectedLabel: 'UNVERIFIED_CONNECTION',
+              safetyLabel: 'UNVERIFIED_SAFETY',
+              daySummary: 'UNVERIFIED_SUMMARY',
+            ),
+            alerts: snapshot.alerts,
+            activity: snapshot.activity,
+            doorEvents: snapshot.doorEvents,
+            demoScenario: scenario,
+            repetitiveAlertPauseAvailable: true,
+          ),
+        );
+        await tester.pumpWidget(PauseableApp(repository: repository));
+        await tester.pumpAndSettle();
+        expect(find.text('김영희님'), findsOneWidget);
+        expect(find.textContaining('UNVERIFIED_'), findsNothing);
+        for (final label in [
+          '현재 위치',
+          '활동 상태',
+          '마지막 연결',
+          '오늘 상태',
+          '기기가 정상적으로 연결되어 있어요',
+          '현재 정상 상태',
+          '데모 상황 실행 중',
+          '움직임 정상',
+        ]) {
+          expect(find.text(label), findsNothing);
+        }
+        final refresh = find.byTooltip('알림·출입 기록 새로고침');
+        await tester.ensureVisible(refresh);
+        await tester.pumpAndSettle();
+        await tester.tap(refresh);
+        await tester.pumpAndSettle();
+        expect(find.text('알림과 출입 기록을 새로고침했습니다.'), findsOneWidget);
+        expect(find.textContaining('UNVERIFIED_'), findsNothing);
+        expect(repository.snapshot.doorEvents, snapshot.doorEvents);
+        expect(repository.snapshot.alerts, snapshot.alerts);
+      },
+    );
+  }
+
+  testWidgets(
+    'home keeps verified alert-server connection and live notifications',
+    (tester) async {
+      final live = _ConnectedHomeLiveClient();
+      await tester.pumpWidget(
+        PauseableApp(
+          repository: _MemoryGuardianRepository(snapshot),
+          liveAlertClient: live,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('실시간 알림 서버 연결됨'), findsOneWidget);
+      expect(find.text('앱과 알림 서버의 연결 상태이며, 환자·센서의 상태와는 별개예요.'), findsOneWidget);
+      expect(find.text('기기가 정상적으로 연결되어 있어요'), findsNothing);
+      live.controller.add(
+        LiveAppAlert(
+          id: 'verified-home-wandering',
+          occurredAt: DateTime.now().toUtc(),
+          riskLevel: 'caution',
+          alertType: 'wandering',
+          title: '실제 수신 알림 보존',
+          message: '화면 정리 후에도 알림은 수신됩니다.',
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.widgetWithIcon(IconButton, Icons.notifications_none_rounded),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('실제 수신 알림 보존'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
 
   testWidgets('bottom navigation changes guardian tabs', (
     WidgetTester tester,
@@ -1588,6 +1677,12 @@ class _PreferenceLiveClient implements LiveAlertClient {
   void start() {}
   @override
   Future<void> dispose() => controller.close();
+}
+
+class _ConnectedHomeLiveClient extends _PreferenceLiveClient {
+  @override
+  Stream<LiveAlertConnectionStatus> get statuses =>
+      Stream.value(LiveAlertConnectionStatus.connected);
 }
 
 class _MemoryGuardianRepository implements GuardianRepository {

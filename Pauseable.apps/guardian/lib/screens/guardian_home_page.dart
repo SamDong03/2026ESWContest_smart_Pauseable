@@ -11,7 +11,6 @@ import '../models/guardian_snapshot.dart';
 import '../models/guardian_support.dart';
 import '../models/home_environment.dart';
 import '../models/live_app_alert.dart';
-import '../models/patient_status.dart';
 import '../models/voice_training_progress.dart';
 import '../models/voice_training_prompt.dart';
 import '../models/voice_consent_receipt.dart';
@@ -457,9 +456,8 @@ class _GuardianHomePageState extends State<GuardianHomePage>
   Future<void> _refreshSnapshot() async {
     await _loadSnapshot();
     if (!mounted || _loadError != null) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('가상 센서 데이터를 최신 상태로 갱신했습니다.')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('알림과 출입 기록을 새로고침했습니다.')));
   }
 
   Future<void> _showAlertDetail(GuardianAlert alert) async {

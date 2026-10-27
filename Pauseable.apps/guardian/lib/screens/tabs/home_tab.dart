@@ -46,17 +46,7 @@ extension _GuardianHomeView on _GuardianHomePageState {
                     ],
                     _buildVoiceTrainingHomeCard(context),
                     const SizedBox(height: 22),
-                    _buildPatientStatusCard(snapshot.patient),
-                    const SizedBox(height: 24),
-                    _sectionHeader(
-                      title: '현재 상태',
-                      action: '새로고침',
-                      onPressed: _refreshSnapshot,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildStatusGrid(snapshot.patient),
-                    const SizedBox(height: 16),
-                    _buildDemoScenarioBanner(snapshot.demoScenario),
+                    _buildPatientIdentityCard(),
                     if (snapshot.doorEvents.isNotEmpty) ...[
                       const SizedBox(height: 26),
                       _sectionHeader(
@@ -178,12 +168,27 @@ extension _GuardianHomeView on _GuardianHomePageState {
         children: [
           Icon(icon, color: color, size: 18),
           const SizedBox(width: 8),
-          Text(
-            label,
-            style: TextStyle(
-              color: color,
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  '앱과 알림 서버의 연결 상태이며, 환자·센서의 상태와는 별개예요.',
+                  style: TextStyle(
+                    color: _secondaryText(context),
+                    fontSize: 11,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -241,8 +246,9 @@ extension _GuardianHomeView on _GuardianHomePageState {
     );
   }
 
-  Widget _buildPatientStatusCard(PatientStatus patient) {
+  Widget _buildPatientIdentityCard() {
     return Container(
+      key: const ValueKey('care-patient-identity'),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -259,100 +265,51 @@ extension _GuardianHomeView on _GuardianHomePageState {
           ),
         ],
       ),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              Container(
-                width: 58,
-                height: 58,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.16),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.person_rounded,
-                  color: Colors.white,
-                  size: 34,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _guardianProfile?.patientLabel ?? '돌봄 대상자',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      patient.isDeviceConnected
-                          ? '기기가 정상적으로 연결되어 있어요'
-                          : '기기 연결을 확인해 주세요',
-                      style: const TextStyle(
-                        color: Color(0xFFDCEBE5),
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 11,
-                  vertical: 7,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.check_circle, color: _green, size: 16),
-                    const SizedBox(width: 5),
-                    Text(
-                      patient.safetyLabel,
-                      style: const TextStyle(
-                        color: _green,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.16),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.person_rounded,
+              color: Colors.white,
+              size: 30,
+            ),
           ),
-          const SizedBox(height: 18),
-          const Divider(color: Color(0x4DFFFFFF), height: 1),
-          const SizedBox(height: 15),
-          Row(
-            children: [
-              Expanded(
-                child: _PatientMetric(
-                  label: '마지막 연결',
-                  value: patient.lastConnectedLabel,
-                  icon: Icons.wifi_rounded,
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '돌봄 대상자',
+                  style: TextStyle(color: Color(0xFFDCEBE5), fontSize: 11),
                 ),
-              ),
-              const SizedBox(
-                height: 34,
-                child: VerticalDivider(color: Color(0x4DFFFFFF)),
-              ),
-              Expanded(
-                child: _PatientMetric(
-                  label: '오늘 상태',
-                  value: patient.daySummary,
-                  icon: Icons.favorite_rounded,
+                const SizedBox(height: 4),
+                Text(
+                  _guardianProfile?.patientLabel ?? '이름을 등록해 주세요',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 5),
+                const Text(
+                  '알림과 출입 기록에서 상황을 확인하세요.',
+                  style: TextStyle(color: Color(0xFFDCEBE5), fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: _refreshSnapshot,
+            tooltip: '알림·출입 기록 새로고침',
+            icon: const Icon(Icons.refresh_rounded, color: Colors.white),
           ),
         ],
       ),
@@ -378,73 +335,6 @@ extension _GuardianHomeView on _GuardianHomePageState {
         ),
         TextButton(onPressed: onPressed, child: Text(action)),
       ],
-    );
-  }
-
-  Widget _buildStatusGrid(PatientStatus patient) {
-    return _StatusCard(
-      icon: Icons.directions_walk_rounded,
-      iconColor: const Color(0xFFB56A24),
-      iconBackground: const Color(0xFFFFEEDB),
-      label: '활동 상태',
-      value: patient.activity,
-      detail: '움직임 정상',
-    );
-  }
-
-  Widget _buildDemoScenarioBanner(DemoScenario scenario) {
-    final isNormal = scenario == DemoScenario.normal;
-    final color = isNormal ? _green : const Color(0xFFB56A24);
-    final background = isNormal
-        ? const Color(0xFFEAF4F0)
-        : const Color(0xFFFFF4E8);
-
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: color.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            isNormal ? Icons.verified_outlined : Icons.science_outlined,
-            color: color,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  isNormal ? '현재 정상 상태' : '데모 상황 실행 중',
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  scenario.label,
-                  style: const TextStyle(
-                    color: _dark,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  scenario.description,
-                  style: const TextStyle(color: _muted, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
