@@ -48,7 +48,7 @@ Pauseable.third_party/
 │   ├── src/
 │   │   └── piper/                         # Python 합성·음소 변환·모델 로드
 │   │       ├── img/
-│   │       ├── tashkeel/                  # 아랍어 발음 보조 자료와 고지
+│   │       ├── tashkeel/                  
 │   │       ├── templates/
 │   │       ├── train/                     # PyTorch 학습·추론·ONNX Export
 │   │       │   └── vits/                  # VITS 모델·Dataset·학습 구성
