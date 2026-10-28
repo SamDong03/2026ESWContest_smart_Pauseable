@@ -191,12 +191,3 @@ sudo systemctl enable --now pauseable-weather-light.timer
 로그에서 지역·격자·발표 시각·선택한 예보 시각·태양 고도·계산 밝기·색온도와 HA 제어 결과를 확인합니다. 지역·예보·HA 조회 오류는 해당 실행의 결과로 기록하며 다음 타이머 실행에서 다시 조회합니다.
 
 <a id="모드와-실패-처리"></a>
-
-### ③ 주기 실행 중지
-
-```sh
-sudo systemctl disable --now pauseable-weather-light.timer
-sudo systemctl stop pauseable-weather-light.service
-```
-
-현재 주기 실행은 systemd 타이머에서 관리합니다. 앱·API에는 `auto_lighting_enabled` 설정이 있지만, `weather_api.py`는 아직 이 값을 읽지 않습니다. 자동 제어를 중지하려면 위 명령으로 타이머를 중지해야 합니다. HA에서 조명 전원을 직접 바꾸더라도 타이머가 실행 중이면 다음 회차에 계산한 값으로 다시 제어합니다.
