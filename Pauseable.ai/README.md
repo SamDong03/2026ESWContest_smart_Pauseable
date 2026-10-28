@@ -94,7 +94,7 @@ Pauseable.ai/
 
 ![합성 48시간의 상태 변경과 표준화한 54개 특징](assets/ha-event-features.png)
 
-위쪽은 시간당 상태 변경 횟수, 아래쪽은 학습 구간 scaler로 표준화한 특징입니다. 원본은 합성 48시간·52개 상태 변경이며 아래쪽 색만 −2~4로 제한합니다. [원본 JSON](assets/data/visual_data.json)
+위쪽은 시간당 상태 변경 횟수, 아래쪽은 학습 구간 scaler로 표준화한 특징입니다. 원본은 합성 48시간·52개 상태 변경이며 아래쪽 색만 −2–4로 제한합니다. [원본 JSON](assets/data/visual_data.json)
 
 <a id="baseline과-개인화-모델"></a>
 <a id="3-lifecycle-학습-승인과-모델-교체"></a>
@@ -190,7 +190,7 @@ Routine은 요일·4시간 시간대·반복 패턴의 확인된 정상 이력�
 | 모델 게시 | [publish_voice_model.py](voice/pipeline/publish_voice_model.py) |
 | Pi 설치·교체 | [voice-model](../Pauseable.edge/voice-model) |
 
-앱 대본은 160문장이며 준비 단계는 160~240 WAV를 검사합니다. 앱은 PCM16·16 kHz·mono로 수집하고 학습 전처리에서 22,050 Hz·mono·PCM16으로 맞춥니다. 학습에는 GPU 환경이 필요하며 Pi에서는 학습 완료 모델로 새 안내 문장을 합성합니다.
+앱 대본은 160문장이며 준비 단계는 160–240 WAV를 검사합니다. 앱은 PCM16·16 kHz·mono로 수집하고 학습 전처리에서 22,050 Hz·mono·PCM16으로 맞춥니다. 학습에는 GPU 환경이 필요하며 Pi에서는 학습 완료 모델로 새 안내 문장을 합성합니다.
 
 ![새 음성 모델 검증과 활성화·실패 시 기존 모델 유지](assets/model-release.svg)
 

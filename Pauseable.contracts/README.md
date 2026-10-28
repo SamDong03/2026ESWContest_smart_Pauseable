@@ -82,7 +82,7 @@ Pauseable.contracts/
 | `event_id` | 중복·재전송·내용 충돌을 구별할 사건 ID |
 | `occurred_at` | 타임존이 명시된 UTC 사건 시각 |
 | `patient_id`, `device_id` | 대상자와 발생 장치 |
-| `risk_level`, `risk_score` | 위험 단계와 0~100의 정수 점수 |
+| `risk_level`, `risk_score` | 위험 단계와 0–100의 정수 점수 |
 | `inference_status` | 정상 추론·관측 부족·센서 오류·모델 오류 구분 |
 | `evidence` | 관측 개수·구간·패턴 등 선택적 근거 |
 
